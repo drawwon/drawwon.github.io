@@ -539,45 +539,744 @@ def write_to_csv(data,filename):
 write_to_csv(read_json('a.txt'),'student.csv')
 ```
 
+# 第0015题
+
+纯文本文件 city.txt为城市信息, 里面的内容（包括花括号）如下所示：
+>    {
+>    "1" : "上海",
+>    "2" : "北京",
+>    "3" : "成都"
+>    }
+>    请将上述内容写到 city.xls 文件中，如下图所示：
+
+![city.xls](http://i.imgur.com/rOHbUzg.png)
+
+
+
+## 解题思路
+
+主要方法同上题相似：
+
+1. 使用`json`包的`json.loads()`读入数据
+2. 使用`xlwt`，打开workbook，通过`xlwt.add_sheet()`添加新的子表格，通过`for k,v in sorted(data,key= lambda d:d[0])`得到经过排序后的key和value值，并通过`xlrd`的`write`方法写入表格
+   ps.如果想输出在字典或者是list当中的中文，可以使用`json.dumps(list, ensure_ascii=False)`进行输出
+
+## 源代码
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2017/5/25 20:42
+
+import xlwt,json
+
+
+
+def excel_write(txtfile, csvfile):
+    with open(txtfile) as f:
+        data = json.loads(f.read().encode('gbk'))
+    cs = xlwt.Workbook()
+    shet = cs.add_sheet('student')
+    row = 0
+    col = 0
+    for i,j in data.items():
+        shet.write(row,col,i)
+        shet.write(row,col+1,j)
+        row += 1
+        col = 0
+    cs.save(csvfile)
+
+if __name__ == '__main__':
+    excel_write('a.txt','student.xls')
+
+```
+
+# 第0016题
+
+ 纯文本文件 numbers.txt, 里面的内容（包括方括号）如下所示：
+
+```
+[
+	[1, 82, 65535], 
+	[20, 90, 13],
+	[26, 809, 1024]
+]
+```
+
+请将上述内容写到 numbers.xls 文件中，如下图所示：
+
+![numbers.xls](http://i.imgur.com/iuz0Pbv.png)
+
+## 解题思路
+
+1. 与上题类似，先使用`json`包的`load`方法导入数据
+2. 使用`xlwt`包对数据写入xls文件中，在建立表格的时候，需要设置表格覆盖：`wb.add_sheet('num',cell_overwrite_ok=True)`
+
+## 源代码
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2017/5/25 21:28
+
+import xlwt,json
+def read_txt_to_xlsfile(txtfile,xlsfile):
+    with open(txtfile) as f:
+        data = json.loads(f.read().encode('utf-8'))
+
+    wb = xlwt.Workbook()
+    sheet = wb.add_sheet('num',cell_overwrite_ok=True)
+    row = col = 0
+    print(data)
+    for i in data:
+        for j in i:
+            sheet.write(row,col,j)
+            col = col+1
+        row = row+1
+        col = 0
+    wb.save(xlsfile)
+
+if __name__ == '__main__':
+    read_txt_to_xlsfile('number.txt','number.xls')
+```
+
+# 第0017题
+
+将 第 0014 题中的 student.xls 文件中的内容写到 student.xml 文件中，如下所示：
+
+> ```python
+> <?xml version="1.0" encoding="UTF-8"?>
+> <root>
+> <students>
+> <!-- 
+> 	学生信息表
+> 	"id" : [名字, 数学, 语文, 英文]
+> -->
+> {
+> 	"1" : ["张三", 150, 120, 100],
+> 	"2" : ["李四", 90, 99, 95],
+> 	"3" : ["王五", 60, 66, 68]
+> }
+> </students>
+> </root>
+> ```
+
+## 解题思路
+
+1. 要将xls文件写入到xml文件中，首先要将数据读取出来，使用`xlrd`模块的`xlrd.open_workbook`方法打开xls文件，然后`ws = wb.sheet_by_index[0]`找到工作表，然后通过有序字典存储学生信息
+
+   ````python
+   table = OrderDict()
+   for i in range(ws.nrows) :
+   	key = ws.row_values(i)[0]
+   	value = ws.row_values(i)[1:]
+   	table[key] = value
+   ````
+
+2. 打开`xml`文件，用`with open('students.xml','w') as f：`打开
+
+3. 要写xml文件要用到`etree`模块，
+
+   * 首先建立根节点`root=etree.Element("root")`，
+   * 然后以root为根节点建立树`e_root = ElementTree(root)`，建立子节点students`e_students = etree.subElement(root,'students')`，
+   * 写students子节点的内容`e_students.text = '\n'+json.dumps(table, indent=4 , ensure_ascii=False)`，
+   * 然后添加注释comment`e_students.append(etree.Comment('\n    学生信息表\n    "id" : [名字，数学，语文，英语]\n'))`，
+   * 最后写入etree的unicode元素，`f.write(('<?xml version="1.0" encoding="UTF-8"?>'+etree.tounicode(e_root.getroot())))`
+
+
+
+## 源代码
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2017/6/27 14:59
+import xlrd,json
+from lxml import etree
+from collections import OrderedDict
+
+def xls2xml(xls_filename):
+    with xlrd.open_workbook(xls_filename) as wb:
+        ws = wb.sheet_by_index(0)
+    table = OrderedDict()
+    for i in range(ws.nrows):
+        key = int(ws.row_values(i)[0])
+        value = str(ws.row_values(i)[1:])
+        table[key] = value
+    with open("student.xml",'w') as f:
+        root = etree.Element("root")
+        e_root = etree.ElementTree(root)
+        e_students = etree.SubElement(root,'students')
+        e_students.text = '\n'+json.dumps(table,indent=4,ensure_ascii=False)+'\n'
+        e_students.append(etree.Comment('\n    学生信息表\n    "id" : [名字，数学，语文，英语]\n'))
+        f.write(('<?xml version="1.0" encoding="UTF-8"?>'+etree.tounicode(e_root.getroot())))
+if __name__ == '__main__':
+    xls2xml('student.xls')
+    print 'done'
+```
+
+# 第0018题
+
+将 第 0015 题中的 city.xls 文件中的内容写到 city.xml 文件中，如下所示：
+
+> ``` python
+> <?xmlversion="1.0" encoding="UTF-8"?>
+> <root>
+> <citys>
+> <!-- 
+> 	城市信息
+> -->
+> {
+> 	"1" : "上海",
+> 	"2" : "北京",
+> 	"3" : "成都"
+> }
+> </citys>
+> </root>
+> ```
+
+## 解题思路
+
+1. 方法类似于0017题，首先将xls文件通过`xlrd`读出来，放在有序字典中
+2. 然后通过`xml.dom.minidom`模块建立`Document`，然后创建元素root`root = xml.createElement('root')`，然后建立子节点，最后写入xml文件中
+
+## 源代码
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2017/6/10 17:09
+import xlrd,json
+from xml.dom import minidom
+
+
+# def list2dict(list_name):
+#     dic = {}
+#     for list_element in list_name:
+#         dic[list_element[0]] = list_element[1:]
+#     return dic
+
+def creat_and_write_xml(filename,row_data):
+    xml = minidom.Document()
+    root = xml.createElement('root')
+    xml.appendChild(root)
+    city = xml.createElement('city')
+    root.appendChild(city)
+    city.appendChild(xml.createComment("城市信息"))
+    row_data = json.dumps(row_data,ensure_ascii=False,indent=1)
+    text = xml.createTextNode(row_data.encode('utf-8'))
+
+    city.appendChild(text)
+    f = open(filename,'wb')
+    f.write(xml.toprettyxml())
+    f.close()
+
+
+
+if __name__ == '__main__':
+    data = xlrd.open_workbook('city.xls')
+    table = data.sheet_by_index(0)
+    row_data = {}
+    # res=[]
+    # for i in range(table.nrows):
+    #     for j in range(table.ncols):
+    #         if isinstance(table.cell(i,j).value,unicode):
+    #             a = table.cell(i,j).value.encode('gb2312')
+    #             # print table.cell(i,j).value
+    #         elif isinstance(table.cell(i,j).value,float) or isinstance(table.cell(i,j).value, int):
+    #             a = unicode(table.cell(i,j).value).decode('utf-8').encode('gb2312')
+    #             # print table.cell(i, j).value
+    #
+    #         # table.cell(i, j).value = str(table.cell(i, j).value).decode('utf-8').encode('gb2312')
+    #         res.append(a)
+    #     res.append("|")
+    # # print res
+    # res_string = ' '.join(res).split("|")
+    # res_string.pop(-1)
+    # print res_string,'11111111112'
+    # for i in range(len(res_string)):
+    #     row_data[i+1] = res_string[i][1:]
+    # print row_data
+    for i in range(table.nrows):
+        print ''.join(table.row_values(i)[1:])
+        row_data[i+1] = ''.join(table.row_values(i)[1:])
+    filename = 'city.xml'
+    creat_and_write_xml(filename, row_data)
+```
+
+# 第0019题
+
+将 第 0016 题中的 numbers.xls 文件中的内容写到 numbers.xml 文件中，如下所示：
+
+>  ```xml
+>  <?xml version="1.0" encoding="UTF-8"?>
+>  <root>
+>  <numbers>
+>  <!-- 
+>  	数字信息
+>  -->
+>
+>  [
+>  	[1, 82, 65535],
+>  	[20, 90, 13],
+>  	[26, 809, 1024]
+>  ]
+>
+>  </numbers>
+>  </root>
+>  ```
+
+## 解题思路
+
+1. 整体思路与0018题类似，用`xlrd`文件读取xls文件内容
+2. 用`xml.dom.minidom`创建`Document`对象，然后通过创建名为root的element`xml.createElement('root')`，然后通过`xml.appendChild(root)`把root添加为xml文件的根节点，创建并添加number节点，添加`comment`注释节点并添加为子节点，添加文本节点并添加为子节点，最终用`topreetyxml`写入xml
+
+## 源代码
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2017/6/10 17:09
+import xlrd,json
+from xml.dom import minidom
+
+def creat_and_write_xml(filename,row_data):
+    xml = minidom.Document()
+    root = xml.createElement('root')
+    xml.appendChild(root)
+    number = xml.createElement('number')
+    root.appendChild(number)
+    number.appendChild(xml.createComment("城市信息"))
+    row_data = json.dumps(row_data,ensure_ascii=False)
+
+    text = xml.createTextNode(row_data.encode('utf-8'))
+
+    number.appendChild(text)
+    f = open(filename,'wb')
+    f.write(xml.toprettyxml())
+    f.close()
+
+
+
+if __name__ == '__main__':
+    data = xlrd.open_workbook('number.xls')
+    table = data.sheet_by_index(0)
+    row_data = {}
+    for i in range(table.nrows):
+        row_data[i+1] = table.row_values(i)[1:]
+    filename = 'number.xml'
+    creat_and_write_xml(filename, row_data)
+```
+
+# 第0020题
+
+ [登陆中国联通网上营业厅](http://iservice.10010.com/index_.html) 后选择「自助服务」 --> 「详单查询」，然后选择你要查询的时间段，点击「查询」按钮，查询结果页面的最下方，点击「导出」，就会生成类似于 2014年10月01日～2014年10月31日通话详单.xls 文件。写代码，对每月通话时间做个统计。
+
+# 解题思路
+
+1. 导出的文件是一个xls文件，我们使用`xlrd`模块读入内容
+
+2. 统计数据并通过`plt.bar`画直方图，第一个参数为横坐标，第二个参数为纵坐标，<font color="red">要想plt显示中文标注</font>，需要：
+
+   ```python
+   plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+   plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
+   ```
+
+## 源代码
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2017/6/27 16:50
+
+import xlrd,re,pprint
+from collections import OrderedDict
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn
+plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
+plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
+wb = xlrd.open_workbook('2017-6.xls')
+ws = wb.sheet_by_index(0)
+
+
+def time2second(time):
+    second_pattern = u'([0-9]+)秒'
+    minute_pattern = u'([0-9]+)分'
+    minute = re.findall(minute_pattern, time)
+    second = re.findall(second_pattern, time)
+    # print minute,second
+    if minute:
+        return int(minute[0]) * 60 + int(second[0])
+    else:
+        if second:
+            return int(second[0])
+        else:
+            return 0
 
 
 
 
+data=[]
+for i in range(ws.nrows):
+    data.append(ws.row_values(i))
+data.pop(0)
+call_num = OrderedDict()
+call_time = OrderedDict()
+month = '2017-06-'
+day_range = range(1,31)
+for i,item in enumerate(day_range):
+    if item < 10:
+        day_range[i] = '0'+str(item)
+    else:
+        day_range[i] = str(i)
+date_range = [ month + day + " " for day in day_range]
+for date in date_range:
+    call_num[date] = 0
+    call_time[date] = 0
+for row in range(len(data)):
+    row_value = data[row]
+    time = time2second(row_value[3])
+    for element in row_value:
+        for date in date_range:
+            if re.match(date,element):
+                # print element
+                call_num[date] = call_num[date] + 1
+                call_time[date] = call_time[date] + time
+# print call_num
+# print call_time
+num = []
+time = []
+for i in call_num.iteritems():
+    num.append(i[1])
+    time.append(i[0])
+print num
+print np.arange(len(num))
+plt.bar(np.arange(len(num)),num)
+plt.xticks(range(len(num)))
+plt.xlabel(u'6月通话时间')
+for i, v in enumerate(num):
+    plt.text(i-0.35,v+0.2, str(v), color='blue', fontweight='bold')
+plt.show()
+```
+
+# 第0021题
+
+通常，登陆某个网站或者 APP，需要使用用户名和密码。密码是如何加密后存储起来的呢？请使用 Python 对密码加密。
+
+## 解题思路
+
+1. 要想加密，可以使用`hashlib.sha256`库，使用`os.random(8)`生成一个长度为8位的salt，让密码与salt一起进行哈希，进行哈希的函数是`hmac.HMAC`
+2. 判定输入的密码是不是正确，只需要将新接受到的密码与原先的salt一起进行一次hash看是否等于之前的hash结果
+
+## 源代码
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# @Time    : 2017/6/28 11:00
+
+from hashlib import sha256
+from hmac import HMAC
+import os
+
+def hash_password(password, salt = None):
+    if isinstance(password, unicode):
+        password = password.encode('UTF-8')
+    if salt is None:
+        salt = os.urandom(8)
+    result = HMAC(password, salt, sha256).digest()
+    return result,salt
+
+def authen_password(result, new_password, salt):
+    return hash_password(new_password,salt)[0] == result
+
+if __name__ == '__main__':
+    password = raw_input('please input the password: ')
+    result,salt = hash_password(password)
+    print result
+    new_password = raw_input('please input the password again: ')
+    print authen_password(result,password,salt)
+```
+
+# 第0022题
+
+ iPhone 6、iPhone 6 Plus 早已上市开卖。请查看你写得 第 0005 题的代码是否可以复用。
+
+## 解题思路
+
+1. 整体思路与0005题类似，利用`PIL.Image.resize`函数对图片进行重塑大小
+
+## 源代码
+
+```python
+#!/usr/bin/env python
+# -*- coding: gbk -*-
+# @Time    : 2017/6/28 13:53
+
+import os
+from PIL import Image
+def resize(filename,new_name):
+    pic = Image.open(filename)
+    out = pic.resize((1000,800),Image.ANTIALIAS)
+    out.save(new_name,quality=100)
+
+list_dir = os.walk(r'C:\Users\jeffrey\Desktop\python exercise\python练习册\22\pic')
+for root, dirs, files in list_dir:
+    for f in files:
+        a = os.path.join(root, f)
+        print a
+        new_name = os.path.join(root,'new_1'+f)
+        print new_name
+        resize(a,new_name)
+```
+
+# 第0023题
+
+使用 Python 的 Web 框架，做一个 Web 版本 留言簿 应用。
+
+[阅读资料：Python 有哪些 Web 框架](http://v2ex.com/t/151643#reply53)
+
+![留言簿参考](http://i.imgur.com/VIyCZ0i.jpg)
+
+## 解题思路
+
+1. 使用的是flask框架，参照网上的示例，先在app文件夹下建立`__init__.py`，在文件中写入如下内容：
+
+   ```python
+   from flask import FLASK
+   from flask_mongoengine import MongoEngine
+
+   app = FLASK(__name__)
+   app.config.from_object("config")
+   db = MongoEngine(app)
+
+   import views,models
+   ```
+
+   其中的`models.py`定义了Todo类，包含内容，时间，和状态三个属性，如下所示:
+
+   ```python
+   from . import db
+   import datetime
+   from flask_mongoengine.wtf import model_form
+   ```
+
+
+   class Todo(db.Document):
+       content = db.StringField(required=True, max_length=20)
+       time = db.DateTimeField(default=datetime.datetime.now())
+       status = db.IntField(default=0)
+
+   TodoForm = model_form(Todo)
+   ```
+
+   其中`views.py`定义了每个页面的函数，如下：
+
+   ```python
+   from . import app
+   from flask import render_template, request
+   from models import Todo, TodoForm
+
+
+   @app.route('/')
+   def index():
+       form = TodoForm()
+       todos = Todo.objects.order_by('-time')
+       return render_template("index.html", todos=todos, form=form)
+
+
+   @app.route('/add', methods=['POST', ])
+   def add():
+       form = TodoForm(request.form)
+       if form.validate():
+           content = form.content.data
+           todo = Todo(content=content)
+           todo.save()
+       todos = Todo.objects.order_by('-time')
+       return render_template("index.html", todos=todos, form=form)
+
+   @app.route('/done/<string:todo_id>')
+   def done(todo_id):
+       form = TodoForm()
+       todo = Todo.objects.get_or_404(id=todo_id)
+       todo.status = 1
+       todo.save()
+       todos = Todo.objects.all()
+       return render_template('index.html', todos=todos, form=form)
+
+   @app.route('/undone/<string:todo_id>')
+   def undone(todo_id):
+       form = TodoForm()
+       todo = Todo.objects.get_or_404(id=todo_id)
+       todo.status = 0
+       todo.save()
+       todos = Todo.objects.all()
+       return render_template("index.html", todos=todos,form=form)
+
+   @app.route('/delete/<string:todo_id>')
+   def delete(todo_id):
+       form = TodoForm()
+       todo = Todo.objects.get_or_404(id=todo_id)
+       todo.delete()
+       todos = Todo.objects.all()
+       return render_template('index.html', todos=todos,form=form)
+
+   @app.errorhandler(404)
+   def not_found(e):
+       return render_template('404.html'),404
+   ```
+
+   ​
+
+   **其中`index.html`文件是放在`app/templates`文件夹下的网页模板文件**
+
+   **所有关于`index.html`文件的静态文件（如js和css文件）均放在`app/statics`下面**
+
+2. 在`index.html`文件中写入网页模板如下：
+   如果要用到循环：大括号加百分号的形式，`{ % for error in form.error.content % }`
+   要用到某个变量：双大括号，`{ { } } t.content }}`
+
+   ```html
+   { % extends "base.html" % } { % block content % } <!--继承base.html-->
+   <head>
+       <style type="text/css">
+           td{text-align: center}
+           .content_td{width: 100px}
+           .time_td{width: 300px}
+           .done_td{width: 100px}
+       </style>
+   </head>
+   <form class="input-form" action="/add" method="post">   <!--输入框，记录输入的内容-->
+       { { } } form.hidden_tag() }}
+       { { } } form.content(class="form-control") }}
+       <span class="input-btn">
+           <button class="btn-primary" type="submit">Add</button>  <!--提交按钮-->
+       </span>
+   </form>
+   { % for error in form.errors.content % }
+   <div class="flash alert"><span>{ { } } error }}</span></div>
+   { % endfor % }
+   <div>
+       <h2>Todo List</h2> 
+       { % if todos % }
+       <table class="table" style="margin: 0 auto">
+           <thead>
+               <tr>
+                   <td class="content_td">Content</td>
+                   <td class="time_td">Time</td>
+                   <td class="done_td">Operation</td>
+               </tr>
+           </thead>
+           <tbody>
+               { % for t in todos % }
+               <tr>
+                   <td class="content_td">{ { } } t.content }}</td>
+                   <td class="time_td">{ { } } t.time.strftime(' %m-%d %H:%M') }}</td>
+                   <td class="done_td">
+                       { % if t.status == 0 % }
+                       <a href="/done/{ { } } t.id }}" class="btn btn-primary" style="color: blue">Done</a> 
+                       { % else % }
+                       <a href="/undone/{ { } } t.id }}" class="btn btn-primary" style="color: red">Undone</a> 
+                       { % endif % }
+                       <a href="/delete/{ { } } t.id }}" class="delete btn">Delete</a>
+                   </td>
+               </tr>
+               { % endfor % }
+           </tbody>
+       </table>
+       { % else % }
+           <h3 style="color: red">NO Todos, please add things</h3>
+       { % endif % }
+   </div>
+   { % endblock % }
+   ```
+
+   **而`index.html`文件继承于`base.html`文件如下：**
+
+   ```html
+   <!DOCTYPE html>
+   <html>
+   <head lang="en">
+       <meta charset="UTF-8">
+       <style type="text/css">
+           *{text-align: center}
+           td{line-height: 30px}
+           
+       </style>
+       <title>to_do</title>
+       <link href="{ { } } url_for('static',filename='bootstrap.css') }}" rel="stylesheet" type="text/css"/>
+       <link href="{ { } } url_for('static',filename='index.css') }}" rel="stylesheet" type="text/css"/>
+   </head>
+   <body>
+   <div class="container">
+       <div class="page-header">
+           <h1>my-flask-todo</h1>
+       </div>
+       <div class="row">
+           <div class="col-lg-10">
+              { % block content % }
+              { % endblock % }
+           </div>
+       </div>
+   </div>
+
+   <footer class="footer">
+       <div class="container">
+           <p class="text-muted">Copyright © drawon 2015</p>
+       </div>
+   </footer>
+   </body>
+   </html>
+   ```
+
+3. 在`my_to_do/app`的`my_to_do`文件夹下，写配置文件`config.py`
+
+   ```python
+   SECRET_KEY = "never tell you"
+   MONGODB_SETTINGS = {'DB': 'todo_db'}
+   WTF_CSRF_ENABLED = False
+   ```
+
+4. 在`my_to_do/app`的`my_to_do`文件夹下，写管理文件`manage.py`，通过这个py文件启动flask：
+
+   ```python
+   # -*- coding: utf-8 -*-
+
+   from flask.ext.script import Manager, Server
+   from app import app
+   from app.models import Todo
+
+   manager = Manager(app)                     #定义Manager对象
+
+   manager.add_command("runserver",
+                       Server(host='0.0.0.0',
+                              port=5000,
+                              use_debugger=True)) #通过add_command命令添加网页启动命令 runserver 
+
+   @manager.command    # 添加新的命令save_todo
+   def save_todo():
+   todo = Todo(content="my first todo")
+   todo.save()
+   if name == 'main':
+   	manager.run()
+
+   ```
 
 
 
 
+   ```
+
+
+  
 
 
 
+5. 在命令行运行 `python manage.py runserver`即可开启网页
 
+## 源代码
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+具体请查看[github](https://github.com/drawwon/show-me-the-code/tree/master/23)
+   ```

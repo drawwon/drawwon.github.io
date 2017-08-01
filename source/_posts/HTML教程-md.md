@@ -68,15 +68,15 @@ category: 编程学习
 
 ## HTML 元素语法
 
-- HTML 元素以**开始标签**起始
-- HTML 元素以**结束标签**终止
+* HTML 元素以**开始标签**起始
+* HTML 元素以**结束标签**终止
 
 ## HTML 属性
 
-- HTML 元素可以设置**属性**
-- 属性可以在元素中添加**附加信息**
-- 属性一般描述于**开始标签**
-- 属性总是以名称/值对的形式出现，**比如：name="value"**。
+* HTML 元素可以设置**属性**
+* 属性可以在元素中添加**附加信息**
+* 属性一般描述于**开始标签**
+* 属性总是以名称/值对的形式出现，**比如：name="value"**。
 
 HTML **链接** 由 <a> 标签定义。链接的地址在 **href 属性**中指定：
 
@@ -88,26 +88,24 @@ HTML **链接** 由 <a> 标签定义。链接的地址在 **href 属性**中指�
 
 | 标签                                       | 描述         |
 | ---------------------------------------- | ---------- |
-| [<html>](http://www.runoob.com/tags/tag-html.html) | 定义 HTML 文档 |
-| [<body>](http://www.runoob.com/tags/tag-body.html) | 定义文档的主体    |
-| [<h1>-<h6> ](http://www.runoob.com/tags/tag-hn.html) | 定义 HTML 标题 |
-| [<hr>](http://www.runoob.com/tags/tag-hr.html) | 定义水平线      |
-| [<!--...-->](http://www.runoob.com/tags/tag-comment.html) | 定义注释       |
-
+| [`<html>`](http://www.runoob.com/tags/tag-html.html) | 定义 HTML 文档 |
+| [`<body>`](http://www.runoob.com/tags/tag-body.html) | 定义文档的主体    |
+| [`<h1>-<h6>` ](http://www.runoob.com/tags/tag-hn.html) | 定义 HTML 标题 |
+| [`<hr>`](http://www.runoob.com/tags/tag-hr.html) | 定义水平线      |
+| [`<!--...-->`](http://www.runoob.com/tags/tag-comment.html) | 定义注释       |
 ## HTML 文本格式化标签
 
 | 标签                                       | 描述     |
 | ---------------------------------------- | ------ |
-| [<b>](http://www.runoob.com/tags/tag-b.html) | 定义粗体文本 |
-| [<em>](http://www.runoob.com/tags/tag-em.html) | 定义着重文字 |
-| [<i>](http://www.runoob.com/tags/tag-i.html) | 定义斜体字  |
-| [<small>](http://www.runoob.com/tags/tag-small.html) | 定义小号字  |
-| [<strong>](http://www.runoob.com/tags/tag-strong.html) | 定义加重语气 |
-| [<sub>](http://www.runoob.com/tags/tag-sub.html) | 定义下标字  |
-| [<sup>](http://www.runoob.com/html/m/tags/tag-sup.html) | 定义上标字  |
-| [<ins>](http://www.runoob.com/tags/tag-ins.html) | 定义插入字  |
-| [<del>](http://www.runoob.com/tags/tag-del.html) | 定义删除字  |
-
+| [`<b>`](http://www.runoob.com/tags/tag-b.html) | 定义粗体文本 |
+| [`<em>`](http://www.runoob.com/tags/tag-em.html) | 定义着重文字 |
+| [`<i>`](http://www.runoob.com/tags/tag-i.html) | 定义斜体字  |
+| [`<small>`](http://www.runoob.com/tags/tag-small.html) | 定义小号字  |
+| [`<strong>`](http://www.runoob.com/tags/tag-strong.html) | 定义加重语气 |
+| [`<sub>`](http://www.runoob.com/tags/tag-sub.html) | 定义下标字  |
+| [`<sup>`](http://www.runoob.com/html/m/tags/tag-sup.html) | 定义上标字  |
+| [`<ins>`](http://www.runoob.com/tags/tag-ins.html) | 定义插入字  |
+| [`<del>`](http://www.runoob.com/tags/tag-del.html) | 定义删除字  |
 ## HTML 链接语法
 
 标签`<a>`加上属性`href`
@@ -129,9 +127,6 @@ HTML **链接** 由 <a> 标签定义。链接的地址在 **href 属性**中指�
 ```html
 <a href = "mailto:xxxx@qq.com? & cc=xxx@qq.com & bcc=xxx@qq.com & subject="主题" & body="内容">发送按钮</a>
 ```
-
-
-
 ## 表格实例
 
 由`table`标签开始，然后用`tbody`使表可以加载多少显示多少，`th`：table head表示表头，`tr`表示table row表行，`td`表示table data单元格
@@ -162,7 +157,6 @@ table tr td,th{border:1px solid #000;}
 ```
 
 表格标签是`<tr>`，每一个单元格的标签是`<td>`，边框的属性是`border`
-
 ## HTML无序列表
 
 无序列表是一个项目的列表，此列项目使用粗体圆点（典型的小黑圆圈）进行标记。
@@ -192,7 +186,6 @@ table tr td,th{border:1px solid #000;}
 ```html
 <img src="aa.jpg" title="xxxx">
 ```
-
 # HTML 表单
 
 表单用于把用户输入的数据传送到服务端

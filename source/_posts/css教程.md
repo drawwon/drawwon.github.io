@@ -62,7 +62,7 @@ span{
 
 ## 外部式
 
-外部式css样式(也可称为外联式)就是把css代码写一个单独的外部文件中，这个css样式文件以“`.css`”为扩展名，在`<head>`内（不是在<style>标签内）使用`<link>`标签将css样式文件链接到HTML文件内，如下面代码：
+外部式css样式(也可称为外联式)就是把css代码写一个单独的外部文件中，这个css样式文件以“`.css`”为扩展名，在`<head>`内（不是在`<style>`标签内）使用`<link>`标签将css样式文件链接到HTML文件内，如下面代码：
 
 ```css
 <link href="style.css" rel="stylesheet" type="text/css" />
@@ -328,6 +328,8 @@ CSS包含3种基本的布局模型，用英文概括为：Flow、Layer 和 Float
 1. **块状元素**都会在所处的**包含元素内**自上而下按顺序垂直延伸分布，因为在默认状态下，块状元素的宽度都为**100%**。实际上，块状元素都会以行的形式占据位置。如右侧代码编辑器中三个块状元素标签(div，h1，p)宽度显示为100%。
 2. 第二点，在流动模型下，**内联元素**都会在所处的包含元素内从左到右水平分布显示。（内联元素可不像块状元素这么霸道独占一行）
 
+**清除浮动**：①clear：both ② width：100%，overflow：hidden
+
 ### 浮动模型
 
 块状元素这么霸道都是独占一行，如果现在我们想让两个块状元素并排显示，怎么办呢？不要着急，设置元素浮动就可以实现这一愿望。使用`float`属性设置浮动：
@@ -529,4 +531,13 @@ body{
 
 父元素高度确定的多行文本、图片等的竖直居中的方法有两种：
 
-1. ​
+1. 使用插入 [table](http://www.imooc.com/code/292)  (包括tbody、tr、td)标签，同时设置 vertical-align：middle。
+2. 设置块级元素的 display 为 table-cell（设置为表格单元显示），激活 vertical-align 属性，但注意 IE6、7 并不支持这个样式, 兼容性比较差。
+
+## 隐性改变display类型
+
+1. [position : absolute](http://www.imooc.com/code/2073)
+2. float : left 或 [float:right](http://www.imooc.com/code/2071) 
+
+简单来说，只要html代码中出现以上两句之一，元素的display显示类型就会自动变为以 `display:inline-block`（[块状元素](http://www.imooc.com/code/2048)）的方式显示，当然就可以设置元素的 width 和 height 了，且默认宽度不占满父元素。
+
