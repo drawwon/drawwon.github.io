@@ -6,9 +6,11 @@ category: [编程学习]
 
 ---
 
-基本的部署方式是通过Flaks + WSGI + Nginx
+**基本的部署方式是通过Flaks + WSGI + Nginx**
 
 首先通过远程连接到服务器
+
+<!--more-->
 
 ```shell
 ssh root@远程服务器ip  -p 远程服务器端口
