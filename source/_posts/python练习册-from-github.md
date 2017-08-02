@@ -872,7 +872,7 @@ if __name__ == '__main__':
 
  [登陆中国联通网上营业厅](http://iservice.10010.com/index_.html) 后选择「自助服务」 --> 「详单查询」，然后选择你要查询的时间段，点击「查询」按钮，查询结果页面的最下方，点击「导出」，就会生成类似于 2014年10月01日～2014年10月31日通话详单.xls 文件。写代码，对每月通话时间做个统计。
 
-# 解题思路
+## 解题思路
 
 1. 导出的文件是一个xls文件，我们使用`xlrd`模块读入内容
 
@@ -1264,19 +1264,8 @@ for root, dirs, files in list_dir:
 
    ```
 
-
-
-
-   ```
-
-
-  
-
-
-
 5. 在命令行运行 `python manage.py runserver`即可开启网页
 
 ## 源代码
 
 具体请查看[github](https://github.com/drawwon/show-me-the-code/tree/master/23)
-   ```
