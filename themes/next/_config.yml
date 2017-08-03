@@ -5,6 +5,7 @@
 # Put your favicon.ico into `hexo-site/source/` directory.
 favicon: images/favicon.ico
 
+
 # Set default keywords (Use a comma to separate)
 keywords: "Program, Life, Read"
 
@@ -484,7 +485,7 @@ use_motion: true
 fancybox: true
 
 # Canvas-nest
-canvas_nest: true
+canvas_nest: false
 
 #three_waves
 three_waves: false
