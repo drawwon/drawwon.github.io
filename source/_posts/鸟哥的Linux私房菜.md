@@ -1,5 +1,5 @@
 ---
-title: 鸟哥的Linux私房菜
+stitle: 鸟哥的Linux私房菜
 date: 2017-08-03 17:33:34
 tags: [Linux]
 category: [编程学习]
@@ -76,6 +76,29 @@ sudo apt-get remove onboard deja-dup
 ```
 
 做完上面这些，系统应该干净了，下面我们来安装一些必要的软件。
+
+### 更换Linux安装源
+
+请使用root权限进行以下操作。
+
+Ubuntu 的软件源配置文件是 /etc/apt/sources.list
+
+选择你的ubuntu版本，以wily为例，查看系统版本可以通过`lsb_release -a`出来的code查看：
+
+```
+deb http://mirrors.xjtu.edu.cn/ubuntu/ wily main multiverse restricted universe
+deb http://mirrors.xjtu.edu.cn/ubuntu/ wily-backports main multiverse restricted universe
+deb http://mirrors.xjtu.edu.cn/ubuntu/ wily-proposed main multiverse restricted universe
+deb http://mirrors.xjtu.edu.cn/ubuntu/ wily-security main multiverse restricted universe
+deb http://mirrors.xjtu.edu.cn/ubuntu/ wily-updates main multiverse restricted universe
+deb-src http://mirrors.xjtu.edu.cn/ubuntu/ wily main multiverse restricted universe
+deb-src http://mirrors.xjtu.edu.cn/ubuntu/ wily-backports main multiverse restricted universe
+deb-src http://mirrors.xjtu.edu.cn/ubuntu/ wily-proposed main multiverse restricted universe
+deb-src http://mirrors.xjtu.edu.cn/ubuntu/ wily-security main multiverse restricted universe
+deb-src http://mirrors.xjtu.edu.cn/ubuntu/ wily-updates main multiverse restricted universe
+```
+
+如果你使用的是wily以外的版本，将上述每一行的wily改为对应的发行版即可。
 
 ### 常用软件安装
 
@@ -683,6 +706,85 @@ split：切割，将文件分割成多个大小相等的文件
 xargs：在不支持管道命令的命令中提供参数
 
 ## 正则表达式
+
+正则表达式依照不同的严谨度分为基础正则表达式与扩展正则表达式
+
+### 基础正则表达式
+
+| 符号           | 含义                                       |
+| ------------ | ---------------------------------------- |
+| `[:alnum:]`  | 英文大小写字母及数字，`[a-z]`、`[A-Z]`、[0-9](alpha，number) |
+| `[:alpha:]`  | 大小写英文字母                                  |
+| `[:blank:]`  | 空格键与tab键                                 |
+| `[:cntrl:]`  | 键盘上面的控制键位，包括CR,TF,TAB,DEL等               |
+| `[:digit:]`  | 数字，[0-9]                                 |
+| `[:graph:]`  | 除了空格键和[TAB]键的其他所有按键                      |
+| `[:lower:]`  | 小写字母，[a-z]                               |
+| `[:upper:]`  | 大写字母，[A-Z]                               |
+| `[:print:]`  | 任何可以被打印出来的字符                             |
+| `[:punct:]`  | 标点符号(punctuation symbol)                 |
+| `[:space:]`  | 任何会产生空白的字符，包括空白键[TAB]CR等                 |
+| `[:xdigit:]` | 十六进制的数字类型                                |
+
+[^]表示取反，
+
+^是行首，
+
+$表示行尾，
+
+*出现任意次，
+
+`\{m,n\}`出现m到n次(注意`{}`要进行转义)，
+
+[abc]，从abc当中选一个
+
+[^list]：选取除了list以外的字符串
+
+### 扩展正则表达式
+
+| 字符   | 意义                                       |
+| ---- | ---------------------------------------- |
+| +    | 重复一次及多次                                  |
+|      | 零个或一个                                    |
+|      | 用or的方法进行查找                               |
+| （）   | 找出组字符串,比如查找good和glad，可以用`egrep -n 'g(oo|la)d' test.txt`进行查找 |
+| （）+  | 多个重复组的判断，比如查找A12121212c，可以用`egrep -n 'A(12)+c'` |
+
+### 文件格式化打印
+
+使用的是printf，用法如下：
+
+```shell
+printf '%10s\t %5i\t %s\t \8.2f' $(cat test.txt)
+```
+
+### 数据处理工具awk
+
+用法
+
+```shell
+awk '条件类型1{动作1} 条件类型2{动作二}……'
+```
+
+比如要取出last里面的第一列和第三列
+
+```shell
+last -n 5 | awk 'print $1 "\t" $3'
+```
+
+### 文件比较工具
+
+`diff  a b`，得到的是左边文件a与右边文件b的差别
+
+cmp：以字节进行比较
+
+patch：`diff a b> ab.patch`得到一个补丁文件，用于存放新旧文件的不同，用`patch -pN < patch_file`更新，用`patch -R -pN < patch_file`还原
+
+## shell script
+
+终于到了shell script这一个章节了，shell script是程序化脚本
+
+
 
 
 
