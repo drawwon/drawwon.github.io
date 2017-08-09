@@ -1,5 +1,5 @@
-!#/bin/bash
-cd /home/jeffrey/codes/blogs
+#!/bin/bash
+cd /home/jeffrey/codes/blog
 hexo d -g
 git add .
 git commit -m "Updated"
