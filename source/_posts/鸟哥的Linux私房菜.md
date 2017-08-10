@@ -1,5 +1,5 @@
 ---
-stitle: 鸟哥的Linux私房菜
+title: 鸟哥的Linux私房菜
 date: 2017-08-03 17:33:34
 tags: [Linux]
 category: [编程学习]
