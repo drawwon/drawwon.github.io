@@ -100,11 +100,247 @@ deb-src http://mirrors.xjtu.edu.cn/ubuntu/ wily-updates main multiverse restrict
 
 如果你使用的是wily以外的版本，将上述每一行的wily改为对应的发行版即可。
 
+### 主题美化
+
+ubuntu自带的主题简直不敢恭维，这里博主将它美化了一番，心情瞬间都好了一大截，码代码也会飞起！！先放一张我美化后的效果。
+
+桌面和终端效果如下：
+
+![桌面](https://ww4.sinaimg.cn/large/006tNbRwgy1feqx3t7l3yj311x0lbn8m.jpg)
+
+#### unity-tweak-tool
+
+调整 Unity 桌面环境，还是推荐使用Unity Tweak Tool，这是一个非常好用的 Unity 图形化管理工具，可以修改工作区数量、热区等。
+
+```shell
+sudo apt-get install unity-tweak-tool
+```
+
+安装完后界面如下： 
+
+![](http://ooi9t4tvk.bkt.clouddn.com/17-8-10/3219101.jpg)
+
+#### Flatabulous主题
+
+Flatabulous主题是一款ubuntu下扁平化主题，也是我试过众多主题中最喜欢的一个！最终效果如上述图所示。
+
+执行以下命令安装Flatabulous主题：
+
+```shell
+sudo add-apt-repository ppa:noobslab/themes
+sudo apt-get update
+sudo apt-get install flatabulous-theme
+```
+
+该主题有配套的图标，安装方式如下：
+
+```
+sudo add-apt-repository ppa:noobslab/icons
+sudo apt-get update
+sudo apt-get install ultra-flat-icons
+```
+
+安装完成后，打开unity-tweak-tool软件，修改主题和图标：
+
+进入Theme，修改为Flatabulous
+
+![](http://ooi9t4tvk.bkt.clouddn.com/17-8-10/66962627.jpg)
+
+在此界面下进入Icons栏，修改为Ultra-flat:
+
+![](http://ooi9t4tvk.bkt.clouddn.com/17-8-10/18289134.jpg)
+
+到这里主题和图标都变为扁平化主题Flatabulous，看起来比较美观了，当然，还需要修改一些细节，例如终端的配色以及样式。
+
+如果找不到主题就先注销重新登录就行了
+
+
+
+#### 终端
+
+终端采用zsh和oh-my-zsh，既美观又简单易用，主要是能提高你的逼格！！！
+
+首先，安装zsh：
+
+```
+sudo apt-get install zsh11
+```
+
+接下来我们需要下载 oh-my-zsh 项目来帮我们配置 zsh，采用wget安装 
+
+这里需要先安装[Git](http://lib.csdn.net/base/git)，而且要以管理员权限运行
+
+`sudo apt-get install git`
+
+`sudo wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh`
+
+所以这时的zsh 基本已经配置完成,你需要一行命令就可以切换到 zsh 模式，终端下输入以下命令
+
+```
+chsh -s /usr/local/bin/zsh11
+```
+
+最后，修改以下配色，会让你的终端样式看起来更舒服，在终端任意地方右键，进入配置文件(profile)->外观配置(profile Preferences)，弹出如下界面，进入colors一栏：
+
+![配置](https://ww3.sinaimg.cn/large/006tNc79gw1fbkgfzl9e5j30go0bhgmk.jpg)
+
+其中，文字和背景采用系统主题，透明度设为10%，下面的palette样式采用Tango，这样一通设置后，效果如下：
+
+![终端](https://ww4.sinaimg.cn/large/006tNc79gw1fbkgfv3pu2j30ke0cyq37.jpg)
+
+打开`~/.zshrc`，修改主题配置如下：
+
+`ZSH_THEME="agnoster"`
+
+`source ~/.zshrc`之后生效，此时有乱码，需要下载power字体
+
+```shell
+# clone
+git clone https://github.com/powerline/fonts.git
+# install
+cd fonts
+./install.sh
+# clean-up a bit
+cd ..
+rm -rf fonts
+```
+
+然后打开terminal的preference选项，将字体设置为ubuntu powerline
+
+此时所有的文件显示颜色都是灰色的，因此我们要安装
+
+首先安装 [Git](http://lib.csdn.net/base/git)：`sudo apt-get install git-core`
+
+然后要设一下 [solarized theme for GNU ls](https://github.com/seebi/dircolors-solarized)，不然在 Terminal 下 ls 啥的都灰蒙蒙的，也不舒服：
+
+```
+git clone git://github.com/seebi/dircolors-solarized.git
+```
+
+dircolor-solarized 有几个配色，你可以去项目那看看说明，我自己用的是 dark256：
+
+```
+cp ~/dircolors-solarized/dircolors.256dark ~/.dircolors
+eval 'dircolors .dircolors'
+```
+
+设置 Terminal 支持 256 色，`vim .zsh` 并添加 `export TERM=xterm-256color`，这样 dircolors for GNU ls 算设置完成了。
+
+接下来下载 Solarized 的 Gnome-Terminal 配色：
+
+```
+git clone git://github.com/sigurdga/gnome-terminal-colors-solarized.git
+```
+
+`cd gnome-terminal-colors-solarized` 到该目录下运行配色脚本：`./set_dark.sh` 或`./set_light.sh`，这就算搞定了。
+
+
+
+#### 字体
+
+ubuntu自带的字体不太好看，所以采用文泉译微米黑字体替代，效果会比较好，毕竟是国产字体！
+
+```
+sudo apt-get install fonts-wqy-microhei11
+```
+
+然后通过unity-tweak-tool来替换字体：
+
+![替换字体](https://ww2.sinaimg.cn/large/006tNc79gw1fbkgfy0a7ij30oh0i375e.jpg)
+
+到此，主题已经比较桑心悦目了，接下来推荐一些常用的软件，提高你的工作效率！
+
+
+
 ### 常用软件安装
 
 #### 安装搜狗输入法
 
 首先从搜狗官网下载适用于ubuntu的输入法，执行`sudo dpkg -i sogoupinyin_2.1.0.0082_amd64.deb`安装，发现报错，这个时候进行修复安装，执行`sudo apt-get  install  -f` ，在运行一遍安装命令，` sudo dpkg -i sogoupinyin_2.0.0.0078_amd64.deb`，注销之后在系统输入法选项中选择fcit输入，就可以切换输入法了
+
+#### 安装shadowsocks
+
+用PIP安装很简单，
+
+```
+sudo apt-get update
+sudo apt-get install python-pip
+sudo apt-get install python-setuptools m2crypto
+
+```
+
+接着安装shadowsocks
+
+```
+pip install shadowsocks
+```
+
+如果是ubuntu16.04 直接 (16.04 里可以直接用apt 而不用 apt-get 这是一项改进）
+
+```
+sudo apt install shadowsocks
+```
+
+然后启动shadowsocks
+
+```shell
+sslocal -c /etc/shadowsocks.json
+```
+
+首先是安装polipo：
+
+```
+sudo apt-get install polipo
+```
+
+接着修改polipo的配置文件`/etc/polipo/config`：
+
+```
+logSyslog = true
+logFile = /var/log/polipo/polipo.log
+
+proxyAddress = "0.0.0.0"
+
+socksParentProxy = "127.0.0.1:1080"
+socksProxyType = socks5
+
+chunkHighMark = 50331648
+objectHighMark = 16384
+
+serverMaxSlots = 64
+serverSlots = 16
+serverSlots1 = 32
+```
+
+重启polipo服务：
+
+```
+sudo /etc/init.d/polipo restart
+```
+
+为终端配置http代理：
+
+```
+export http_proxy="http://127.0.0.1:8123/"
+```
+
+接着测试下能否翻墙：
+
+```
+curl ip.gs
+```
+
+如果有响应，则全局代理配置成功。
+
+#### 设置别名
+
+bash中有一个很好的东西，就是别名alias. Linux用户修改~/.bashrc，Mac用户修改~/.bash_profile文件，增加如下设置
+
+````
+alias proxy="http_proxy=http://localhost:8123"
+````
+
+然后Linux用户执行`source ~/.bashrc`，注意在bash中执行上述命令只是本次有效，要一直生效需要修改~/.bashrc文件
 
 #### chrome安装
 
