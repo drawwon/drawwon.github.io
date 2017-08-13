@@ -10,6 +10,8 @@ category: [论文]
 
 latex的编辑软件主要用到的是ctxt，安装地址
 
+<!--more-->
+
 链接：http://pan.baidu.com/s/1o8BNpHK 密码：vv9y
 
 一路点击下一步就可以了
@@ -92,6 +94,20 @@ latex的编辑软件主要用到的是ctxt，安装地址
 %
 ```
 
+放一张图时用如下程序
+
+```latex
+\begin{figure}[t]
+  \centering
+  % Requires \usepackage{graphicx}
+  \includegraphics[width=0.5\textwidth]{2.eps}\\
+  \caption{EER curves at varying operating length using the three detectors. X-axis represents the number of touch operations to verify a user's identity}
+  \label{Figure 2}
+\end{figure}
+```
+
+
+
 ## 插入表格
 
 latex绘制表格比较麻烦，因此我们用网站进行绘制：[table generator](http://www.tablesgenerator.com/latex_tables)
@@ -107,3 +123,16 @@ latex绘制表格比较麻烦，因此我们用网站进行绘制：[table gener
 
 如果某条线要加粗，需要把`hline`替换为`\Xhline{1.2pt}`
 
+插入的时候可以在`\begin{table}`后面加上选择放置的位置,[t]代表top，[h]表示hear，[b]表示bottom
+
+在表格中要加入空格的时候可以用这个命令`\hspace*{75pt}`
+
+如果要改变表格与文字之间的距离，使用`\setlength{\textfloatsep}{10pt plus 1.0pt minus 2.0pt}`
+
+其中后面这个`\textfloatsep`分类如下所示：
+
+Change one or more of the following lengths:
+
+* `\textfloatsep` — distance between floats on the top or the bottom and the text;
+* \floatsep — distance between two floats;
+* \intextsep — distance between floats inserted inside the page text (using h) and the text proper.
