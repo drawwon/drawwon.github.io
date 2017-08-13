@@ -141,114 +141,60 @@ prettyfy方法用于更好地打印标签
 
 2. json：JavaScript object notation，用键值对的形式记录数据，比如
 
-   ```json
+   ```
    "name" : "xi'an jiaotong"
    "address": "xi'an"
    # 用大括号表示嵌套的键值对
    "university{
-       "name": "jiaotong",
-   	"address":"xi'an"
-   }
+      "name": "jiaotong",
+      "address":"xi'an"
+      }
    ```
 
-   json的键值对都是有类型的
+      json的键值对都是有类型的
 
-3. yaml格式是无类型的，用缩进进行所属，用法：
+3.  yaml格式是无类型的，用缩进进行所属，用法：
 
-   ```yaml
+   ```
    uninversity:
-   	name: xi'an
-   	address: beijing
+   name: xi'an
+   address: beijing
    #用 | 表示整块数据
    text: |
    这是一大段话xxxxxxxxxxxxxxxxxxxxxxx
    xxxxxxxxxxxx
    xxxxxxxxx
-   # 用 -表示并列所属关系
+   # 用-表示并列所属关系
    name：
    -交通大学
    -先交大
    ```
 
-## 通过BeautifulSoup数据获取
+   ## 通过BeautifulSoup数据获取
 
-通过find_all函数找到所有的标签，通过.get获得某个具体的属性
+   通过find_all函数找到所有的标签，通过.get获得某个具体的属性
 
-```python
-soup = BeautifulSoup(r.text,'html.parser')
-for link in soup.find_all('a'):
-    print(link.get('href'))
-```
+   ```python
+   soup = BeautifulSoup(r.text,'html.parser')
+   for link in soup.find_all('a'):
+       print(link.get('href'))
+   ```
 
-如果查找多个标签，可以把标签部分用列表放入`soup.find_all(['a','b'])`
+   如果查找多个标签，可以把标签部分用列表放入`soup.find_all(['a','b'])`
 
-第二个参数可以放属性，比如id=link1
+   第二个参数可以放属性，比如id=link1
 
-第三个参数是recursive：表示是否对子孙节点进行检索，默认为是
+   第三个参数是recursive：表示是否对子孙节点进行检索，默认为是
 
-第四个参数是string，查找某个string，结合正则表达式可以进行搜索
+   第四个参数是string，查找某个string，结合正则表达式可以进行搜索
 
-同样，find_all也有find，find_parent,find_next_sibling之类的方法
+   同样，find_all也有find，find_parent,find_next_sibling之类的方法
 
+   ​
 
+   格式化输出时如果遇到中文不对齐的情况：用chr(12288)作为填充:
 
-格式化输出时如果遇到中文不对齐的情况：用chr(12288)作为填充:
-
-```python
-print("{0:^10} \t {1:{3}^10} \t {2:{3}^10}".format('排名','学校名称','省市',chr(12288)))
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   ```python
+   print("{0:^10} \t {1:{3}^10} \t {2:{3}^10}".format('排名','学校名称','省市',chr(12288)))
+   ```
 
