@@ -14,6 +14,8 @@ request库，主要用于网络爬虫
 
 写一个简单的入门程序，访问以下百度首页：
 
+<!--more-->
+
 ```python
 import requests
 r = requets.get('http:://www.baidu.com')
