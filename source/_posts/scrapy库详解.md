@@ -16,6 +16,8 @@ category: [编程学习]
 4. SPIDERS
 5. DOWNLOADER
 
+<!--more-->
+
 ![](http://ooi9t4tvk.bkt.clouddn.com/17-8-14/88536273.jpg)
 
 用户主要编写spider和item pipelines，其余三个模块是事先写好的，不需要修改
