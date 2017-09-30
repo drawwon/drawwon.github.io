@@ -23,6 +23,8 @@ category: [编程练习,爬虫]
 
  要爬取知乎内容首先需要进行登录，在本文中我们主要介绍2种登录方式，第一种是通过requests的session保存cookies进行登录，第二种是通过`scrapy`修改`start_requests`函数进行登录
 
+<!--more-->
+
 ## requests进行登录
 
 在utils中新建`zhihu_login.py`，实例化一个session对象，设置其cookies对象为`cookiesjar`库中的`LWPCookieJar`对象，设置requests库需要用到的headrs（从浏览器中进行拷贝），

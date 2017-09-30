@@ -7,8 +7,11 @@ category: [编程学习]
 
 kaggle是一个国外的数据挖掘竞赛平台，大家做完竞赛之后会写一些指导，因此可以通过其他人写的指导文件进行学习，[kaggle传送门](https://www.kaggle.com)。
 
-其中有一个入门类的分析问题是分析Titanic号的救援问题，分析哪些因素会影响到是否被救援，首先打开Titanic这个问题的具体页面，[Titanic: Machine Learning from Disaster](https://www.kaggle.com/c/titanic),![](http://ooi9t4tvk.bkt.clouddn.com/17-9-25/69961399.jpg)
+其中有一个入门类的分析问题是分析Titanic号的救援问题，分析哪些因素会影响到是否被救援，首先打开Titanic这个问题的具体页面，[Titanic: Machine Learning from Disaster](https://www.kaggle.com/c/titanic),
 
+<!--more-->![](http://ooi9t4tvk.bkt.clouddn.com/17-9-25/69961399.jpg)
+
+<!--more-->
 先看一看overview里面的description和evaluation，看看问题背景和最终需要预测的内容，然后点击数据，下载三个csv格式的数据集，第一个`train.csv`是训练集，第二个`test.csv`是测试集，第三个`gender_submission.csv`是验证集，
 
 ![](http://ooi9t4tvk.bkt.clouddn.com/17-9-25/35388132.jpg)
