@@ -53,7 +53,7 @@ DataFrame是一个表格型数据结构，同时有行索引和列索引，列�
 
 更换列的顺序只需要在创建dataframe的时候指定columns的值
 
-其columns和index也可以分别指定名字
+其columns和index也可以分别指定名字,分别为
 
 
 
