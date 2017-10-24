@@ -57,13 +57,22 @@ plt.legend(['norm distribution with $\mu$={:.2f},$\sigma$={:.2f}'.format(mu,sigm
    ```
 
 
-
-### 
-
-
-
 ## 矩阵相乘
 
 对应元素相乘:`np.multiply(A,B)`或者是直接用`*`
 
 矩阵乘法:`np.dot(A,B)`
+
+## 参数axis
+
+* 当`axis=0`时表示按照行来求值，比如在max函数中，原始数据是一个$40000\times785$的矩阵，那么`data.max(axis=0)`得到一个$1\times785$的**行向量**结果，按行就是在行的维度上求最大值
+* 当`axis=1`时，同理可以得到结果是$785\times1$的**列向量**数据，按列求值就是在列的维度上进行求值
+
+
+
+
+
+
+
+
+

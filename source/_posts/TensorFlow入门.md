@@ -26,7 +26,7 @@ softmax回归是logistic回归的推广，logistics回归主要解决的是二�
 
 我们对输入的原始数据赋予一个权重和偏差，得到：
 
-$evidence_i=\sum_jW_{i,j}x_i+b_i$
+$evidence_i={\sum_j}{W_{i,j}}{x_i}+{b_i}$
 
 其中$W_{i,j}$是权重，$b_i$是偏差，$x_i$是输入变量，$i$表示的是第$i$个类别
 

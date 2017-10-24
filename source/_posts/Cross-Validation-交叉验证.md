@@ -7,7 +7,9 @@ category: [机器学习]
 
 传统的$F-measure$或平衡的$F-score$ (F1 score)是精度和召回的调和平均值：
 
-$$F_1 = 2 \frac{precision*recall}{precision + recall} $$ 
+$F_1 = 2 \frac{precision*recall}{precision + recall}$ 
+
+<!--more-->
 
 ## 交叉验证
 
