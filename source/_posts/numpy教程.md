@@ -23,6 +23,8 @@ def ignore_warn(*args, **kwargs):
 warnings.warn = ignore_warn #ignore annoying warning (from sklearn and seaborn)
 ```
 
+<!--more-->
+
 在`numpy`的使用过程中，最重要的概念就是`ndarray`，实质上就是数组，在`numpy`中的所有对象都是`ndarray` 
 
 每一个ndarray对象都有一个shape和dtype属性，用于存储**数组的形状**和**数据类型**

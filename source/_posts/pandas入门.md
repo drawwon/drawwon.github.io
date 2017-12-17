@@ -30,7 +30,7 @@ In [79]: obj.values
 Out[79]: array([4, 5, 6, 7], dtype=int64)
 ```
 
-Series本身和索引都有一个index属性
+Series本身和索引都有一个index属性，<font color='red'>**pandas有一个重要特征就是其iloc选择时是后包含的**，比如df[:4,1]是指的0,1,2,3,4行的第1列</font>
 
 ```
 In [81]: obj.name = 'population'
@@ -51,11 +51,71 @@ Name: population, dtype: int64
 
 DataFrame是一个表格型数据结构，同时有行索引和列索引，列的索引被称为columns，行索引被称为index
 
+DataFrame的值仍然存储在values属性里面
+
 更换列的顺序只需要在创建dataframe的时候指定columns的值
 
-其columns和index也可以分别指定名字,分别为
+其columns和index也可以分别指定名字
+
+### index
+
+index对象是不可更改的
+
+reindex方法可以改变原先index的顺序，不过值也会跟着变，相当于换行的顺序，其中的columns参数可以重新索引列，其中的method可以指定对于不存在的index的插值方法，ffill或pad表示向前填充，bfill和backfill表示向后填充
+
+### drop
+
+drop用于删除某些行或某些列，删除index行的时候只需要传入index，删除列的时候要传入columns的名字和axis=1
+
+### applymap和apply
+
+apply可以应用函数到dataframe上，applymap可以应用函数到元素集级别上
+
+```
+In [8]: df = pd.DataFrame(np.arange(0,1,0.1).reshape(2,5))
+
+In [9]: df
+Out[9]:
+     0    1    2    3    4
+0  0.0  0.1  0.2  0.3  0.4
+1  0.5  0.6  0.7  0.8  0.9
+
+In [12]: df.applymap(format)
+Out[12]:
+          0         1         2         3         4
+0  0.000000  0.100000  0.200000  0.300000  0.400000
+1  0.500000  0.600000  0.700000  0.800000  0.900000
+```
 
 
+
+### 排序
+
+1. sort_index：按照索引排序，传入axis=1则按columns进行排序，传入by参数则按照某列的值进行排序
+2. order：对Series进行排序
+
+
+
+### 描述和汇总统计
+
+| 方法                                       | 说明                    |
+| ---------------------------------------- | --------------------- |
+| count                                    | 非NA的值的数量              |
+| decribe                                  | 统计性描述，包括max，min，mena等 |
+| max，min                                  | 最大最小值                 |
+| argmax, argmin                           | 获取到最大最小值的索引位置（整数）     |
+| quantile                                 | 计算样本的分位数              |
+| sum                                      | 总和                    |
+| median                                   | 中位数                   |
+| mad                                      | 平均绝对离差                |
+| var、std                                  | 方差、标准差                |
+| skew                                     | 三阶矩（样本的偏度）            |
+| kurt                                     | 四阶矩（样本的峰度）            |
+| cumsum                                   | 累积和                   |
+| cummin,cummax                            | 样本的累计最大值和累积最小值        |
+| cumprod（cum表示cumulative累积的，prod表示product乘积） | 样本的累计积                |
+| diff                                     | 一阶差分                  |
+| pct_change                               | 计算百分数变化（比如股票涨跌计算）     |
 
 初始化一个dataFrame，可以read_csv从csv文件获取，也可以通过如下代码：
 
@@ -97,10 +157,10 @@ df = pd.DataFrame(data, index, columns)
 
 这样因为第E列是没有赋值的所以全部为NAN
 
-对于nan数据的处理有两种方法，分别是`dropnan`和`fillnan`
+对于nan数据的处理有两种方法，分别是`dropna`和`fillna`
 
 1. `df1.dropnan(how='any')`：删除所有值为nan的行
-2. `df1.fillnan(value=5)`：将所有nan的值填充为5
+2. `df1.fillnan(value=5)`：将所有nan的值填充为5，可以用字典的形式指定每一列的填充值
 
 查找所有的nan，`pd.isnull(df1)`或者是`pd.notnull(df)`
 
@@ -114,7 +174,7 @@ df = pd.DataFrame(data, index, columns)
 
 **增加行**：append，**增加列**：assign，`df.assign(age=[1,2,3])`
 
-将list连接成DataFrame或者**增加列**，concat
+**将list连接成DataFrame**或者**增加列**，concat，参数为axes，指定按行合并还是按列合并；参数key，按行合并时可以建立层次化索引，按列合并时作为列的名称。ignore_index=true，可以让合并之后的index是行号而没有重复。
 
 ```python
 df = pd.DataFrame(np.random.randn(10, 4))
@@ -122,7 +182,7 @@ pieces = [df[:3], df[3:7], df[7:]]
 pd.concat(pieces)
 ```
 
-将两个DataFrame按值连接在一起，merge
+将两个DataFrame按值连接在一起（数据库风格的合并），merge，参数为on，表示按那一列进行合并，默认的how参数为Inner，即内连接，如果要保留所有的值，可以将how设置为outer（外连接时等同于join）
 
 ```python
 left = pd.DataFrame({'key': ['foo', 'foo'], 'lval': [1, 2]})
@@ -270,6 +330,85 @@ data = pd.concat(frame,ignore_index=True)
 data.to_csv('birth_data.csv')
 ```
 
+## 多列索引重新排序
+
+swaplevel：交换索引
+sortlevel：索引排序
+
+set_index：和stack很像，将列值变成索引
+
+reset_index：和unstack很像，将多级索引编程列值
+
+## 数据读入
+
+读入方法
+
+1. `read_csv`：用于读取csv，默认分隔符为逗号，需要修改默认分隔符用seperator参数，指定列名用header，无列名时用header=None，无index用index=None
+2. `read_table`：读取txt文件，默认分隔符'\t'，如果分隔符不止一个\t的空格，那么用seperator='\s+'
+3. `read_fwf`：fixed-width file，读取定宽文件，也就是没有分隔符
+4. `read_clipboard`：读取剪贴板中的数据，在将网页转换为表格时很有用
+
+
+* 如果只想读入前n行，可以使用nrows参数，指定读入的行数
+
+读入json的方法：
+
+```python
+import json
+#将json读入为python对象-字典
+result = json.loads(obj)
+#将python对象转化为json
+asjson = json.dumps(result)
+```
+
+## 将长格式转换为宽格式
+
+pivot函数：第一个参数表示行索引的列，第二个参数表示列索引的列
+
+## 移除重复数据
+
+duplicated()：返回一个布尔型变量
+
+drop_duplicates：移除重复行的DataFrame，默认保留第一个出现的值，如果要保存最后一个应该传入take_last=True
+
+## 对某列传入一个函数
+
+map
+
+## 重命名轴索引
+
+rename：得到原始的轴索引的转换版（比如首字母大写或者是全大写）
+
+```
+data.rename(index=str.title，columns=str.upper)
+```
+
+## 值分区
+
+pd.cut(data, [0, 5, 15, 20], right=False)：将数据按照[0,5),[5,15),[15,20)进行划分
+
+pd.qcut（data，4）将数据按分位数等分为4份
+
+## 随机重排
+
+np.random.permutation(x)：若x是一个整数，那么返回打乱的np.arange(x)，然后通过df.take随机选出这若干行；若x是一个数组，那么返回一个打乱的数组的copy
+
+```
+r = np.random.permutation(len(df))[:5]
+df_r = df.take(r)
+```
+
+## 计算哑变量
+
+get_dummies
+
+## Series字符串处理
+
+series.str.xxx
+
+其中包含了一大堆字符串处理函数，比如：contains，findall
+
+也可以使用map和正则表达式来完成
 
 
 

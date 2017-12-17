@@ -290,7 +290,7 @@ highlight_theme: normal
 mathjax:
   enable: true
   per_page: false
-  cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+  cdn: http://mathjax.josephjctang.com/MathJax.js?config=TeX-MML-AM_HTMLorMML
 
 
 # Swiftype Search API Key
