@@ -1,7 +1,7 @@
 ---
 title: 用python控制同步hexo脚本
 date: 2017-08-10 20:21:43
-tags: [python] [os.system]
+tags: [python]
 category: [编程练习]
 
 ---

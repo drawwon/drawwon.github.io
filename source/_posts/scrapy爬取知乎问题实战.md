@@ -3,11 +3,8 @@ title: scrapy爬取知乎问题实战
 date: 2017-09-18 08:59:38
 tags: [python,scrapy,爬虫]
 category: [编程练习,爬虫]
-
-
-首先,需要理解cookies的含义，是存储在浏览器中的内容，在本地存储任意键值对，第一次访问时服务器返回一个id存储到本地cookie中，第二次访问将cookies一起发送到服务器中
 ---
-
+首先,需要理解cookies的含义，是存储在浏览器中的内容，在本地存储任意键值对，第一次访问时服务器返回一个id存储到本地cookie中，第二次访问将cookies一起发送到服务器中
 ![](http://ooi9t4tvk.bkt.clouddn.com/17-9-18/23468729.jpg)
 
 常见http状态码

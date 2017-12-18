@@ -273,16 +273,16 @@ def getform(request):
     return render(request, template_name='course-comment.html',context={'message':message,})
 ```
 
-在HTML文件中调用参数的方法是两个大括号`{{ parameter }}`，input就输入在value里面，textarea就输入在两个标签之间：
+在HTML文件中调用参数的方法是两个大括号，input就输入在value里面，textarea就输入在两个标签之间：
 
 ```html
-<input id="email" type="email" value={{ message.email }} name="email" placeholder="请输入邮箱地址"/>
-<textarea id="message" name="message"  placeholder="请输入你的建议">{{ message.message }}</textarea>
+<input id="email" type="email" value={　{ message.email }　} name="email" placeholder="请输入邮箱地址"/>
+<textarea id="message" name="message"  placeholder="请输入你的建议">{　{ message.message }　}</textarea>
 ```
 
 ### 在HTML文件中使用python逻辑
 
-在HTML文件中，使用python逻辑的方法是大括号加百分号，`{% python expression %}`
+在HTML文件中，使用python逻辑的方法是大括号加百分号，`{　% python expression %　}`
 
 ```html
 <input id="name" type="text" value="{% if not message.name == 'boobytest' %}
