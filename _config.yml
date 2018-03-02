@@ -69,8 +69,8 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/drawwon/drawwon.github.io.git
-  # repo: git@github.com:drawwon/drawwon.github.io.git
+  # repo: https://github.com/drawwon/drawwon.github.io.git
+  repo: git@github.com:drawwon/drawwon.github.io.git
   branch: master
   avatar: http://ooi9t4tvk.bkt.clouddn.com/logo.JPG
 

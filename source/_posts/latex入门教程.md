@@ -136,3 +136,25 @@ Change one or more of the following lengths:
 * `\textfloatsep` — distance between floats on the top or the bottom and the text;
 * \floatsep — distance between two floats;
 * \intextsep — distance between floats inserted inside the page text (using h) and the text proper.
+
+## 参考文献
+
+参考文献的插入主要有两种方式,
+
+1. 第一种是通过JabRef, 在google上下载bibtxt文件, 保存到jabref的库中, 保存为bib文件,通过jabref菜单中的插入winedit进行插入, 在tex文件中写入
+
+   ```
+   \bibliographystyle{elsarticle-num}
+   \bibliography{ref}
+   ```
+
+2. 第二种是直接将参考文献放入tex文件中：
+
+   ```latex
+   \bibliographystyle{named}
+   \begin{thebibliography}{}
+   \bibitem{Password1}
+   Klein D V. Foiling the cracker: A survey of, and improvements to, password security[C]//Proceedings of the 2nd USENIX Security Workshop. 1990: 5-14.
+   ```
+
+   ​
