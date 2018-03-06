@@ -256,6 +256,8 @@ user_message.save()
 在action中填入网页地址
 ```
 
+需要加入CSRF安全机制，
+
 还可以通过页面的表单提交增加新的数据，request的POST属性中，以字典的形式存储了表单中提交的值，可以用python的get方法获取这些值，get的第二个参数为获取不到时候的默认值：
 
 ```python
@@ -290,7 +292,7 @@ def getform(request):
     message = None
     all_message = UserMessage.objects.filter(name='boobytest')
     if all_message:
-    message = all_message[0]
+    	message = all_message[0]
     return render(request, template_name='course-comment.html',context={'message':message,})
 ```
 
@@ -667,6 +669,276 @@ pip install git+git://github.com/sshwsfc/xadmin.git@django2
 import xadmin
 urlpatterns = [url(r'^xadmin/', xadmin.site.urls),]
 ```
+
+在settings.py中注册xadmin和crispy_forms:
+
+```
+INSTALLED_APPS = [
+    'django.contrib.admin',
+.......
+    'xadmin',
+    'crispy_forms',
+]
+```
+
+接下来同步xadmin的表：
+
+```
+> makemigrations
+> migragate
+```
+
+再打开http://127.0.0.1:8000/xadmin就可以访问xadmin的后台管理了
+
+在管理用户信息的时候，会出现错误，这是由于我们用的Django是2.0.1版本，而教程中用到的是1.0+，根据pycharm报错的最后一条，打开widget.py文件，在74行修改如下
+
+```python
+input_html = [ht for ht in super(AdminSplitDateTime, self).render(name, value, attrs).split('/><') if ht != '']
+if (len(input_html) > 1):
+	input_html[0] = input_html[0] + "/>"
+	input_html[1] = "<" + input_html[1]
+```
+
+#### 通过源码安装xadmin
+
+在mxonline下建立一个python package文件夹extra_apps，下载xadmin并解压，拷贝其中的xadmin文件夹到其中，并把extra_apps mark as source root，这样引入xadmin的时候就会从相对文件引入
+
+同时在settings.py中把xadmin文件夹加入根搜索路径
+
+#### 注册邮箱验证码model
+
+注册方法类似于admin的注册方式，只不过不是在admin.py中注册，而是要新建adminx.py，并且admin继承的是object
+
+```python
+import xadmin
+from users.models import EmailVerifyRecord
+
+class EmailVerifyRecordAdmin(object):
+    pass
+
+
+xadmin.site.register(EmailVerifyRecord, EmailVerifyRecordAdmin)  # 注册方法
+```
+
+修改显示的邮件验证码存储记录的str名称：
+
+```python
+class EmailVerifyRecord(models.Model):
+    code = models.CharField(max_length=20, verbose_name='验证码')
+    email = models.EmailField(max_length=50, verbose_name= '邮箱')
+.......
+    def __str__(self):
+        return '{0}({1})'.format(self.code,self.email)
+```
+
+* 注意：所有注册的Model名字都应该为`class Model名+Admin`
+
+#### 添加搜索和显示列
+
+在其中加入list_display（显示列）, search_fields（搜索域）, list_filter（过滤器）
+
+```python
+class LessonAdmin(object):
+    list_display = ['course','name','add_time']
+    search_fields = ['course','name','add_time']
+    list_filter = ['course','name','add_time']
+```
+
+如果要使用外键进行搜索，可以用两个下划线表示
+
+```python
+class LessonAdmin(object):
+    list_filter = ['course__name','name','add_time']
+```
+
+### xadmin全局配置
+
+将全站的配置放在user app的admix.py中，新建一个class BaseSetting，用于配置主题
+
+```python
+from xadmin import views
+
+class BaseSettings:
+    enable_themes = True   #允许使用主题
+    use_bootswatch = True	#允许多主题
+xadmin.site.register(views.BaseAdminView,BaseSettings)
+```
+
+建立一个class GlobalSettings配置标题名称和footer名称
+
+```python
+class GlobalSettings:
+    site_title = '慕学后台管理系统'
+    site_footer = '慕学在线网'
+    menu_style = 'accordion' #折叠model
+xadmin.site.register(views.CommAdminView,GlobalSettings)
+```
+
+#### 更改model名称
+
+在每个model文件夹中的apps.py文件中加入verbose_name
+
+```python
+from django.apps import AppConfig
+
+
+class CoursesConfig(AppConfig):
+    name = 'courses'
+    verbose_name = '课程'
+```
+
+然后在`__init__.py` 中加入default_app_config
+
+```python
+default_app_config = 'courses.apps.CoursesConfig'
+```
+
+### 完成用户的登录功能
+
+首先将前端给的Index.html（首页）文件和login.html（登录页）文件放入templates文件夹中
+
+在根目录下建立static文件夹，存放css，images，js，media文件，并在settings.py中声明`STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]`，注意：这里的STATICFILES_DIRS必须设置为list或者tuple形式，否则会报错
+
+此时，将html文件中的所有css，js的文件路径修改为`/static/css`和`/static/js`
+
+接下来配置url，在url.py中引入TemplateView
+
+```python
+from django.views.generic import TemplateView
+urlpatterns = [
+    url(r'^xadmin/', xadmin.site.urls),
+    url(r'^$',TemplateView.as_view(template_name='index.html'),name='index'),
+    url(r'^login/', TemplateView.as_view(template_name='login.html'), name='login')
+
+]
+```
+
+这样就完成了页面配置，重启项目后就可以访问首页和登录页面
+
+#### 实现使用用户名或者邮箱都可以登录
+
+现在users模块中新建CustomBackend类，继承ModelBackend，重写其中的authenticate函数，用Q函数实现或操作
+
+```python
+from django.contrib.auth.backends import ModelBackend
+from django.db.models import Q
+class CustomBackend(ModelBackend):
+    def authenticate(self, request, username=None, password=None, **kwargs):
+        try:
+            user = UserProfile.objects.get(Q(username=username)|Q(email=username))
+            if user.check_password(password):
+                return user
+        except Exception as e:
+            return None
+```
+
+写自己的login函数login，并将其写到urls.py中
+
+views.py
+
+```python
+def my_login(request):
+    if request.method == 'POST':
+        user_name = request.POST.get('username','')
+        pass_word = request.POST.get('password','')
+        user = authenticate(username=user_name,password=pass_word)
+        if user:
+            login(request, user)
+            return render(request, 'index.html',{'userprofile':user})
+        else:
+            return render(request,'login.html',{'msg':'用户名或密码错误'})
+    elif request.method == 'GET':
+        return render(request, 'login.html', {})
+```
+
+urls.py
+
+```python
+url(r'^login/', my_login, name='login')
+```
+
+在settings.py中加入`AUTHENTICATION_BACKENDS=（'users.views.CustomBackend',）`，将认证后台改为自己写的后台
+
+在点击登陆后，我们需要跳转回首页或者是报告密码错误，此时request被传递到网页中，可以在跳转后显示自己的用户名
+
+```html
+<dd>{ { request.POST.username } }<img class="down fr" src="/static/images/top_down.png"/></dd>
+```
+
+#### 将用户登录改成类的方法
+
+views.py中加入自己的类：
+
+```python
+from django.views.generic import View
+class LoginView(View):
+    def get(self, request):
+        return render(request, 'login.html', {})
+    def post(self, request):
+        user_name = request.POST.get('username','')
+        pass_word = request.POST.get('password','')
+        user = authenticate(username=user_name,password=pass_word)
+        if user:
+            login(request, user)
+            return render(request, 'index.html',{'userprofile':user})
+        else:
+            return render(request,'login.html',{'msg':'用户名或密码错误'})
+```
+
+在urls.py中将loginview注册：
+
+```python
+    url(r'^login/', LoginView.as_view(), name='login')
+```
+
+#### 实现用户名和密码的长度和空检验
+
+在users模块汇总建立forms.py用于检验表单
+
+forms.py
+
+```python
+from django import forms
+
+class LoginForm(forms.Form):
+    username = forms.CharField(required=True)
+    password = forms.CharField(required=True, min_length=5)
+```
+
+在views.py中加入loginform的验证，逻辑是如果有效，则提取表单中的username和password，验证成功后，用login函数登录，返回index页面；如果验证失败，返回登录页显示用户或密码错误；如果检测到form有错误，返回登录页，显示错误类型
+
+```python
+class LoginView(View):
+    def get(self, request):
+        return render(request, 'login.html', {})
+    def post(self, request):
+        login_form = LoginForm(request.POST)    #实例化一个login_form，传入参数为request.POST,自动验证其中的username和password，注意这里名字必须和login.html的form当中的name相同
+        if login_form.is_valid():  #这一步之后可以看到login_form的error类型，存为一个dict类型
+            user_name = request.POST.get('username','')
+            pass_word = request.POST.get('password','')
+            user = authenticate(username=user_name,password=pass_word)
+            if user:
+                login(request, user)
+                return render(request, 'index.html',{'userprofile':user})
+            else:
+                return render(request,'login.html',{'msg':'用户名或密码错误'})
+        else:
+            return render(request,'login.html',{'login_form':login_form})
+```
+
+在login.html中显示错误类型：
+
+```html
+<div class="error btns login-form-tips" id="jsLoginTips">{% for key, error in login_form.errors.items %}
+                    { { error } }
+                    {% endfor %}
+                    { { msg } }</div>
+```
+
+
+
+
+
 
 
 
