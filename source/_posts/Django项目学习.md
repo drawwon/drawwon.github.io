@@ -20,6 +20,8 @@ activate
 
 在linux下只需要将最后一步换位source activate
 
+<!--more-->
+
 ### 建立Django项目
 
 在PyCharm建立程序时，直接选择Django程序，选择解释器为virtualenv建立的django环境，即可建立django项目

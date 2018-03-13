@@ -13,6 +13,8 @@ category: [python,编程练习,数据分析]
 4. 基本的数据清理
 5. 假设测验
 
+<!--more-->
+
 首先导入过程中需要用到的python库
 ```python
 import pandas as pd
@@ -244,35 +246,276 @@ plt.show()
 
 ### 售价和相关变量之间的散点图
 
+```python
+#画出所有与售价相关的10个因素之间的关系图pairplot
+k = 10
+cols = train.corr().nlargest(10, 'SalePrice').index.values
+sns.pairplot(train[cols],size=2.5)
+plt.show()
+```
+
 ![](http://ooi9t4tvk.bkt.clouddn.com/18-3-12/86254176.jpg)
 
+大量的散点图给了我们一个变量之间关系的合理解释
+
+## 缺失数据的处理
+
+在处理缺失数据之前不妨问一下以下两个问题：
+
+* 缺失数据的比例有多大
+* 缺失数据是随机的吗还是说缺失数据有一定的模式
+
+这两个问题非常重要，因为缺失数据可能就意味着训练数据的减少，对我们的分析不利。
+
+先来找到缺失的数据：
+
+```python
+#isnumll()函数将返回与原dataframe同样形状的dataframe，不过原来为空的地方标为1，原来不为空的地方标0
+total = train.isnull().sum().sort_values(ascending=False)
+miss_percent = (train.isnull().sum()/train.isnull().count()).sort_values(ascending=False)
+miss_data = pd.concat([total,miss_percent],axis=1,keys=['total','percent'])
+print(miss_data.head())  
+```
 
 
+得到如下的结果
+|              | total | percent  |
+| ------------ | ----- | -------- |
+| PoolQC       | 1453  | 0.995205 |
+| MiscFeature  | 1406  | 0.963014 |
+| Alley        | 1369  | 0.937671 |
+| Fence        | 1179  | 0.807534 |
+| FireplaceQu  | 690   | 0.472603 |
+| LotFrontage  | 259   | 0.177397 |
+| GarageCond   | 81    | 0.055479 |
+| GarageType   | 81    | 0.055479 |
+| GarageYrBlt  | 81    | 0.055479 |
+| GarageFinish | 81    | 0.055479 |
+| GarageQual   | 81    | 0.055479 |
+| BsmtExposure | 38    | 0.026027 |
+| BsmtFinType2 | 38    | 0.026027 |
+| BsmtFinType1 | 37    | 0.025342 |
+| BsmtCond     | 37    | 0.025342 |
+| BsmtQual     | 37    | 0.025342 |
+| MasVnrArea   | 8     | 0.005479 |
+| MasVnrType   | 8     | 0.005479 |
+| Electrical   | 1     | 0.000685 |
+| Utilities    | 0     | 0        |
 
+看一看到缺失最多的达到了99.5%，我们现在制定一个原则，当数据缺失超过15%的时候，我们就把这个变量删掉
 
+同样，虽然Garage相关的数据只缺失5%，但是“GarageCars”已经可以表示车库相关的问题，我们把garage相关的信息删掉，同样BsmtX相关的变量也删掉
 
+最后，我们的删除方案是，除了只有一个缺失值的Electrical列删除缺失值所在行，别的都删除所在列
 
+```python
+train = train.drop((miss_data[miss_data['total'] > 1]).index,1)
+train = train.drop(train.loc[train['Electrical'].isnull()].index,0)
+print(train.isnull().sum().max())
+```
 
+## 异常值处理
 
+异常值会对模型产生很大的影响，因此需要格外注意
 
+### 单变量分析
 
+这里最主要的问题就是建立一个阈值去筛选出异常值，因此我们需要对数据进行标准化。意味着将数据值变化到均值为0，标准差为1的数据
 
+```python
+# 标准化数据
+from sklearn.preprocessing import StandardScaler
+saleprice_scaled = StandardScaler().fit_transform(train['SalePrice'].values)
+```
 
+找到标准化之后数据的最大最小的10个值
+```python
+lowrange = np.sort(saleprice_scaled)[:10]
+highrange = np.sort(saleprice_scaled)[-10:]
+print('lowrange 10 values',lowrange)
+print('highrange 10 values',highrange)
+```
 
+得到结果
 
+```python
+[-1.83820775 -1.83303414 -1.80044422 -1.78282123 -1.77400974 -1.62295562
+ -1.6166617  -1.58519209 -1.58519209 -1.57269236]
+[ 3.82758058  4.0395221   4.49473628  4.70872962  4.728631    5.06034585
+  5.42191907  5.58987866  7.10041987  7.22629831]
+```
 
+可以看到，最小值都比较相近且接近0，最大值相差比较大，且远离0，特别是有几个7点几的几乎可以肯定是异常值
 
+## 二元变量分析
 
+我们画出地面居住面积和房价的散点图
 
+```python
+# 二元分析房价与地上居住面积
+var = 'GrLivArea'
+data = pd.concat([df_train['SalePrice'], df_train[var]], axis=1)
+data.plot.scatter(x=var, y='SalePrice', ylim=(0,800000));
+```
 
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/17899296.jpg)
 
+* 有两个面积很大但是价格很低的点，我们可以推断他们对我们的分析意义不大，可能是偏远农村的房子。我们认为这两个点是异常值并删除他们。
+* 最高处的两个点，应该就是我们在标准化数据的时候得到的7点几的两个点，然而他们两个点好像符合这个线性关系，我们暂时决定保留他们。
 
+我们先删除两个异常值
 
+```python
+# 删除异常值
+print('删除之前的矩阵：',train.shape)
+train = train.drop(train[(train['SalePrice']<300000) & (train['GrLivArea']>4000)].index)
+print('删除之后的矩阵：',train.shape)
+```
 
+得到：
 
+```
+删除之前的矩阵：(1459, 63)
+删除之后的矩阵：(1457, 63)
+```
 
+接下来进行售价和总地下室面积的二元分析
 
+```python
+var = 'TotalBsmtSF'
+data = pd.concat([train['SalePrice'],train[var]],1)
+data.plot.scatter(x=var,y='SalePrice')
+plt.show()
+```
 
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/319136.jpg)
+
+我们可能很想要删除那几个居住面积大于3000的值，但是在这里我们先保留他们
+
+## 得到模型
+
+我们已经完成了数据清理，现在需要对售价的模型提出假设：
+
+根据论文Hair et al. (2013)中提到，我们需要对数据进行四类假设：
+
+* 正态性：说到正态性就是说数据长得比较像正态分布，这非常重要，因为好几种统计测试方法都依赖于这个（比如t-statistics)。在这个问题中我们只是检查售价这个单变量的正态性，记住：单变量的正态性并不意味着多变量的正态性，还有，在样本超过200的时候，正态性并不是个问题。如果我们解决了正态性，那么就避免了很多别的问题，比如heteroscedacity（异方差），这个就是我们为什么要做这个分析的原因，
+* 同方差性：所有自变量的方差相同
+* 线性：最好的检查现行的方法就是画散点图，看看上面有没有直线。
+* 相关误差的缺乏：相关误差是在一个误差发生的时候，与其相关联的值也会发生误差。
+
+### 寻找正态性
+
+我们之前已经看了房屋售价的histgram的图，找到了峰度和偏态。
+
+那么我们再画一个正态概率图，用来找到我们的histgram和正态分布的区别
+
+```python
+sns.distplot(train.loc[:,'SalePrice'], fit=norm)
+fig = plt.figure()
+res = stats.probplot(train['SalePrice'], plot=plt)
+plt.show()
+```
+
+得到下面两张图
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/40543531.jpg)
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/27227032.jpg)
+
+显然，售价并不是正态分布，他有一个尖峰，并且正的偏度。然而我们可以通过一个简单的变换把这些数据变成正态的，在统计学中可以知道，当数据分布是有正的偏度的时候，log变换非常有效。
+
+进行log变换
+
+```python
+train['SalePrice'] = np.log(train['SalePrice'])
+```
+
+变换之后的数据
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/85975518.jpg)
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/6789786.jpg)
+
+同样，我们对GrLivArea进行一个log变换
+
+```python
+train['GrLivArea'] = np.log(train['GrLivArea'])
+#正态概率图
+sns.distplot(train.loc[:,'GrLivArea'], fit=norm)
+fig = plt.figure()
+res = stats.probplot(train['GrLivArea'], plot=plt)
+plt.show()
+```
+
+得到变换之后的图形如下：
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/68294229.jpg)
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/30007186.jpg)
+
+我们再来看看TotalBsmtSF本来的数据长什么样子：
+
+```python
+sns.distplot(train['TotalBsmtSF'], fit=norm)
+fig = plt.figure()
+res = stats.probplot(train['TotalBsmtSF'], plot=plt)
+plt.show()
+```
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/52896292.jpg)
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/19573516.jpg)
+
+* 我们可以看到好多值都是0，这样我们就不能用log变换了
+* 我们在做log变换之前需要把所有为0的值变为1，这样变换之后，值还是0
+
+```python
+print('等于0平的地下室',train[train['TotalBsmtSF'] == 0]['TotalBsmtSF'].shape)
+print(train.loc[train['TotalBsmtSF']>0,'TotalBsmtSF'].shape)
+train.loc[train['TotalBsmtSF']>0,'TotalBsmtSF'] = np.log(train.loc[train['TotalBsmtSF']>0,'TotalBsmtSF'])
+print(train['TotalBsmtSF'].head())
+#正态概率图
+sns.distplot(train[train['TotalBsmtSF']>0]['TotalBsmtSF'], fit=norm)
+fig = plt.figure()
+res = stats.probplot(train[train['TotalBsmtSF']>0]['TotalBsmtSF'], plot=plt)
+plt.show()
+```
+
+我们只画出为正的那部分的地下室的变化之后的分布，也服从正态分布
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/60859543.jpg)
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/50279551.jpg)
+
+### 验证同方差性
+
+最好的验证同方差性的办法就是图形。
+
+先看看‘SalePrice' and 'GrLivArea'的分布
+
+```python
+plt.scatter(df_train['GrLivArea'], df_train['SalePrice'])
+```
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/76915160.jpg)
+
+对比log变化之前的图形，可以看到这个图没有之前那种锥形的样子了，这就是正态性的效果，确保了正态性往往就确保了同方差性
+
+再看看'SalePrice' with 'TotalBsmtSF'.
+
+```python
+plt.scatter(train[train['TotalBsmtSF']>0]['TotalBsmtSF'], train[train['TotalBsmtSF']>0]['SalePrice']);
+```
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/11730894.jpg)
+
+## 哑变量
+
+```python
+df_train = pd.get_dummies(df_train)
+```
+
+一句话就可以推出哑变量
 
 
 
