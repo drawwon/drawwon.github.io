@@ -706,9 +706,9 @@ score = rmsle_cv(stacked_averaged_models)
 print("Stacking Averaged models score: {:.4f} ({:.4f})".format(score.mean(), score.std()))
 ```
 
+最终成绩
 
-
-
+![](http://ooi9t4tvk.bkt.clouddn.com/18-3-17/14861405.jpg)
 
 
 
