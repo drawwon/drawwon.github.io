@@ -1,7 +1,9 @@
+---
 title: Coursera deeplearning.ai (一)
 date: 2018-03-15 21:23:58
 tags: [deeplearning,机器学习,深度学习]
 category: [机器学习]
+---
 
 Coursera上面关于deeplearning.ai的课程一共有五门，在申请助学金之后都可以免费参与，这篇博文主要讲的是关于deeplearning.ai的第一门课程的
 
