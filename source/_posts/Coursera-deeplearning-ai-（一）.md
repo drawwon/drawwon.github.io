@@ -136,7 +136,7 @@ $\frac{da}{dz}=(\frac{1}{1+e^{-z}})'=\frac{e^{-z}}{(1+e^{-z})^2}=\frac{1+e^{-z}-
 
 ![](http://ooi9t4tvk.bkt.clouddn.com/18-3-21/26767201.jpg)
 
-## week 3
+## Week 3
 
 神经网络的定义，我们可以从前两周学的逻辑回归来进入，给定x，w，b，可以算出z，由z可以算出a，由a算出损失函数，
 
