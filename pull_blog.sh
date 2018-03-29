@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/jeffrey/codes/blog
-git pull origin source
-echo "pull done!"
-
+git add .
+git commit -m "update"
+git push origin source
+hexo d -g
