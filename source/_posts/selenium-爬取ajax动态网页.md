@@ -85,7 +85,7 @@ while True:
         break
 ```
 
-进入搜索结果之后需要点击下一页，直到最后一页，此时用到的方法就是通过看next button上面的class，知道class变成disable就可以停止了，用正则表达式，正则表达式搜不到的时候返回是None，但是好像返回的是字符串类型的None，判断是应该是 while re.search(xxx) is None
+进入搜索结果之后需要点击下一页，直到最后一页，此时用到的方法就是通过看next button上面的class，直到class变成disable就可以停止了，用正则表达式，正则表达式搜不到的时候返回是None，但是好像返回的是字符串类型的None，判断是应该是 while re.search(xxx) is None
 
 ```python
 def click_next_page():
