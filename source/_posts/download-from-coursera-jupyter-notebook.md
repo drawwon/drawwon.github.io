@@ -8,6 +8,8 @@ category:[python]
 
 为了从coursera上面下载写过的jupyter notebook，可以在根目录下新建一个notebook，执行以下代码，然后生成一个currdir.tar的文件，下载这个文件即可
 
+<!--more-->
+
 
 ```python
 import os

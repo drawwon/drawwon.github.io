@@ -9,6 +9,8 @@ category: [编程练习,python]
 
 初始化webdriver，用chrome进行爬取，此时需要下载chrome的驱动，[下载地址](http://chromedriver.storage.googleapis.com/index.html)
 
+<!--more-->
+
 ```python
 url1 = 'https://isisn.nsfc.gov.cn/egrantindex/funcindex/prjsearch-list'
 from selenium.webdriver.support.ui import WebDriverWait
