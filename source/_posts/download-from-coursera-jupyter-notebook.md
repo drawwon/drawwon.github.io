@@ -1,8 +1,8 @@
 ---
-title: download from coursera jupyter notebook
+title: download-from-coursera-jupyter-notebook
 date: 2018-05-02 20:59:22
-tags:[coursera]
-category:[python]
+tags: [coursera]
+category: [python]
 
 ---
 
