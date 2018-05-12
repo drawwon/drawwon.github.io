@@ -403,7 +403,7 @@ $\alpha>\rm{momentum当中的}\beta=mini-batch\ size=隐藏单元数量>网络�
 
 在训练阶段，我们每次可以用一次批量的值计算均值和方差，但是在测试阶段，我们每次输入的只有一个值，这时候我们进行batch norm的均值和方差从哪里来呢？
 
-解决办法就是，记录下训练数据的均值和方差，在测试阶段使用
+解决办法就是，记录下训练数据的均值和方差，然后对各个mini-batch norm的均值和方差做指数权重平均，在测试阶段使用
 
 ## 多分类
 
@@ -448,6 +448,100 @@ softmax的loss一般取为：$L(\hat{y},y)=-\sum_{j=1}^Cy_j\log \hat{y}_j$
 当i!=j时，$\partial J/\partial z=-a_i$
 
 在使用深度学习框架的时候，比如TensorFlow和caffe，我们只需要规划好前向传播的过程，反向传播的过程框架会自动帮你完成
+
+## 深度学习框架的介绍
+
+目前主流的深度学习框架和选择标准如下：
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-4/69914394.jpg)
+
+### TensorFlow简介
+
+引入TensorFlow，通过`import tensorflow as tf`
+
+w设置为tf当中的变量，用`tf.Variable(initial_value=0,dtype=tf.float32)`表示
+
+x是输入值，一开始不知道是多少，只表示dtype和shape，用`tf.placeholder(dtype=tf.float32,shape=[3,1])`表示
+
+表示cost函数，因为tf已经重载了加减乘除的形式，所以可以直接用加减乘除表示，也可以用`tf.add`之类的表示，矩阵乘法的表示是`tf.matmul()`
+
+之后表示train的方法和目标：我们这里用梯度下降，最小化cost`train = tf.train.GradientDescentOptimizer(0.01).minimize(cost)`，如果要用别的优化方法，只需要将`GradientDescentOptimizer`替换为别的函数就好了，括号里面的参数是learning-rate
+
+然后初始化变量值，`init = tf.global_variables_initializer()`
+
+定义一个session，用session来run一下init，再run一下w，看看w的值，最后迭代run(train)
+
+也可以用如下形式定义session
+
+```python
+with tf.Session() as session:
+	session.run(init)
+    session.run(w)
+```
+
+placeholder的值可以用feed_dict传入
+
+```python
+sess = tf.Session()
+x = tf.placeholder(tf.int64, name = 'x')
+print(sess.run(2 * x, feed_dict = {x: 3}))
+sess.close()
+```
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-4/92497288.jpg)
+
+写TensorFlow的代码过程大致如下：
+
+1. 建立未执行的tensor变量
+2. 写tensor之间的运算
+3. 初始化tensor
+4. 建立session
+5. 运行session，将会运行你简历里的运算
+
+所有的运算都要run之后才能执行，如果你直接print运算的话，只会得到一个tensor，也就是计算图
+
+因此，请注意初始化变量，建立session并run operation
+
+#### 损失计算
+
+计算形如：
+
+$$ J = - \frac{1}{m}  \sum_{i = 1}^m  \large ( \small y^{(i)} \log a^{ [2] (i)} + (1-y^{(i)})\log (1-a^{ [2] (i)} )\large )\small$$
+
+这样的损失的时候，可以使用tf内置的`tf.nn.sigmoid_cross_entropy_with_logits`函数实现
+
+#### one_hot encoding
+
+one_hot：只有一个值为1，别的值都为0的vector，用`tf.one_hot`实现，参数`indices`表示需要转换的向量, `depth`表示一共多少个类， `on_value=None`表示符合类的值为多少, `off_value=None`表示不符合类的值是多少, `axis`为0表示每个indices放一行，-1表示每个indices放一列
+
+#### 实现TensorFlow model的步骤
+
+1. 建立一个计算图
+2. run这个计算图
+
+### 初始化参数的方法
+
+W用Xavier初始化，b用zero初始化
+
+```python
+W1 = tf.get_variable("W1", [25,12288], initializer = tf.contrib.layers.xavier_initializer()）
+b1 = tf.get_variable("b1", [25,1], initializer = tf.zeros_initializer())
+```
+
+### 反向传播的方法
+
+```python
+#For instance, for gradient descent the optimizer would be:
+optimizer = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimize(cost)
+#To make the optimization you would do:
+_ , c = sess.run([optimizer, cost], feed_dict={X: minibatch_X, Y: minibatch_Y})
+```
+
+
+
+
+
+
 
 
 
