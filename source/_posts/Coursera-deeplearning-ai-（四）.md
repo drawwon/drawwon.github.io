@@ -184,7 +184,11 @@ pooling layer最常用的就是max pooling，就是用一个filter去移动，�
 
 这周的编程作业就是利用TensorFlow搭建卷积神经网络，那么我们对程序回顾一下
 
+#### read data
+
 先看看数据读入的程序
+
+数据是存在f5文件中的，用h5py进行读取，然后通过key访问，查看key的方法是list(data.keys())，然后访问某个key下的所有数据的方法是`data['key'][:]`，如果不加最后的`[:]`，那么你取到的是一个h5对象，然后将y reshape成一个行向量
 
 ```python
 def load_dataset():
@@ -204,105 +208,45 @@ def load_dataset():
     return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
 ```
 
+#### one_hot transfer
 
-
-
-
-# Convolutional Neural Networks: Application
-
-Welcome to Course 4's second assignment! In this notebook, you will:
-
-- Implement helper functions that you will use when implementing a TensorFlow model
-- Implement a fully functioning ConvNet using TensorFlow 
-
-**After this assignment you will be able to:**
-
-- Build and train a ConvNet in TensorFlow for a classification problem 
-
-We assume here that you are already familiar with TensorFlow. If you are not, please refer the *TensorFlow Tutorial* of the third week of Course 2 ("*Improving deep neural networks*").
-
-## 1.0 - TensorFlow model
-
-In the previous assignment, you built helper functions using numpy to understand the mechanics behind convolutional neural networks. Most practical applications of deep learning today are built using programming frameworks, which have many built-in functions you can simply call. 
-
-As usual, we will start by loading in the packages. 
+接下来是一个one_hot y label 的转换
 
 ```python
-import math
-import numpy as np
-import h5py
-import matplotlib.pyplot as plt
-import scipy
-from PIL import Image
-from scipy import ndimage
-import tensorflow as tf
-from tensorflow.python.framework import ops
-from cnn_utils import *
-
-%matplotlib inline
-np.random.seed(1)
+def convert_to_one_hot(Y, C):
+    Y = np.eye(C)[Y.reshape(-1)].T
+    return Y
 ```
 
-Run the next cell to load the "SIGNS" dataset you are going to use.
+np.eye后面跟一个array，就可以制造一个多行的one_hot值
 
 ```python
-# Loading the data (signs)
-X_train_orig, Y_train_orig, X_test_orig, Y_test_orig, classes = load_dataset()
+np.eye(6)[np.array([1,2,1,1,1,1])]
+#array([[0., 1., 0., 0., 0., 0.],
+#       [0., 0., 1., 0., 0., 0.],
+#       [0., 1., 0., 0., 0., 0.],
+#       [0., 1., 0., 0., 0., 0.],
+#       [0., 1., 0., 0., 0., 0.],
+#       [0., 1., 0., 0., 0., 0.]])
 ```
 
-As a reminder, the SIGNS dataset is a collection of 6 signs representing numbers from 0 to 5.
-
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/49434886.jpg)
-
-The next cell will show you an example of a labelled image in the dataset. Feel free to change the value of `index` below and re-run to see different examples. 
+当然你也可以用tf.one_hot函数来实现
 
 ```python
-# Example of a picture
-index = 6
-plt.imshow(X_train_orig[index])
-print ("y = " + str(np.squeeze(Y_train_orig[:, index])))
+indices = [1,2,3]
+depth = 3
+one = tf.one_hot(indices, depth)
+with tf.Session() as sess:
+    print(sess.run(one))
+#[[1. 0. 0.]
+ #[0. 1. 0.]
+ #[0. 0. 1.]]
 ```
 
-```
-y = 2
-```
-
-In Course 2, you had built a fully-connected network for this dataset. But since this is an image dataset, it is more natural to apply a ConvNet to it.
-
-To get started, let's examine the shapes of your data. 
-
-```python
-X_train = X_train_orig/255.
-X_test = X_test_orig/255.
-Y_train = convert_to_one_hot(Y_train_orig, 6).T
-Y_test = convert_to_one_hot(Y_test_orig, 6).T
-print ("number of training examples = " + str(X_train.shape[0]))
-print ("number of test examples = " + str(X_test.shape[0]))
-print ("X_train shape: " + str(X_train.shape))
-print ("Y_train shape: " + str(Y_train.shape))
-print ("X_test shape: " + str(X_test.shape))
-print ("Y_test shape: " + str(Y_test.shape))
-conv_layers = {}
-```
-
-```
-number of training examples = 1080
-number of test examples = 120
-X_train shape: (1080, 64, 64, 3)
-Y_train shape: (1080, 6)
-X_test shape: (120, 64, 64, 3)
-Y_test shape: (120, 6)
-```
-
-### 1.1 - Create placeholders
-
-TensorFlow requires that you create placeholders for the input data that will be fed into the model when running the session.
-
-**Exercise**: Implement the function below to create placeholders for the input image X and the output Y. You should not define the number of training examples for the moment. To do so, you could use "None" as the batch size, it will give you the flexibility to choose it later. Hence X should be of dimension **[None, n_H0, n_W0, n_C0]** and Y should be of dimension **[None, n_y]**.  [Hint](https://www.tensorflow.org/api_docs/python/tf/placeholder).
+#### Create Placeholder
 
 ```python
 # GRADED FUNCTION: create_placeholders
-
 def create_placeholders(n_H0, n_W0, n_C0, n_y):
     """
     Creates the placeholders for the tensorflow session.
@@ -326,51 +270,11 @@ def create_placeholders(n_H0, n_W0, n_C0, n_y):
     return X, Y
 ```
 
-```python
-X, Y = create_placeholders(64, 64, 3, 6)
-print ("X = " + str(X))
-print ("Y = " + str(Y))
-```
+tf.placeholder是建立占位符
 
-```
-X = Tensor("Placeholder:0", shape=(?, 64, 64, 3), dtype=float32)
-Y = Tensor("Placeholder_1:0", shape=(?, 6), dtype=float32)
-```
+None是因为不确定每次输入多少张图片，然后X的维度是height，width，n_c0，y的维度是n_y
 
-**Expected Output**
-
-<table> 
-<tr>
-<td>
-
-```
-X = Tensor("Placeholder:0", shape=(?, 64, 64, 3), dtype=float32)
-```
-
-</td>
-</tr>
-<tr>
-<td>
-
-```
-Y = Tensor("Placeholder_1:0", shape=(?, 6), dtype=float32)
-```
-
-</td>
-</tr>
-</table>
-
-### 1.2 - Initialize parameters
-
-You will initialize weights/filters $W1$ and $W2$ using `tf.contrib.layers.xavier_initializer(seed = 0)`. You don't need to worry about bias variables as you will soon see that TensorFlow functions take care of the bias. Note also that you will only initialize the weights/filters for the conv2d functions. TensorFlow initializes the layers for the fully connected part automatically. We will talk more about that later in this assignment.
-
-**Exercise:** Implement initialize_parameters(). The dimensions for each group of filters are provided below. Reminder - to initialize a parameter $W$ of shape [1,2,3,4] in Tensorflow, use:
-
-```python
-W = tf.get_variable("W", [1,2,3,4], initializer = ...)
-```
-
-[More Info](https://www.tensorflow.org/api_docs/python/tf/get_variable).
+#### initialize_parameters
 
 ```python
 # GRADED FUNCTION: initialize_parameters
@@ -396,90 +300,21 @@ def initialize_parameters():
     
     return parameters
 ```
+tf.get_variable 用于建立变量，第一维的参数是f=4,个数是8个；第二维的参数是f=2，个数是16个
 
-```python
-tf.reset_default_graph()
-with tf.Session() as sess_test:
-    parameters = initialize_parameters()
-    init = tf.global_variables_initializer()
-    sess_test.run(init)
-    print("W1 = " + str(parameters["W1"].eval()[1,1,1]))
-    print("W2 = " + str(parameters["W2"].eval()[1,1,1]))
-```
+#### Forward propagation
 
-```
-W1 = [ 0.00131723  0.14176141 -0.04434952  0.09197326  0.14984085 -0.03514394
- -0.06847463  0.05245192]
-W2 = [-0.08566415  0.17750949  0.11974221  0.16773748 -0.0830943  -0.08058
- -0.00577033 -0.14643836  0.24162132 -0.05857408 -0.19055021  0.1345228
- -0.22779644 -0.1601823  -0.16117483 -0.10286498]
-```
+我们这里输入parameter和X，网络的结构如下
 
-** Expected Output:**
+`CONV2D -> RELU -> MAXPOOL -> CONV2D -> RELU -> MAXPOOL -> FLATTEN -> FULLYCONNECTED` 
 
-<table> 
+用`tf.nn.conv2d(X,W1,strides=[1, 1, 1, 1],padding='SAME')`进行卷积，输入A和W，步长的输入方式是[batch,s,s,depth]，batch表示每次跳过多少张图片，depth表示跳过多少通道；padding的方法是'SAME'
 
-```
-<tr>
-    <td>
-    W1 = 
-    </td>
-    <td>
-```
+每个conv2d的输出是Z，relu之后是A，maxpool之后是P
 
-[ 0.00131723  0.14176141 -0.04434952  0.09197326  0.14984085 -0.03514394 <br>
- -0.06847463  0.05245192]
+把图片flatten到一维， `P2 = tf.contrib.layers.flatten(P2)`
 
-```
-    </td>
-</tr>
-
-<tr>
-    <td>
-    W2 = 
-    </td>
-    <td>
-```
-
-[-0.08566415  0.17750949  0.11974221  0.16773748 -0.0830943  -0.08058 <br>
- -0.00577033 -0.14643836  0.24162132 -0.05857408 -0.19055021  0.1345228 <br>
- -0.22779644 -0.1601823  -0.16117483 -0.10286498]
-
-```
-    </td>
-</tr>
-```
-
-</table>
-
-### 1.2 - Forward propagation
-
-In TensorFlow, there are built-in functions that carry out the convolution steps for you.
-
-- **tf.nn.conv2d(X,W1, strides = [1,s,s,1], padding = 'SAME'):** given an input $X$ and a group of filters $W1$, this function convolves $W1$'s filters on X. The third input ([1,f,f,1]) represents the strides for each dimension of the input (m, n_H_prev, n_W_prev, n_C_prev). You can read the full documentation [here](https://www.tensorflow.org/api_docs/python/tf/nn/conv2d)
-- **tf.nn.max_pool(A, ksize = [1,f,f,1], strides = [1,s,s,1], padding = 'SAME'):** given an input A, this function uses a window of size (f, f) and strides of size (s, s) to carry out max pooling over each window. You can read the full documentation [here](https://www.tensorflow.org/api_docs/python/tf/nn/max_pool)
-- **tf.nn.relu(Z1):** computes the elementwise ReLU of Z1 (which can be any shape). You can read the full documentation [here.](https://www.tensorflow.org/api_docs/python/tf/nn/relu)
-- **tf.contrib.layers.flatten(P)**: given an input P, this function flattens each example into a 1D vector it while maintaining the batch-size. It returns a flattened tensor with shape [batch_size, k]. You can read the full documentation [here.](https://www.tensorflow.org/api_docs/python/tf/contrib/layers/flatten)
-- **tf.contrib.layers.fully_connected(F, num_outputs):** given a the flattened input F, it returns the output computed using a fully connected layer. You can read the full documentation [here.](https://www.tensorflow.org/api_docs/python/tf/contrib/layers/fully_connected)
-
-In the last function above (`tf.contrib.layers.fully_connected`), the fully connected layer automatically initializes weights in the graph and keeps on training them as you train the model. Hence, you did not need to initialize those weights when initializing the parameters. 
-
-**Exercise**: 
-
-Implement the `forward_propagation` function below to build the following model: `CONV2D -> RELU -> MAXPOOL -> CONV2D -> RELU -> MAXPOOL -> FLATTEN -> FULLYCONNECTED`. You should use the functions above. 
-
-In detail, we will use the following parameters for all the steps:
-
-```
- - Conv2D: stride 1, padding is "SAME"
- - ReLU
- - Max pool: Use an 8 by 8 filter size and an 8 by 8 stride, padding is "SAME"
- - Conv2D: stride 1, padding is "SAME"
- - ReLU
- - Max pool: Use a 4 by 4 filter size and a 4 by 4 stride, padding is "SAME"
- - Flatten the previous output.
- - FULLYCONNECTED (FC) layer: Apply a fully connected layer without an non-linear activation function. Do not call the softmax here. This will result in 6 neurons in the output layer, which then get passed later to a softmax. In TensorFlow, the softmax and cost function are lumped together into a single function, which you'll call in a different function when computing the cost. 
-```
+`tf.contrib.layers.fully_connected(P2, num_outputs=6, activation_fn=None)`表示全连接层，不用activation_fn是因为最终计算cost的时候会自动用到softmax函数
 
 ```python
 # GRADED FUNCTION: forward_propagation
@@ -525,53 +360,9 @@ def forward_propagation(X, parameters):
     return Z3
 ```
 
-```python
-tf.reset_default_graph()
+#### 计算代价
 
-with tf.Session() as sess:
-    np.random.seed(1)
-    X, Y = create_placeholders(64, 64, 3, 6)
-    parameters = initialize_parameters()
-    Z3 = forward_propagation(X, parameters)
-    init = tf.global_variables_initializer()
-    sess.run(init)
-    a = sess.run(Z3, {X: np.random.randn(2,64,64,3), Y: np.random.randn(2,6)})
-    print("Z3 = " + str(a))
-```
-
-```
-Z3 = [[-0.44670227 -1.57208765 -1.53049231 -2.31013036 -1.29104376  0.46852064]
- [-0.17601591 -1.57972014 -1.4737016  -2.61672091 -1.00810647  0.5747785 ]]
-```
-
-**Expected Output**:
-
-<table> 
-
-```
-<td> 
-Z3 =
-</td>
-<td>
-[[-0.44670227 -1.57208765 -1.53049231 -2.31013036 -1.29104376  0.46852064] <br>
-```
-
- [-0.17601591 -1.57972014 -1.4737016  -2.61672091 -1.00810647  0.5747785 ]]
-
-```
-</td>
-```
-
-</table>
-
-### 1.3 - Compute cost
-
-Implement the compute cost function below. You might find these two functions helpful: 
-
-- **tf.nn.softmax_cross_entropy_with_logits(logits = Z3, labels = Y):** computes the softmax entropy loss. This function both computes the softmax activation function as well as the resulting loss. You can check the full documentation  [here.](https://www.tensorflow.org/api_docs/python/tf/nn/softmax_cross_entropy_with_logits)
-- **tf.reduce_mean:** computes the mean of elements across dimensions of a tensor. Use this to sum the losses over all the examples to get the overall cost. You can check the full documentation [here.](https://www.tensorflow.org/api_docs/python/tf/reduce_mean)
-
-** Exercise**: Compute the cost below using the function above.
+`tf.nn.softmax_cross_entropy_with_logits(logits = Z3, labels = Y)`，logists表示输出，label表示真正的标签
 
 ```python
 # GRADED FUNCTION: compute_cost 
@@ -595,60 +386,98 @@ def compute_cost(Z3, Y):
     return cost
 ```
 
+#### 建立model
+
+先获取shape，然后定义placeholder
+
 ```python
-tf.reset_default_graph()
+(m, n_H0, n_W0, n_C0) = X_train.shape             
+n_y = Y_train.shape[1]
+costs = []                                        # To keep track of the cost
 
-with tf.Session() as sess:
-    np.random.seed(1)
-    X, Y = create_placeholders(64, 64, 3, 6)
-    parameters = initialize_parameters()
-    Z3 = forward_propagation(X, parameters)
-    cost = compute_cost(Z3, Y)
-    init = tf.global_variables_initializer()
-    sess.run(init)
-    a = sess.run(cost, {X: np.random.randn(4,64,64,3), Y: np.random.randn(4,6)})
-    print("cost = " + str(a))
+# Create Placeholders of the correct shape
+X, Y = create_placeholders(n_H0,n_W0,n_C0,n_y)
 ```
 
-```
-cost = 2.91034
-```
+然后定义参数w1，w2
 
-
-
-**Expected Output**: 
-
-<table>
-
-```
-<td> 
-cost =
-</td> 
-
-<td> 
-2.91034
-</td> 
+```python
+parameters = initialize_parameters()
 ```
 
-</table>
+然后进行前向传播
 
-## 1.4 Model
+```python
+Z3 = forward_propagation(X,parameters)
+```
 
-Finally you will merge the helper functions you implemented above to build a model. You will train it on the SIGNS dataset. 
+然后计算cost
 
-You have implemented `random_mini_batches()` in the Optimization programming assignment of course 2. Remember that this function returns a list of mini-batches. 
+```python
+Z3 = forward_propagation(X,parameters)
+```
 
-**Exercise**: Complete the function below. 
+设置optimizer
 
-The model below should:
+```python
+optimizer = tf.train.AdamOptimizer().minimize(cost)
+```
 
-- create placeholders
-- initialize parameters
-- forward propagate
-- compute the cost
-- create an optimizer
+进行参数初始化
 
-Finally you will create a session and run a for loop  for num_epochs, get the mini-batches, and then for each mini-batch you will optimize the function. [Hint for initializing the variables](https://www.tensorflow.org/api_docs/python/tf/global_variables_initializer)
+```python
+init = tf.global_variables_initializer()
+```
+
+然后开始循环epochs，其中的minibatch的取法如下：
+
+```python
+def random_mini_batches(X, Y, mini_batch_size = 64, seed = 0):
+    """
+    Creates a list of random minibatches from (X, Y)
+    
+    Arguments:
+    X -- input data, of shape (input size, number of examples) (m, Hi, Wi, Ci)
+    Y -- true "label" vector (containing 0 if cat, 1 if non-cat), of shape (1, number of examples) (m, n_y)
+    mini_batch_size - size of the mini-batches, integer
+    seed -- this is only for the purpose of grading, so that you're "random minibatches are the same as ours.
+    
+    Returns:
+    mini_batches -- list of synchronous (mini_batch_X, mini_batch_Y)
+    """
+    
+    m = X.shape[0]                  # number of training examples
+    mini_batches = []
+    np.random.seed(seed)
+    
+    # Step 1: Shuffle (X, Y)
+    permutation = list(np.random.permutation(m))
+    shuffled_X = X[permutation,:,:,:]
+    shuffled_Y = Y[permutation,:]
+
+    # Step 2: Partition (shuffled_X, shuffled_Y). Minus the end case.
+    num_complete_minibatches = math.floor(m/mini_batch_size) # number of mini batches of size mini_batch_size in your partitionning
+    for k in range(0, num_complete_minibatches):
+        mini_batch_X = shuffled_X[k * mini_batch_size : k * mini_batch_size + mini_batch_size,:,:,:]
+        mini_batch_Y = shuffled_Y[k * mini_batch_size : k * mini_batch_size + mini_batch_size,:]
+        mini_batch = (mini_batch_X, mini_batch_Y)
+        mini_batches.append(mini_batch)
+    
+    # Handling the end case (last mini-batch < mini_batch_size)
+    if m % mini_batch_size != 0:
+        mini_batch_X = shuffled_X[num_complete_minibatches * mini_batch_size : m,:,:,:]
+        mini_batch_Y = shuffled_Y[num_complete_minibatches * mini_batch_size : m,:]
+        mini_batch = (mini_batch_X, mini_batch_Y)
+        mini_batches.append(mini_batch)
+    
+    return mini_batches
+```
+
+
+
+
+
+
 
 ```python
 # GRADED FUNCTION: model
@@ -766,119 +595,816 @@ def model(X_train, Y_train, X_test, Y_test, learning_rate = 0.009,
         return train_accuracy, test_accuracy, parameters
 ```
 
-Run the following cell to train your model for 100 epochs. Check if your cost after epoch 0 and 5 matches our output. If not, stop the cell and go back to your code!
+然后run这个optimizer和cost
 
 ```python
-_, _, parameters = model(X_train, Y_train, X_test, Y_test)
-```
-
-```
-Cost after epoch 0: 1.920183
-Cost after epoch 5: 1.885439
-Cost after epoch 10: 1.849110
-Cost after epoch 15: 1.730203
-Cost after epoch 20: 1.503597
-Cost after epoch 25: 1.264177
-Cost after epoch 30: 1.095219
-Cost after epoch 35: 0.985675
-Cost after epoch 40: 0.902660
-Cost after epoch 45: 0.831738
-Cost after epoch 50: 0.776374
-Cost after epoch 55: 0.730666
-Cost after epoch 60: 0.678335
-Cost after epoch 65: 0.643941
-Cost after epoch 70: 0.621297
-Cost after epoch 75: 0.594998
-Cost after epoch 80: 0.568649
-Cost after epoch 85: 0.539469
-Cost after epoch 90: 0.514542
-Cost after epoch 95: 0.490415
-
+_ , temp_cost = sess.run([optimizer,cost], feed_dict={X:minibatch_X, Y: minibatch_Y})
 ```
 
 
 
-![png](output_28_1.png)
+## Week Two
 
-```
-Tensor("Mean_1:0", shape=(), dtype=float32)
-Train Accuracy: 0.860185
-Test Accuracy: 0.75
+### 经典网络
 
-```
+#### LeNet-5
 
-**Expected output**: although it may not match perfectly, your expected output should be close to ours and your cost value should decrease.
+这个网络是在1998年提出的，结果如下图
 
-<table> 
-<tr>
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/27567213.jpg)
 
-```
-<td> 
-**Cost after epoch 0 =**
-</td>
+一共有大概60K个参数，第一层是6个5\*5的conv layer，然后是一个f=2,s=2的pool layer（当时用的的average pool，不过后来证明max pool更有效），然后再来16个5\*5的conv layer，然后是一个f=2,s=2的pool layer，然后将这个5\*5\*16的volume flatten为一个(400,1)的向量，经过一个fc（fully connected) layer，变成120\*1,在经过一个fc layer，变成84\*1的，再经过一个softmax得到一个10\*1的$\hat{y}$，用于判别手写数字0-9
 
-<td> 
-  1.917929
-</td> 
+#### AlexNet
 
-```
+AlexNet是在2012年提出的，这个网络让人们开始觉得深度学习的确可以在图像和自然语言处理等方面表现的很好
 
-</tr>
-<tr>
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/91339029.jpg)
 
-```
-<td> 
-**Cost after epoch 5 =**
-</td>
+这个网络的结构是一个conv layer，跟一个max pool layer，再来一个conv layer，跟一个max-pool layer，接下来3个conv layer，跟一个max-pool layer，这时flatten为一个9216\*1的向量，然后接一个FC layer，再接一个FC layer，再接一个softmax，得到输出
 
-<td> 
-  1.506757
-</td> 
+参数的个数为$(11*11*3+1)*96+(5*5*96+1)*256+(3*3*256+1)*384+(3*3*384+1)*384*2 + 9216*4096 + 4096*4096+1000*4096=62811648$，约为60million个
 
-```
+#### VGG-16 
 
-</tr>
-<tr>
+这个网络在2015年提出，整个网络中用到的filter都是3\*3的,padding都是same，用到的max-pool layer 都是f=2,s=2,
 
-```
-<td> 
-**Train Accuracy   =**
-</td>
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/35706558.jpg)
 
-<td> 
-  0.940741
-</td> 
+先是2层conv 64的 conv layer，然后经过一个pool layer，接下来2层128个的conv layer，接下来一个pool layer，再接下来3层256个的conv layer，接一个pool layer，再接一个3层512个的conv layer，接一个pool layer，接一层512个的conv layer，接一个pool layer，接2层FC layer，接一层softmax
 
-```
+为什么叫VGG-16呢，因为这个网络里有参数的层一个是16个
 
-</tr> 
+同时提出的还有VGG-19，但是VGG-16的效果一般来说跟VGG-19差不多，并且参数要相对少一些，所以一般都用VGG-16
 
-<tr>
+VGG-16参数非常多，大概有138million个，即使对于现代计算机，计算起来也是比较吃力的
 
-```
-<td> 
-**Test Accuracy   =**
-</td>
+### 残差网络(ResNet)
 
-<td> 
-  0.783333
-</td> 
+残差网络首先要理解什么是残差块(Residual block)
 
-```
+假如你现在有一个如下的2层的神经网络，每次经过一个线性层，然后一个ReLU非线性层，到达下一层，如图所示
 
-</tr> 
-</table>
+从左到右依次进行的被称为full path，然而如果你直接将$a^{[l]}$加到最后一个ReLU之前，这样的方法叫做short cut 或者是 skip connection，此时我们称这样一个有跳跃连接的整体为一个Residual block
 
-Congratulations! You have finised the assignment and built a model that recognizes SIGN language with almost 80% accuracy on the test set. If you wish, feel free to play around with this dataset further. You can actually improve its accuracy by spending more time tuning the hyperparameters, or using regularization (as this model clearly has a high variance). 
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/26910954.jpg)
 
-Once again, here's a thumbs up for your work! 
+如果我们有一个10层的神经网络，每2层形成一个残差块，那么这个网络就被称为残差网络，如下图
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/23582594.jpg)
+
+残差网络在实际中表现比普通网络更好，具体表现在：随着网络层数的增加，普通网络的训练错误会先降低后增加（因为层数增多，普通网络的训练越来越难，到后面规定的iteration还没有收敛，所以training error又增加了）；但是残差网络会一直下降，直到基本不下降的状态，不会出现training error上升的情况
+
+我们用plain表示普通网络，ResNet表示残差网络，得到如下的training error和layers的示意图
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/99083203.jpg)
+
+### 为什么残差网络可以表现得更好
+
+- Lets see some example that illustrates why resNet work.
+
+  - We have a big NN as the following:
+
+    - `X --> Big NN --> a[l]`
+
+  - Lets add two layers to this network as a residual block:
+
+    - `X --> Big NN --> a[l] --> Layer1 --> Layer2 --> a[l+2]`
+    - And a`[l]` has a direct connection to `a[l+2]`
+
+  - Suppose we are using RELU activations.
+
+  - Then:
+
+    `a[l+2] = g( z[l+2] + a[l] ) = g( W[l+2] a[l+1] + b[l+2] + a[l] )` 
+
+  - Then if we are using L2 regularization for example, `W[l+2]` will be zero. Lets say that `b[l+2]` will be zero too.
+
+  - Then `a[l+2] = g( a[l] ) = a[l]` with no negative values.
+
+  - This show that identity function is easy for a residual block to learn. And that why it can train deeper NNs.
+
+  - Also that the two layers we added doesn't hurt the performance of big NN we made.
+
+  - Hint: dimensions of z[l+2] and a[l] have to be the same in resNets. In case they have different dimensions what we put a matrix parameters (Which can be learned or fixed)
+
+    - `a[l+2] = g( z[l+2] + ws * a[l] ) # The added Ws should make the dimentions equal`
+    - ws also can be a zero padding.
+
+- Using a skip-connection helps the gradient to backpropagate and thus helps you to train deeper networks
+
+主要起作用的原因是redidual network 阻止了梯度消失和梯度爆炸之类的问题
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/3054087.jpg)
+
+### $1\times 1$的卷积（network in network）
+
+1\*1的卷积主要是为了改变图片的通道数目，比如你现在有一个28\*28\*192的图片，你可以将它变成32通道的，以此来减少计算量，也可以把它变成192通道的，这相当于在原来的图片上加了一个192通道的图片，这将使得模型更复杂，以此来表征更加复杂的模型
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/88550955.jpg)
+
+### Inception Network
+
+在设计神经网络的时候，你可能会想如何去选择conv layer 所用的filter的大小，以及max-pool的大小，这个时候其实你可以把所有你可能会想要用到的conv layer和max-pool layer联结起来，形成一个复杂的网络，具体如下：
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/37028773.jpg)
+
+所有的conv layer和max-pool layer都用到了same padding，这样保证经过一个layer之后的维度不变，以便大家能够联结起来
+
+但是inception network造成的问题就是计算量太大，比如我们现在来看看5\*5这组filter的乘法的数目，一共输出是28\*28\*32个，每个输出所要求的乘法数目是5\*5\*192，所以全部乘起来之后是28\*28\*32\*5\*5\*192=120M次
+
+我们可以用上一节提到的1\*1的conv 层进行计算次数的优化，用1\*1的conv 层计算出一个 bottleneck layer（瓶颈层:和瓶颈一样，先变小，再变大），然后再计算乘法。具体来说是将28\*28\*192的图片先经过一个1\*1的个数为16的层，变成28\*28\*16的层，然后再经过5\*5的层，计算数量缩减为12.4M，如下图
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/68094398.jpg)
+
+一个Inception module如下图所示，包含1\*1的conv layer 和 3\*3的conv layer(前面有一个1\*1的bottleneck layer)和5\*5的conv layer(前面有一个1\*1的bottleneck layer)，以及一个3\*3的max-pool layer（后面有一个1\*1的layer用于减小通道数）
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/23343715.jpg)
+
+一个完整的inception network如下图所示，由多个inception module组成，中间还有一个side branch，用中间某一层的输出进行预测
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/34915820.jpg)
+
+### 使用开源的深度学习实现
+
+当你遇到一个想要去实现的网络的时候，从头开始动手实现是非常困难的，因为有很多调参之类的问题需要你去解决，那么你完全可以使用google 去搜索github上面的结果，比如你先想要实现ResNet， 你只需要在google上面搜索ResNet github，很容易就能找到一个结果，并且这些开源代码往往用了大量的原始数据进行训练，你只需要下下来进行迁移学习就行了
+
+### 迁移学习
+
+比如你现在想要是别的两只猫，分别叫做tigger和misty，但是你拥有的这两只猫的图片很少，所以你从网上下了一个在非常大数据集上面训练的模型(比如image net上训练过的模型)，然后你直接去掉输出层，把前面的所有层的参数都freeze住，对最后一层进行训练，就得到了你的猫分类器
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/4627273.jpg)
+
+当然，如果你数据量大一些，你可以少冻住几层，多训练几层，这个freeze的方法，通常是将输入输进去，用原来的网络参数计算直到你要自己训练的那层，把这些数据存下来作为新网络的输入。后面网络参数的初始化可以直接用别人训练好的参数作为反向传播
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/36852562.jpg)
+
+除非你数据量非常大，不然你都不要完全重新训练网络
+
+### 数据提升
+
+数据提升主要有两种方法，一种是在图片内容上的变换，一种是色彩上的变换
+
+内容上的变换主要有：镜像变换，随机裁剪，旋转，扭曲等等，如下图
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/27345434.jpg)
+
+色彩上的变换主要是：增加或减少RGB色彩，比较高级的方法叫做PCA color augmentation，效果如图
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/90144873.jpg)
+
+### 计算机视觉任务的经验
+
+一般来说，数据越多，你所需要进行的手动修改的部分就越少，如图
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/89008645.jpg)
+
+在标准数据集或者是竞赛当中有一些比较常用的方法：
+
+1. Ensembling：训练多个神经网络并平均输出
+2. 多种图片裁剪的数据提升方法：原图以及镜像图片的正中心，左上角，右上角，左下角，右下角图片，这个方法被称为crop-10，因为一共裁剪出10张
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/73321754.jpg)
+
+在使用开源框架的时候，通常可以：
+
+1. 用论文中提出的框架，因为一般计算机视觉任务有通用性
+2. 使用开源框架
+3. 使用pre-trained model并调整你模型中的参数
+
+### Keras tutorial
+
+Keras更像是sklearn的过程，每一层的叠加都是可见的，然后最后compile一下model，fit model，然后evaluate model
+
+具体来说，我们看看一个1层的卷积神经网络怎么实现的
+
+先用Input函数得到输入，用ZeroPadding2d函数进行zero padding，用Conv2D进行卷积，用BatchNormalization进行批量正则化（每一层都进行正则化而不只是输入正则化），经过一个激活函数Activation('relu')，用MaxPooling2D经过一个max pool，然后Flatten，然后用一个sigmoid函数得到输出，最后用`model=Model(inputs=..., outputs=... ,name='...')`建立模型
 
 ```python
-fname = "images/thumbs_up.jpg"
-image = np.array(ndimage.imread(fname, flatten=False))
-my_image = scipy.misc.imresize(image, size=(64,64))
-plt.imshow(my_image)
+def model(input_shape):
+    # Define the input placeholder as a tensor with shape input_shape. Think of this as your input image!
+    X_input = Input(input_shape)
+
+    # Zero-Padding: pads the border of X_input with zeroes
+    X = ZeroPadding2D((3, 3))(X_input)
+
+    # CONV -> BN -> RELU Block applied to X
+    X = Conv2D(32, (7, 7), strides = (1, 1), name = 'conv0')(X)
+    X = BatchNormalization(axis = 3, name = 'bn0')(X)
+    X = Activation('relu')(X)
+
+    # MAXPOOL
+    X = MaxPooling2D((2, 2), name='max_pool')(X)
+
+    # FLATTEN X (means convert it to a vector) + FULLYCONNECTED
+    X = Flatten()(X)
+    X = Dense(1, activation='sigmoid', name='fc')(X)
+
+    # Create model. This creates your Keras model instance, you'll use this instance to train/test the model.
+    model = Model(inputs = X_input, outputs = X, name='HappyModel')
+
+    return model
 ```
+
+You have now built a function to describe your model. To train and test this model, there are four steps in Keras:
+
+1. Create the model by calling the function above
+2. Compile the model by calling `model.compile(optimizer = "...", loss = "...", metrics = ["accuracy"])`
+3. Train the model on train data by calling `model.fit(x = ..., y = ..., epochs = ..., batch_size = ...)`
+4. Test the model on test data by calling `model.evaluate(x = ..., y = ...)`
+
+If you want to know more about `model.compile()`, `model.fit()`, `model.evaluate()` and their arguments, refer to the official [Keras documentation](https://keras.io/models/model/).
+
+现在建立模型的方法就是四步：
+
+1. 定义模型：`happyModel = HappyModel(X_train.shape[1:])`
+2. compile模型，定义其中的optimizer和loss以及metrics，`happyModel.compile(optimizer = "Adam", loss = "binary_crossentropy", metrics = ["accuracy"])`
+3. fit模型：`happyModel.fit(x = X_train, y = Y_train, epochs = 5, batch_size = 16)`，这里的batch-size选为16，一开始用了64，效果非常不好
+4. evaluate模型：`preds = happyModel.evaluate(x = X_, y = ...)`
+
+keras当中比较有用的两个函数：
+
+1. 模型的每一层的参数个数：`happyModel.summary()`
+2. `plot_model(happyModel, to_file='HappyModel.png')`
+   `SVG(model_to_dot(happyModel).create(prog='dot', format='svg'))`
+   上面两行用于打印模型的结构
+
+### Keras to ResNet
+
+首先导入一些需要用到的库
+
+Keras是一个模型级的库，提供了快速构建深度学习网络的模块。Keras并不处理如张量乘法、卷积等底层操作。这些操作依赖于某种特定的、优化良好的张量操作库。Keras依赖于处理张量的库就称为“后端引擎”。Keras提供了三种后端引擎Theano/Tensorflow/CNTK，并将其函数统一封装，使得用户可以以同一个接口调用不同后端引擎的函数
+
+```python
+import numpy as np
+from keras import layers
+from keras.layers import Input, Add, Dense, Activation, ZeroPadding2D, BatchNormalization, Flatten, Conv2D, AveragePooling2D, MaxPooling2D, GlobalMaxPooling2D
+from keras.models import Model, load_model
+from keras.preprocessing import image
+from keras.utils import layer_utils
+from keras.utils.data_utils import get_file
+from keras.applications.imagenet_utils import preprocess_input
+import pydot
+from IPython.display import SVG
+from keras.utils.vis_utils import model_to_dot
+from keras.utils import plot_model
+from resnets_utils import *
+from keras.initializers import glorot_uniform
+import scipy.misc
+from matplotlib.pyplot import imshow
+%matplotlib inline
+
+import keras.backend as K
+K.set_image_data_format('channels_last')
+K.set_learning_phase(1)   # 设置为训练/测试模式 ，分别是0/1
+```
+
+#### 建立一个identity block
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/87089704.jpg)
+
+identity block是x[l]和 x[l+2]的size一样，就可以直接相加
+
+用filters的list来存储三层的filter的个数，记录下一开始的X作为X_shortcut
+
+然后开始主路的设计：先一个conv layer，然后一个BatchNormalization，axis=3，是除了3以外的所有维度都normalization，也可以写成axis=-1，然后是一个Activation('relu')层
+
+接下来的两层基本与第一层相同，只是filter的个数分别是F2,F3，filter的size中间那层是(f,f)
+
+第三层结束之后得到的X加上一开始的X_shortcut，就是最终进入activation的值，这里的加法必须要用`keras.layers.Add()()([x1,x2])`或`keras.layers.add([x1, x2])`进行，直接用加号会出错
+
+```python
+# GRADED FUNCTION: identity_block
+
+def identity_block(X, f, filters, stage, block):
+    """
+    Implementation of the identity block as defined in Figure 3
+    
+    Arguments:
+    X -- input tensor of shape (m, n_H_prev, n_W_prev, n_C_prev)
+    f -- integer, specifying the shape of the middle CONV's window for the main path
+    filters -- python list of integers, defining the number of filters in the CONV layers of the main path
+    stage -- integer, used to name the layers, depending on their position in the network
+    block -- string/character, used to name the layers, depending on their position in the network
+    
+    Returns:
+    X -- output of the identity block, tensor of shape (n_H, n_W, n_C)
+    """
+    
+    # defining name basis
+    conv_name_base = 'res' + str(stage) + block + '_branch'
+    bn_name_base = 'bn' + str(stage) + block + '_branch'
+    
+    # Retrieve Filters
+    F1, F2, F3 = filters
+    
+    # Save the input value. You'll need this later to add back to the main path. 
+    X_shortcut = X
+    
+    # First component of main path
+    X = Conv2D(filters = F1, kernel_size = (1, 1), strides = (1,1), padding = 'valid', name = conv_name_base + '2a', kernel_initializer = glorot_uniform(seed=0))(X)
+    X = BatchNormalization(axis = 3, name = bn_name_base + '2a')(X)
+    X = Activation('relu')(X)
+    
+    ### START CODE HERE ###
+
+    # Second component of main path (≈3 lines)
+    X = Conv2D(filters = F2, kernel_size = (f, f), strides = (1,1), padding = 'same', name = conv_name_base + '2b', kernel_initializer = glorot_uniform(seed=0))(X)
+    X = BatchNormalization(axis = 3, name = bn_name_base + '2b')(X)
+    X = Activation('relu')(X)
+
+    # Third component of main path (≈2 lines)
+    X = Conv2D(filters = F3, kernel_size = (1, 1), strides = (1,1), padding = 'valid', name = conv_name_base + '2c', kernel_initializer = glorot_uniform(seed=0))(X)
+    X = BatchNormalization(axis = 3, name = bn_name_base + '2c')(X)
+
+    # Final step: Add shortcut value to main path, and pass it through a RELU activation (≈2 lines)
+    X = Add()([X, X_shortcut])  # added = keras.layers.Add()([x1, x2])  ## equivalent to added = keras.layers.add([x1, x2])
+    X = Activation('relu')(X)
+
+    ### END CODE HERE ###
+    
+    return X
+```
+
+然后开始tensorflow测试一下identity block，定义一个A_prev的placeholder，类型是float，`shape=[3,4,4,6]`，X设为一个`[3,4,4,6]`的随机矩阵，用A_prev建立一个identity block，三层filter的个数是2,4,6，第二层的filter的形状是2\*2，然后用sess run 变量初始化，接着run一下这个identity block，feed_dict数据是`A_prev:x`,`K.learning_phase(): 0`用于转换为训练模式
+
+```python
+tf.reset_default_graph()
+
+with tf.Session() as test:
+    np.random.seed(1)
+    A_prev = tf.placeholder("float", [3, 4, 4, 6])
+    X = np.random.randn(3, 4, 4, 6)
+    A = identity_block(A_prev, f = 2, filters = [2, 4, 6], stage = 1, block = 'a')
+    test.run(tf.global_variables_initializer())
+    out = test.run([A], feed_dict={A_prev: X, K.learning_phase(): 0})
+    print("out = " + str(out[0][1][1][0]))
+```
+
+#### 建立一个convlutional block
+
+convlutional block就是shortcut不是直接加到a[l+2]上面的，而是经过了一个conv layer和batch norm之后加的
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/5062663.jpg)
+
+与建立identity layer的方法类似，记录X为X_shortcut，这里的shortcut到后面是要经过运算的，不是直接加的
+
+每个conv layer 有一个kernel的initializer，` kernel_initializer = glorot_uniform(seed=0)`就是常用的Xavier 初始化
+
+```python
+# GRADED FUNCTION: convolutional_block
+
+def convolutional_block(X, f, filters, stage, block, s = 2):
+    """
+    Implementation of the convolutional block as defined in Figure 4
+    
+    Arguments:
+    X -- input tensor of shape (m, n_H_prev, n_W_prev, n_C_prev)
+    f -- integer, specifying the shape of the middle CONV's window for the main path
+    filters -- python list of integers, defining the number of filters in the CONV layers of the main path
+    stage -- integer, used to name the layers, depending on their position in the network
+    block -- string/character, used to name the layers, depending on their position in the network
+    s -- Integer, specifying the stride to be used
+    
+    Returns:
+    X -- output of the convolutional block, tensor of shape (n_H, n_W, n_C)
+    """
+    
+    # defining name basis
+    conv_name_base = 'res' + str(stage) + block + '_branch'
+    bn_name_base = 'bn' + str(stage) + block + '_branch'
+    
+    # Retrieve Filters
+    F1, F2, F3 = filters
+    
+    # Save the input value
+    X_shortcut = X
+
+
+    ##### MAIN PATH #####
+    # First component of main path 
+    X = Conv2D(F1, (1, 1), strides = (s,s),padding='valid', name = conv_name_base + '2a', kernel_initializer = glorot_uniform(seed=0))(X)
+    X = BatchNormalization(axis = 3, name = bn_name_base + '2a')(X)
+    X = Activation('relu')(X)
+    
+    ### START CODE HERE ###
+
+    # Second component of main path (≈3 lines)
+    X = Conv2D(F2, (f, f), strides = (1,1), padding = 'same', name = conv_name_base + '2b', kernel_initializer = glorot_uniform(seed=0))(X)
+    X = BatchNormalization(axis = 3, name = bn_name_base + '2b')(X)
+    X = Activation('relu')(X)
+
+    # Third component of main path (≈2 lines)
+    X = Conv2D(F3, (1, 1), strides = (1,1), padding = 'valid', name = conv_name_base + '2c', kernel_initializer = glorot_uniform(seed=0))(X)
+    X = BatchNormalization(axis = 3, name = bn_name_base + '2c')(X)
+
+    ##### SHORTCUT PATH #### (≈2 lines)
+    X_shortcut = Conv2D(F3, (1, 1), strides = (s,s), padding = 'valid', name = conv_name_base + '1', kernel_initializer = glorot_uniform(seed=0))(X_shortcut)
+    X_shortcut = BatchNormalization(axis = 3, name = bn_name_base + '1')(X_shortcut)
+
+    # Final step: Add shortcut value to main path, and pass it through a RELU activation (≈2 lines)
+    X = Add()([X, X_shortcut])
+    X = Activation('relu')(X)
+
+    ### END CODE HERE ###
+    
+    return X
+```
+
+同样来测试一下我们建立的convolutional block
+
+```python
+tf.reset_default_graph()
+
+with tf.Session() as test:
+    np.random.seed(1)
+    A_prev = tf.placeholder("float", [3, 4, 4, 6])
+    X = np.random.randn(3, 4, 4, 6)
+    A = convolutional_block(A_prev, f = 2, filters = [2, 4, 6], stage = 1, block = 'a')
+    test.run(tf.global_variables_initializer())
+    out = test.run([A], feed_dict={A_prev: X, K.learning_phase(): 0})
+    print("out = " + str(out[0][1][1][0]))
+```
+
+#### 建立一个50层的ResNet
+
+结构如下图所示，分为5个stage，其中的conv block就是我们在上面建立的convolutional block，其中的ID block就是我们上面建立的identity block
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/92727700.jpg)
+
+我们先给一个大小就可以定义一个输入的tensor，用Input方法实现
+
+先进入一个zero padding，然后一个conv layer，batch norm，relu，max pool，接下来就是一大堆的block，然后接一个AvgPool，flatten一下，接一个FC layer，就得到了输出
+
+```python
+# GRADED FUNCTION: ResNet50
+
+def ResNet50(input_shape = (64, 64, 3), classes = 6):
+    """
+    Implementation of the popular ResNet50 the following architecture:
+    CONV2D -> BATCHNORM -> RELU -> MAXPOOL -> CONVBLOCK -> IDBLOCK*2 -> CONVBLOCK -> IDBLOCK*3
+    -> CONVBLOCK -> IDBLOCK*5 -> CONVBLOCK -> IDBLOCK*2 -> AVGPOOL -> TOPLAYER
+
+    Arguments:
+    input_shape -- shape of the images of the dataset
+    classes -- integer, number of classes
+
+    Returns:
+    model -- a Model() instance in Keras
+    """
+    
+    # Define the input as a tensor with shape input_shape
+    X_input = Input(input_shape)
+
+    
+    # Zero-Padding
+    X = ZeroPadding2D((3, 3))(X_input)
+    
+    # Stage 1
+    X = Conv2D(64, (7, 7), strides = (2, 2), name = 'conv1', kernel_initializer = glorot_uniform(seed=0))(X)
+    X = BatchNormalization(axis = 3, name = 'bn_conv1')(X)
+    X = Activation('relu')(X)
+    X = MaxPooling2D((3, 3), strides=(2, 2))(X)
+
+    # Stage 2
+    X = convolutional_block(X, f = 3, filters = [64, 64, 256], stage = 2, block='a', s = 1)
+    X = identity_block(X, 3, [64, 64, 256], stage=2, block='b')
+    X = identity_block(X, 3, [64, 64, 256], stage=2, block='c')
+
+    ### START CODE HERE ###
+
+    # Stage 3 (≈4 lines)
+    X = convolutional_block(X, f = 3, filters = [128, 128, 512], stage = 3, block='a', s = 2)
+    X = identity_block(X, 3, [128, 128, 512], stage=3, block='b')
+    X = identity_block(X, 3, [128, 128, 512], stage=3, block='c')
+    X = identity_block(X, 3, [128, 128, 512], stage=3, block='d')
+
+    # Stage 4 (≈6 lines)
+    X = convolutional_block(X, f = 3, filters = [256, 256, 1024], stage = 4, block='a', s = 2)
+    X = identity_block(X, 3, [256, 256, 1024], stage=4, block='b')
+    X = identity_block(X, 3, [256, 256, 1024], stage=4, block='c')
+    X = identity_block(X, 3, [256, 256, 1024], stage=4, block='d')
+    X = identity_block(X, 3, [256, 256, 1024], stage=4, block='e')
+    X = identity_block(X, 3, [256, 256, 1024], stage=4, block='f')
+
+    # Stage 5 (≈3 lines)
+    X = convolutional_block(X, f = 3, filters = [512, 512, 2048], stage = 5, block='a', s = 2)
+    X = identity_block(X, 3, [512, 512, 2048], stage=5, block='b')
+    X = identity_block(X, 3, [512, 512, 2048], stage=5, block='c')
+
+    # AVGPOOL (≈1 line). Use "X = AveragePooling2D(...)(X)"
+    X = AveragePooling2D(pool_size=(2, 2))(X)
+    
+    ### END CODE HERE ###
+
+    # output layer
+    X = Flatten()(X)
+    X = Dense(classes, activation='softmax', name='fc' + str(classes), kernel_initializer = glorot_uniform(seed=0))(X)
+    
+    
+    # Create model
+    model = Model(inputs = X_input, outputs = X, name='ResNet50')
+
+    return model
+```
+
+接下来定义我们的model
+
+```python
+model = ResNet50(input_shape = (64, 64, 3), classes = 6)
+```
+
+然后compile model，指定optimizer和loss以及metric
+
+```python
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+```
+
+导入数据
+
+```python
+X_train_orig, Y_train_orig, X_test_orig, Y_test_orig, classes = load_dataset()
+
+# Normalize image vectors
+X_train = X_train_orig/255.
+X_test = X_test_orig/255.
+
+# Convert training and test labels to one hot matrices
+Y_train = convert_to_one_hot(Y_train_orig, 6).T
+Y_test = convert_to_one_hot(Y_test_orig, 6).T
+
+# number of training examples = 1080
+# number of test examples = 120
+# X_train shape: (1080, 64, 64, 3)
+# Y_train shape: (1080, 6)
+# X_test shape: (120, 64, 64, 3)
+# Y_test shape: (120, 6)
+```
+
+1080张64\*64的三通道图片，测试时120张64\*64的三通道图片
+
+接下来fit model
+
+```python
+model.fit(X_train, Y_train, epochs = 20, batch_size = 32)
+```
+
+最后evaluate模型
+
+```python
+preds = model.evaluate(X_test, Y_test)
+print ("Loss = " + str(preds[0]))
+print ("Test Accuracy = " + str(preds[1]))
+```
+
+同样`summary()`和`plot_model`看看参数以及网络结构
+
+```python
+model.summary()
+plot_model(model, to_file='model.png')
+SVG(model_to_dot(model).create(prog='dot', format='svg'))
+```
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/71188004.jpg)
+
+### Week 3 
+
+## 检测算法
+
+### 目标定位
+
+目标检测主要有两类任务，一类是image classification 和 classification with localization，往往只有一个目标需要标记，另一类是detection，往往有多个目标需要标记
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/27032753.jpg)
+
+当你需要标记目标位置的时候，你的神经网络的输出不仅是一个softmax的概率值，还有图像中心点的x，y坐标以及红框的宽和高的值，假设我们现在检测三类目标，分别是行人，汽车，摩托车，以及三类都没有的纯背景的情况，那么你的y应该设置为
+$$
+y=\begin{bmatrix}P_c \\b_x \\b_y \\b_h \\b_w \\c_1 \\c_2 \\c_3 \end{bmatrix}
+$$
+
+其中$P_c$表示的是图中有无目标，如果有目标那么就要定位$b_x,b_y,b_h,b_w$，以及他们的分类$c_1,c_2,c_3$
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/76557389.jpg)
+
+当$P_c = 1$的时候，y的所有参数都是需要关心的
+
+当$P_c = 0$，除了$P_c $以外的其余参数都不用关心，图中用问号表示
+
+损失函数可以表示为
+$$
+L(\hat y,y)=\left\{\begin{matrix}
+(\hat y_1,y_1)^2+\ldots+(\hat y_8,y_8)^2 & if & y=1\\
+(\hat y_1,y_1)^2 & if & y=0
+\end{matrix}\right.
+$$
+
+### 特征点检测
+
+当你检测一个人或者是一个姿势的时候，你可能需要的不是像检测汽车那样只要一个中心点，你可能需要很多个点来检测人脸的五官，或者不同的点来检测一个人的姿势，此时你的y就有很多个点
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/36562583.jpg)
+
+### 利用滑动窗口进行目标检测
+
+用一个正方形框在图像上以一定步长滑动，每次检测框内的图像，这就是滑动窗口的含义，用不同大小的框可以多次进行
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/76981350.jpg)
+
+但是滑动窗口的计算成本非常大，如果你的步长选的比较小（精度比较高），那么你要输入系统的图片非常多，计算量就非常大
+
+### 使用卷积实现滑动窗口
+
+使用卷积实现滑动窗口，首先要看看如何把FC层转换为卷积层，在本来应该flatten的地方，再用一组f大小与原图相等的filter，将它变成1\*1的volume，然后反复使用1\*1的filter，直到最后大小等于1\*1\*4
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/70781915.jpg)
+
+同样，在滑动窗口的过程中，有很多的卷积步骤是重复的，因此我们可以使用卷积来避免每个滑动窗口都经历整个卷积神经网络
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/4716774.jpg)
+
+### 获得更加精确的边界框
+
+YOLO(You Only Look Once)算法是一个很好用的目标检测算法，先讲图片分割成很多个小的矩形，每个矩形中间如果有某个目标对象的中心点，那么这个方框的Y的第一个值$P_c$就为1，否则为0，最后得到一个3\*3\*8的volume，这个volume就是预测的结果，因为这个算法使用了卷积的方法，因此速度很快
+
+我们来看个例子，比如下图，原图是100\*100的大小，我们划分成3\*3的格子，绿色和橙色格子有目标，找出中心点，然后标记出方框，绿色块的y值如右边的绿色y所示，橙色如橙色标识的y所示，其余的都是紫色标记
+
+通常我们划分的块会更多一些，以便更加精确地定位图像
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/65964893.jpg)
+
+边框的标记方法是给出中心点的坐标x，y，已经图像的高度h和宽度w，因为我们对每个小方块的坐标定义为左上角是(0,0)，右下角是(1,1)，所以x,y一定是在0到1之间的值，但是目标的大小可能超出一个方块，所以h和w可以是大于0的任何值（当然也可以大于1），如下图
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/31698060.jpg)
+
+### 交并比（intersection over union）
+
+交并比：一个方框与真实结果的交集与其并集的比，用于评价目标检测算法的精度
+
+最好情况的交并比是1，一般来说，如果你的交并比（IoU）>=0.5，就认为你的检测是正确的
+
+### 非最大值抑制(Non-max Suppression)
+
+加入你在下图中检测汽车，你把图片分成了19\*19大小的网格，两辆车的中心分别是绿色点和黄色点，理论上来说它们各自的中心点应该只会被标记一次，但是你在运行网络的时候，每一个网格都是独立运行的，所以旁边的网格可能也会认为自己就在图片中心，同一个目标可能会被标记好多次，因此引入非最大值抑制的策略来保证每个目标只被标记一次
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/39766648.jpg)
+
+假设我们现在已经得到了很多个框，你需要去找到哪个框是真的有效的，如下图
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/21084208.jpg)
+
+具体做法如下：
+
+1. 首先，你将那些概率值都低于0.6的框给删除
+2. 只要这里还剩任何框：选择现在概率最大的框最为结果，删除任何与这个结果IoU大于等于0.5的盒子
+3. 只要还有框没有标记就跳到第二步
+
+### Anchor Box
+
+Anchor Box是用来当你需要检测多个目标的时候，你先给几个预先给定的anchor box，将结果的y联合起来
+
+比如你现在检测行人和车辆，行人的车辆应该是高长的，车辆的扁宽的，本来y是8维的，然后现在连接起来就有16维
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/12260966.jpg)
+
+然后我们将两个anchor box 和 我们之前圈出来的框计算IoU，图像将被分到高IoU的部分
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/7317445.jpg)
+
+### YOLO算法的完整描述
+
+如果你在进行一个定位行人，汽车，摩托车的YOLO算法，如下图，先将图片分成3\*3的网格，对每一个网格进行检测，现在设定了2个anchor box，那么最终的输出是3\*3\*16的结果
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/15432401.jpg)
+
+我们来看看如何做预测，如下图，我们将最终的结果全为$P_c$全为0的分类成背景，为1的部分去找对应的c的分类
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/38705005.jpg)
+
+我们再来看看如何使用non-max suppress，先从图中移除那些概率很低的框，然后分别对三个类别（行人，汽车，摩托车）进行non-max suppress得到最终的预测
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/49481234.jpg)
+
+## Week four
+
+### 人脸识别的术语
+
+人脸识别任务大致分为两类，分别是face verification 和 face recognition：
+
+* face verification：指的是给一张图片，判定是否是你要找的那个人，是一个二分类的问题
+* face recognition：是给一张图片，判定他是谁，是一个多分类问题
+
+### 单样本学习问题(one shot learning)
+
+通常识别任务要求在只有一张图片的情况下进行识别，但是从传统来说，只有一个训练样本的效果是很差的
+
+解决的办法就是，学习出一个相似性函数，给定两张图片，如果两张图片的相似度比较大（距离比较小），那么两张图片就是同一个人。我们设定一个阈值，如果小于这个阈值，我们认为是同一个人，如果大于这个阈值，我们认为是不同的人。这样，即使有新的人加入这个系统，你的系统依然可以进行判断
+
+### 孪生网络（Siamese Network）
+
+普通的卷积神经网络是先经过几个卷基层，然后经过一个FC layer，最后一个softmax进行判别，我们在这里删除最后的softmax层，将最后的FC层的输出作为一张图片的编码
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/10704951.jpg)
+
+将这些输出的编码作为结果，计算距离，并使得同一个人的不同图片距离小，不同人的图片距离大，以此作为目标进行反向传播，具体的loss函数被称为triple loss function
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/66344361.jpg)
+
+### 三重损失函数（triple loss function）
+
+我们每次进行训练的图片应该有三张：Anchor，Positive，Negative，分别代表原始图片，同一个人的图片，另一个人的图片，计算Anchor和Positive以及Negative之间的距离，记作d(A,P)和d(A,N)，计算方法是通过神经网络给出的编码，计算欧式距离，要求同一个人的不同图片距离小(d(A,P)小)，不同人的图片距离大（d(A,N)大），并且他们之间不能是基本相同的大小，因为那样对于分类器来说是比较难区分的，我们把差距超过一定范围$\alpha$的才能称为不同人，如下图所示
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/35397965.jpg)
+
+那么损失函数可以是上图中的右式移到左边，那么要求这个损失小于等于0，那么我们取Loss为
+$$
+L(A,P.N)=max(||f(A)-f(N)||^2-||f(A)-f(N)||^2+\alpha,\:0)
+$$
+那么代价函数就是
+$$
+J=\sum_{i=1}^mL(A^{(i)},P^{(i)},N^{(i)})
+$$
+训练的数据要足够的大，一个人应该有好几张图片，如果只有一张图片是很难训练的
+
+如何选择APN也是有要求的，如果你A,P,N都随机选择，那么两张不同人的图片距离一般来说是肯定大于一个人的两张图片的，所以我们应该选那些尽可能接近的距离值去训练，也就是d(A,P)和d(A,N)要尽量靠近一些
+
+在深度学习中，这些系统的名字一般选择为`xxNet`或者是`Deepxx`，比如这里的FaceNet和之前提到的DeepFace
+
+### 二分类的人脸识别
+
+另一种进行人脸识别的方法是二分类，当你有一个新的图片需要分类的时候，将它输入一个已经训练好的卷积神经网络，得到一个编码，与系统中另一张图片的编码经过一个logistic单元，最终的$\hat y$如果为1，证明图片来自同一个人，否则来自于不同人
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/58169041.jpg)
+
+这里有个节省计算能力的好办法，就是系统中的图片，你应该全部先通过卷及网络算出编码，直接存储编码，这样每次你只需要将新图片经过这个神经网络得到编码，再做一个logistic计算就可以了
+
+### 风格迁移
+
+#### 什么是风格迁移
+
+如下图，我们将原图(Content)称为C，风格图（Style）称为S，生成的图片（Gnerated image）称为G
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/56114233.jpg)
+
+### 深度卷积神经网络究竟学的是什么
+
+卷积神经网络的前面层，是一些图片的边缘信息，越到后面的层，信息越丰富
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/52977504.jpg)
+
+### 风格迁移的代价函数
+
+我们用C表示Content这张图，用S表示Style这张图，G代表Generated image，要求定义的代价函数在最小化时使用梯度下降：
+$$
+J(G) = \alpha J_{content}(C,G) + \beta J_{style}(S,G)
+$$
+风格迁移的过程：
+
+1. 随机初始化G
+2. 进行梯度下降，是的cost function变小，然后输出的图像和C和S的混合越来越像
+
+#### Content cost function
+
+你用第$l$层的卷积网络去计算你的content cost function，这个层数不能太靠前（前面全是边缘信息），也不能太靠后（太靠后已经是完整的图片了），你的Content cost function只需要计算第$l$层的Content和Generated 的输出的相似度，我们在这里使用L-2范数
+$$
+J_{content}(C,G)=||a^{[l](C)}-a^{[l](G)}||^2
+$$
+
+#### Style cost function
+
+要定义S和G的风格相似度，我们要来看看如何定义风格的相似，这里引入一个Style matrix的概念，用于定义不同层之间的像素值的乘积和，用$a_{i,j,k}^{[l]}$表示第$l$层的一个像素点，用$G^{[l]}$表示第l层的Style Matrix
+$$
+G^{[l](S)}_{kk\prime} = \sum_{i=1}^{n_H^{[l]}}\sum_{j=1}^{n_W^{[l]}}a_{ijk}^{[l](S)}a_{ijk\prime}^{[l](S)} \\
+G^{[l](G)}_{kk\prime} = \sum_{i=1}^{n_H^{[l]}}\sum_{j=1}^{n_W^{[l]}}a_{ijk}^{[l](G)}a_{ijk\prime}^{[l](G)} \\
+$$
+第l层的style cost function就用这两个style function的相似度来计算
+$$
+\begin{array}{rcl}
+J_{style}^{[l]}(S,G)  &=& \frac{1}{(...)}||G^{[l](S)}-G^{[l](G)}||^2 \\
+&=& \frac{1}{(2n_H^{[l]}n_W^{[l]}n_C^{[l]})^2}\sum_k\sum_{k{\prime}}(G^{[l](S)}_{kk\prime}-G^{[l](G)}_{kk\prime})
+\end{array}
+$$
+通常一层的效果不够好，因此我们多用几层
+$$
+J_{style}(S,G)=\sum_l\lambda^{[l]}J_{style}^{[l]}(S,G)
+$$
+最终的J就是把content和style的J加起来
+$$
+J(G) = \alpha J_{content}(C,G) + \beta J_{style}(S,G)
+$$
+
+### 1D和3D数据的卷积
+
+1D数据通常是信号数据，你用的卷积核应该也是1D的，比如你一开始是14\*1的信号，卷积16个5\*1的filter，变成
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-16/99066781.jpg)
+
+3D图像通常有CT图，视频之类的，有长，宽，深度三个维度，
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-5-16/8799779.jpg)
+
+
+
+
 
 
 
