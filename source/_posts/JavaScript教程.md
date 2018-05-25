@@ -5,6 +5,140 @@ tags: [JavaScript]
 category: [编程学习]
 ---
 
+之前在慕课网上看了看JavaScript的教程，但是整个教程的内容不够详细，因此在廖雪峰官方网站看看关于js的教程，并重新学习和记录如下。
+
+js用于在静态HTML页面上添加一些动态效果 ，网景公司的Brendan Eich这哥们在两周之内设计出了JavaScript语言 。为了让js称为全球标砖，欧洲计算机制造协会(European Computer Manufacturers Association)制定了js的标准，称为RCMAscript标准，最新版ECMAscript 6标准于2015年6月发布（简称ES6)。
+
+### 快速入门
+
+js代码一般放在`<head>`当中，由封闭的`<script>...</script>`包含起来
+
+第二种是将js放在一个单独的js文件中，然后在head中声明该文件
+
+```html
+<head>
+    <script src="/static/js/abc.js"></script>
+</head>
+```
+
+有时候会看到定义js的类型，`<script type="text/javascript">`，但是实际上是没有必要的，因为默认的script的类型就是javascript
+
+### 基础语法
+
+每一句以分号(';')结束，语句块用大括号括起来
+
+//表示注释，/\*...\*/也表示注释
+
+### 数据类型和变量
+
+#### Number
+
+js不区分整数和浮点数，统一用Number表示
+
+#### 字符串
+
+字符串是以单引号或双引号引起来的任何文本，比如'abc'或者"xyz"
+
+#### 布尔值
+
+布尔值只有true和false两种，可以直接使用true，false来表示，也可以使用布尔运算来计算出来（比如大小比较或者与或非），js的与运算是&&，或运算是||，非运算是!
+
+#### 比较运算符
+
+大小比较与其他语言没有区别，但是js有个特殊的等于比较，两个等号"=="会自动转换类型之后再比较，而三个等号"==="不会自动转换类型，由于JavaScript这个设计缺陷，*不要*使用`==`比较，始终坚持使用`===`比较。
+
+```javascript
+false == 0; // true
+false === 0; // false
+```
+
+还有一个问题就是NaN与任何值都不相等，包括他自己
+
+```js
+NaN === NaN; // false
+```
+
+唯一判断NaN的方法就是使用`isNaN()`函数
+
+浮点数运算的相等比较中，由于浮点数运算会出现误差，因此计算机无法精确标识无限循环小数，要比较两个浮点数是否相等，智能计算他们之间的绝对值，看是否小于某个阈值
+
+```js
+1 / 3 === (1 - 2 / 3); // false
+Math.abs(1 / 3 - (1 - 2 / 3)) < 0.0000001; // true
+```
+
+#### null和undefined
+
+null表示空值，与0和空字符串`''`都是不同的，null和undefined大致类似，大多数情况下都应该用`null`，`undefined`只有在判断函数参数是否传递的情况下有用
+
+#### 数组
+
+js的数组和python的list类似，可以包含任意类型的数据，例如：
+
+```js
+[1, 2, 3.14, 'Hello', null, true];
+```
+
+ 另一种创建数组的方法是通过`Array()`函数实现
+
+```js
+new Array(1,2,3);// 创建了数组[1, 2, 3]
+```
+
+更建议直接使用方括号`[]`来建立数组，数组索引也和python类似，起始索引为0
+
+```js
+var arr = [1, 2, 3.14, 'Hello', null, true];
+arr[0]; // 返回索引为0的元素，即1
+arr[5]; // 返回索引为5的元素，即true
+arr[6]; // 索引超出了范围，返回undefined
+```
+
+#### 对象
+
+js的对象是由一组键值对组成的字典，与python中的字典类型基本一样：
+
+```js
+var person = {
+    name: 'Bob',
+    age: 20,
+    tags: ['js', 'web', 'mobile'],
+    city: 'Beijing',
+    hasCar: true,
+    zipcode: null
+};
+```
+
+js对象的键都是字符串类型，值可以是任何类型，要获取一个对象的属性，就直接用`对象变量.属性名 `的方式：
+
+```js
+person.name; // 'Bob'
+person.zipcode; // null
+```
+
+#### 变量
+
+js的变量要以var定义，变量名是大小写英文、数字、`$`和`_`的组合 ，不能以数字开头
+
+用等号对变量赋值，但一个变量只需要初始化一次
+
+```js
+var a = 123; // a的值是整数123
+a = 'ABC'; // a变为字符串
+```
+
+#### strict模式
+
+如果不用var进行初始化的话，那么变量将是全局变量，这会导致很严重的错误
+
+ECMA为了修补js的这一严重缺陷，在后续退出了strict模式，如果不用var初始化变量将会报错，启用strict模式的方法是在js代码的第一行写上
+
+```
+'use strict';
+```
+
+
+
 # JavaScript 简介
 
 <!--more-->
