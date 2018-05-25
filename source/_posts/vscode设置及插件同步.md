@@ -9,7 +9,7 @@ category: [编程学习,工具]
 
 首先安装同步插件： [Settings Sync](https://marketplace.visualstudio.com/items?itemName=Shan.code-settings-sync)  
 
- 
+ <!--more-->
 
 第二步：进入你的github如图：
 
