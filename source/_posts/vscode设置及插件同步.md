@@ -1,5 +1,5 @@
 ---
-title: vscode设置同步
+title: vscode设置及插件同步
 date: 2018-05-25 18:16:36
 tags: [工具]
 category: [编程学习][工具]
