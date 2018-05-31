@@ -1820,7 +1820,7 @@ function checkForm() {
 
 例如，很多登录表单希望用户输入用户名和口令，但是，安全考虑，提交表单时不传输明文口令，而是口令的MD5。普通JavaScript开发人员会直接修改`<input>`：
 
-```
+```html
 <!-- HTML -->
 <form id="login-form" method="post" onsubmit="return checkForm()">
     <input type="text" id="username" name="username">
@@ -1867,6 +1867,171 @@ function checkForm() {
 注意到`id`为`md5-password`的`<input>`标记了`name="password"`，而用户输入的`id`为`input-password`的`<input>`没有`name`属性。没有`name`属性的`<input>`的数据不会被提交。
 
 #### 上传文件
+
+HTML当中上传文件，用到的唯一控件就是`<inpt type="file">`
+
+*注意*：当一个表单包含`<input type="file">`时，表单的`enctype`必须指定为`multipart/form-data`，`method`必须指定为`post`，浏览器才能正确编码并以`multipart/form-data`格式发送表单的数据。
+
+ 一般来说上传文件由后台处理，js可以在提交时对文件名称进行检查，以防止上传无效格式的文件
+
+```js
+var f = document.getElementById('test-file-upload');
+var filename = f.value; // 'C:\fakepath\test.png'
+if (!filename || !( filename.endsWith('.jpg') || filename.endsWith('.png') || filename.endsWith('.gif'))) {
+    alert('Can only upload image file.');
+    return false;
+}
+```
+
+#### File API
+
+HTML5新增的File API允许js读取文件内容，提供了`File`和`FileReader`两个主要对象，可以获取文件信息并读取文件
+
+下面这段代码是预览图片并显示相关信息的代码
+
+```js
+var
+    fileInput = document.getElementById('test-image-file'),
+    info = document.getElementById('test-file-info'),
+    preview = document.getElementById('test-image-preview');
+// 监听change事件:
+fileInput.addEventListener('change', function () {
+    // 清除背景图片:
+    preview.style.backgroundImage = '';
+    // 检查文件是否选择:
+    if (!fileInput.value) {
+        info.innerHTML = '没有选择文件';
+        return;
+    }
+    // 获取File引用:
+    var file = fileInput.files[0];
+    // 获取File信息:
+    info.innerHTML = '文件: ' + file.name + '<br>' +
+                     '大小: ' + file.size + '<br>' +
+                     '修改: ' + file.lastModifiedDate;
+    if (file.type !== 'image/jpeg' && file.type !== 'image/png' && file.type !== 'image/gif') {
+        alert('不是有效的图片文件!');
+        return;
+    }
+    // 读取文件:
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var
+            data = e.target.result; // 'data:image/jpeg;base64,/9j/4AAQSk...(base64编码)...'            
+        preview.style.backgroundImage = 'url(' + data + ')';
+    };
+    // 以DataURL的形式读取文件:
+    reader.readAsDataURL(file);
+});
+```
+
+这一部分的回调函数也不是太懂，之后会再回来看看
+
+### AJAX
+
+AJAX（Asynchronous JavaScript and XML ）就是异步加载的JavaScript，一般提交一个Form，点击submit之后浏览器就会刷新页面，告诉你成功还是失败，web就是这样，一次HTTP请求对应一个页面
+
+如果你想要用户留在当前页面，同时发出HTTP请求，就必须要用js发送请求，接收到数据后再用js更新页面。这样页面没有刷新，但是数据不断地更新。
+
+AJAX请求是异步执行的，也就是说，要通过回调函数获得响应。 
+
+在现代浏览器上写AJAX主要依靠`XMLHttpRequest`对象：  
+
+```js
+function success(text) {
+    var textarea = document.getElementById('test-response-text');
+    textarea.value = text;
+}
+
+function fail(code) {
+    var textarea = document.getElementById('test-response-text');
+    textarea.value = 'Error code: ' + code;
+}
+
+var request = new XMLHttpRequest(); // 新建XMLHttpRequest对象
+
+request.onreadystatechange = function () { // 状态发生变化时，函数被回调
+    if (request.readyState === 4) { // 成功完成
+        // 判断响应结果:
+        if (request.status === 200) {
+            // 成功，通过responseText拿到响应的文本:
+            return success(request.responseText);
+        } else {
+            // 失败，根据响应码判断失败原因:
+            return fail(request.status);
+        }
+    } else {
+        // HTTP请求还在继续...
+    }
+}
+
+// 发送请求:
+request.open('GET', '/api/categories');
+request.send();
+
+alert('请求已发送，请等待响应...');
+
+```
+
+当创建了`XMLHttpRequest`对象后，要先设置`onreadystatechange`的回调函数。在回调函数中，通常我们只需通过`readyState === 4`判断请求是否完成，如果已完成，再根据`status === 200`判断是否是一个成功的响应。
+
+#### 请求第三方网站数据CORS
+
+CORS全称Cross-Origin Resource Sharing，是HTML5规范定义的如何跨域访问资源。
+
+![js-cors](https://cdn.liaoxuefeng.com/cdn/files/attachments/00143640805071744d58164a40e42ef92b9973824451595000/l) 
+
+只要浏览器的相应的`Access-Control-Allow-Origin`包含本域，则此次跨域请求成功 
+
+### Promise
+
+Promise是一种ajax异步加载，比较难，之后再看
+
+### Canvas
+
+canvas可以用来画图
+
+```html
+<canvas id="test-canvas" width="300" height="200"></canvas>
+```
+
+ `getContext('2d')`方法让我们拿到一个`CanvasRenderingContext2D`对象，所有的绘图操作都需要通过这个对象完成。
+
+ ```js
+var ctx = canvas.getContext('2d');
+ ```
+
+左上角为原点，其余为x，y轴开始画图
+
+```js
+var
+    canvas = document.getElementById('test-shape-canvas'),
+    ctx = canvas.getContext('2d');
+ctx.clearRect(0, 0, 200, 200); // 擦除(0,0)位置大小为200x200的矩形，擦除的意思是把该区域变为透明
+ctx.fillStyle = '#dddddd'; // 设置颜色
+ctx.fillRect(10, 10, 130, 130); // 把(10,10)位置大小为130x130的矩形涂色
+// 利用Path绘制复杂路径:
+var path=new Path2D();
+path.arc(75, 75, 50, 0, Math.PI*2, true);
+path.moveTo(110,75);
+path.arc(75, 75, 35, 0, Math.PI, false);
+path.moveTo(65, 65);
+path.arc(60, 65, 5, 0, Math.PI*2, true);
+path.moveTo(95, 65);
+path.arc(90, 65, 5, 0, Math.PI*2, true);
+ctx.strokeStyle = '#0000ff';
+ctx.stroke(path);
+```
+
+## jQuery
+
+
+
+
+
+
+
+
 
 
 
