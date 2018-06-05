@@ -7,4 +7,4 @@ category: [linux]
 
 在启动项里加入以下命令行，修改 `/etc/rc.local `
 
-`` iptables -I INPUT -p tcp --dport 8888 -j ACCEPT` 
+`iptables -I INPUT -p tcp --dport 8888 -j ACCEPT` 
