@@ -9,6 +9,8 @@ category: [Linux]
 
 今天给大家介绍另一款好用内网穿透工具 `FRP`，`FRP` 全名：Fast Reverse Proxy。`FRP` 是一个使用 `Go` 语言开发的高性能的反向代理应用，可以帮助您轻松地进行内网穿透，对外网提供服务。`FRP` 支持 `TCP`、`UDP`、`HTTP`、`HTTPS`等协议类型，并且支持 `Web` 服务根据域名进行路由转发。
 
+<!--more-->
+
 FRP 项目地址：<https://github.com/fatedier/frp>
 
 **FRP 的作用**
