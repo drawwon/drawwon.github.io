@@ -7,6 +7,51 @@ category: [JavaScript]
 
 ## 基本用法
 
+Promise对象就是一个异步调用的对象，有两个参数`resolve`和`reject`，执行调用成功的情况下使用resolve，失败的时候使用`reject`。
+
+在keystroke项目中，我用到了下面这个例子
+
+```js
+registerKeystroke() {
+    var username = $('#id_username').val();
+    var password = $('#id_password').val();
+    return this._sendRequest('/pc_data/', {'username': username, 'password': password})
+        .then(res1 => {
+        console.log('res1:' + res1);
+        this._change_status(res1.toString());
+        return res1;
+    })
+        .then((res2) => {
+        console.log('res2:' + res2);
+        return this._sendRequest('/server/register_keystroke/', {
+            'login': username, 'password': password, "login_timestamps": this._loginInput.timeStamps,
+            "password_timestamps": this._passwordInput.timeStamps,
+        });
+    }
+             )
+        .then(
+        res3 => {
+            console.log('res3:' + res3);
+            return res3;
+        })
+    
+    
+    
+        _sendRequest(url, data) {
+        return new Promise((resolve) => {
+            $.post(
+                url,
+                JSON.stringify(data),
+                (data) => resolve(data),
+                'json'
+            );
+        })
+    }
+}
+```
+
+先发送第一个请求到`/pc_data/`，如果成功，再发送一个到`/server/register_keystroke/`，
+
 ES6原生提供了Promise对象。所谓Promise对象，就是代表了未来某个将要发生的事件（通常是一个异步操作）。它的好处在于，有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise对象还提供了一整套完整的接口，使得可以更加容易地控制异步操作。Promise对象的概念的详细解释，请参考[《JavaScript标准参考教程》](http://javascript.ruanyifeng.com/)。
 
 ES6的Promise对象是一个构造函数，用来生成Promise实例。下面是Promise对象的基本用法。
