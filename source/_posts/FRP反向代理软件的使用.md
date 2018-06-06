@@ -5,7 +5,7 @@ tags: [Linux]
 category: [Linux]
 ---
 
-对于没有公网 `IP` 的内网用户来说，远程管理或在外网访问内网机器上的服务是一个问题。通常解决方案就是用内网穿透工具将内网的服务穿透到公网中，便于远程管理和在外部访问。内网穿透的工具很多，之前也介绍过 [Ngrok](https://www.hi-linux.com/posts/29097.html)[、Localtunnel](https://www.hi-linux.com/posts/24471.html)。
+对于没有公网 `IP` 的内网用户来说，远程管理或在外网访问内网机器上的服务是一个问题。通常解决方案就是用内网穿透工具将内网的服务穿透到公网中，便于远程管理和在外部访问。内网穿透的工具很多，之前也介绍过 [Ngrok](https://www.hi-linux.com/posts/29097.html)[、Localtunnel](https://www.hi-linux.com/posts/24471.html)。
 
 今天给大家介绍另一款好用内网穿透工具 `FRP`，`FRP` 全名：Fast Reverse Proxy。`FRP` 是一个使用 `Go` 语言开发的高性能的反向代理应用，可以帮助您轻松地进行内网穿透，对外网提供服务。`FRP` 支持 `TCP`、`UDP`、`HTTP`、`HTTPS`等协议类型，并且支持 `Web` 服务根据域名进行路由转发。
 
@@ -17,7 +17,7 @@ FRP 项目地址：<https://github.com/fatedier/frp>
 
 - 利用处于内网或防火墙后的机器，对外网环境提供 `HTTP` 或 `HTTPS` 服务。
 - 对于 `HTTP`, `HTTPS` 服务支持基于域名的虚拟主机，支持自定义域名绑定，使多个域名可以共用一个 80 端口。
-- 利用处于内网或防火墙后的机器，对外网环境提供 `TCP` 和 `UDP` 服务，例如在家里通过 `SSH` 访问处于公司内网环境内的主机。
+- 利用处于内网或防火墙后的机器，对外网环境提供 `TCP` 和 `UDP` 服务，例如在家里通过 `SSH` 访问处于公司内网环境内的主机。
 
 **FRP 架构**
 
@@ -56,7 +56,7 @@ bind_port = 7000
 
 > - 默认配置中监听的是 7000 端口，可根据自己实际情况修改。
 
-启动 FRP 服务端
+启动 FRP 服务端
 
 ```
 $ ./frps -c ./frps.ini
@@ -69,21 +69,21 @@ $ ./frps -c ./frps.ini
 
 #### FRP 客户端配置
 
-和 FRP 服务端类似，`FRP` 默认也给出两个客户端配置文件，一个是简版的 frpc.ini，另一个是完整版本 frpc_full.ini。
+和 FRP 服务端类似，`FRP` 默认也给出两个客户端配置文件，一个是简版的 frpc.ini，另一个是完整版本 frpc_full.ini。
 
-这里同样以简版的 frpc.ini 文件为例，假设 FRP 服务端所在服务器的公网 `IP` 为 4.3.2.1。
+这里同样以简版的 frpc.ini 文件为例，假设 FRP 服务端所在服务器的公网 `IP` 为 4.3.2.1。
 
 ```
 $ vim frpc.ini
 
 [common]
-# server_addr 为 FRP 服务端的公网 IP 
+# server_addr 为 FRP 服务端的公网 IP
 server_addr = 4.3.2.1
-# server_port 为 FRP 服务端监听的端口 
+# server_port 为 FRP 服务端监听的端口
 server_port = 7000
 ```
 
-启动 FRP 客户端
+启动 FRP 客户端
 
 ```
 $ ./frpc -c ./frpc.ini
@@ -94,11 +94,11 @@ $ ./frpc -c ./frpc.ini
 2018/01/25 11:15:49 [I] [control.go:240] [83775d7388b8e7d9] login to server success, get run id [83775d7388b8e7d9], server udp port [0]
 ```
 
-这样就可以成功在 `FRP` 服务端上成功建立一个客户端连接，当然现在还并不能对外提供任何内网机器上的服务，因为我们并还没有在 `FRP` 服务端注册任何内网服务的端口。
+这样就可以成功在 `FRP` 服务端上成功建立一个客户端连接，当然现在还并不能对外提供任何内网机器上的服务，因为我们并还没有在 `FRP` 服务端注册任何内网服务的端口。
 
 ### FRP 使用实例
 
-下面我们就来看几个常用的例子，通过这些例子来了解下 FRP 是如何实现内网服务穿透的。
+下面我们就来看几个常用的例子，通过这些例子来了解下 FRP 是如何实现内网服务穿透的。
 
 #### 通过 TCP 访问内网机器
 
@@ -114,7 +114,7 @@ local_port = 22
 remote_port = 6000
 ```
 
-启动 FRP 客户端
+启动 FRP 客户端
 
 ```
 $ ./frpc -c ./frpc.ini
@@ -126,7 +126,7 @@ $ ./frpc -c ./frpc.ini
 2018/01/25 12:21:23 [I] [control.go:165] [3b468a55191341cb] [ssh] start proxy success
 ```
 
-这样就在 `FRP` 服务端上成功注册了一个端口为 6000 的服务，接下来我们就可以通过这个端口访问内网机器上 `SSH` 服务，假设用户名为 mike：
+这样就在 `FRP` 服务端上成功注册了一个端口为 6000 的服务，接下来我们就可以通过这个端口访问内网机器上 `SSH` 服务，假设用户名为 mike：
 
 ```
 $ ssh -oPort=6000 mike@4.3.2.1
@@ -145,7 +145,7 @@ bind_port = 7000
 vhost_http_port = 80
 ```
 
-启动 FRP 服务端
+启动 FRP 服务端
 
 ```
 $ ./frps -c ./frps.ini
@@ -166,9 +166,9 @@ local_port = 80
 custom_domains = mike.hi-linux.com
 ```
 
-这里通过 `local_port` 和 `custom_domains` 参数来设置本地机器上 `Web` 服务对应的端口和自定义的域名，这里我们分别设置端口为 80，对应域名为 `mike.hi-linux.com`。
+这里通过 `local_port` 和 `custom_domains` 参数来设置本地机器上 `Web` 服务对应的端口和自定义的域名，这里我们分别设置端口为 80，对应域名为 `mike.hi-linux.com`。
 
-启动 FRP 客户端
+启动 FRP 客户端
 
 ```
 $ ./frpc -c ./frpc.ini
@@ -183,7 +183,7 @@ $ ./frpc -c ./frpc.ini
 
 最后将 `mike.hi-linux.com` 的域名 A 记录解析到 `FRP` 服务器的公网 `IP` 上，现在便可以通过 `http://mike.hi-linux.com:8080` 这个 `URL`访问到处于内网机器上对应的 `Web` 服务。
 
-> - `HTTPS` 服务配置方法类似，只需将 `vhost_http_port` 替换为 `vhost_https_port`， type 设置为 `https` 即可。
+> - `HTTPS` 服务配置方法类似，只需将 `vhost_http_port` 替换为 `vhost_https_port`， type 设置为 `https` 即可。
 
 多个web应用的情况：
 
@@ -258,9 +258,9 @@ http_pwd = abc
 
 通过在 `FRP` 服务端的配置文件中配置 `subdomain_host`参数就可以启用该特性。之后在 `FRP` 客户端的 http、https 类型的代理中可以不配置 `custom_domains`，而是配置一个 `subdomain` 参数。
 
-然后只需要将 `*.{subdomain_host}` 解析到 `FRP` 服务端所在服务器。之后用户可以通过 `subdomain` 自行指定自己的 `Web` 服务所需要使用的二级域名，并通过 `{subdomain}.{subdomain_host}` 来访问自己的 `Web` 服务。
+然后只需要将 `*.{subdomain_host}` 解析到 `FRP` 服务端所在服务器。之后用户可以通过 `subdomain` 自行指定自己的 `Web` 服务所需要使用的二级域名，并通过 `{subdomain}.{subdomain_host}` 来访问自己的 `Web` 服务。
 
-首先我们在 `FRP` 服务端配置 `subdomain_host` 参数：
+首先我们在 `FRP` 服务端配置 `subdomain_host` 参数：
 
 ```
 $ vim frps.ini
@@ -328,7 +328,7 @@ locations = /news,/about
 
 #### 通过 UDP 访问内网机器
 
-`DNS` 查询请求通常使用 `UDP` 协议，`FRP` 支持对内网 `UDP` 服务的穿透，配置方式和 `TCP` 基本一致。这里以转发到 Google 的 `DNS` 查询服务器 8.8.8.8 的 `UDP` 端口为例。
+`DNS` 查询请求通常使用 `UDP` 协议，`FRP` 支持对内网 `UDP` 服务的穿透，配置方式和 `TCP` 基本一致。这里以转发到 Google 的 `DNS` 查询服务器 8.8.8.8 的 `UDP` 端口为例。
 
 首先修改 FRP 客户端配置文件，并增加如下内容：
 
@@ -343,7 +343,7 @@ remote_port = 6001
 
 > - 要转发到内网 DNS 服务器只需把 `local_ip` 改成对应 IP 即可。
 
-其次重新启动 `FRP` 客户端：
+其次重新启动 `FRP` 客户端：
 
 ```
 $ ./frpc -c ./frpc.ini
@@ -357,7 +357,7 @@ $ ./frpc -c ./frpc.ini
 2018/01/25 14:54:17 [I] [control.go:165] [33e1de8a771112a6] [dns] start proxy success
 ```
 
-最后通过 `dig` 命令测试 `UDP` 包转发是否成功，预期会返回 `www.google.com` 域名的解析结果：
+最后通过 `dig` 命令测试 `UDP` 包转发是否成功，预期会返回 `www.google.com` 域名的解析结果：
 
 ```
 $ dig @4.3.2.1 -p 6001 www.google.com
@@ -374,7 +374,7 @@ www.google.com.		79	IN	A	69.63.184.30
 
 #### 转发 Unix 域套接字
 
-通过 `TCP` 端口访问内网的 `Unix` 域套接字，这里以和本地机器上的 Docker Daemon 通信为例。
+通过 `TCP` 端口访问内网的 `Unix` 域套接字，这里以和本地机器上的 Docker Daemon 通信为例。
 
 首先修改 `FRP` 客户端配置文件，并增加如下内容：
 
@@ -389,7 +389,7 @@ plugin_unix_path = /var/run/docker.sock
 
 这里主要是使用 `plugin` 和 `plugin_unix_path` 两个参数启用了 `unix_domain_socket` 插件和配置对应的套接字路径。
 
-其次重新启动 `FRP` 客户端：
+其次重新启动 `FRP` 客户端：
 
 ```
 $ ./frpc -c ./frpc.ini
@@ -439,7 +439,7 @@ dashboard_user = admin
 dashboard_pwd = admin
 ```
 
-其次重新启动 FRP 服务端：
+其次重新启动 FRP 服务端：
 
 ```
 $ ./frps -c ./frps.ini
@@ -741,9 +741,9 @@ $ ssh -oPort=6005 mike@127.0.0.1
 
 #### 点对点内网穿透
 
-在传输大量数据时如果都经过服务器中转的话，这样会对服务器端带宽压力比较大。`FRP` 提供了一种新的代理类型 `XTCP`来解决这个问题，`XTCP` 模式下可以在传输大量数据时让流量不经过服务器中转。
+在传输大量数据时如果都经过服务器中转的话，这样会对服务器端带宽压力比较大。`FRP` 提供了一种新的代理类型 `XTCP`来解决这个问题，`XTCP` 模式下可以在传输大量数据时让流量不经过服务器中转。
 
-使用方式同 `STCP` 类似，需要在传输数据的两端都部署上 `FRP` 客户端上用于建立直接的连接。
+使用方式同 `STCP` 类似，需要在传输数据的两端都部署上 `FRP` 客户端上用于建立直接的连接。
 
 首先在 `FRP` 服务端配置上增加一个 `UDP` 端口用于支持该类型的客户端:
 
@@ -821,7 +821,7 @@ $ chmod 700 ./install-frps.sh
 
 #### 安装 FRP 服务端
 
-这个一键部署脚本比较好用，为了提高国内用户下载安装包速度还提供了阿里云节点的安装源。整个脚本使用起来也比较简单，对一些常用的 `FRP` 服务端配置参数都做了交互式选择让用户可以方便的根据自己实际情况进行选择。脚本比较贴心的一点是对默认的公网地址进行了检测，省去了手动输入的麻烦。
+这个一键部署脚本比较好用，为了提高国内用户下载安装包速度还提供了阿里云节点的安装源。整个脚本使用起来也比较简单，对一些常用的 `FRP` 服务端配置参数都做了交互式选择让用户可以方便的根据自己实际情况进行选择。脚本比较贴心的一点是对默认的公网地址进行了检测，省去了手动输入的麻烦。
 
 ```
 $ ./install-frps.sh install
