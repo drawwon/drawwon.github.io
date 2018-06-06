@@ -34,11 +34,11 @@ mysql -uroot -p你的密码
 当在ubuntu中执行命令sudo apt-get install mysql-server5.1安装的时候居然没有提示我输入mysql的密码之类的信息，但是当安装好之后再终端中直接输入mysql的时候又能直接进入mysql中，为了解决ubuntu中mysql密码初始化的方法有一下两种：
 
 1. 打开/etc/mysql/debian.cnf文件，在这个文件中有系统默认给我们分配的用户名和密码，通过这个密码就可以直接对mysql进行操作了。但是一般这个密码都比较怪，很长很长。
-2. 当进入mysql之后修改mysql的密码：这个方法比较好，具体的操作如下用命令：set password for 'root'@'localhost' = password('yourpass');当修改之后就可应正常对mysql进行操作了。
+2. 当进入mysql之后修改mysql的密码：这个方法比较好，具体的操作如下用命令：`set password for 'root'@'localhost' = password('yourpass')`;当修改之后就可应正常对mysql进行操作了。
 
 ### 安装成功依然无法访问的情况
 
-现在设置mysql允许远程访问，首先编辑文件/etc/mysql/mysql.conf.d/mysqld.cnf：
+现在设置mysql允许远程访问，首先编辑文件`/etc/mysql/mysql.conf.d/mysqld.cnf`：
 
 ```sh
 sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
@@ -64,4 +64,3 @@ service mysql restart
 ```sh
 conda install mysqlclient
 ```
-
