@@ -5,7 +5,7 @@ tags: [Linux]
 category: [Linux]
 ---
 
-对于没有公网 `IP` 的内网用户来说，远程管理或在外网访问内网机器上的服务是一个问题。通常解决方案就是用内网穿透工具将内网的服务穿透到公网中，便于远程管理和在外部访问。内网穿透的工具很多，之前也介绍过 [Ngrok](https://www.hi-linux.com/posts/29097.html)[、Localtunnel](https://www.hi-linux.com/posts/24471.html)。
+对于没有公网 `IP` 的内网用户来说，远程管理或在外网访问内网机器上的服务是一个问题。通常解决方案就是用内网穿透工具将内网的服务穿透到公网中，便于远程管理和在外部访问。内网穿透的工具很多，之前也介绍过 [Ngrok](https://www.hi-linux.com/posts/29097.html)、[Localtunnel](https://www.hi-linux.com/posts/24471.html)。
 
 今天给大家介绍另一款好用内网穿透工具 `FRP`，`FRP` 全名：Fast Reverse Proxy。`FRP` 是一个使用 `Go` 语言开发的高性能的反向代理应用，可以帮助您轻松地进行内网穿透，对外网提供服务。`FRP` 支持 `TCP`、`UDP`、`HTTP`、`HTTPS`等协议类型，并且支持 `Web` 服务根据域名进行路由转发。
 
