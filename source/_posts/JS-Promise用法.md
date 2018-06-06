@@ -9,6 +9,8 @@ category: [JavaScript]
 
 Promise对象就是一个异步调用的对象，有两个参数`resolve`和`reject`，执行调用成功的情况下使用resolve，失败的时候使用`reject`。
 
+<!--more-->
+
 在keystroke项目中，我用到了下面这个例子
 
 ```js

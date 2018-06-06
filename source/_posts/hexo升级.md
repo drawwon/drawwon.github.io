@@ -7,7 +7,9 @@ category: [hexo,工具]
 
 其实所谓的升级，也很简单，先进入 Blog 的目录，看看到底有哪些需要更新的：
 
-```
+<!--more-->
+
+```sh
 npm outdated
 Package                              Current  Wanted  Latest  Location
 hexo-deployer-git                      0.2.0   0.2.0   0.3.1  hexo-site
@@ -20,7 +22,7 @@ hexo-server                            0.2.2   0.2.2   0.3.1  hexo-site
 
 嗯，还是有不少东西需要更新的，简单修改一下 `package.json` 文件：
 
-```
+```json
 {
   "name": "hexo-site",
   "version": "0.0.0",
@@ -53,13 +55,13 @@ hexo-server                            0.2.2   0.2.2   0.3.1  hexo-site
 
 都修改好了以后，就 npm 更新一下：
 
-```
+```sh
 npm install --save
 ```
 
 搞掂，运行 Hexo 看看效果：
 
-```
+```sh
 $ hexo version
 hexo: 3.5.0
 hexo-cli: 1.0.4
