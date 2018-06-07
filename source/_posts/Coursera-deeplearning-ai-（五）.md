@@ -7,7 +7,7 @@ category: [机器学习]
 
 这篇博文主要讲的是关于deeplearning.ai的第五门课程的内容，《Sequence Models》
 
-<!--more-->
+ <!--more-->
 
 ## Week one
 
@@ -48,22 +48,21 @@ category: [机器学习]
 
 ![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/5379891.jpg)
 
-循环神经网络中$a^{ \langle t \rangle }$和$y^{ \langle t \rangle }$的计算方法如下，$w_{a \_}$如果和a相乘的时候就是$w_{aa}$，和x相乘的时候就是$w_{ax}$，注意这里所有层是共享的同一组参数。上下两个激活函数可以不同，一般来说$g_1$是tanh（偶尔也可以是Relu），$g_2$根据任务不同一般是sigmoid或softmax
-
+循环神经网络中$a^{ \langle t \rangle }$和$y^{ \langle t \rangle }$的计算方法如下，$w_{a\_}$如果和a相乘的时候就是​$w_{aa}$，和x相乘的时候就是​$w_{ax}$，注意这里所有层是共享的同一组参数。上下两个激活函数可以不同，一般来说​$g_1$是tanh（偶尔也可以是Relu），​$g_2$根据任务不同一般是sigmoid或softmax
 $$
-\begin{align*}
-a^{<t>} &= g_1(w_{aa}a^{<t-1>} + w_{ax}x^{<t>}+b_a)\\\\
-y^{<t>} &= g_2(w_{ya}a^{<t>} +b_y)
-\end{align*}
+\begin{align}
+a^{\langle t \rangle} &= g_1(w_{aa}a^{ \langle t-1 \rangle } + w_{ax}x^{ \langle t \rangle }+b_a)\\\\
+y^{ \langle t \rangle } &= g_2(w_{ya}a^{ \langle t \rangle } +b_y)
+\end{align}
 $$
 
 上面的公式可以通过矩阵进行简化，用$w_a$表示$[w_{aa}| w_{ax}]$的横排并列，用$[a^{ \langle t-1 \rangle },x^{ \langle t \rangle }]$表示$a^{ \langle t-1 \rangle }$ 与$x^{ \langle t \rangle }$的纵向stack，最后公式简化为下图右边的第一个和左边的最下面那个，即
 
 $$
-\begin{align*}
-a^{<t>} &= g(w_{a}[a^{<t-1>} ,x^{<t>}]+b_a)\\\\
-y^{<t>} &= g(w_{y}a^{<t>} +b_y)
-\end{align*}
+\begin{align}
+a^{ \langle t \rangle } &= g(w_{a}[a^{ \langle t-1 \rangle } ,x^{ \langle t \rangle }]+b_a)\\\\
+y^{ \langle t \rangle } &= g(w_{y}a^{ \langle t \rangle } +b_y)
+\end{align}
 $$
 
 ![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/15290928.jpg)
@@ -94,7 +93,7 @@ $$
 
 给定一句话：“cats average 15 hours of sleep a day”，首先你要对这句话进行标记
 
-比如你用一个字典标注，这个字典包含10000个词，你此时还要生成两个额外的词，一个是` \langle EOS \rangle `，表示end of sentence，句子的结束标志，还有一个是` \langle UNK \rangle `，表示unkonwn words，未知单词
+比如你用一个字典标注，这个字典包含10000个词，你此时还要生成两个额外的词，一个是`<EOS>`，表示end of sentence，句子的结束标志，还有一个是`<UNK>`，表示unkonwn words，未知单词
 
 标记完之后你开始计算每个单词出现的概率，然后计算第二个单词在第一个单词出现的概率，计算第三个单词在第一、二个单词出现的概率，一直到最后一个单词
 
@@ -102,7 +101,7 @@ $$
 
 ### 采样新序列
 
-我们之前计算每个$y^{ \langle t \rangle }$是通过选择最大的概率，但是在这里介绍一个新的方法，是通过随机采样作为下一个循环神经网络的输入，直到采样到` \langle UNK \rangle `的时候结束
+我们之前计算每个$y^{ \langle t \rangle }$是通过选择最大的概率，但是在这里介绍一个新的方法，是通过随机采样作为下一个循环神经网络的输入，直到采样到`<UNK>`的时候结束
 
 ![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/72354364.jpg)
 
@@ -130,22 +129,22 @@ RNN不擅长捕捉长期依赖关系，比如下图中的was和were和前面的c
 
 ![](http://drawon-blog.oss-cn-beijing.aliyuncs.com/18-5-17/4804980.jpg)
 
-我我们把公式整理一下：
+我们把公式整理一下：
 $$
-\begin{align*}
-\tilde C&=\tanh(W_c[c^{<t-1>},x^{<t>}]+b_c)\\
-\Gamma_u&=\sigma(W_u[c^{<t-1>},x^{<t>}]+b_u)\\
-c^{<t>}&=\Gamma_u*\tilde c^{<t>}+(1-\Gamma_u) c^{<t-1>}
-\end{align*}
+\begin{align}
+\tilde C&=\tanh(W_c[c^{ \langle t-1 \rangle },x^{ \langle t \rangle }]+b_c)\\\\
+\Gamma_u&=\sigma(W_u[c^{ \langle t-1 \rangle },x^{ \langle t \rangle }]+b_u)\\\\
+c^{ \langle t \rangle }&=\Gamma_u \times \tilde c^{ \langle t \rangle }+(1-\Gamma_u) c^{ \langle t-1 \rangle }
+\end{align}
 $$
 其中$\tilde C$表示C的更新值，$\Gamma_u$表示选通函数，有时候我们会再加上一个选通函数$\Gamma_r$，整个GRU的定义如下：
 $$
-\begin{align*}
-\tilde C&=\tanh(W_c[\Gamma_r* c^{<t-1>},x^{<t>}]+b_c)\\
-\Gamma_u&=\sigma(W_u[c^{<t-1>},x^{<t>}]+b_u)\\
-\Gamma_r&=\sigma(W_r[c^{<t-1>},x^{<t>}]+b_r)\\
-c^{<t>}&=\Gamma_u*\tilde c^{<t>}+(1-\Gamma_u) c^{<t-1>}
-\end{align*}
+\begin{align}
+\tilde C&=\tanh(W_c[\Gamma_r\times c^{ \langle t-1 \rangle },x^{ \langle t \rangle }]+b_c)\\\\
+\Gamma_u&=\sigma(W_u[c^{ \langle t-1 \rangle },x^{ \langle t \rangle }]+b_u)\\\\
+\Gamma_r&=\sigma(W_r[c^{ \langle t-1 \rangle },x^{ \langle t \rangle }]+b_r)\\\\
+c^{ \langle t \rangle }&=\Gamma_u\times \tilde c^{ \langle t \rangle }+(1-\Gamma_u) c^{ \langle t-1 \rangle }
+\end{align}
 $$
 
 ### LSTM
