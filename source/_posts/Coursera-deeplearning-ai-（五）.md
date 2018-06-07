@@ -18,10 +18,10 @@ category: [机器学习]
 #### 常用的符号
 
 * X：输入数据
-* $x^{(i)<t>}$：第i个输入样本序列中的第t个值
+* $x^{(i) \langle t \rangle }$：第i个输入样本序列中的第t个值
 * $T_x^{(i)}$：第i个输入样本的长度
 * y：目标数据
-* $x^{(i)<t>}$：第i个输出序列中的第t个值
+* $x^{(i) \langle t \rangle }$：第i个输出序列中的第t个值
 
 #### 单词的表示
 
@@ -40,7 +40,7 @@ category: [机器学习]
 
 #### 循环神经网络
 
-先输入一个$x^{<1>}$，输出$y^{<1>}$和$a^{<1>}$；然后输入$x^{<2>}$，通过$a^{<1>}$的信息和$x^{<2>}$的信息共同输出$y^{<2>}$和$a^{<2>}$，后面的步骤相似，由之前的所有信息得到当前的输出y，右边是循环神经网络的另一种表示方式，不过在这门课当中我们用左边的表示方式，通常会构造一个$a^{<0>}$，一般构造为0向量
+先输入一个$x^{ \langle 1 \rangle }$，输出$y^{ \langle 1 \rangle }$和$a^{ \langle 1 \rangle }$；然后输入$x^{ \langle 2 \rangle }$，通过$a^{ \langle 1 \rangle }$的信息和$x^{ \langle 2 \rangle }$的信息共同输出$y^{ \langle 2 \rangle }$和$a^{ \langle 2 \rangle }$，后面的步骤相似，由之前的所有信息得到当前的输出y，右边是循环神经网络的另一种表示方式，不过在这门课当中我们用左边的表示方式，通常会构造一个$a^{ \langle 0 \rangle }$，一般构造为0向量
 
 ![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/51333298.jpg)
 
@@ -48,14 +48,14 @@ category: [机器学习]
 
 ![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/5379891.jpg)
 
-循环神经网络中$a^{<t>}​$和$y^{<t>}​$的计算方法如下，$w_{a\_}​$如果和a相乘的时候就是$w_{aa}​$，和x相乘的时候就是$w_{ax}​$，注意这里所有层是共享的同一组参数。上下两个激活函数可以不同，一般来说$g_1​$是tanh（偶尔也可以是Relu），$g_2​$根据任务不同一般是sigmoid或softmax
+循环神经网络中$a^{ \langle t \rangle }​$和$y^{ \langle t \rangle }​$的计算方法如下，$w_{a\_}​$如果和a相乘的时候就是$w_{aa}​$，和x相乘的时候就是$w_{ax}​$，注意这里所有层是共享的同一组参数。上下两个激活函数可以不同，一般来说$g_1​$是tanh（偶尔也可以是Relu），$g_2​$根据任务不同一般是sigmoid或softmax
 $$
 \begin{align*}
 a^{<t>} &= g_1(w_{aa}a^{<t-1>} + w_{ax}x^{<t>}+b_a)\\
 y^{<t>} &= g_2(w_{ya}a^{<t>} +b_y)
 \end{align*}
 $$
-上面的公式可以通过矩阵进行简化，用$w_a$表示$[w_{aa}| w_{ax}]$的横排并列，用$[a^{<t-1>},x^{<t>}]$表示$a^{<t-1>}$ 与$x^{<t>}$的纵向stack，最后公式简化为下图右边的第一个和左边的最下面那个，即
+上面的公式可以通过矩阵进行简化，用$w_a$表示$[w_{aa}| w_{ax}]$的横排并列，用$[a^{ \langle t-1 \rangle },x^{ \langle t \rangle }]$表示$a^{ \langle t-1 \rangle }$ 与$x^{ \langle t \rangle }$的纵向stack，最后公式简化为下图右边的第一个和左边的最下面那个，即
 $$
 \begin{align*}
 a^{<t>} &= g(w_{a}[a^{<t-1>} ,x^{<t>}]+b_a)\\
@@ -90,7 +90,7 @@ $$
 
 给定一句话：“cats average 15 hours of sleep a day”，首先你要对这句话进行标记
 
-比如你用一个字典标注，这个字典包含10000个词，你此时还要生成两个额外的词，一个是`<EOS>`，表示end of sentence，句子的结束标志，还有一个是`<UNK>`，表示unkonwn words，未知单词
+比如你用一个字典标注，这个字典包含10000个词，你此时还要生成两个额外的词，一个是` \langle EOS \rangle `，表示end of sentence，句子的结束标志，还有一个是` \langle UNK \rangle `，表示unkonwn words，未知单词
 
 标记完之后你开始计算每个单词出现的概率，然后计算第二个单词在第一个单词出现的概率，计算第三个单词在第一、二个单词出现的概率，一直到最后一个单词
 
@@ -98,7 +98,7 @@ $$
 
 ### 采样新序列
 
-我们之前计算每个$y^{<t>}$是通过选择最大的概率，但是在这里介绍一个新的方法，是通过随机采样作为下一个循环神经网络的输入，直到采样到`<UNK>`的时候结束
+我们之前计算每个$y^{ \langle t \rangle }$是通过选择最大的概率，但是在这里介绍一个新的方法，是通过随机采样作为下一个循环神经网络的输入，直到采样到` \langle UNK \rangle `的时候结束
 
 ![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/72354364.jpg)
 
@@ -118,7 +118,7 @@ RNN不擅长捕捉长期依赖关系，比如下图中的was和were和前面的c
 
 选通循环单元(Gated Recurrent Unint)能够很大程度上地改善循环神经网络无法学习长期依赖关系和梯度消失这两个问题。
 
-我们先来看看普通的RNN unit，用$x^{<t>}$和$a^{<t-1>}$计算出$a^{<t>}$，然后经过softmax计算出$\hat y^{<t>}$，过程如下图所示
+我们先来看看普通的RNN unit，用$x^{ \langle t \rangle }$和$a^{ \langle t-1 \rangle }$计算出$a^{ \langle t \rangle }$，然后经过softmax计算出$\hat y^{ \langle t \rangle }$，过程如下图所示
 
 ![](http://drawon-blog.oss-cn-beijing.aliyuncs.com/18-5-17/32330611.jpg)
 
@@ -168,7 +168,7 @@ LSTM是GRU的更一般化的形式，其引入了另外两个选通参数$\Gamma
 
 利用RNN,GRU,LSTM,BRNN综合形成一个深度循环神经网络
 
-我们现在用方括号来代表所在的layer，比如现在有一个三层的RNN，来看看$a^{[2]<3>}$是怎么计算的，它既有左边的值，又有下面的值，一起算出$a^{[2]<3>}$，一般来说3层的RNN已经非常深了（因为计算量非常大），通常上面得到的y还可以通过几层普通的神经网络来获得，这样可以使模型更加复杂
+我们现在用方括号来代表所在的layer，比如现在有一个三层的RNN，来看看$a^{[2] \langle 3 \rangle }$是怎么计算的，它既有左边的值，又有下面的值，一起算出$a^{[2] \langle 3 \rangle }$，一般来说3层的RNN已经非常深了（因为计算量非常大），通常上面得到的y还可以通过几层普通的神经网络来获得，这样可以使模型更加复杂
 
 ![](http://drawon-blog.oss-cn-beijing.aliyuncs.com/18-5-17/29850041.jpg)
 
@@ -307,7 +307,7 @@ Glove全称：Global Vectors for Word Representation ，是以两个单词i,j互
 
 加入你要找到最大的联合概率，那么你每一步都要评估你字典那么多个概率，比如你字典中有10000个单词，如果你要翻译为1个长度为10的句子，那么你就要计算$10000^{10}$这个多个概率，从中选择最大的。
 
-beam search的思想就是每次你只选择n个最大的概率向后计算，比如你现在beam=3，那么你每次只选择概率最大的3个短语向后计算，如下图，第一个单词概率最大的3个是"in, jane, sptember"，然后你以$\hat y^{<1>}$分别是"in, jane, sptember"，向后计算第二个单词，选出集中概率最大的三个，比如现在是"in september, jane is, jane visits"，然后再以这三个向后计算第三个单词，直到最后一个
+beam search的思想就是每次你只选择n个最大的概率向后计算，比如你现在beam=3，那么你每次只选择概率最大的3个短语向后计算，如下图，第一个单词概率最大的3个是"in, jane, sptember"，然后你以$\hat y^{ \langle 1 \rangle }$分别是"in, jane, sptember"，向后计算第二个单词，选出集中概率最大的三个，比如现在是"in september, jane is, jane visits"，然后再以这三个向后计算第三个单词，直到最后一个
 
 ![](http://drawon-blog.oss-cn-beijing.aliyuncs.com/18-5-21/80515032.jpg)
 
@@ -349,7 +349,7 @@ length normalization是一种可以让beam search表现得更好的方法
 
 处理翻译问题的过程中，不论是对于人或者机器，如果句子过长，那么你很难去记住一个句子，然后把他们全部翻译出来。正确的处理方式应该是先看一部分，然后翻译一部分，直到翻译完所有内容。
 
-我们以翻译法语到英语为例，假如你正在翻译"jane visite l'Afrique en septembre"，那么你翻译的第一个结果$s^{<1>}$到底需要关注哪些单词呢？我们在这里计算出一个注意力权重系数，$\alpha^{<t,t^\prime>}$表示在生成第t个翻译内容的单词时，需要对原文的$t^\prime$那个单词关注多少
+我们以翻译法语到英语为例，假如你正在翻译"jane visite l'Afrique en septembre"，那么你翻译的第一个结果$s^{ \langle 1 \rangle }$到底需要关注哪些单词呢？我们在这里计算出一个注意力权重系数，$\alpha^{ \langle t,t^\prime \rangle }$表示在生成第t个翻译内容的单词时，需要对原文的$t^\prime$那个单词关注多少
 
 ![](http://drawon-blog.oss-cn-beijing.aliyuncs.com/18-5-22/88175104.jpg)
 
