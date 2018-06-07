@@ -48,7 +48,7 @@ category: [机器学习]
 
 ![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/5379891.jpg)
 
-循环神经网络中$a^{ \langle t \rangle }$和$y^{ \langle t \rangle }$的计算方法如下，$w_{a \_ }$如果和a相乘的时候就是​$w_{aa}$，和x相乘的时候就是​$w_{ax}$，注意这里所有层是共享的同一组参数。上下两个激活函数可以不同，一般来说​$g_1$是tanh（偶尔也可以是Relu），​$g_2$根据任务不同一般是sigmoid或softmax
+循环神经网络中$a^{ \langle t \rangle }$和$y^{ \langle t \rangle }$的计算方法如下，$w_{a \_ }$如果和a相乘的时候就是$w_{aa}$，和x相乘的时候就是$w_{ax}$，注意这里所有层是共享的同一组参数。上下两个激活函数可以不同，一般来说$g_1$是tanh（偶尔也可以是Relu），$g_2$根据任务不同一般是sigmoid或softmax
 $$
 \begin{align}
 a^{\langle t \rangle} &= g_1(w_{aa}a^{ \langle t-1 \rangle } + w_{ax}x^{ \langle t \rangle }+b_a)\\\\
@@ -175,7 +175,7 @@ LSTM是GRU的更一般化的形式，其引入了另外两个选通参数$\Gamma
 
 ![](http://drawon-blog.oss-cn-beijing.aliyuncs.com/18-5-17/29850041.jpg)
 
-## Week 2
+## Week Two
 
 ### 词嵌入(Word Embedding)
 

@@ -9,7 +9,7 @@ category: [机器学习]
 
 <!--more-->
 
-## Week one
+## Week One
 
   ### 计算机视觉
 
@@ -180,7 +180,7 @@ pooling layer最常用的就是max pooling，就是用一个filter去移动，�
 
 ![](http://ooi9t4tvk.bkt.clouddn.com/18-5-11/32143114.jpg)
 
-## 利用TensorFlow搭建卷积神经网络
+### 利用TensorFlow搭建卷积神经网络
 
 这周的编程作业就是利用TensorFlow搭建卷积神经网络，那么我们对程序回顾一下
 
@@ -1167,9 +1167,7 @@ SVG(model_to_dot(model).create(prog='dot', format='svg'))
 
 ![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/71188004.jpg)
 
-### Week 3 
-
-## 检测算法
+## Week Three 检测算法
 
 ### 目标定位
 
