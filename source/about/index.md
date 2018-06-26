@@ -14,4 +14,4 @@ comments: false
 <br />
 
 
-####  <center>contact me: [jeffrey.pacino@gmail.com]( jeffrey.pacino@gmail.com )</center> ####
+####  <center>contact me: jeffrey.pacino@gmail.com</center> ####
