@@ -109,7 +109,7 @@ class Flower {
 
 ```
 
-### 垃圾回收
+## 垃圾回收
 
 所有用new构建的对象，java都会自动回收，只有那些不是用new得到的对象所占用的内存，java无法处理，需要你编写`finalize()`函数来进行垃圾回收
 
@@ -117,7 +117,46 @@ class Flower {
 2. 垃圾回收不等于“析构”
 3. 垃圾回收只与内存有关
 
+因为垃圾回收本身也要消耗一定资源，所以在jvm内存耗尽之前，它是不会浪费时间去执行垃圾回收的。
 
+在垃圾回收的时候，会自动调用`finalize()`函数，通常是一些销毁时对对象的验证
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Book novel = new Book(true);
+        novel.checkIn();
+        new Book(true);
+        System.gc();
+    }
+}
+
+class Book{
+    boolean checkedOut = false;
+    Book(boolean checkOut){
+        checkedOut = checkOut;
+    }
+    void checkIn(){
+        checkedOut = false;
+    }
+    protected void finalize(){
+        if (checkedOut){
+            println("error:checked out");
+        }
+    }
+}
+```
+
+### 垃圾回收的自适应技术
+
+所谓的自适应，就是在两种垃圾回收方式中切换：**标记-清扫**模式和**停止-复制**模式
+
+先来介绍一下这两种模式的工作机理：
+
+1. 标记-清扫模式：遍历所有的引用，找出存活的对象。每找到一个存活对象，就会给对象一个标记，这个过程不会回收任何对象。只有标记完所有对象的时候，才开始清理，没有标记的对象将被释放。剩下的空间是不连续的，如果希望得到连续空间，就需要重新整理剩下的对象。
+2. 停止-复制模式：暂停程序运行，将所有存活的对象从当前堆复制到另一个堆，没有被复制到都是垃圾。得到的新堆是连续的。这种方法需要两倍的程序运行内存（一个本身，一个复制堆），在程序稳定时只有少量垃圾，大量复制会产生内存浪费。
+
+自适应模式：如果对象很稳定，就切换到“标记-清扫”模式；要是标记清扫模式的堆空间中出现很多碎片，就会切换回“停止-复制”模式
 
 
 

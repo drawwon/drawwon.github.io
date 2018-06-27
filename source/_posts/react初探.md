@@ -12,6 +12,8 @@ MVC：Model，View，Control，称之为模型，视图，控制，react属于�
 
 ES5和ES6之间的转换工具叫做Babel，是Nodejs的一个包
 
+<!--more-->
+
 ## npm与nodejs及react的安装
 
 安装好Nodejs和npm环境，查看是否安装成功
