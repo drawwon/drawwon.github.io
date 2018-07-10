@@ -158,8 +158,271 @@ class Book{
 
 自适应模式：如果对象很稳定，就切换到“标记-清扫”模式；要是标记清扫模式的堆空间中出现很多碎片，就会切换回“停止-复制”模式
 
+### 类成员初始化顺序
 
+首先被初始化的是静态变量，然后是普通变量，比如定义的int，或者是定义的new 类元素，然后是构造器，最后是函数对象
 
+```java
+
+package javastatic;
+class Window{
+	Window(int marker){
+		System.out.println("Windows("+marker+")");
+	}
+}
+class House{
+	Window w1=new Window(1);
+	House(){
+		System.out.println("House()");
+		w3=new Window(33);
+	}
+	Window w2=new Window(2);
+	void f(){
+		System.out.println("f()");
+	}
+	Window w3=new Window(3);
+}
+ 
+public class OrderOfInitialization {
+ 
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		House house=new House();
+		house.f();
+	}
+}
+
+/* output:
+Window(1)
+Window(2)
+Window(3)
+House()
+Window(33)
+f()
+*///:~
+```
+
+### 静态数据
+
+无论创建多少个对象，静态数据都只占用一份存储区域，static不能用于局部变量，且静态变量的初始化优先级最高，在最前面
+
+```java
+
+package test;
+ 
+class Bowl{
+	Bowl(int marker){
+		System.out.println("Bowl("+marker+")");
+	}
+	void f1(int marker){
+		System.out.println("f1("+marker+")");
+	}
+}
+ 
+class Table{
+	static Bowl bowl1=new Bowl(1);
+	Table(){
+		System.out.println("Table()");
+		bowl2.f1(1);
+	}
+	void f2(int marker){
+		System.out.println("f2("+marker+")");
+	}
+	static Bowl bowl2=new Bowl(2);
+}
+ 
+class Cupboard{
+	Bowl bowl3=new Bowl(3);
+	static Bowl bowl4=new Bowl(4);
+	Cupboard(){
+		System.out.println("Cupboard()");
+		bowl4.f1(2);
+	}
+	void f3(int marker){
+		System.out.println("f3("+marker+")");
+	}
+	static Bowl bowl5=new Bowl(5);
+}
+ 
+public class Static {
+	public static void main(String args[])
+	{
+		System.out.println("Creating new Cupboard() in main");
+		new Cupboard();
+		System.out.println("Creating new Cupboard() in main");
+		new Cupboard();
+		table.f2(1);
+		cupboard.f3(1);
+	}
+	static Table table=new Table();
+	static Cupboard cupboard=new Cupboard();
+}
+
+/* output：
+Bowl(1)
+Bowl(2)
+Table()
+f1(1)
+
+Bowl(4)
+Bowl(5)
+Cupboard()
+f1(2)
+
+Creating new Cupboard() in main
+Bowl(3)
+Cupboard()
+f1(2)
+
+Creating new Cupboard() in main
+Bowl(3)
+Cupboard()
+f1(2)
+f2(1)
+f3(1)
+*/
+```
+
+### 数组初始化
+
+数组在java中的定义形式推荐的是：
+
+```java
+int[] array;
+```
+
+方括号在前，定义的是一个int类型的数组，比在后面更容易理解
+
+数组的初始化有三种方法，
+
+* 第一种是先定义长度，然后遍历数组，一个个赋值
+* 第二种是用大括号直接赋值
+* 第三种是用new+类型名[]+{值}
+
+```java
+
+public static void main(String[] args) {
+    Random rand = new Random(47);
+    //第一种
+    int[] a = new int[rand.nextInt(20) + 1];
+    System.out.println("array a length:" + a.length);
+    for (int i = 0; i < a.length; i++) {
+        a[i] = rand.nextInt(500);
+    }
+    System.out.println(Arrays.toString(a));
+    //第二种
+    Integer[] b = {
+        new Integer(1),
+        new Integer(2),
+        3,
+    };
+	//第三种
+    Integer[] c = new Integer[]{
+        new Integer(1),
+        new Integer(2),
+        3,
+    };
+}
+```
+
+**tips:**
+
+idea快捷键：
+
+* `psvm`：快速创建main函数
+* `sout`：快速输入`System.out.println()`
+* `fori`：快速创建for模板
+
+### 可变参数列表
+
+在java se5之前用的方法是输入内容放在args里面
+
+```java
+public class VarArgs {
+    static void printArray(Object[] args) {
+        for (Object obj : args)
+            System.out.print(obj + "   ");
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        printArray(new Object[] { new Integer(55), new Float(5.34),
+                new Double(3.56) });
+        printArray(new Object[] { "one", "two", "three" });
+        printArray(new Object[] { new A(), new A(), new A() });
+    }
+}
+```
+
+在se5之后，就可以直接使用可变参数了，这与之前看的javascript的多参数用法一样，用法是`... args`
+
+```java
+public class NewVarArgs {
+    static void printArray(Object... args) {
+        for (Object obj : args)
+            System.out.print(obj + "  ");
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        printArray(new Integer(33), new Float(5.23), new Double(3.55));
+        printArray(33,5.23f,3.55d);
+        printArray("one","two","three");
+        printArray(new A(),new A(),new A());
+        printArray((Object[])new Integer[]{1,2,3,4,5,6});
+        printArray();
+    }
+
+}
+```
+
+### 枚举enum
+
+枚举可以用于switch语句，自带ordinal()方法用于得到index，和values方法用于创建数组
+
+```java
+public static void main(String[] args) {
+    for (Money m : Money.values()){
+        System.out.println("money " + m);
+    }
+    Money money;
+    switch(money){
+        case one: System.out.println("case one");break;
+        case two://剩余逻辑
+        case default: //xxxx
+    }
+enum Money{
+    one,five,ten,twenty,fifty,hundred
+}
+```
+
+## 访问权限控制
+
+### 包
+
+一个包里面有多各类，然而有且仅有一个public类与包的名字相同，其他类主要为public类提供支持
+
+### 包定义与引用
+
+声明包的方法是用`package`关键字
+
+```java
+package my.mypackage
+public class Myclass{}
+```
+
+引用的方法可以写全`包名+类名`，或者是使用`import 包名`
+
+### 访问权限控制
+
+public：都可以访问
+
+private：只有拥有成员的当前类可以访问
+
+protected：当前和继承的对象可以访问
 
 
 
