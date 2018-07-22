@@ -328,6 +328,47 @@ public static void main(String[] args) {
 }
 ```
 
+### 数组排序
+
+可以自己写冒泡排序：
+
+```java
+for (int i = 0; i < ns.length; i++) {
+    for (int j = i+1; j < ns.length; j++) {
+        if (ns[i] > ns[j]){
+            int t = ns[i];
+            ns[i] = ns[j];
+            ns[j] = t;
+        }
+    }
+}
+```
+
+也可以直接调用`Arrays.sort`方法
+
+```java
+int[] ns=[1,33,4,2,5]
+Arrays.sort(ns)
+System.out.println(Arrays.toString(ns));
+```
+
+打印数组的方法：
+
+```java
+//方法一 Arrays.toString或者Arrays.deeptoString(打印多维数组)
+System.out.println( Arrays.toString(ns));
+//方法二 foreach遍历
+for(int i: ns){
+    System.out.println(i);
+}
+//方法三 for遍历
+for(i=0;i<ns.length;i++){
+    System.out.println(ns[i]);
+}
+```
+
+
+
 **tips:**
 
 idea快捷键：
@@ -424,21 +465,151 @@ private：只有拥有成员的当前类可以访问
 
 protected：当前和继承的对象可以访问
 
+### 封装
+
+将类中的属性标记为private，外部代码不可以直接访问类元素，而是通过一些封装好的函数来访问，比如
+
+```java
+public class Person {
+    private String name;
+    private int age;
+    public void setAge(int age) {
+        this.age = age;
+    }
+    
+    public void setName(String name) {
+        this.name = name.trim();
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    public String getName() {
+        return name;
+    }
+}
+```
+
 ### 重载和重写
 
-重载：与父类的函数名相同，但是参数类型不同
+重载：与父类的函数名相同，返回值类型相同，但是**参数类型不同**
 
-重写：与父类的函数名和参数都相同，只是函数内容不同
+重写（覆写）：与父类的**函数名和参数都相同**，只是函数内容不同
 
 se5中引入了一个`@override`关键字，在你想要重写的时候，可以把这个关键字放在返回值之前，如果不是重写，那么将会报错
 
 ```java
 class Lisa extends Homer{
-    @override void doh(Milhouse m){
+    @override 
+    void doh(Milhouse m){
         System.out.println('doh(Milhouse)')
     }
 }
 ```
+
+### 继承
+
+关键字`extends`，子类继承了父类所有元素和方法，可以重写这些方法
+
+java只允许单继承，也就是每个类只能有一个父类
+
+用`super()`表示父类的构造方法，用`super.函数名()`调用父类中被覆写的方法
+
+```java
+public class Student extends Person{
+    private int score;
+
+    public void setScore(int score){
+        this.score = score;
+    }
+
+    public int getScore() {
+        return score;
+    }
+    
+    public String hello(){
+        return super().hello() + "!";
+    }
+}
+
+```
+
+#### 向上向下转型
+
+在java中，一个类型可以安全地向上转型，因为一个子类肯定包含父类的所有元素和方法，但是父类不一定能够安全地向下转型。
+
+转型之前先用`instanceof`判断
+
+```java
+if (p instanceof Student){
+    p = (Student) p;
+}
+```
+
+### 多态
+
+java的方法调用总是作用于对象的实际类型
+
+如果一个变量的声明类型和实际类型值不同，那么他调用方法的时候，调用的是实际类型的方法
+
+在java中，多态的含义是：
+
+* 针对某个类型的方法调用，其真正执行的方法取决于运行时期的实际类型的方法
+* 对某个类型调用某个方法，执行的方法可能是某个子类的覆写方法
+* 利用多态，允许添加更多类型的子类实现功能扩展
+
+```java
+public class Hello {
+    public static void main(String[] args) {
+        Person p = new Person();
+        Person s = new Student();
+        p.run(); //unamed run
+        s.run(); //student run
+    }
+}
+
+class Person{
+    protected String name;
+    private int age;
+    Person(String name, int age){
+        this.name = name;
+        this.age = age;
+    }
+    Person(){
+        this("unamed",0);
+    }
+    public void run(){
+        System.out.println(this.name +  "run");
+    }
+}
+
+class Student extends Person{
+    public void run(){
+        System.out.println("student "+  "run");
+    }
+}
+```
+
+java中所有类都继承于object，因此拥有object的所有方法，object中定义了如下的重要方法
+
+* `toString`：把instance输出为String
+* `equals`：判断两个instance是否逻辑相等
+* `hashCode`：计算一个instance的hash值
+
+#### final
+
+* 用`final`关键字修饰的**方法**不能被override
+
+* 用`final`关键字修饰的**类**不能被继承
+
+* 用`final`关键字修饰的**字段**在初始化之后不能被修改
+
+
+
+
+
+
 
 
 
