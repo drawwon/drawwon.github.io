@@ -424,6 +424,22 @@ private：只有拥有成员的当前类可以访问
 
 protected：当前和继承的对象可以访问
 
+### 重载和重写
+
+重载：与父类的函数名相同，但是参数类型不同
+
+重写：与父类的函数名和参数都相同，只是函数内容不同
+
+se5中引入了一个`@override`关键字，在你想要重写的时候，可以把这个关键字放在返回值之前，如果不是重写，那么将会报错
+
+```java
+class Lisa extends Homer{
+    @override void doh(Milhouse m){
+        System.out.println('doh(Milhouse)')
+    }
+}
+```
+
 
 
 
