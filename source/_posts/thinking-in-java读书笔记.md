@@ -684,6 +684,38 @@ public class Person{};
 
 包作用域就是不使用任何public，private，protected修饰的字段和方法
 
+### classpath
+
+classpath是一个环境变量，定义java如何搜索class的路径，在windows中用分号`；`分割，在Linux和mac中用冒号`:`分割，如果目录含有空格，这个路径就要用双引号括起来
+
+先找当前目录，然后找classpathPATH的路径
+
+运行java的时候可以通过`java -cp classpath`指定当前运行java时候的classpath
+
+### jar包
+
+jar包是一种zip格式的压缩文件，包含若干个.class文件
+
+jar包相当于目录，classpath可以包含jar文件
+
+一个jar包中可以包含另一个jar包
+
+JDK自带的class叫做rt.jar
+
+### idea打包jar包的方法
+
+1.选择菜单File->Project Structure，将弹出Project Structure的设置对话框。
+
+2.选择左边的Artifacts后点击上方的“+”按钮
+
+3.在弹出的框中选择jar->from moduls with dependencies..
+
+4.选择要启动的类，然后 确定
+
+5.应用之后选择菜单Build->Build Artifacts,选择Build或者Rebuild后即可生成，生成的jar文件位于工程项目目录的out/artifacts下。
+
+ 
+
 
 
 
