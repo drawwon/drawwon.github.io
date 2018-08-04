@@ -714,12 +714,96 @@ JDK自带的class叫做rt.jar
 
 5.应用之后选择菜单Build->Build Artifacts,选择Build或者Rebuild后即可生成，生成的jar文件位于工程项目目录的out/artifacts下。
 
- 
+ ### String字符串类型
 
+String可以不用new来实例化，可以通过双引号`String s = "xxx"`直接赋值
 
+String的内容是不可以变的，对比两个string是否相同要调用string的equal方法，equalIgnoreCase，这个方法可以忽略大小写
 
+String提供的方法：
 
+* contains：查看是否包含子串
+* indexOf：找到子串的索引位置
+* lastIndexOf：从后向前找
+* startswith：返回字符串是否由某个子串开始
+* endwith：返回字符串是否由某个子串结束
+* trim：移除首位的空白字符，`String S = "\t abc\r\n ；String S2 = S.trim()"`
+* substring：提取子串，`String S="hello, world"; String S1 = S.substring(7)//"world";s.substring(1,5)//"ello"`，从0开始，包含最后一个数字
+* toUppercase, toLowerCase：转换大小写
+* replace：替换子串
+* replaceAll：用正则表达式替换子串
+* join：将一个String数组连接成一个字符串
+* valueOf：将一个整型转换为一个string类型，也可以用tostring方法转换为字符串
+* Interger.parseInt("123")：将一个String类型转换为一个int类型
+* toCharArray()：将String转换为char数组，`String s ="hello;        char[] c = s.toCharArray();"`
+* getBytes("UTF-8")：将string转换为bytes
 
+打印一个array的方法：`Arrays.toString(array)`
 
+UTF-8和unicode的区别：utf-8是变长的，1-6个字节不等（英文字母只占用1个字节，节省内存）。而unicode所有内容都是2个字节的编码
 
+#### StringBuilder
+
+StringBuilder是一个支持链式操作的字符串拼接对象，可以不停地apped，然后用toString变成需要的字符串
+
+```java
+public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder(1000);
+        for (int i = 0; i < 100; i++) {
+            sb.append(String.valueOf(i));
+        }
+        System.out.println(sb.toString());
+}
+```
+
+### JavaBean
+
+很多java类都是先定义一堆private字段，然后定义相应的get和set方法，这样的类就称为JavaBean
+
+在idea中，定义完一个private字段，在字段上点击`alt+enter`，就可以快速生成get和set方法
+
+### enum枚举类
+
+用于定义枚举常量
+
+```
+public enum Person {
+    a,b,c,d,e;
+}
+```
+
+```java
+public static void main(String[] args) {
+    for (Person p: Person.values()){
+        System.out.println(p);
+    }
+```
+
+```java
+System.out.println(Person.valueOf("a").name());
+```
+
+### jdk常用工具类
+
+1. Math类用于数学计算
+
+   Math有random方法，可以生成一个0-1之间的数`0<=x<1`
+
+2. Random类用于构建伪随机数
+   使用之前要先实例化random
+
+   ```java
+   public static void main(String[] args) {
+       Random r = new Random();
+       System.out.println(r.nextInt());
+       System.out.println(r.nextLong());
+       System.out.println(r.nextFloat());//0-1之间的float
+       System.out.println(r.nextDouble());//0-1之间的double
+   }
+   //结果
+   //453685453
+   //-6144617524281204827
+   //0.8796719
+   //0.9157346073901224
+   ```
 
