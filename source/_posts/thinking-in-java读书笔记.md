@@ -1155,3 +1155,6 @@ Integer[] array = list.toArray(list[size]);
 1. list.contains(Object o)，返回true包含，false不包含
 2. list.indexOf(Object o)，返回正数就是有，返回-1就是不存在
 
+### Map
+
+map就是一种键值对映射的数据结构，与python中的dict是一样的
