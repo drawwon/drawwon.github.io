@@ -1,5 +1,5 @@
 ---
-ptitle: staticmethod和classmethod
+title: staticmethod和classmethod
 mathjax: true
 date: 2018-09-13 14:44:00
 tags: [python]
