@@ -269,6 +269,7 @@ f1(1)
 
 Bowl(4)
 Bowl(5)
+Bowl(3)
 Cupboard()
 f1(2)
 
@@ -400,7 +401,7 @@ public class VarArgs {
 }
 ```
 
-在se5之后，就可以直接使用可变参数了，这与之前看的javascript的多参数用法一样，用法是`... args`
+在se5之后，就可以直接使用可变参数了，这与之前看的javascript的多参数用法一样，与python的`*args`一样，用法是`... args`
 
 ```java
 public class NewVarArgs {
@@ -806,4 +807,351 @@ System.out.println(Person.valueOf("a").name());
    //0.8796719
    //0.9157346073901224
    ```
+
+## 异常处理
+
+### 异常
+
+异常处理的方式是用try，catch
+
+java中必须捕获的异常是Exception及其子类，但不包括RuntimeException及其子类
+
+因为error是发生了严重错误，程序本身是无法处理的；而exception是运行时候的逻辑错误，程序可以捕获和处理这些错误，而RuntimeException是因为程序自身有bug，需要我们去修复程序
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-11/24168308.jpg)
+
+Main方法是捕获异常的最后机会，其余子函数可以用throws将异常抛出，由上层方法来捕获
+
+#### 异常捕获的顺序
+
+异常是按照catch的顺序依次捕获的，所以要把更小的异常（子类）放在前面，不然父类在前面，只要发生了错误就一定会被执行
+
+#### finally
+
+无论是否有错都要执行就用finally
+
+#### multi-catch
+
+可以用或操作符`|`来同时捕获多个Exception
+
+#### printStackTrace
+
+printStackTrace()方法可以打印出异常的传播路径，对于调试很有用
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        process1();
+    }
+    static void process1(){
+        try {
+            process2();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    static void process2(){
+        Integer.parseInt(null);
+    }
+}
+
+//抛出如下异常：
+//java.lang.NumberFormatException: null
+//	at java.base/java.lang.Integer.parseInt(Integer.java:614)
+//	at java.base/java.lang.Integer.parseInt(Integer.java:770)
+//	at test.Main.process2(Main.java:158)
+//	at test.Main.process1(Main.java:151)
+//	at test.Main.main(Main.java:147)
+```
+
+#### JDK已定义的异常
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-11/18751939.jpg)
+
+#### 自定义异常
+
+自定义异常，最好使用RuntimeException继承得到，其构造方法可以通过ide提供的`alt+insert`插入父类的构造方法
+
+```java
+package test;
+
+public class BaseExceptions extends RuntimeException {
+    public BaseExceptions() {
+    }
+
+    public BaseExceptions(String message) {
+        super(message);
+    }
+
+    public BaseExceptions(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public BaseExceptions(Throwable cause) {
+        super(cause);
+    }
+}
+```
+
+```java
+package test;
+
+public class UserNotFoundException extends BaseExceptions {
+    public UserNotFoundException() {
+    }
+
+    public UserNotFoundException(String message) {
+        super(message);
+    }
+
+    public UserNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public UserNotFoundException(Throwable cause) {
+        super(cause);
+    }
+}
+```
+
+### 断言
+
+assert关键字，如果条件为true则继续执行，条件为false则抛出AssertionError，可以加入一个断言消息，打印出断言结果
+
+断言是一种条件方式，只能在开发和测试阶段使用
+
+```java
+assert x>0: "x<0 now"+x;
+```
+
+### 日志
+
+jkd自带的日志系统在java.utils.logging，可以定义格式或者是重定向到文件等
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Logger logger = Logger.getGlobal();
+        logger.info("create new person");
+        logger.log(Level.WARNING,"create failed");
+        logger.info("end");
+    }
+}
+
+//输出
+//9月 11, 2018 10:47:09 上午 test.Main main
+//信息: create new person
+//9月 11, 2018 10:47:09 上午 test.Main main
+//警告: create failed
+//9月 11, 2018 10:47:09 上午 test.Main main
+//信息: end
+```
+
+### common logging
+
+更常用的log方法是commom logging，一共六个日志级别如下
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-11/56679818.jpg)
+
+tips:
+
+#### idea添加jar包的方法
+
+1. 点击file，project structure
+2. 点击左边的module，点击dependencies，点击add
+3. 选择其中的add jar，选中后确定即可
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-12/59568280.jpg)
+
+### log4j
+
+log4j是目前最流行的日志框架，其可以输出到控制台，文件（file），或者是远程（socket）
+
+filter用于过滤：哪些日志需要输出，哪些日志不需要输出
+
+layout：格式化输出
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-12/97700605.jpg)
+
+## java反射与泛型
+
+### 反射
+
+class/interface的数据类型是Class
+
+将通过Class实例来获取class信息的方法称为反射（reflection）——class实例-->class信息
+
+```java
+//方法1
+Class cls = String.class;
+//方法2
+String s= "abcd";
+Class cls = s.getClass();
+//方法3
+Class cls = Class.forName("abc");
+```
+
+反射的目的：获得某个object实例的时候，可以获得该object的class的所有信息
+
+从class可以判断出class的类型，class提供以下几个方法：
+
+```java
+//1
+isInterface();
+//2
+isArray();
+//3
+isEnum();
+//4
+isPrimitive();//是否基本类型
+```
+
+判断类是否存在：
+
+```java
+Class.forName(name)
+```
+
+通过class获取Constructor
+
+```java
+getConstructor(Class):获取某个public的Constructor
+getDeclaredConstructor(class)：获取某个Constructor
+getConstructor()：获取所有public的Constructor
+getDeclaredConstructor():获取所有Constructor    
+```
+
+#### 通过反射获得继承关系
+
+用class的`getSuperclass()`方法获取分类的class对象，注意：object和interface的父类是null
+
+`getInterfaces()`方法返回当前对象的interface
+
+通过class的`isAssignabelFrom()`方法可以判断一个向上转型是否正确
+
+### 注解
+
+注解是放在java源码的类、方法、字段、参数前的标签，用`@`开始，有点像python的装饰器
+
+常用的注解包括：
+
+1. `@Override`：检查是否覆写
+2. `@Deprecated`：告诉编译器该方法已经废弃，如果被调用出现警告
+3. `@SuppressWarnings('unused')`：抑制警告
+4. `@Time(timeout=100)`：时间检查
+5. `Check(min=0,max=100,value=55)`：值的检查
+
+#### 定义注解
+
+用`public @interface name`来定义注解
+
+元注解：注解可以修饰别的注解
+
+用@Target定义Annotation可以被应用于源码的哪些位置
+
+* 类或接口：ElementType.TYPE
+* 字段：ElementType.FIELD
+* 方法：ElementType.METHOD
+* 构造方法：ElementType.CONSTRUCTOR
+* 方法参数：ElementType.PARAMETER
+
+```java
+@Target(ElementType.METHOD)
+public @interface Report{
+    int type() default 0;
+    String level() default "info";
+    String value() default "";
+}
+```
+
+Annotaiton的生命周期，用`Retention()`来定义
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-13/62763668.jpg)
+
+用`@Repeatable`定义Annotation是否可以重复
+
+用`@Inherited`定义子类是否可以继承父类的Anootation
+
+#### 处理Annotation
+
+通过反射可以处理注解，得到class对象后，可以用`class.isAnnotationPresent(Class)`来判断注解是否存在，用`class.getAnnotation()`得到Annotation
+
+### 泛型
+
+就是用`<>`来泛化某个类型，比如arraylist在使用过程中，你要指定这个list当中存放的元素类型，就要用`ArraryList<String> al = new ArrayList<>();`
+
+## 集合
+
+### List
+
+list是一种有序链表，每个元素都可以通过索引来确定位置
+
+常用方法包括：
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-13/79886639.jpg)
+
+list的实现有ArrayList和LinkedList两种：
+
+ArrayList就和数组是一样的结构，当添加的时候大小不够了，就创建一个更大数组，把之前的值全部复制过去，再加一个值
+
+而LinkedList和链表一样的结构，上一个指向下一个
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-13/21021379.jpg)
+
+#### 遍历list的方法
+
+1. get遍历
+
+```java
+List<String> list = new List<>();
+for(int i=0;i<list.size();i++){
+    String s = list.get(i);
+}
+```
+
+2. Iterator遍历
+
+```java
+List<String> list = new List<>();
+for (Iterator<String> it = list.iterator();it.hasNext();){
+    String s = it.next();
+}
+```
+
+3. foreach循环，最推荐这种方法
+
+```java
+List<String> list = new List<>();
+for (String s:list){
+    System.out.println(s);
+}
+```
+
+#### List和Array的转换
+
+1. Object[] toArray()
+
+```java
+List<Interger> list = new List<>();
+list.add(1);
+list.add(2);
+list.add(3);
+Object[] array = list.toArray();
+```
+
+2. `<T> T[] toArray(T[] a)`
+
+```java
+List<Interger> list = new List<>();
+list.add(1);
+list.add(2);
+list.add(3);
+Integer[] array = list.toArray(list[size]);
+```
+
+#### 查找某个元素是否存在
+
+1. list.contains(Object o)，返回true包含，false不包含
+2. list.indexOf(Object o)，返回正数就是有，返回-1就是不存在
 

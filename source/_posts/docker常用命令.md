@@ -61,7 +61,23 @@ root@69d137adef7a:/#
 
 更多参数说明请使用 `docker exec --help` 查看。
 
+### 结束正在运行的docker
 
+```sh
+docker container kill `docker container ls -q`
+```
+
+### exec正在运行的docker
+
+```sh
+docker exec -it `docker container ls -q` bash
+```
+
+### 运行某个docker并添加端口映射
+
+```sh
+docker run -itd -p 13389:3389 -p 10022:22 drawon/ubuntu-mate-xrdp
+```
 
 **DOCKER 给运行中的容器添加映射端口**
 
