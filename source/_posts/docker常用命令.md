@@ -19,6 +19,8 @@ docker pull name:version
 docker run -it ubuntu:18.04 bash
 ```
 
+<!--more-->
+
 其中`-i`表示交互式，`-t`表示建立一个虚拟的terminal
 
 继续运行一个已经退出的docker
@@ -113,4 +115,3 @@ docker commit containerid foo/live
 docker run -d -p 8000:80 foo/live /bin/bash
 ```
 
-以上就是本文的全部内容，希望对大家的学习有所帮助，也希望大家多多支持脚本之家。

@@ -1158,3 +1158,147 @@ Integer[] array = list.toArray(list[size]);
 ### Map
 
 map就是一种键值对映射的数据结构，与python中的dict是一样的
+
+```java
+public class Strudent{
+    public String name;
+    public String address;
+    public float grade;
+}
+Map<String,Student> map = ...;
+Student target = map.get("xiao ming")
+```
+
+map的常用方法
+
+1. put：将key-value对放入map
+2. get：通过key获取value
+3. containsKey：判断key是否存在
+
+#### 遍历Map的方法
+
+1. 遍历key
+
+```java
+Map<String,Student> map = ...;
+// 用keySet遍历key，用get方法获取值
+for (String key:map.keySet()){
+    Integer value = map.get(key);
+}
+```
+
+2. 同时遍历key和value
+
+```java
+Map<String,Student> map = ...;
+// 用entrySet同时遍历key，value
+for (Map.Entry<String,Integer> entry:map.entrySet()){
+    String key = entry.getKey();
+    Integer value = entry.getValue();
+}
+```
+
+#### HashMap和TreeMap
+
+Map最常用的实现类是HashMap，其内部存储不保证有序
+
+* 遍历时的顺序不一定是put的顺序，也不一定是key的顺序
+
+SortedMap保证遍历时以key排序，其实现类是TreeMap
+
+```java
+Map<String,Integer> map = new TreeMap<>();
+map.put("orange",1);
+map.put("apple",2);
+map.put("banana",3);
+for (Map.Entry<String,Integer> entry:map.entrySet()){
+    System.out.println(entry.getKey()+" "+entry.getValue());
+}
+
+```
+
+### Set
+
+set就是python里面的set，不包含重复值，常用方法包括
+
+1. add
+2. remove
+3. contains
+4. size
+
+set不保证有序，HashSet是无序的，TreeSet是有序的
+
+### Queue
+
+Queue是一个FIFO的队列，常用方法包括：
+
+1. size()：获取长度
+2. 添加元素到队尾:add/offer
+3. 获取队列头部元素并删除:remove/poll
+4. 获取队列头部元素但不删除：element()/peek()
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-15/26816433.jpg)
+
+Queue的实现对象是LinkedList()
+
+### PriorityQueue
+
+PriorityQueue就是带有优先级顺序的Queue，其常用方法与Queue相同
+
+### Deque
+
+是Queue的一种实现，是双向队列
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-15/95736586.jpg)
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-15/93267961.jpg)
+
+### Stack
+
+是一种LIFO（last In First out）的结构，常用方法
+
+* push
+* pop
+* peek
+
+使用Deque来实现stack，只调用push，pop，peek三个函数，这样就实现了栈
+
+## IO
+
+### File
+
+构造方法
+
+```java
+File f = new File("c\\Windows\\notepad.txt")
+```
+
+file有三种路径
+
+```java
+File file = new File("./Person.java");
+System.out.println("绝对路径："+file.getAbsolutePath());
+//      C:\Users\jeffrey\IdeaProjects\MyHelloWorld\.\Person.java
+System.out.println("canonical（规范）路径："+file.getCanonicalPath());
+//      C:\Users\jeffrey\IdeaProjects\MyHelloWorld\Person.java
+System.out.println("相对路径："+file.getPath());
+//    .\Person.java
+
+```
+
+规范路径就是绝对路径删掉`.`和`..`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
