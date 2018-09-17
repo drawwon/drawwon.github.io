@@ -1327,6 +1327,374 @@ System.out.println("相对路径："+file.getPath());
 
 完整读取一个inputstream流程如下：
 
+1. 方法1：用finally保证文件被关闭
+
+```java
+InputStream input = new FileInputStream("./src/test/a.txt");
+try {
+    int n;
+    while ((n = input.read())!=-1){
+        System.out.println(n);
+    }
+}
+finally {
+    if (input!=null){
+        input.close();
+    }
+}
+```
+
+2. 用jdk1.7新增的try写法保证inputStream自动关闭，类似于python的with open('xxx') as f
+
+```java
+try (InputStream input = new FileInputStream("./src/test/a.txt")) {
+    int n;
+    while ((n = input.read()) != -1) {
+        System.out.println(n);
+    }
+}
+```
+
+3. 用数组一次读取多个字节
+
+```java
+try (InputStream input = new FileInputStream("./src/test/a.txt")) {
+    byte[] buffer = new byte[1000];
+    int n;
+    while ((n=input.read(buffer))!=-1){
+        System.out.println(n);
+    }
+}
+```
+
+### Reader/Writer
+
+reader读取的是字符，其read方法读取下一个字符，读到末尾时返回-1
+
+Writer读取的也是字符，write方法写入
+
+## java处理时间
+
+计算机用时间戳来表示时间，这样全球统一表示，然后需要哪个时区的时候再转换为那个时区
+
+java通常使用Date和Calendar处理时间，1.8之后使用LocalDate，LocalTime，ZonedDateTime，Instant
+
+```java
+Date date = new Date();
+System.out.println(System.currentTimeMillis());
+System.out.println(date);
+System.out.println(date.getTime());
+System.out.println(new Date(System.currentTimeMillis()));
+```
+
+### LocalDate
+
+```java
+LocalTime localTime = LocalTime.now();
+LocalDate localDate = LocalDate.now();
+LocalDateTime lt = LocalDateTime.now();
+System.out.println(localDate);
+System.out.println(localTime);
+System.out.println(lt);
+```
+
+用DateTimeFormatter来格式化时间
+
+```java
+DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+System.out.println(dtf.format(lt));
+LocalDateTime dt2 = LocalDateTime.parse("2016/11/30 15:16:17",dtf);
+System.out.println(dt2);
+```
+
+新api加入了时间增减的运算，plusDays()增加天数，minusHours()介绍小时
+
+还加入了对时间的调整，比如你获取到了当前日期，你可以使用`withDayOfMounth(1)`，把日期调整到本月的第一天，`withMonth()`：调整到第几个月；还可以用with方法，计算本月的最后一天，方法如下
+
+```java
+//计算本月最后一天
+LocalDate lastDay = LocalDate.now().with(TemporalAdjusters.lastDayOfMonth());
+System.out.println(lastDay);
+//计算本月第一个周末
+LocalDate firstSunday = LocalDate.now().with(TemporalAdjusters.firstInMonth(DayOfWeek.SUNDAY));
+System.out.println(firstSunday);
+```
+
+还可以判断时间的先后
+
+1. isBefore()
+2. isAfter()
+3. equals()
+
+得到当前的Period，就是一段时间间隔的Year，month，day
+
+```
+LocalDate d1 = LocalDate.of(2014,3,12);
+LocalDate d2 = LocalDate.now();
+Period p = d1.until(d2);
+System.out.println(d2.toEpochDay()-d1.toEpochDay());
+```
+
+### ZonedDateTime
+
+就是一个localtime加上一个时区ZoneId
+
+```java
+LocalDateTime d1 = LocalDateTime.of(2014,3,12,8,0);
+//转换到北京时区
+ZonedDateTime bj = d1.atZone(ZoneId.systemDefault());
+System.out.println(bj);
+//转换到纽约时区
+ZonedDateTime ny = d1.atZone(ZoneId.of("America/New_York"));
+
+//从北京时区转换到纽约时区
+ZonedDateTime ny1 = bj.withZoneSameInstant(ZoneId.of("America/New_York"));
+```
+
+instant表示时刻
+
+## 多线程编程
+
+要启动一个新的线程，首先要创建一个新的线程对象
+
+```java
+Thread t = new Thread();
+t.start();
+```
+
+将自己的线程extends Thread，覆写其中的run方法
+
+```java
+public class MyThread extends Thread{
+    public void run{
+        System.out.println();
+    }
+}
+public class Main{
+    public static void main(String[] args){
+        Thread t = New Mythread();
+        t.start();
+}}
+```
+
+如果本身已经extends，就用implements Runnable，覆写其中的run方法
+
+```java
+public class MyThread implements Runnable{
+    public void run{
+        System.out.println();
+    }
+}
+public class Main{
+    public static void main(String[] args){
+        Runnable r = New Mythread();
+        Thread t = new Thread(r);
+        t.start();
+}}
+```
+
+一个实现的例子如下：
+
+```java
+System.out.println("Main start.....");
+Thread t = new Thread(){
+    public void run(){
+        System.out.println("thread run.....");
+        System.out.println("thread end.....");
+    }
+};
+    t.start();
+    System.out.println("Main end......");
+}
+```
+
+### 线程状态
+
+一个线程只能调用一次start
+
+线程的状态如下：
+
+* New：新创建
+* Runnable：运行中
+* Blocked：被阻塞
+* Waiting：等待
+* Timed Waiting：计时等待
+* Terminated：终止
+
+线程终止的原因有：
+
+* run执行到return
+* 因未捕获的异常终止
+
+#### join
+
+线程的join方法就是等待该线程结束，才继续向下运行
+
+### 中断线程
+
+中断线程需要检测一个isIterrupted标志，调用isIterrupte()方法中断线程
+
+线程之间共享变量需要使用关键字volatile，确保线程能读到更新后的变量值
+
+```java
+public class Main {
+    public static void main(String[] args) throws IOException, InterruptedException {
+    System.out.println("Main start.....");
+    Thread t = new HelloThread();
+    t.start();
+    Thread.sleep(1000);
+    t.interrupt();
+    System.out.println("Main end......");
+}
+}
+
+class HelloThread extends Thread{
+    @Override
+    public void run() {
+        while (!isInterrupted()) {
+        System.out.println("true");
+}
+}
+}
+```
+
+也可以用标志位来中断线程，要用到volatile关键字：
+
+```java
+class HelloThread extends Thread{
+    volatile boolean running = true;
+    @Override
+    public void run() {
+        while (running) {
+            System.out.println("true");
+        }
+}
+```
+
+### 守护线程
+
+守护线程的关键字是`t.setDaemon(true)`
+
+守护线程是为其他线程服务的线程，守护线程在其他所有非守护线程结束的时候结束线程
+
+守护线程不能持有任何资源（打开文件等）
+
+如下，如果不使用守护线程，那么在主线程结束后，下面那个打印时间的线程就无法停下来
+
+```java
+public static void main(String[] args){
+System.out.println("main start");
+        Timerthread t = new Timerthread();
+        t.start();
+        System.out.println("main end");
+}
+
+class Timerthread extends Thread{
+    @Override
+    public void run() {
+        while (true)
+        {     System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
+            try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            break;
+        }
+    }
+    }
+}
+```
+
+### 线程同步
+
+当多个线程同时运行的时候，就需要对其同步，比如下面这个例子，对一个count+10000次，再-10000次，最终结果不为0，这是因为对共享变量写入的时候，必须是原子操作（不能被中断的操作），这时就需要线程同步。
+
+```java
+Public class Main{
+    public int count = 0;
+	public static void main(String[] args) {
+        Thread t1 = new AddThread();
+        Thread t2 = new DecThread();
+        t1.start();
+        t2.start();
+        t1.join();
+        t2.join();
+        System.out.println(count);
+}}
+
+class AddThread extends Thread{
+    @Override
+    public void run() {
+        for (int i = 0; i < 10000; i++) {
+            Main.count +=1;
+        }
+    }
+}
+
+class DecThread extends Thread{
+    @Override
+    public void run() {
+        for (int i = 0; i < 10000; i++) {
+            Main.count -=1;
+        }
+    }
+}
+```
+
+不对的原因：加法的执行过程是load，add，store，如果中间被打断了，比如先执行了Thread 1的load，然后用了thread2的load，add，store操作，再回来执行thread的add操作，此时n仍然是100，因为已经load为100了，所以两次加法之后n只加了1次，等于101，因此必须加解锁
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-17/43911450.jpg)
+
+用synchronized对对象进行加锁，其他线程就算开始执行，没有获得锁，也无法执行
+
+```java
+synchronized(lock){
+    n += 1;
+    m -= 1;
+    p = m + n
+}
+```
+
+上面问题的加锁过程如下：
+
+```java
+public class Main{    
+public static final Object Lock = new Object();
+}
+
+
+
+class AddThread extends Thread{
+    @Override
+    public void run() {
+
+        for (int i = 0; i < 10000; i++) {
+            synchronized (Main.Lock){
+            Main.count +=1;
+            }
+        }
+    }
+}
+
+class DecThread extends Thread{
+    @Override
+    public void run() {
+        for (int i = 0; i < 10000; i++) {
+            synchronized (Main.Lock){
+            Main.count -=1;
+            }
+        }
+    }
+}
+```
+
+## Maven
+
+Maven是一个项目管理工具，用于管理java代码及文件的编译，打包等过程
+
+用Maven管理的项目路径如下：
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-17/42386933.jpg)
+
 
 
 
