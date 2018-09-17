@@ -1265,6 +1265,25 @@ PriorityQueue就是带有优先级顺序的Queue，其常用方法与Queue相同
 
 ## IO
 
+IO流，顺序读写数据的模式，单向流动，以字节为单位，byte类型
+
+如果不是字节流，那么久用Reader/Writer表示字符流，字符流的最小单位是char，字符流输出的byte取决于编码方式
+
+```java
+char[] hello = "hi你好";
+writeChars(hello,"utf-8");
+//output.txt，英文字符占一个字节，中文占3个字节
+//0x48, 0x69, 0xe4,0xbd,0xa0,0xe5,0xa5,0xbd
+```
+
+Reader/Writer本质上是一个能自动编解码的InputStream/OutputStream
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-16/53060354.jpg)
+
+其实现类如下：
+
+![](http://ooi9t4tvk.bkt.clouddn.com/18-9-16/43531365.jpg)
+
 ### File
 
 构造方法
@@ -1288,7 +1307,25 @@ System.out.println("相对路径："+file.getPath());
 
 规范路径就是绝对路径删掉`.`和`..`
 
+用`isFile()`判断是否为文件，`isDirectory()`判断是否为目录
 
+构造file对象就算是文件不存在也不会报错，因此要用上面两个文件来判断
+
+1. `canRead()/canWrite() `用于判断是否可以读/写
+2. `createNewFile()`：创建文件
+3. `createTempFile()`:创建临时文件
+4. `delete()`：删除文件
+5. `deleteOnExit()`：在JVM退出时删除该文件
+6. `String[] list()`：列出文件目录下的文件和子目录名
+7. `File[] listFiles()`：列出文件和子目录名
+8. `Boolon mkdir()`：创建目录
+9. `Boolon mkdirs()`：创建目录，如果上层目录不存在，同样创建
+
+### InputStream
+
+是所有输入流的超类，最重要的方法是`abstract int read()`，读取下一个字节，并返回字节(0-255)，如果已经读到末尾，返回-1
+
+完整读取一个inputstream流程如下：
 
 
 
