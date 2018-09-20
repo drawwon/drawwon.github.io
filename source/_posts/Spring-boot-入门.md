@@ -8,6 +8,8 @@ category: [编程学习]
 
 SpringBoot其实就是Spring的简化版本，因为Spring依赖的项目太多，其xml文件的配置显得尤为繁琐，因此出现了一键配置的SpringBoot框架
 
+<!--more-->
+
 ### SpringBoot项目生成方法
 
 在idea中构建一个springboot项目的方法如下：
