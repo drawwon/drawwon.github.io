@@ -6,11 +6,11 @@ category: [编程学习,数据挖掘]
 
 ---
 
-<!--more-->
-
 ## 在数据分析程序中需要引入的包及设置
 
 用python进行数据分析的时候，需要在文件开头导入一下包
+
+<!--more-->
 
 ```python
 import numpy as np # linear algebra 引入线性代数包numpy
