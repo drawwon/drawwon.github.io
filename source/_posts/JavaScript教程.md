@@ -9,6 +9,8 @@ category: [编程学习]
 
 js用于在静态HTML页面上添加一些动态效果 ，网景公司的Brendan Eich这哥们在两周之内设计出了JavaScript语言 。为了让js称为全球标砖，欧洲计算机制造协会(European Computer Manufacturers Association)制定了js的标准，称为RCMAscript标准，最新版ECMAscript 6标准于2015年6月发布（简称ES6)。
 
+<!--more-->
+
 ## 快速入门
 
 js代码一般放在`<head>`当中，由封闭的`<script>...</script>`包含起来
