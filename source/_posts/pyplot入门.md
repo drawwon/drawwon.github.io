@@ -9,6 +9,8 @@ category: [编程学习]
 
 总体思想，先使用`fig = plt.figure(),ax=fig.add_subplot()`创建图片，画好图之后，用ax.set_xxx来设置各项参数
 
+<!--more-->
+
 ### 设置子图之间的间距
 
 plt.subplots_adjust(wspace, hspace)：参数分别代表水平间距和竖直间距
