@@ -8,6 +8,8 @@ category: [编程学习]
 
 pandas当中最重要的部分就是pandas提供的dataframe和series类型，可以用来保存任何形式的数据，保存之后的结果类似于二维表的形式
 
+<!--more-->
+
 ### Series
 
 series有两个重要的参数是values和index
@@ -123,7 +125,6 @@ Out[12]:
 import pandas as pd
 df = pd.DataFrame(data, index, columns)
 ```
-<!--more-->
 其中data是numpy中提供的数组或者是字典，index表示每行最左边用于索引的列，columns表示每一列的名称
 
 要取出DataFrame的值，只需要df.column_name，用`.`加上列的名字就可以了
