@@ -3,10 +3,7 @@ title: scrapy库详解
 date: 2017-08-13 22:37:17
 tags: [scrapy,爬虫,python]
 category: [编程学习]
-
 ---
-
-
 
 `scrapy`是一个完整的爬虫框架，一共有5个部分组成和2个中间部分，最主要的是一下五个部分：
 
