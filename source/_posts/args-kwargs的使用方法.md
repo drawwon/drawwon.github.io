@@ -7,6 +7,8 @@ category:
 
 `*args`和`**kargs`是一种约定俗称的用法，目的是用于传入不定数量的参数，前者把传入的参数变成一个tuple，后者把传入的参数编程一个字典
 
+<!--more-->
+
 ```
 In [1]: def foo(*args):
    ...:     for a in args:

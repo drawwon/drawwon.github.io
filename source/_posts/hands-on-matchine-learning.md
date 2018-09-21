@@ -6,6 +6,8 @@ category: [机器学习,技术书籍]
 
 ---
 
+<!--more-->
+
 ## 机器学习分类
 
 1. unsupervised learning
