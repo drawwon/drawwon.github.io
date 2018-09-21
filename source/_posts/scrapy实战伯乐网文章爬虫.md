@@ -10,6 +10,8 @@ category: [编程练习]
 
 因为我们要对scrapy进行调试，所以我们建立一个main函数来达到调试的目的，以后每次调试只要debug这个main文件就行了
 
+<!--more-->
+
 ```python
 from scrapy.cmdline import execute
 import sys

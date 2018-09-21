@@ -8,6 +8,8 @@ category: [编程练习]
 
 之前一直在windows下面写hexo博客，但是每次同步需要运行一大堆指令，于是想到用python 写一个脚本来自动同步，用到了os.chdir，因为直接`os.system('cd xxx')`会自动返回当前路径。
 
+<!--more-->
+
 具体程序如下：
 
 ```python
@@ -47,3 +49,15 @@ Next, open up **regedit.exe** and add an entry to the batch file to make the dos
 Add a new **String Value** called **AutoRun** and set the absolute path in the value of **c:\windows\bin\doskey.bat**.****
 
 The **doskey.bat** file will now be executed before opening a new cmd session which will set all of your alias ready for you to use.
+
+### 用sh脚本控制
+
+```shell
+#!/bin/bash
+git add .
+current_date_time=`date "+%Y-%m-%d %H:%M:%S"`
+git commit -m "Content updated：$current_date_time"
+git push origin source
+hexo d -g
+```
+

@@ -5,6 +5,9 @@ tags: [python,scrapy,爬虫]
 category: [编程练习,爬虫]
 ---
 首先,需要理解cookies的含义，是存储在浏览器中的内容，在本地存储任意键值对，第一次访问时服务器返回一个id存储到本地cookie中，第二次访问将cookies一起发送到服务器中
+
+<!--more-->
+
 ![](http://ooi9t4tvk.bkt.clouddn.com/17-9-18/23468729.jpg)
 
 常见http状态码
@@ -19,8 +22,6 @@ category: [编程练习,爬虫]
 | 503     | 服务器停机或正在维护  |
 
  要爬取知乎内容首先需要进行登录，在本文中我们主要介绍2种登录方式，第一种是通过requests的session保存cookies进行登录，第二种是通过`scrapy`修改`start_requests`函数进行登录
-
-<!--more-->
 
 ## requests进行登录
 
