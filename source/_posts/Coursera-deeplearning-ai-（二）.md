@@ -2,7 +2,8 @@
 title: Coursera-deeplearning-ai-（二）
 date: 2018-04-11 10:03:47
 tags: [deeplearning,机器学习,深度学习]
-category: [机器学习]
+category: [机器学习,深度学习]
+mathjax: true
 ---
 
 这篇博文主要讲的是关于deeplearning.ai的第二门课程的内容，《Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization》

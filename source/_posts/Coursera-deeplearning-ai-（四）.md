@@ -2,7 +2,8 @@
 title: Coursera-deeplearning-ai-（四）
 date: 2018-05-10 09:28:44
 tags: [deeplearning,机器学习,深度学习]
-category: [机器学习]
+category: [机器学习,深度学习]
+mathjax: true
 ---
 
 这篇博文主要讲的是关于deeplearning.ai的第四门课程的内容，《Convolutional Neural Networks》

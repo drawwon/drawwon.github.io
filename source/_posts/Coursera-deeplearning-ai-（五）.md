@@ -2,7 +2,8 @@
 title: Coursera-deeplearning-ai-（五）
 date: 2018-05-16 16:44:44
 tags: [deeplearning,机器学习,深度学习]
-category: [机器学习]
+category: [机器学习,深度学习]
+mathjax: true
 ---
 
 这篇博文主要讲的是关于deeplearning.ai的第五门课程的内容，《Sequence Models》

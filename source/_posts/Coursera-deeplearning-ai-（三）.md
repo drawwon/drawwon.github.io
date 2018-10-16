@@ -2,7 +2,8 @@
 title: Coursera-deeplearning-ai-（三）
 date: 2018-05-07 10:19:44
 tags: [deeplearning,机器学习,深度学习]
-category: [机器学习]
+category: [机器学习,深度学习]
+mathjax: true
 ---
 
 这篇博文主要讲的是关于deeplearning.ai的第三门课程的内容，《Structuring Machine Learning Projects》

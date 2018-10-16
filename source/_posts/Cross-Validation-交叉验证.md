@@ -3,6 +3,7 @@ title: Cross Validation 交叉验证
 date: 2017-10-10 14:13:33
 tags: [交叉验证,机器学习]
 category: [机器学习]
+mathjax: true
 ---
 
 传统的$F-measure$或平衡的$F-score$ (F1 score)是精度和召回的调和平均值：
