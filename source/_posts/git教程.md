@@ -453,3 +453,104 @@ git merge <name>  #合并分支到当前分支上面
  git merge --no-ff -m "merge with no-ff" dev 
 ```
 
+
+
+## 同步到github
+
+**接下来讲解一下如何将创建的工程同步到github上。**
+
+- 第一步：创建工程之后，用终端进入工程。
+
+```
+$  cd /Users/hanwenguang/Desktop/pods/TestPreject
+```
+
+- 第二步：建立本地仓库
+
+```
+$  git init
+```
+
+- 第三步：将本地项目工作区的所有文件添加到暂存区
+
+```
+$  git add .
+```
+
+- 第四步：将暂存区的文件提交到本地仓库
+
+```
+$  git commit -m “注释"
+```
+
+- 第五步： 在Github上创建自己的 New repository
+
+```
+与第一部分的1-4步骤相同。
+```
+
+- 第六步：将本地仓库关联到Github上（后加上仓库地址：第一部分中第五步的*地址*）
+
+```
+$  git remote add origin 地址
+```
+
+- 第七步：将代码由本地仓库上传到Github远程仓库，刷新即可看到上传成功。
+
+```
+//(不加这句可能报错出现错误的主要原因是github中的README.md文件不在本地代码目录中
+$  git pull --rebase origin master 
+//可以通过该命令进行代码合并
+$  git push -u origin master
+//需要填写账号、密码时候，自己填写。通常一次通过之后就不需要了。
+```
+
+**这样，上传文件存储和上传已有工程都已经成功。接下来下赠送提交代码的命令：**
+
+- 第一步： 查看目前代码的修改状态:
+
+```
+$  git status
+```
+
+- 第二步： 查看代码修改的内容
+
+```
+$  git diff <file>
+    //如果该文件已暂存，那么应该使用
+$  git diff –cached <file>
+```
+
+- 第三步： 暂存需要提交的文件
+
+```
+$  git add <file>
+    //如果是删除的文件则
+$  git rm <file>
+```
+
+- 第四步 ： 提交已暂存的文件
+
+```
+$  git commit -m "注释内容"
+```
+
+- 第五步： 同步到服务器
+
+```
+同步到服务器前先需要将服务器代码同步到本地
+命令：$  git pull
+如果执行失败，就按照提示还原有冲突的文件，然后再次尝试同步。
+命令：$  git checkout – <有冲突的文件路径>
+同步到服务器
+命令：$  git push origin master
+```
+
+参考
+
+> 作者：累了就回头_我在身后
+>
+> 链接：https://www.jianshu.com/p/6969de20cd52
+
+
+
