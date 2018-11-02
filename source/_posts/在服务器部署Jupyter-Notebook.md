@@ -10,6 +10,8 @@ category: [编程工具]
  1、生成配置文件`$jupyter notebook --generate-config`
  2、终端输入`ipython`,生成密码
 
+<!--more-->
+
 ~~~python
 In [1]: from notebook.auth import passwd
 In [2]: passwd()
