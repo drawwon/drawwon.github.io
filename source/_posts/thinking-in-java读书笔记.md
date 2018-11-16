@@ -657,7 +657,7 @@ public interface Shape {
 
 `default`关键字可以实现interface的默认方法，这样就不必在每个implements中实现这个方法
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-7-25/70419102.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-7-25/70419102.jpg)
 
 一个接口可以用extends继承另一个接口
 
@@ -818,7 +818,7 @@ java中必须捕获的异常是Exception及其子类，但不包括RuntimeExcept
 
 因为error是发生了严重错误，程序本身是无法处理的；而exception是运行时候的逻辑错误，程序可以捕获和处理这些错误，而RuntimeException是因为程序自身有bug，需要我们去修复程序
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-11/24168308.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-11/24168308.jpg)
 
 Main方法是捕获异常的最后机会，其余子函数可以用throws将异常抛出，由上层方法来捕获
 
@@ -867,7 +867,7 @@ public class Main {
 
 #### JDK已定义的异常
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-11/18751939.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-11/18751939.jpg)
 
 #### 自定义异常
 
@@ -952,7 +952,7 @@ public class Main {
 
 更常用的log方法是commom logging，一共六个日志级别如下
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-11/56679818.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-11/56679818.jpg)
 
 tips:
 
@@ -962,7 +962,7 @@ tips:
 2. 点击左边的module，点击dependencies，点击add
 3. 选择其中的add jar，选中后确定即可
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-12/59568280.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-12/59568280.jpg)
 
 ### log4j
 
@@ -972,7 +972,7 @@ filter用于过滤：哪些日志需要输出，哪些日志不需要输出
 
 layout：格式化输出
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-12/97700605.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-12/97700605.jpg)
 
 ## java反射与泛型
 
@@ -1067,7 +1067,7 @@ public @interface Report{
 
 Annotaiton的生命周期，用`Retention()`来定义
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-13/62763668.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-13/62763668.jpg)
 
 用`@Repeatable`定义Annotation是否可以重复
 
@@ -1089,7 +1089,7 @@ list是一种有序链表，每个元素都可以通过索引来确定位置
 
 常用方法包括：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-13/79886639.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-13/79886639.jpg)
 
 list的实现有ArrayList和LinkedList两种：
 
@@ -1097,7 +1097,7 @@ ArrayList就和数组是一样的结构，当添加的时候大小不够了，�
 
 而LinkedList和链表一样的结构，上一个指向下一个
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-13/21021379.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-13/21021379.jpg)
 
 #### 遍历list的方法
 
@@ -1237,7 +1237,7 @@ Queue是一个FIFO的队列，常用方法包括：
 3. 获取队列头部元素并删除:remove/poll
 4. 获取队列头部元素但不删除：element()/peek()
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-15/26816433.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-15/26816433.jpg)
 
 Queue的实现对象是LinkedList()
 
@@ -1249,9 +1249,9 @@ PriorityQueue就是带有优先级顺序的Queue，其常用方法与Queue相同
 
 是Queue的一种实现，是双向队列
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-15/95736586.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-15/95736586.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-15/93267961.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-15/93267961.jpg)
 
 ### Stack
 
@@ -1278,11 +1278,11 @@ writeChars(hello,"utf-8");
 
 Reader/Writer本质上是一个能自动编解码的InputStream/OutputStream
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-16/53060354.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-16/53060354.jpg)
 
 其实现类如下：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-16/43531365.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-16/43531365.jpg)
 
 ### File
 
@@ -1642,7 +1642,7 @@ class DecThread extends Thread{
 
 不对的原因：加法的执行过程是load，add，store，如果中间被打断了，比如先执行了Thread 1的load，然后用了thread2的load，add，store操作，再回来执行thread的add操作，此时n仍然是100，因为已经load为100了，所以两次加法之后n只加了1次，等于101，因此必须加解锁
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-17/43911450.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-17/43911450.jpg)
 
 用synchronized对对象进行加锁，其他线程就算开始执行，没有获得锁，也无法执行
 
@@ -1693,7 +1693,7 @@ Maven是一个项目管理工具，用于管理java代码及文件的编译，�
 
 用Maven管理的项目路径如下：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-17/42386933.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-17/42386933.jpg)
 
 
 

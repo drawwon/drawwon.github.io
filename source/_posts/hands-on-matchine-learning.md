@@ -84,5 +84,5 @@ c="median_house_value", cmap=plt.get_cmap("jet"), colorbar=True,
 plt.legend()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-12-7/30392919.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-7/30392919.jpg)
 

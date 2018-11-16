@@ -132,7 +132,7 @@ module.exports = {
 
 在页面和DOM之间加了一层virtual DOM，dom本身是document object model，有了虚拟DOM之后就可以利用virtual DOM对页面进行更改，virtual DOM由于在数据结构上面的优化，使得原本对不同的DOM的比较的复杂度由$O(n^3)$变成了$O(n)$，
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-6-8/98201829.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-6-8/98201829.jpg)
 
 ### React组件
 
@@ -297,7 +297,7 @@ componentDidUpdate(prevProps, prevState) {}
 componentWillUnmount() {}
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-6-9/88589699.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-6-9/88589699.jpg)
 
 ## React事件与属性
 
@@ -786,7 +786,7 @@ ReactDOM.render(<Root/>, document.getElementById('root'));
 
 直接在chrome的开发者工具中点审查元素旁边的按钮，就可以模拟手机的显示效果，还可以显示手机边框
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-6-11/73459277.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-6-11/73459277.jpg)
 
 ### findIcon找图标
 

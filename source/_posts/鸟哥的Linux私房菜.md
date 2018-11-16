@@ -118,7 +118,7 @@ sudo apt-get install unity-tweak-tool
 
 安装完后界面如下： 
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-8-10/3219101.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/3219101.jpg)
 
 #### Flatabulous主题
 
@@ -144,11 +144,11 @@ sudo apt-get install ultra-flat-icons
 
 进入Theme，修改为Flatabulous
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-8-10/66962627.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/66962627.jpg)
 
 在此界面下进入Icons栏，修改为Ultra-flat:
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-8-10/18289134.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/18289134.jpg)
 
 到这里主题和图标都变为扁平化主题Flatabulous，看起来比较美观了，当然，还需要修改一些细节，例如终端的配色以及样式。
 
@@ -447,7 +447,7 @@ info和man用途差不多，都是用来查询某个指令的用法，但是info
 
 使用`ls -al`列出文件的信息，看到文件属性这一列一共有10个字母，第一个字母表示文件类型，1-3表示文件所有者的权限，4-6表示用户所属用户组的权限，7-9表示其他人对此文件的权限
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-8-4/62278292.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-4/62278292.jpg)
 
 第一个字符表示对是这个文件是“目录、文件或链接文件等”“
 

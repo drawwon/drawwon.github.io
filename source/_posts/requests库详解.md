@@ -102,7 +102,7 @@ Beautifulsoup的基本元素
 * NavigableString：标签内分数性字符串`<tag>.attrs`
 * Comment：标签内字符串的注释部分
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-8-12/96633935.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-12/96633935.jpg)
 
 一共有3种遍历方式，上行，下行，平行遍历
 

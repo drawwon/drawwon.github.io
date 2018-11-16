@@ -16,19 +16,19 @@ mathjax: true
 
 在处理计算机视觉问题的时候，我们可能处理的图片很大，之前我们用的都是64\*64\*3维度的图片，这样的图片不够清晰，如果我们用1000\*1000\*3大小的图片，每张图片的维度就是300w，这就需要很多的数据来调参，并且对系统的资源占用非常大，此时就要用到卷积的技巧，它是卷积神经网络的基础
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/21395179.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/21395179.jpg)
 
 ### 利用卷积进行边缘检测的示例
 
 比如我有如下左边这张图，我想检测这张图上面有些上面，我首先要用边缘检测，分别检测出他的横向边缘和纵向边缘
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/16688061.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/16688061.jpg)
 
 边缘检测需要用到卷积，那么上面是卷积呢？
 
 首先，假设我们现在有一张6\*6的灰度图片（仅有一个rgb通道），我们定义一个3\*3的filter，当然有些地方把这个filter称为kernel，我们这里就用filter来表示，那么现在用这个3\*3的filter在6*6的图像上面移动，每移动一个位置进行元素乘积求和，最终得到一个4\*4的结果矩阵，如下图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/23155888.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/23155888.jpg)
 
 比如左上角的-5，是把3\*3的矩阵放在6\*6的矩阵的左上角得到的，也就是$-5=3\times1+1\times1+2\times1+0\times0+5\times0+7\times0+1\times(-1)+8\times(-1)+2\times(-1)$
 
@@ -36,7 +36,7 @@ mathjax: true
 
 再举一个直观的例子，比如我们现在有个黑白分明的6\*6灰度图片，我们要检测它的垂直边缘，用一个3\*3的filter卷积，得到一个4\*4的垂直边缘结果，如下
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/45594204.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/45594204.jpg)
 
 4\*4矩阵中间那块白色的就是边缘，此时看起来边缘很大，那是因为我们这里的原始图片太小了，如果原始图片的大小是1000\*1000，那么这个边缘就非常合理了。这里这个边缘也显示了边缘的大体趋势，是正确的
 
@@ -46,15 +46,15 @@ mathjax: true
 
 边缘有着正边缘和负边缘的说法，从黑到白和从白到黑是不同的，如下图所示：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/36284135.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/36284135.jpg)
 
 当然，还有水平边缘和垂直边缘的区分，很容易想到水平边缘的filter就是大概将竖直边缘filter转动90度
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/56352677.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/56352677.jpg)
 
 然后，根据filter使用的不同，也可以得到不同的边缘，比如常用的还有sobel filter，参数是1,2,1，还有scharr filter，参数是3,10,3，甚至你可以将这3\*3的filter的9个值都设置为参数，通过反向传播来学习他们，由此你可以检测出任意角度的边缘，比如45度，70度，73度等等
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/88907670.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/88907670.jpg)
 
 ### padding 扩充
 
@@ -67,7 +67,7 @@ mathjax: true
 
 这时，我们可以使用padding的方法，一次解决上面提到的两个问题，所谓的padding就是将原来的图片向外扩充，扩充的值全部填成0，如下图所示
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/92028937.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/92028937.jpg)
 
 假如我们扩充的大小是p，那么最终得到的图片大小就是n+2p-f+1，要使得最终的图片大小等于初始大小，那么p=(f-1)/2，f通常都是一个奇数，不是奇数的时候就要混合padding，就是左右padding的范围不一样
 
@@ -85,13 +85,13 @@ mathjax: true
 
 如下图，在卷积RGB图像的时候，我们可以用一个同样有三通道的filter进行卷积，filter的每个通道与RGB的红绿蓝三通道相乘并全部求和，最终得到的卷积结果是只有一个通道的而不是三个通道的
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/69668519.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/69668519.jpg)
 
 当我们需要同时取得图像的垂直边缘，水平边缘或者更多的边缘的时候，我们应该怎么做呢？
 
 如果你需要同时取得多个边缘，你只需要同时使用多个filter即可，得到的结果是很多张边缘图，你也可以把他们stack起来
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/57359168.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/57359168.jpg)
 
 那么我们现在总结一下各个层的维度
 
@@ -105,7 +105,7 @@ filter的维度是$f\times f \times n_c$，这里的filter的通道数和图片�
 
 首先你输入一个RGB三通道的图像，大小是6\*6\*3，然后通过两个filter，大小是3\*3\*3，得到两个4\*4的Z，分别加上bias b1,b2，然后通过Relu函数进行非线性变换，得到4\*4\*2
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/24095269.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/24095269.jpg)
 
 将这个单层的卷积神经网络与神经网络比较，这里的输入图像就是x,也就是$a^{[0]}$，通过的filter相当于w，之后的b相当于偏差，relu函数相当于激活函数g，得到的4\*4\*2的输出相当于$a^{[1]}$
 
@@ -127,7 +127,7 @@ filter的维度是$f\times f \times n_c$，这里的filter的通道数和图片�
 
 偏差的大小是$n_c^{[l]}$
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-10/97636140.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-10/97636140.jpg)
 
 ### 简单的卷积网络
 
@@ -137,7 +137,7 @@ filter的维度是$f\times f \times n_c$，这里的filter的通道数和图片�
 
 通常来说，卷积网络的图像大小会越来越小，但通道数会越来越多
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-11/9623750.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-11/9623750.jpg)
 
 卷及网络中的典型层有：
 
@@ -151,7 +151,7 @@ filter的维度是$f\times f \times n_c$，这里的filter的通道数和图片�
 
 pooling layer最常用的就是max pooling，就是用一个filter去移动，但是不是相乘求和，而是求出这个filter移动过程中的最大值，如下所示
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-11/11785024.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-11/11785024.jpg)
 
 还有一种pooling叫做average pooling，不是求最大值而是平均值，这种pooling用的非常少
 
@@ -163,7 +163,7 @@ pooling layer最常用的就是max pooling，就是用一个filter去移动，�
 
 此时flatten成400\*1的向量，然后用普通的神经网络继续传输，此时用普通神经网络的层被称之为fully connected层，W[3]的参数是(120,400)，所以a[3]=(120,1)，然后w[4]=(84,120)，得到a[4]=(84,1)，然后经过一个softmax层，因为我们这里是分类数字0-9，所以最后的输出是(10,1)，然后选择概率最大那个
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-11/71162365.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-11/71162365.jpg)
 
 ### 为什么要用卷积神经网络
 
@@ -171,7 +171,7 @@ pooling layer最常用的就是max pooling，就是用一个filter去移动，�
 
 如下图你有一个卷积层，本来大小是32\*32\*3，经过一个卷积层之后大小成了28\*28\*6，那么你用到的参数个数应该是5\*5\*6+6=156个，如果你直接用全联通层，那么你需要的参数个数是32\*32\*3\*28\*28\*6=14M个，明显这里的参数就非常多了
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-11/43271742.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-11/43271742.jpg)
 
 还有种解释是卷及网络有参数共享和稀疏连接的好处
 
@@ -179,7 +179,7 @@ pooling layer最常用的就是max pooling，就是用一个filter去移动，�
 
 参数共享的意思是，比如你有一个3\*3的filter，可以进行垂直边缘检测，那么这个filter无论是在**同一张图**的哪个地方，都可以进行边缘检测，而不是说只能在某个地方进行
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-11/32143114.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-11/32143114.jpg)
 
 ### 利用TensorFlow搭建卷积神经网络
 
@@ -612,7 +612,7 @@ _ , temp_cost = sess.run([optimizer,cost], feed_dict={X:minibatch_X, Y: minibatc
 
 这个网络是在1998年提出的，结果如下图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/27567213.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-12/27567213.jpg)
 
 一共有大概60K个参数，第一层是6个5\*5的conv layer，然后是一个f=2,s=2的pool layer（当时用的的average pool，不过后来证明max pool更有效），然后再来16个5\*5的conv layer，然后是一个f=2,s=2的pool layer，然后将这个5\*5\*16的volume flatten为一个(400,1)的向量，经过一个fc（fully connected) layer，变成120\*1,在经过一个fc layer，变成84\*1的，再经过一个softmax得到一个10\*1的$\hat{y}$，用于判别手写数字0-9
 
@@ -620,7 +620,7 @@ _ , temp_cost = sess.run([optimizer,cost], feed_dict={X:minibatch_X, Y: minibatc
 
 AlexNet是在2012年提出的，这个网络让人们开始觉得深度学习的确可以在图像和自然语言处理等方面表现的很好
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/91339029.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-12/91339029.jpg)
 
 这个网络的结构是一个conv layer，跟一个max pool layer，再来一个conv layer，跟一个max-pool layer，接下来3个conv layer，跟一个max-pool layer，这时flatten为一个9216\*1的向量，然后接一个FC layer，再接一个FC layer，再接一个softmax，得到输出
 
@@ -630,7 +630,7 @@ AlexNet是在2012年提出的，这个网络让人们开始觉得深度学习的
 
 这个网络在2015年提出，整个网络中用到的filter都是3\*3的,padding都是same，用到的max-pool layer 都是f=2,s=2,
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/35706558.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-12/35706558.jpg)
 
 先是2层conv 64的 conv layer，然后经过一个pool layer，接下来2层128个的conv layer，接下来一个pool layer，再接下来3层256个的conv layer，接一个pool layer，再接一个3层512个的conv layer，接一个pool layer，接一层512个的conv layer，接一个pool layer，接2层FC layer，接一层softmax
 
@@ -648,17 +648,17 @@ VGG-16参数非常多，大概有138million个，即使对于现代计算机，�
 
 从左到右依次进行的被称为full path，然而如果你直接将$a^{[l]}$加到最后一个ReLU之前，这样的方法叫做short cut 或者是 skip connection，此时我们称这样一个有跳跃连接的整体为一个Residual block
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/26910954.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-12/26910954.jpg)
 
 如果我们有一个10层的神经网络，每2层形成一个残差块，那么这个网络就被称为残差网络，如下图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/23582594.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-12/23582594.jpg)
 
 残差网络在实际中表现比普通网络更好，具体表现在：随着网络层数的增加，普通网络的训练错误会先降低后增加（因为层数增多，普通网络的训练越来越难，到后面规定的iteration还没有收敛，所以training error又增加了）；但是残差网络会一直下降，直到基本不下降的状态，不会出现training error上升的情况
 
 我们用plain表示普通网络，ResNet表示残差网络，得到如下的training error和layers的示意图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/99083203.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-12/99083203.jpg)
 
 ### 为什么残差网络可以表现得更好
 
@@ -696,19 +696,19 @@ VGG-16参数非常多，大概有138million个，即使对于现代计算机，�
 
 主要起作用的原因是redidual network 阻止了梯度消失和梯度爆炸之类的问题
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-12/3054087.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-12/3054087.jpg)
 
 ### $1\times 1$的卷积（network in network）
 
 1\*1的卷积主要是为了改变图片的通道数目，比如你现在有一个28\*28\*192的图片，你可以将它变成32通道的，以此来减少计算量，也可以把它变成192通道的，这相当于在原来的图片上加了一个192通道的图片，这将使得模型更复杂，以此来表征更加复杂的模型
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/88550955.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/88550955.jpg)
 
 ### Inception Network
 
 在设计神经网络的时候，你可能会想如何去选择conv layer 所用的filter的大小，以及max-pool的大小，这个时候其实你可以把所有你可能会想要用到的conv layer和max-pool layer联结起来，形成一个复杂的网络，具体如下：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/37028773.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/37028773.jpg)
 
 所有的conv layer和max-pool layer都用到了same padding，这样保证经过一个layer之后的维度不变，以便大家能够联结起来
 
@@ -716,15 +716,15 @@ VGG-16参数非常多，大概有138million个，即使对于现代计算机，�
 
 我们可以用上一节提到的1\*1的conv 层进行计算次数的优化，用1\*1的conv 层计算出一个 bottleneck layer（瓶颈层:和瓶颈一样，先变小，再变大），然后再计算乘法。具体来说是将28\*28\*192的图片先经过一个1\*1的个数为16的层，变成28\*28\*16的层，然后再经过5\*5的层，计算数量缩减为12.4M，如下图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/68094398.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/68094398.jpg)
 
 一个Inception module如下图所示，包含1\*1的conv layer 和 3\*3的conv layer(前面有一个1\*1的bottleneck layer)和5\*5的conv layer(前面有一个1\*1的bottleneck layer)，以及一个3\*3的max-pool layer（后面有一个1\*1的layer用于减小通道数）
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/23343715.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/23343715.jpg)
 
 一个完整的inception network如下图所示，由多个inception module组成，中间还有一个side branch，用中间某一层的输出进行预测
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/34915820.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/34915820.jpg)
 
 ### 使用开源的深度学习实现
 
@@ -734,11 +734,11 @@ VGG-16参数非常多，大概有138million个，即使对于现代计算机，�
 
 比如你现在想要是别的两只猫，分别叫做tigger和misty，但是你拥有的这两只猫的图片很少，所以你从网上下了一个在非常大数据集上面训练的模型(比如image net上训练过的模型)，然后你直接去掉输出层，把前面的所有层的参数都freeze住，对最后一层进行训练，就得到了你的猫分类器
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/4627273.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/4627273.jpg)
 
 当然，如果你数据量大一些，你可以少冻住几层，多训练几层，这个freeze的方法，通常是将输入输进去，用原来的网络参数计算直到你要自己训练的那层，把这些数据存下来作为新网络的输入。后面网络参数的初始化可以直接用别人训练好的参数作为反向传播
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/36852562.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/36852562.jpg)
 
 除非你数据量非常大，不然你都不要完全重新训练网络
 
@@ -748,24 +748,24 @@ VGG-16参数非常多，大概有138million个，即使对于现代计算机，�
 
 内容上的变换主要有：镜像变换，随机裁剪，旋转，扭曲等等，如下图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/27345434.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/27345434.jpg)
 
 色彩上的变换主要是：增加或减少RGB色彩，比较高级的方法叫做PCA color augmentation，效果如图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/90144873.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/90144873.jpg)
 
 ### 计算机视觉任务的经验
 
 一般来说，数据越多，你所需要进行的手动修改的部分就越少，如图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/89008645.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/89008645.jpg)
 
 在标准数据集或者是竞赛当中有一些比较常用的方法：
 
 1. Ensembling：训练多个神经网络并平均输出
 2. 多种图片裁剪的数据提升方法：原图以及镜像图片的正中心，左上角，右上角，左下角，右下角图片，这个方法被称为crop-10，因为一共裁剪出10张
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/73321754.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/73321754.jpg)
 
 在使用开源框架的时候，通常可以：
 
@@ -862,7 +862,7 @@ K.set_learning_phase(1)   # 设置为训练/测试模式 ，分别是0/1
 
 #### 建立一个identity block
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/87089704.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/87089704.jpg)
 
 identity block是x[l]和 x[l+2]的size一样，就可以直接相加
 
@@ -946,7 +946,7 @@ with tf.Session() as test:
 
 convlutional block就是shortcut不是直接加到a[l+2]上面的，而是经过了一个conv layer和batch norm之后加的
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/5062663.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/5062663.jpg)
 
 与建立identity layer的方法类似，记录X为X_shortcut，这里的shortcut到后面是要经过运算的，不是直接加的
 
@@ -1031,7 +1031,7 @@ with tf.Session() as test:
 
 结构如下图所示，分为5个stage，其中的conv block就是我们在上面建立的convolutional block，其中的ID block就是我们上面建立的identity block
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/92727700.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/92727700.jpg)
 
 我们先给一个大小就可以定义一个输入的tensor，用Input方法实现
 
@@ -1166,7 +1166,7 @@ plot_model(model, to_file='model.png')
 SVG(model_to_dot(model).create(prog='dot', format='svg'))
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-13/71188004.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-13/71188004.jpg)
 
 ## Week Three 检测算法
 
@@ -1174,7 +1174,7 @@ SVG(model_to_dot(model).create(prog='dot', format='svg'))
 
 目标检测主要有两类任务，一类是image classification 和 classification with localization，往往只有一个目标需要标记，另一类是detection，往往有多个目标需要标记
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/27032753.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/27032753.jpg)
 
 当你需要标记目标位置的时候，你的神经网络的输出不仅是一个softmax的概率值，还有图像中心点的x，y坐标以及红框的宽和高的值，假设我们现在检测三类目标，分别是行人，汽车，摩托车，以及三类都没有的纯背景的情况，那么你的y应该设置为
 $$
@@ -1183,7 +1183,7 @@ $$
 
 其中$P_c$表示的是图中有无目标，如果有目标那么就要定位$b_x,b_y,b_h,b_w$，以及他们的分类$c_1,c_2,c_3$
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/76557389.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/76557389.jpg)
 
 当$P_c = 1$的时候，y的所有参数都是需要关心的
 
@@ -1201,13 +1201,13 @@ $$
 
 当你检测一个人或者是一个姿势的时候，你可能需要的不是像检测汽车那样只要一个中心点，你可能需要很多个点来检测人脸的五官，或者不同的点来检测一个人的姿势，此时你的y就有很多个点
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/36562583.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/36562583.jpg)
 
 ### 利用滑动窗口进行目标检测
 
 用一个正方形框在图像上以一定步长滑动，每次检测框内的图像，这就是滑动窗口的含义，用不同大小的框可以多次进行
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/76981350.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/76981350.jpg)
 
 但是滑动窗口的计算成本非常大，如果你的步长选的比较小（精度比较高），那么你要输入系统的图片非常多，计算量就非常大
 
@@ -1215,11 +1215,11 @@ $$
 
 使用卷积实现滑动窗口，首先要看看如何把FC层转换为卷积层，在本来应该flatten的地方，再用一组f大小与原图相等的filter，将它变成1\*1的volume，然后反复使用1\*1的filter，直到最后大小等于1\*1\*4
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/70781915.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/70781915.jpg)
 
 同样，在滑动窗口的过程中，有很多的卷积步骤是重复的，因此我们可以使用卷积来避免每个滑动窗口都经历整个卷积神经网络
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/4716774.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/4716774.jpg)
 
 ### 获得更加精确的边界框
 
@@ -1229,11 +1229,11 @@ YOLO(You Only Look Once)算法是一个很好用的目标检测算法，先讲�
 
 通常我们划分的块会更多一些，以便更加精确地定位图像
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/65964893.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/65964893.jpg)
 
 边框的标记方法是给出中心点的坐标x，y，已经图像的高度h和宽度w，因为我们对每个小方块的坐标定义为左上角是(0,0)，右下角是(1,1)，所以x,y一定是在0到1之间的值，但是目标的大小可能超出一个方块，所以h和w可以是大于0的任何值（当然也可以大于1），如下图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/31698060.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/31698060.jpg)
 
 ### 交并比（intersection over union）
 
@@ -1245,11 +1245,11 @@ YOLO(You Only Look Once)算法是一个很好用的目标检测算法，先讲�
 
 加入你在下图中检测汽车，你把图片分成了19\*19大小的网格，两辆车的中心分别是绿色点和黄色点，理论上来说它们各自的中心点应该只会被标记一次，但是你在运行网络的时候，每一个网格都是独立运行的，所以旁边的网格可能也会认为自己就在图片中心，同一个目标可能会被标记好多次，因此引入非最大值抑制的策略来保证每个目标只被标记一次
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/39766648.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/39766648.jpg)
 
 假设我们现在已经得到了很多个框，你需要去找到哪个框是真的有效的，如下图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/21084208.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/21084208.jpg)
 
 具体做法如下：
 
@@ -1263,25 +1263,25 @@ Anchor Box是用来当你需要检测多个目标的时候，你先给几个预�
 
 比如你现在检测行人和车辆，行人的车辆应该是高长的，车辆的扁宽的，本来y是8维的，然后现在连接起来就有16维
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/12260966.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/12260966.jpg)
 
 然后我们将两个anchor box 和 我们之前圈出来的框计算IoU，图像将被分到高IoU的部分
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/7317445.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/7317445.jpg)
 
 ### YOLO算法的完整描述
 
 如果你在进行一个定位行人，汽车，摩托车的YOLO算法，如下图，先将图片分成3\*3的网格，对每一个网格进行检测，现在设定了2个anchor box，那么最终的输出是3\*3\*16的结果
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/15432401.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/15432401.jpg)
 
 我们来看看如何做预测，如下图，我们将最终的结果全为$P_c$全为0的分类成背景，为1的部分去找对应的c的分类
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/38705005.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/38705005.jpg)
 
 我们再来看看如何使用non-max suppress，先从图中移除那些概率很低的框，然后分别对三个类别（行人，汽车，摩托车）进行non-max suppress得到最终的预测
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-14/49481234.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-14/49481234.jpg)
 
 ## Week four
 
@@ -1302,17 +1302,17 @@ Anchor Box是用来当你需要检测多个目标的时候，你先给几个预�
 
 普通的卷积神经网络是先经过几个卷基层，然后经过一个FC layer，最后一个softmax进行判别，我们在这里删除最后的softmax层，将最后的FC层的输出作为一张图片的编码
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/10704951.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-15/10704951.jpg)
 
 将这些输出的编码作为结果，计算距离，并使得同一个人的不同图片距离小，不同人的图片距离大，以此作为目标进行反向传播，具体的loss函数被称为triple loss function
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/66344361.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-15/66344361.jpg)
 
 ### 三重损失函数（triple loss function）
 
 我们每次进行训练的图片应该有三张：Anchor，Positive，Negative，分别代表原始图片，同一个人的图片，另一个人的图片，计算Anchor和Positive以及Negative之间的距离，记作d(A,P)和d(A,N)，计算方法是通过神经网络给出的编码，计算欧式距离，要求同一个人的不同图片距离小(d(A,P)小)，不同人的图片距离大（d(A,N)大），并且他们之间不能是基本相同的大小，因为那样对于分类器来说是比较难区分的，我们把差距超过一定范围$\alpha$的才能称为不同人，如下图所示
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/35397965.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-15/35397965.jpg)
 
 那么损失函数可以是上图中的右式移到左边，那么要求这个损失小于等于0，那么我们取Loss为
 $$
@@ -1332,7 +1332,7 @@ $$
 
 另一种进行人脸识别的方法是二分类，当你有一个新的图片需要分类的时候，将它输入一个已经训练好的卷积神经网络，得到一个编码，与系统中另一张图片的编码经过一个logistic单元，最终的$\hat y$如果为1，证明图片来自同一个人，否则来自于不同人
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/58169041.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-15/58169041.jpg)
 
 这里有个节省计算能力的好办法，就是系统中的图片，你应该全部先通过卷及网络算出编码，直接存储编码，这样每次你只需要将新图片经过这个神经网络得到编码，再做一个logistic计算就可以了
 
@@ -1342,13 +1342,13 @@ $$
 
 如下图，我们将原图(Content)称为C，风格图（Style）称为S，生成的图片（Gnerated image）称为G
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/56114233.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-15/56114233.jpg)
 
 ### 深度卷积神经网络究竟学的是什么
 
 卷积神经网络的前面层，是一些图片的边缘信息，越到后面的层，信息越丰富
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-15/52977504.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-15/52977504.jpg)
 
 ### 风格迁移的代价函数
 
@@ -1395,11 +1395,11 @@ $$
 
 1D数据通常是信号数据，你用的卷积核应该也是1D的，比如你一开始是14\*1的信号，卷积16个5\*1的filter，变成
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-16/99066781.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-16/99066781.jpg)
 
 3D图像通常有CT图，视频之类的，有长，宽，深度三个维度，
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-16/8799779.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-16/8799779.jpg)
 
 
 

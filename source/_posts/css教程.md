@@ -126,7 +126,7 @@ ID选择器都类似于类选择符，但也有一些重要的区别：
 
 子选择器效果图：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-7-4/44758217.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-4/44758217.jpg)
 
 ## 包含后代的选择器
 
@@ -140,7 +140,7 @@ ID选择器都类似于类选择符，但也有一些重要的区别：
 
 后代选择器效果图：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-7-4/2102811.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-4/2102811.jpg)
 
 ## 适配符
 

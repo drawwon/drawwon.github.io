@@ -35,7 +35,7 @@ mathjax: true
 
 在机器学习的过程中，通常需要调整如下图的四个目标
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-7/31363076.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/31363076.jpg)
 
 1. 首先是要在训练集上面表现够好（基本达到人工识别的水平），如果效果不够好，尝试更大的网络，或者好的优化算法比如Adam
 2. 第二要在dev set 上面表现够好，如果不过好，尝试正则化或者更大的训练集
@@ -53,7 +53,7 @@ mathjax: true
 
 为了能够同时照顾到精确率和召回率，引入一个F1 score，这个指标同时考虑了精确率和召回率
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-7/18118181.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/18118181.jpg)
 
 F1score 的定义是precision和recall的调和平均数（hormonic mean），表示为$F_1=\frac{2}{1/P+1/R}$,P和R分别表示精确率和召回率
 
@@ -61,7 +61,7 @@ F1score 的定义是precision和recall的调和平均数（hormonic mean），�
 
 加入你现在有两个系统，第一个是用来分类猫图片的，但是又要考虑时间；第二个是用来唤醒关键字的，要同时考虑准确率和false positive（没有说话但是被唤醒了）
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-7/77729361.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/77729361.jpg)
 
 第一个猫图片系统可以用<=100ms的值的最大精确度来衡量
 
@@ -79,7 +79,7 @@ F1score 的定义是precision和recall的调和平均数（hormonic mean），�
 
 比如你现在有一个分类猫图片的分类器，其中一个错误率低，但是存在一些色情图片，这个时候就要改变你的评估矩阵，加入一个系数，这个系数当图片不是色情图片的时候为1，是色情图片的时候为10或者100，这样如果是色情图片，错误率就会变得很高，实现了你的要求
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-7/48157316.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/48157316.jpg)
 
 再来看个例子，假如你的分类器的dev和test的数据都是高清的猫图片，而最后应用的时候的图片的质量都很差，此时你分不出来猫图片，这个时候我们就要考虑改变dev/test set，或者改变评价指标
 
@@ -87,7 +87,7 @@ F1score 的定义是precision和recall的调和平均数（hormonic mean），�
 
 当你的系统超过了人类的精度的时候，可能就接近一个称之为贝叶斯优化错误或者是贝叶斯错误的值了，这个值是理论上的最佳精度，你不论如何用更复杂的模型或者是调参都无法逾越这个值
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-7/8559400.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/8559400.jpg)
 
 与人类相比的原因是因为人类擅长很多方面，只要你的系统还不如人类做得好，你就可以用人工标注出更多的数据，以及分析为什么人工做的比机器好，更好的分析偏差和方差
 
@@ -97,7 +97,7 @@ F1score 的定义是precision和recall的调和平均数（hormonic mean），�
 
 两者当中，哪个大我们就专注于减少哪一个
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-7/77589726.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/77589726.jpg)
 
 ### 超过人工水平
 
@@ -109,11 +109,11 @@ F1score 的定义是precision和recall的调和平均数（hormonic mean），�
 
 如下图，改进模型表现，主要有两点，首先是可以在训练集上面表现的很好，然后是扩展到开发集和测试集
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-8/14356520.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-8/14356520.jpg)
 
 具体来说，对于不同的问题，有如下的策略
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-8/67730158.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-8/67730158.jpg)
 
 ## Week Two
 
@@ -140,7 +140,7 @@ F1score 的定义是precision和recall的调和平均数（hormonic mean），�
 
 这个时候，我们找出大概100张分错的图片，然后列一个表格，对每个分错的图片进行归因，最终得到每个因素的影响的比例，为我们提供改进的参考，如下图：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/77418193.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/77418193.jpg)
 
 ### 清理标记错误的数据
 
@@ -148,7 +148,7 @@ F1score 的定义是precision和recall的调和平均数（hormonic mean），�
 
 当开发集和测试集中存在错误标记的数据的时候，我们就把错误标记也看作一个影响因素，然后加入一列在上面的错误分析表中，如果影响大则去纠正，否则就先纠正别的
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/17088670.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/17088670.jpg)
 
 ### 快速建立你的第一个系统，并迭代
 
@@ -156,7 +156,7 @@ F1score 的定义是precision和recall的调和平均数（hormonic mean），�
 
 但是正确的做法应该如右边所示，首先建立一个开发和测试集以及评价矩阵，然后快速建立一个系统，之后使用偏差/方差分析和错误分析来进行迭代，优化你的系统
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/78361136.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/78361136.jpg)
 
 ### 不匹配的训练和开发/测试集数据
 
@@ -173,7 +173,7 @@ F1score 的定义是precision和recall的调和平均数（hormonic mean），�
 
 因此我们选用第二种方法
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/83829145.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/83829145.jpg)
 
 再假设你现在在开发一个语音激活的后视镜系统，你有别的语音数据50w条，而语音控制后视镜的你有2w条，那么正确的方法应该是50w条语音加上1w条控制语音作为训练，5k条控制语言作为开发集，5k条控制语言作为测试集
 
@@ -183,7 +183,7 @@ F1score 的定义是precision和recall的调和平均数（hormonic mean），�
 
 我们在可能存在数据不匹配的情况下，再划分一个training-dev set，用于衡量究竟是high variance 还是数据不匹配对系统造成了印象，分类方式如下图，原来的train set分成了train和training-dev，原来的dev和test不变
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/52399374.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/52399374.jpg)
 
 接下来在新的train set上面训练，并用training-dev set和dev/test set进行测试，根据结果来判断到底是high variance造成的问题，还是数据不匹配造成的问题，那么怎么判断呢，我们来看几个例子
 
@@ -191,7 +191,7 @@ F1score 的定义是precision和recall的调和平均数（hormonic mean），�
 
 例2. 你现在的training error 是1%，training-dev error是1.5%，dev error 是10%。可以看到，数据分布相同时的差距很小，而数据分布不同的时候差距很大， 应该着重处理数据失配(missmatch)问题
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/6819337.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/6819337.jpg)
 
 human error和training error之间的差距是avoid bias，需要更复杂的模型或者超参数
 
@@ -217,21 +217,21 @@ dev error 和 test error 之间的差距是 overfitting dev set，要找一个�
 
 举个例子，比如你现在有个分类猫的分类器，但是你想要能够分类x光，那么你先用猫的数据建立分类猫的分类器，然后去掉输出层，再用x光的数据进行训练，就得到了一个分类x光的分类器
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/59103871.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/59103871.jpg)
 
 再比如说你有一个语音识别的分类器，现在要建立一个唤醒词的分类器，那么你只需要去掉输出层，然后再训练唤醒词分类器即可，这个唤醒词分类器可以只有1层，也可以扩展为好几层
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/60205274.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/60205274.jpg)
 
 ### 多任务学习
 
 假设你正在做一个自动驾驶物体检测的问题，检测一张图上是否有行人，车辆，路标和交通灯，如果有则标记出来，比如下面这张图的标记为y=(0,1,1,0)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/58730529.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/58730529.jpg)
 
 所谓的多任务学习就是一次学习出的分类器可以分类多个目标，比如上述的问题，我们把四个的loss放到一起，甚至有些分类没有标记也是可以学习的，你只需要在计算loss的时候只算标记好的类型，如下图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/92028508.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/92028508.jpg)
 
 多任务学习和softmax回归的区别：多分类可以有多个类别是1，而softmax回归只能有一个类别为1
 
@@ -243,11 +243,11 @@ dev error 和 test error 之间的差距是 overfitting dev set，要找一个�
 
 举个例子，在人脸识别这个问题中，你是不能使用端到端的方法的，因为在人脸识别的时候，人脸可能处于图中任何位置，因此没有这么多的数据支撑你进行端到端的识别。你应该分成两个子任务，首先是提取出人脸这个任务，然后再是人脸的比较任务
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/63267645.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/63267645.jpg)
 
 再比如机器翻译这个任务，用端到端的方法是很合适的，因为翻译的数据足够多，可以支撑你的端到端方法
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-9/98914578.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/98914578.jpg)
 
 #### 决定是否使用端到端的方法
 

@@ -100,7 +100,7 @@ Name: SalePrice, dtype: float64
 #画个直方图来看看数据分布
 sns.distplot(df_train['SalePrice']);
 ```
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-11/82259654.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/82259654.jpg)
 
 看上去似乎是一个变形的正态分布图片，我们来计算机下他的偏度和峰度：
 
@@ -121,11 +121,11 @@ Kurtosis: 6.536282
 
 其中峰度和偏度的解释如下：
 
-1. 峰度（skewness）：峰度衡量数据分布的平坦度（flatness）。尾部大的数据分布，其峰度值较大。正态分布的峰度值为3![](http://ooi9t4tvk.bkt.clouddn.com/18-3-11/48112617.jpg)
+1. 峰度（skewness）：峰度衡量数据分布的平坦度（flatness）。尾部大的数据分布，其峰度值较大。正态分布的峰度值为3![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/48112617.jpg)
    如图，黑线的峰度值大于3，红线峰度值等于3
 2. 偏态（Skewness）：偏态量度对称性。0说明是最完美的对称性，正态分布的偏态就是0。如图所示，右偏态为正，表明平均值大于中位数。反之为左偏态，为负。
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-11/6978903.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/6978903.jpg)
 
 ## 数值类型因素之间的关系
 
@@ -138,7 +138,7 @@ data = pd.concat([df_train['SalePrice'], df_train[var]], axis=1)
 data.plot.scatter(x=var, y='SalePrice', ylim=(0,800000));
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-11/83913021.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/83913021.jpg)
 
 可以看到两者几乎呈现正相关，也就是非地下室面积和售价呈现正相关
 
@@ -151,7 +151,7 @@ data = pd.concat([df_train['SalePrice'], df_train[var]], axis=1)
 data.plot.scatter(x=var, y='SalePrice', ylim=(0,800000));
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-11/38930281.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/38930281.jpg)
 
 可以看到两者同样几乎呈现正相关，关系似乎是指数关系
 
@@ -166,7 +166,7 @@ sns.boxplot(x=var,y='SalePrice',data=data)
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-11/97679736.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/97679736.jpg)
 
 * 箱形图的解释：又称为**盒须图**、**盒式图**、**盒状图**或**箱线图**，是一种用作显示一组数据分散情况资料的[统计图](https://zh.wikipedia.org/wiki/%E7%BB%9F%E8%AE%A1%E5%9B%BE)。因型状如箱子而得名。在各种领域也经常被使用，常见于品质管理。不过作法相对较繁琐。它能显示出一组数据的[最大值](https://zh.wikipedia.org/wiki/%E6%9C%80%E5%A4%A7%E5%80%BC)、[最小值](https://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E5%80%BC)、[中位数](https://zh.wikipedia.org/wiki/%E4%B8%AD%E4%BD%8D%E6%95%B8)、及[上下四分位数](https://zh.wikipedia.org/wiki/%E5%9B%9B%E5%88%86%E4%BD%8D%E6%95%B0)。
 * 上四分位数Q3-下四分位数Q1 = 四分位间距$\Delta{Q}$
@@ -183,7 +183,7 @@ plt.xticks(rotation=90)
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-11/60100096.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/60100096.jpg)
 
 看上去似乎并没有什么强烈的关系
 
@@ -213,7 +213,7 @@ plt.yticks(rotation=360)
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-12/40765273.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-12/40765273.jpg)
 
 在我看来，热力图的确是一个最好的看一个大致影响程度的方法。
 
@@ -236,7 +236,7 @@ plt.yticks(rotation=360)
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-12/35746800.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-12/35746800.jpg)
 
 可以看到这些变量是影响房价最大的10个因素，从图中的数值可以看出来，OverallQual和GrLiveArea以及GarageCars和GarageArea是影响房价最大的几个因素。
 
@@ -254,7 +254,7 @@ sns.pairplot(train[cols],size=2.5)
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-12/86254176.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-12/86254176.jpg)
 
 大量的散点图给了我们一个变量之间关系的合理解释
 
@@ -358,7 +358,7 @@ data = pd.concat([df_train['SalePrice'], df_train[var]], axis=1)
 data.plot.scatter(x=var, y='SalePrice', ylim=(0,800000));
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/17899296.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/17899296.jpg)
 
 * 有两个面积很大但是价格很低的点，我们可以推断他们对我们的分析意义不大，可能是偏远农村的房子。我们认为这两个点是异常值并删除他们。
 * 最高处的两个点，应该就是我们在标准化数据的时候得到的7点几的两个点，然而他们两个点好像符合这个线性关系，我们暂时决定保留他们。
@@ -388,7 +388,7 @@ data.plot.scatter(x=var,y='SalePrice')
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/319136.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/319136.jpg)
 
 我们可能很想要删除那几个居住面积大于3000的值，但是在这里我们先保留他们
 
@@ -418,9 +418,9 @@ plt.show()
 
 得到下面两张图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/40543531.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/40543531.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/27227032.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/27227032.jpg)
 
 显然，售价并不是正态分布，他有一个尖峰，并且正的偏度。然而我们可以通过一个简单的变换把这些数据变成正态的，在统计学中可以知道，当数据分布是有正的偏度的时候，log变换非常有效。
 
@@ -432,9 +432,9 @@ train['SalePrice'] = np.log(train['SalePrice'])
 
 变换之后的数据
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/85975518.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/85975518.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/6789786.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/6789786.jpg)
 
 同样，我们对GrLivArea进行一个log变换
 
@@ -449,9 +449,9 @@ plt.show()
 
 得到变换之后的图形如下：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/68294229.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/68294229.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/30007186.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/30007186.jpg)
 
 我们再来看看TotalBsmtSF本来的数据长什么样子：
 
@@ -462,9 +462,9 @@ res = stats.probplot(train['TotalBsmtSF'], plot=plt)
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/52896292.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/52896292.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/19573516.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/19573516.jpg)
 
 * 我们可以看到好多值都是0，这样我们就不能用log变换了
 * 我们在做log变换之前需要把所有为0的值变为1，这样变换之后，值还是0
@@ -483,9 +483,9 @@ plt.show()
 
 我们只画出为正的那部分的地下室的变化之后的分布，也服从正态分布
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/60859543.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/60859543.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/50279551.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/50279551.jpg)
 
 ### 验证同方差性
 
@@ -497,7 +497,7 @@ plt.show()
 plt.scatter(df_train['GrLivArea'], df_train['SalePrice'])
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/76915160.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/76915160.jpg)
 
 对比log变化之前的图形，可以看到这个图没有之前那种锥形的样子了，这就是正态性的效果，确保了正态性往往就确保了同方差性
 
@@ -507,7 +507,7 @@ plt.scatter(df_train['GrLivArea'], df_train['SalePrice'])
 plt.scatter(train[train['TotalBsmtSF']>0]['TotalBsmtSF'], train[train['TotalBsmtSF']>0]['SalePrice']);
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/11730894.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/11730894.jpg)
 
 ## 哑变量
 

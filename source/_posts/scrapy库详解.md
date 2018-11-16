@@ -15,7 +15,7 @@ category: [编程学习]
 
 <!--more-->
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-8-14/88536273.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-14/88536273.jpg)
 
 用户主要编写spider和item pipelines，其余三个模块是事先写好的，不需要修改
 
@@ -42,7 +42,7 @@ scrapy有6个常用命令
 scrapy startproject python123demo
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-8-14/62349910.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-14/62349910.jpg)
 
 建立完成之后可以看到的文件夹下产生了一个名为python123的文件，进入该文件可以看到一个`scrapy.cfg`的文件，这是一个部署scrapy的配置文件
 

@@ -341,7 +341,7 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 
 点“Add SSH Key”，填上任意Title，在Key文本框里粘贴`id_rsa.pub`文件的内容：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/githhubpage.png)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/githhubpage.png)
 
 
 
@@ -349,7 +349,7 @@ $ ssh-keygen -t rsa -C "youremail@example.com"
 
 首先，登陆GitHub，然后，在右上角找到“Create a new repo”按钮，创建一个新的仓库：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/new-repository.png)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/new-repository.png)
 
 在本地的`git`仓库下运行命令：
 

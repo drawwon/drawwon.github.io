@@ -9,12 +9,12 @@ kaggle是一个国外的数据挖掘竞赛平台，大家做完竞赛之后会�
 
 其中有一个入门类的分析问题是分析Titanic号的救援问题，分析哪些因素会影响到是否被救援，首先打开Titanic这个问题的具体页面，[Titanic: Machine Learning from Disaster](https://www.kaggle.com/c/titanic),
 
-<!--more-->![](http://ooi9t4tvk.bkt.clouddn.com/17-9-25/69961399.jpg)
+<!--more-->![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-25/69961399.jpg)
 
 <!--more-->
 先看一看overview里面的description和evaluation，看看问题背景和最终需要预测的内容，然后点击数据，下载三个csv格式的数据集，第一个`train.csv`是训练集，第二个`test.csv`是测试集，第三个`gender_submission.csv`是验证集，
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-9-25/35388132.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-25/35388132.jpg)
 
 下载好之后打开pycharm，新建名为Titanic的工程，新建Titanic.py开始进行分析
 
@@ -146,7 +146,7 @@ plt.show()
 
 绘制得到的图片如下：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-9-25/98568081.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-25/98568081.jpg)
 
 其中标注直方图的代码为：
 
@@ -176,7 +176,7 @@ plt.show()
 
 其中的字体大小设置可以用`ctrl+B`跳到原始代码中去看，大多数情况都是直接设置`fontsize`
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-9-25/4950204.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-25/4950204.jpg)
 
 舱位级别和性别对获救的影响
 
@@ -240,7 +240,7 @@ Annotate(ax)
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-9-26/88248188.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-26/88248188.jpg)
 
 接下来画出堂兄弟姐妹对是否获救的影响：
 
@@ -277,7 +277,7 @@ print(df)
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-9-26/70177085.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-26/70177085.jpg)
 
 看来有cabin这个参数更容易获救
 

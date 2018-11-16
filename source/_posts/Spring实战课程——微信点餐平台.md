@@ -123,13 +123,13 @@ CREATE TABLE `order_detail` (
 
 然后通过Navicat建立数据库连接，并新建数据库，注意这里的编码要选择utf8mb4，这个编码可以存储诸如emoji表情之类的特殊符号，而传统的utf-8编码则不能
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-25/97093913.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-25/97093913.jpg)
 
 建好之后通过Navicat运行上面的sql脚本，即可生成多个表
 
 ## 日志框架
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-26/53967472.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-26/53967472.jpg)
 
 JUL来自官方，但是很多问题，首先淘汰；jboss用得也不多，其次淘汰；log4j和logback是同一个作者，logback是log4j的升级版，logback更好用
 
@@ -547,9 +547,9 @@ private String lastName; ｝
 
 3、直接在接口中定义查询方法，如果是符合规范的，可以不用写实现，目前支持的关键字写法如下：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-26/91216516.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-26/91216516.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-26/54176380.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-26/54176380.jpg)
 
 ### 服务层
 
@@ -950,7 +950,7 @@ public class ResultVOUtil {
 
 3. 更改之后重新运行项目，发现可以访问了，但是没有数据返回，此时只需要在list函数上加入一个跨域访问的注解`@CrossOrigin("*")`，即可正常访问。
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-10-7/21769142.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-10-7/21769142.jpg)
 
 ## 订单层开发
 

@@ -2255,7 +2255,7 @@ window.open([URL], [窗口名称], [参数字符串])
 参数字符串：可选参数，设置窗口参数，各参数用逗号隔开。
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-7-7/21084204.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-7/21084204.jpg)
 
 ## 关闭窗口
 

@@ -28,11 +28,11 @@ activate
 
 项目建立之后，我们得到了如下的目录结构，紫色的被标记为了templet目录，这样就能智能提示，如果你想要在import的时候不需要加入绝对路径，那么就可以`mark as source root`
 
-![img](http://ooi9t4tvk.bkt.clouddn.com/17-12-13/70910990.jpg)
+![img](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-13/70910990.jpg)
 
 接下来我们先尝试运行该项目，点击run，运行这个Django项目，可以看到运行在了本机的8000端口，点击该地址即可访问：
 
-![img](http://ooi9t4tvk.bkt.clouddn.com/17-12-13/88013332.jpg)
+![img](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-13/88013332.jpg)
 
 如果要配置监听所有ip，那么我们需要通过`run-Edit configurations`，将监听端口改为0.0.0.0
 
@@ -145,7 +145,7 @@ DATABASES = {
 
 此时Django自动生成了一大堆数据库表，在Navicat中可以看到表的名称：
 
-![img](http://ooi9t4tvk.bkt.clouddn.com/17-12-14/11540528.jpg)
+![img](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-14/11540528.jpg)
 
 此时可以点击run运行整个系统，可以在127.0.0.1:8000上访问该网址
 
@@ -172,7 +172,7 @@ def getform(request):
 
 ### 项目配置流程
 
-![img](http://ooi9t4tvk.bkt.clouddn.com/17-12-14/89792661.jpg)
+![img](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-14/89792661.jpg)
 
 整体来说，先设置数据库和STATICFILES_DIRS，之后这一块不再动，主要就是views.py写后端逻辑，urls.py写页面地址url配置
 
@@ -362,7 +362,7 @@ url(r'^form/$', getform,name='form')
 
 ### app设计
 
-![img](http://ooi9t4tvk.bkt.clouddn.com/18-1-21/6996332.jpg)
+![img](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-1-21/6996332.jpg)
 
 ### 新建虚拟环境
 
@@ -427,11 +427,11 @@ class UserProfile(AbstractUser):
 
 ### 循环引用
 
-![img](http://ooi9t4tvk.bkt.clouddn.com/18-1-23/18897780.jpg)
+![img](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-1-23/18897780.jpg)
 
 避免交叉引用，不然会出错，使用上层app引用下层app
 
-![img](http://ooi9t4tvk.bkt.clouddn.com/18-1-23/87606606.jpg)
+![img](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-1-23/87606606.jpg)
 
 ### 加入邮件验证码和轮播图
 

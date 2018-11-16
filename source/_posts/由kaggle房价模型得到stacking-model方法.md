@@ -124,7 +124,7 @@ plt.scatter(x=train['GrLivArea'],y=train['SalePrice'])
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-13/17899296.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/17899296.jpg)
 
 很明显看到另个异常值，我们先把这两个点删除
 
@@ -157,9 +157,9 @@ plt.show()
 
 房价正态对比图以及QQ图
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-14/70657813.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-14/70657813.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-14/80858877.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-14/80858877.jpg)
 
 目标变量右偏，线性模型比较喜欢正态分布的数据，因此我们需要转换变量使其正态分布
 
@@ -179,9 +179,9 @@ stats.probplot(train['SalePrice'],plot=plt)
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-14/14029443.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-14/14029443.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-14/9451883.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-14/9451883.jpg)
 
 可以看到，变换之后更加接近正态分布
 
@@ -241,7 +241,7 @@ plt.title('data missing percent')
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-14/30036574.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-14/30036574.jpg)
 
 ### 数据相关性分析
 
@@ -254,7 +254,7 @@ plt.yticks(rotation=360)
 plt.show()
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-14/70809095.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-14/70809095.jpg)
 
 ### 计算缺失值
 
@@ -659,9 +659,9 @@ print(score.mean(),score.std())
 3. 用保留部分的数据，测试基础模型
 4. 用第三步中得到的对保留部分数据的预测作为输入，加上正确的目标变量作为输出，去训练一个更高水平的模型，称为元模型
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-14/83946384.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-14/83946384.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-14/63233585.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-14/63233585.jpg)
 
 在上图中，A,B就是训练数据集，被分成了训练A和保留B，两部分。基础模型是算法0,1,2，元模型是算法3，B1是新的特征用于训练元模型3，C1是最终需要预测的元特征。
 
@@ -708,7 +708,7 @@ print("Stacking Averaged models score: {:.4f} ({:.4f})".format(score.mean(), sco
 
 最终成绩
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-3-17/14861405.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-17/14861405.jpg)
 
 
 

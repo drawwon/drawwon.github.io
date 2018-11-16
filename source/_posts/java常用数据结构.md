@@ -12,11 +12,11 @@ java.util包中三个重要的接口及特点：List（列表）、Set（保证�
 
 java常见数据结构：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-27/36575200.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-27/36575200.jpg)
 
 java常见数据结构的主要方法
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-9-27/39355028.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-9-27/39355028.jpg)
 
 **可根据实际情况来选择使用ArrayList（非同步、非频繁删除时选择）、Vector（需同步时选择）、LinkedList（频繁在任意位置插入、删除时选择）。**
 

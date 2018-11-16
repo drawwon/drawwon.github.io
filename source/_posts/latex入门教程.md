@@ -66,7 +66,7 @@ latex的编辑软件主要用到的是ctxt，安装地址
 
 插入url时要用到如下包`\usepackage{url}`
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-8-10/8740980.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/8740980.jpg)
 
 ## 插入图片
 

@@ -16,11 +16,11 @@ cookie是浏览器保存的一系列值，其字段及定义如下：
 
 <!--more-->
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-6-17/92453069.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-6-17/92453069.jpg)
 
 与cookie对应的是session，session由服务器端产生记录请求者身份，其字段定义如下：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-6-17/62150518.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-6-17/62150518.jpg)
 
 session在关闭页面之后就会自动删除
 

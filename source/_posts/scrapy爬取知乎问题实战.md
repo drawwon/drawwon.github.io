@@ -8,7 +8,7 @@ category: [编程练习,爬虫]
 
 <!--more-->
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-9-18/23468729.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-18/23468729.jpg)
 
 常见http状态码
 
@@ -41,9 +41,9 @@ headers = {
 
 接下来，我们要寻找登录发送数据的页面，首先打开`zhihu.com`退出之前的登录，来到一个登录页面，在登陆页面中使用手机号码登录，此时需要**发送一个错误的信息给页面**，以找到post数据的网页（如果输入正确的账号密码就直接登录成功了，一大堆网页请求就找不到我们需要的网页了）
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-9-19/72348150.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-19/72348150.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-9-19/12704910.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-19/12704910.jpg)
 
 找到了需要post的网页，发现post的数据有`_xsrf`,`passoword`,`phone_num`，另外一个`captcha_type`没有用，加了之后反而无法访问（不知道为什么）
 

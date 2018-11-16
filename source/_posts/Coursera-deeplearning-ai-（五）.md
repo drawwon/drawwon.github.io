@@ -28,7 +28,7 @@ mathjax: true
 
 首先准备好一个字典，每个词一个one-hot向量，把出现的标记为1，没有出现的标记为0，如果遇到字典中不存在的单词，我们建立一个unknown的词，标记为unknown
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-16/44734504.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-16/44734504.jpg)
 
 #### 为什么不用标准神经网络
 
@@ -43,11 +43,11 @@ mathjax: true
 
 先输入一个$x^{ \langle 1 \rangle }$，输出$y^{ \langle 1 \rangle }$和$a^{ \langle 1 \rangle }$；然后输入$x^{ \langle 2 \rangle }$，通过$a^{ \langle 1 \rangle }$的信息和$x^{ \langle 2 \rangle }$的信息共同输出$y^{ \langle 2 \rangle }$和$a^{ \langle 2 \rangle }$，后面的步骤相似，由之前的所有信息得到当前的输出y，右边是循环神经网络的另一种表示方式，不过在这门课当中我们用左边的表示方式，通常会构造一个$a^{ \langle 0 \rangle }$，一般构造为0向量
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/51333298.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-17/51333298.jpg)
 
 但是这样的循环神经网络有个缺点就是只利用了前面的信息，而没有利用后面的信息，比如在判断人名的情况下，我们要判断下图中的Teddy是不是一个人名，我们如果用循环神经网络只能利用前面的信息，下面两个图的判断结果应该相同，解决这个问题的方法是之后会讲解的双向循环神经网络(Bidirectional RNN) BRNN
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/5379891.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-17/5379891.jpg)
 
 循环神经网络中$a^{ \langle t \rangle }$和$y^{ \langle t \rangle }$的计算方法如下，$w_{a \_ }$如果和a相乘的时候就是$w_{aa}$，和x相乘的时候就是$w_{ax}$，注意这里所有层是共享的同一组参数。上下两个激活函数可以不同，一般来说$g_1$是tanh（偶尔也可以是Relu），$g_2$根据任务不同一般是sigmoid或softmax
 $$
@@ -66,13 +66,13 @@ y^{ \langle t \rangle } &= g(w_{y}a^{ \langle t \rangle } +b_y)
 \end{align}
 $$
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/15290928.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-17/15290928.jpg)
 
 ### 循环神经网络的反向传播
 
 循环神经网络的反向传播用到的损失函数就是逻辑回归中的交叉熵损失函数
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/60395486.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-17/60395486.jpg)
 
 ### 不同类型的循环神经网络
 
@@ -80,15 +80,15 @@ $$
 
 我们通过输入输出的数量的不同，进行划分，下图左边的是many-to-many RNN，并且输入数量等于输出的，比如之前的人名识别，中间是many-to-one RNN，比如情感分类，一大段话只需要输出一个情感值，也存在one-to-one的情况，不过很少见
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/56231645.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-17/56231645.jpg)
 
 还有one-to-many结构，比如音乐生成，给个数字生成一段音乐，还有many-to-many的输入输出长度不同的情况，比如机器翻译的应用
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/1550175.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-17/1550175.jpg)
 
 总结来说，RNN的不同结构有以下几种
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/65701426.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-17/65701426.jpg)
 
 ### 语言建模和序列生成
 
@@ -98,17 +98,17 @@ $$
 
 标记完之后你开始计算每个单词出现的概率，然后计算第二个单词在第一个单词出现的概率，计算第三个单词在第一、二个单词出现的概率，一直到最后一个单词
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/78581883.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-17/78581883.jpg)
 
 ### 采样新序列
 
 我们之前计算每个$y^{ \langle t \rangle }$是通过选择最大的概率，但是在这里介绍一个新的方法，是通过随机采样作为下一个循环神经网络的输入，直到采样到`<UNK>`的时候结束
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/72354364.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-17/72354364.jpg)
 
 除了以单词作为字典，还可以用字母作为字典，可以处理位置单词的情况，但是这种方法计算量更大，用得很少
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-5-17/86894239.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-17/86894239.jpg)
 
 ### 梯度消失
 

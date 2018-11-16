@@ -295,11 +295,11 @@ Flask是一个开源的易配置的web框架，基于Python进行书写
    17. **在自己主机上托管网页**
        17.1 **安装Apache**
        首先安装apache（阿帕奇），这个软件主要是用于部署网页，下载方法如下：
-       ①登录[apache下载网站](http://httpd.apache.org/download.cgi)，找到如下的for windows的软件![](http://ooi9t4tvk.bkt.clouddn.com/17-7-23/17988963.jpg)
+       ①登录[apache下载网站](http://httpd.apache.org/download.cgi)，找到如下的for windows的软件![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/17988963.jpg)
 
-       ②选择下图中的任意一个第三方平台进行下载，会得到一个压缩包![](http://ooi9t4tvk.bkt.clouddn.com/17-7-23/7561754.jpg)
+       ②选择下图中的任意一个第三方平台进行下载，会得到一个压缩包![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/7561754.jpg)
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-7-23/10893416.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/10893416.jpg)
 
 ​	解压压缩包得到名为apache的文件夹，首先要修改`/Apache24/conf/htttpd.conf`，将其中`Define SRVROOT "/Apache24"`改为其现在的路径`Define SRVROOT "D:/program files/Apache24"`，
 
@@ -311,7 +311,7 @@ Flask是一个开源的易配置的web框架，基于Python进行书写
 
 ​	③为了验证Apache是否安装成功，我们需要在打开Apache服务的时候，访问127.0.0.1，如果看到如下界面，表示安装成功：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-7-23/36787268.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/36787268.jpg)
 
 
 

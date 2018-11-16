@@ -116,7 +116,7 @@ model.summary()
 
 
 
-![](http://ooi9t4tvk.bkt.clouddn.com/18-8-11/86737125.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-8-11/86737125.jpg)
 
 ```python
 model.summary()

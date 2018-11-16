@@ -341,7 +341,7 @@ print links
 
    效果
 
-   ![](http://ooi9t4tvk.bkt.clouddn.com/17-5-19/17092919-file_1495191243805_2e7f.jpg)
+   ![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-5-19/17092919-file_1495191243805_2e7f.jpg)
 
 ### 源码
 
@@ -499,7 +499,7 @@ for i,p in enumerate(links):
 
 请将上述内容写到 student.xls 文件中，如下图所示：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-5-25/96708619.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-5-25/96708619.jpg)
 
 ## 解题思路
 

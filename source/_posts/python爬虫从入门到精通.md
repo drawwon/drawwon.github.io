@@ -36,7 +36,7 @@ category: [编程学习]
 
 打开[知乎页面](https://zhuanlan.zhihu.com/p/25296437)，按浏览器的F12键，点击network，点击doc，然后刷新页面，再点击headers，可以看到如下界面：
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-5-22/61930610-file_1495457286738_5f3e.png)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-5-22/61930610-file_1495457286738_5f3e.png)
 
 其中：
 

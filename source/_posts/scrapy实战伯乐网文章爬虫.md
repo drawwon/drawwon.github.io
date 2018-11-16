@@ -31,7 +31,7 @@ execute(["scrapy", 'crawl', 'jobbole'])
 response_nodes = response.css('#archive .floated-thumb .post-thumb a')
 ```
 
-![](http://ooi9t4tvk.bkt.clouddn.com/17-9-10/51186543.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-10/51186543.jpg)
 
 然后我们在找到的response_nodes中进行循环，并找到其中的首页图片地址和post地址，并将posts地址yield出去，交给`scrapy.http.Request`处理：
 
