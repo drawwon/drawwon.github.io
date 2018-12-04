@@ -8,6 +8,8 @@ category: [算法]
 
 离春招开始的时间已经不久了，因此最近开始在工作之余看看剑指offer这本书，了解更多关于算法相关的知识。
 
+<!--more-->
+
 ### 第一章
 
 #### c++
@@ -288,62 +290,70 @@ if __name__ == '__main__':
 ![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/20181127111133.png)
 
 ```c++
-    public static void ReplaceBlank(char[] target, int maxLength)
+public static void ReplaceBlank(char[] target, int maxLength)
+{
+    if (target == null || maxLength <= 0)
     {
-        if (target == null || maxLength <= 0)
-        {
-            return;
-        }
-
-        // originalLength 为字符串target的实际长度
-        int originalLength = 0;
-        int blankCount = 0;
-        int i = 0;
-
-        while (target[i] != '\0')
-        {
-            originalLength++;
-            // 计算空格数量
-            if (target[i] == ' ')
-            {
-                blankCount++;
-            }
-            i++;
-        }
-
-        // newLength 为把空格替换成'%20'之后的长度
-        int newLength = originalLength + 2 * blankCount;
-        if (newLength > maxLength)
-        {
-            return;
-        }
-
-        // 设置两个指针，一个指向原始字符串的末尾，另一个指向替换之后的字符串的末尾
-        int indexOfOriginal = originalLength;
-        int indexOfNew = newLength;
-
-        while (indexOfOriginal >= 0 && indexOfNew >= 0)
-        {
-            if (target[indexOfOriginal] == ' ')
-            {
-                target[indexOfNew--] = '0';
-                target[indexOfNew--] = '2';
-                target[indexOfNew--] = '%';
-            }
-            else
-            {
-                target[indexOfNew--] = target[indexOfOriginal];
-            }
-
-            indexOfOriginal--;
-        }
+        return;
     }
+
+    // originalLength 为字符串target的实际长度
+    int originalLength = 0;
+    int blankCount = 0;
+    int i = 0;
+
+    while (target[i] != '\0')
+    {
+        originalLength++;
+        // 计算空格数量
+        if (target[i] == ' ')
+        {
+            blankCount++;
+        }
+        i++;
+    }
+
+    // newLength 为把空格替换成'%20'之后的长度
+    int newLength = originalLength + 2 * blankCount;
+    if (newLength > maxLength)
+    {
+        return;
+    }
+
+    // 设置两个指针，一个指向原始字符串的末尾，另一个指向替换之后的字符串的末尾
+    int indexOfOriginal = originalLength;
+    int indexOfNew = newLength;
+
+    while (indexOfOriginal >= 0 && indexOfNew >= 0)
+    {
+        if (target[indexOfOriginal] == ' ')
+        {
+            target[indexOfNew--] = '0';
+            target[indexOfNew--] = '2';
+            target[indexOfNew--] = '%';
+        }
+        else
+        {
+            target[indexOfNew--] = target[indexOfOriginal];
+        }
+
+        indexOfOriginal--;
+    }
+}
 
 ```
 
 这道题给我们的启发：如果合并两个字符串或者是数组的时候，从前往后合并往往会需要复制很多次，那么我们可以从后往前合并。
 
 #### 链表
+
+
+
+
+
+
+
+
 
 
 

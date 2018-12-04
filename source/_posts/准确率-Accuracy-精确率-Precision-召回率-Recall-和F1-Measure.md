@@ -8,6 +8,8 @@ category: [机器学习]
 
 器学习(ML), 自然语言处理(NLP), 信息检索(IR)等领域, 评估(Evaluation)是一个必要的工作, 而其评价指标往往有如下几点: 准确率(Accuracy), 精确率(Precision), 召回率(Recall) 和 F1-Measure.(注：相对来说，IR 的 ground truth 很多时候是一个 Ordered List, 而不是一个 Bool 类型的 Unordered Collection，在都找到的情况下，排在第三名还是第四名损失并不是很大，而排在第一名和第一百名，虽然都是“找到了”，但是意义是不一样的，因此更多可能适用于 [MAP](https://en.wikipedia.org/wiki/Information%20retrieval#Mean_average_precision) 之类评估指标.)
 
+<!--more-->
+
 本文将简单介绍其中几个概念. 中文中这几个评价指标翻译各有不同, 所以一般情况下推荐使用英文.
 
 现在我先假定一个具体场景作为例子.
@@ -60,7 +62,7 @@ $F_1 = \frac{2PR}{P+R} = \frac{2TP}{2TP + FP + FN}$
 
 需要说明的是, 有人列了这样个公式[[F-measure]](https://en.wikipedia.org/wiki/Precision_and_recall#F-measure), 对非负实数$\beta$
 
-$F_\beta = (\beta^2 + 1) * \frac{PR}{\beta^2*P+R}$
+$F_\beta = (\beta^2 + 1) \times \frac{PR}{\beta^2\times P+R}$
 
 将 F-measure 一般化.
 
