@@ -347,11 +347,160 @@ public static void ReplaceBlank(char[] target, int maxLength)
 
 #### 链表
 
+链表是面试中最常出现的数据结构。
 
+链表的空间是用到的时候再分配的，因此空间效率比数组要高。
 
+单向链表的定义如下：
 
+```c++
+struct ListNode{
+    int m_nValue;
+    ListNode* m_pNext;
+}
+```
 
+在链表后面添加一个元素的方法如下：
 
+```c++
+void addToTail(ListNode** pHead, int value){
+    ListNode* pNew = new ListNode();
+    pNew->m_nValue = value;
+    PNew->m_pnext = nullptr;
+    if(*pHead==nullptr){
+        *head = pNew;
+    }
+    else{
+        ListNode* pNode = *pHead;
+        while(pNode->m_pNext!=nullptr){
+            pNode = pNode->m_pNext;
+        }
+        pNode->m_pnext = pNew;
+    }
+}
+```
+
+**注意**：上面函数的第一个参数，用的是指针的指针，其原因是当pHead为nullptr的时候，要改变pHead的指向，如果传递一个指针的话，只能改变指针指向的对象的值，而不是直接改变他指的地址。
+
+在链表中找到并删除某个元素：
+
+```c++
+void RemoveNode(ListNode** pHead, int value){
+    if(pHead==nullptr || *pHead==nullptr){
+        return;
+    }
+    ListNode* pToBeDeleted = nullptr;
+    if ((*pHead)->mvalue==value){
+    	pToBeDeleted=*pHead;
+        *pHead=(*pHead)->m_pNext;
+    }
+    else{
+        ListNode* pNode = *pHead;
+        while(pNode->m_pNext != nullptr && pNode->m_pNext->m_value!=value){
+            pNode = pNode->m_pNext;
+        }
+        if(pNode->m_pNext!=nullptr && pNode->m_pNext->mvalue==value){
+            pToBeDeleted = pNode->m_pNext;
+            pNode->m_pNext = pToBeDeleted->m_pNext;
+        }
+    }
+    
+    if(pToBeDeleted!=nullptr){
+        delete pToBeDeleted;
+        pTobeDeleted = nullptr;
+    }
+}
+```
+
+#### 面试题6：链表从尾到头打印
+
+> 输入一个链表的头结点，从尾到头反过来打印出每个节点的值
+
+链表的定义如下
+
+```c++
+struct ListNode{
+    int m_nKey;
+    ListNode* m_pN
+}
+```
+
+思路：通常来说，链表只能从前到后访问，如果要从后往前打印，那么我们可以利用堆栈，每遍历一个链表节点，我们将他的值放在栈中，因为栈是后进先出的特性，最后将所有元素出栈，打印即可。
+
+```c++
+void PrintReverseList(ListNode *pHead){
+    std::stack<*ListNode> nodes;
+    ListNode* pNode = pHead;
+    while(pNode != nullptr){
+        nodes.push(pNode);
+        pNode = pNode->m_pNext;
+    }
+    while(!nodes.empty()){
+        pNode = nodes.top();
+        printf('%d\t',pNode->m_nValue);
+        nodes.pop();
+    }
+}
+```
+
+既然用到了堆栈，那么就自然想到了递归，因为递归调用本质就是使用堆栈，递归的链表反转打印方法如下
+
+```c++
+void PrintReverseList(ListNode *pHead){
+    if(pHead!=nullptr){
+        if(pHead->next!=nullptr){
+            PrintReverseList(pHead->next);
+        }
+        printf('%d\t',pHead->m_nValue);
+    }
+}
+```
+
+#### 链表反转
+
+链表反转和上面的思路基本一样，就是递归
+
+```c++
+ListNode* ReverseList(ListNode* pHead) {
+    if(pHead==nullptr||pHead->next==nullptr){
+        return pHead;
+    }
+
+    ListNode *newHead = ReverseList(pHead->next);
+    pHead->next->next = pHead;
+    pHead->next=nullptr;
+    return newHead;
+
+}
+```
+
+解释：翻转 [head, n1, n2, n3, ...]，等于先翻转 [n1, n2, n3, ...] ，再把 head 放到最后
+head.next 就是 [n1, n2, n3, ...]，翻转就是 reverseList(head.next)，结果是 [..., n3, n2, n1]，注意 head.next 现在仍然指向 n1，也就是最后
+所以，next_node = head.next 等于 next_node 赋值为 n1，也就是末尾的结点
+然后 next_node.next = head，就是构造 [..., n3, n2, n1, head]
+head.next = None，就是把 head 指向 n1 去掉，就翻转了
+
+#### 树
+
+树是实际编程中常用的数据结构。它的逻辑很简单：除根节点外的所有节点都只有一个父节点，根节点没有父节点；除叶子节点外的所有节点都有一个或多个子节点，叶子节点没有子节点。父节点和子节点通过指针连接。
+
+因为树的操作涉及大量的指针操作，因此关于树的面试题难度较大。
+
+面试中提到的树大部分是二叉树。二叉树是一种特殊的树结构，每个节点最多只能有两个子节点。二叉树中最重要的操作就是遍历：
+
+* 前序遍历：先访问根节点，再访问左子节点，最后访问右子节点
+* 中序遍历：先访问左子节点，再访问根节点，最后访问右子节点
+* 后序遍历，先访问左子节点，再访问右子节点，最后访问根节点
+
+这个前中后都是相对于根节点来说的，前就是先遍历跟节点，中就是根节点在中间，后就是根节点在最后。
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/20181206152439.png)
+
+如上的二叉树，我们对其进行上述三种遍历：
+
+* 前序遍历：10,6,4,8,14,12,16
+* 中序遍历：4,6,8,10,12,14,16
+* 后序遍历：4,8,6,12,16,14,10
 
 
 
