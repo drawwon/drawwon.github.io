@@ -502,7 +502,234 @@ head.next = None，就是把 head 指向 n1 去掉，就翻转了
 * 中序遍历：4,6,8,10,12,14,16
 * 后序遍历：4,8,6,12,16,14,10
 
+这3种遍历，都有递归和循环两种方法，递归实现比循环简洁，要求**3种遍历的6种实现方法都要掌握**。
 
+二叉树有很多特例，**二叉搜索树**就是其中之一。二叉搜索树中左子节点总是小于等于根节点，右子节点总是大于等于根节点。这就可以在O(logn)的时间内根据数值找到一颗二叉搜索树的一个节点，
+
+二叉树还有两个特例是，**堆**和**红黑树**。
+
+堆分为最大堆和最小堆，最大队中根节点的值最大。最大堆中根节点的值最大，最小堆中根节点的值最小。有很多需要找到最大最小值的问题可以用堆来解决。
+
+红黑树是把树中的节点定义为红黑两种颜色，并通过规则确保从根节点到叶节点的最长路径的长度不超过最短路径的两倍。
+
+#### 面试题7：重建二叉树
+
+> 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。
+
+先理一下这道题的思路，有两个重要信息：①前序遍历的第一个值必然是根节点；②中序遍历中，根节点左边的值必然是左子树，根节点右边的值必然是右子树。那么只要给定一个前序遍历和中序遍历，我们就可以找到他的根节点和左右子树，这样只要递归下去，就能构建出整棵树。
+
+```c++
+#include <iostream>
+using namespace std;
+
+BinaryTreeNode* Construct(int* preorder, int* inorder, int length){
+    if(preorder== nullptr|| inorder== nullptr|| length <=0){
+        return nullptr;
+    }
+    return ConstructCore(preorder, preorder+length-1, inorder, inorder+length-1);
+}
+BinaryTreeNode* ConstructCore(int* StartPreorder, int* EndPreorder, int* StartInorder, int* EndInorder){
+    //前序遍历的第一个值是根节点
+    int rootValue = *StartPreorder;
+    BinaryTreeNode* root = new BinaryTreeNode();
+    root->mValue = rootValue;
+    root->left = nullptr;
+    root->right = nullptr;
+    if(StartPreorder == EndPreorder){
+        if(StartInorder==EndInorder && *StartPreorder==*StartInorder){
+            return root;
+        } else{
+            throw runtime_error("invalid input");
+        }
+    }
+    //在中序遍历中找到根节点的值
+    int* rootInorder = StartInorder;
+    while (rootInorder<=EndInorder && *rootInorder!=rootValue){
+        ++rootInorder;
+    }
+    if (rootInorder==EndInorder && *rootInorder!=rootValue){
+        throw runtime_error("invalid input");
+    }
+    int leftLength = rootInorder - StartInorder;
+    int* leftPreorderEnd = StartPreorder + leftLength;
+    if (leftLength > 0){
+        root->left = ConstructCore(StartPreorder+1,leftPreorderEnd, StartInorder, rootInorder-1)
+    }
+    if (leftLength < EndPreorder - StartPreorder){
+        root->right = ConstructCore(leftPreorderEnd+1,EndPreorder,rootInorder+1,EndInorder);
+    }
+}
+
+```
+
+下面是python版本的代码：
+
+```python
+
+class Solution:
+    # 返回构造的TreeNode根节点
+    def reConstruct(self, pre_t, tin_t):
+        rootValue = pre_t[0]
+        root = TreeNode(rootValue)
+        if len(pre_t) == 1:
+            if len(pre_t) == 1 and len(tin_t) == 1:
+                return root
+            else:
+                return None
+        i = 0
+        for v in tin_t:
+            if v == rootValue:
+                break
+            else:
+                i += 1
+        if v != rootValue:
+            return None
+        if i > 0:
+            root.left = self.reConstruct(pre_t[1:i+1], tin_t[:i])
+        if len(pre_t)-1 > i:
+            root.right = self.reConstruct(pre_t[i + 1:], tin_t[i + 1:])
+        return root
+
+    def reConstructBinaryTree(self, pre, tin):
+        # write code here
+        if len(pre) == 0 or len(tin) == 0:
+            return
+        else:
+            return self.reConstruct(pre, tin)
+```
+
+#### 面试题8：二叉树的下一个节点
+
+>给定一棵二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/20181211162225.png)
+
+思路：这道题就是一个分情况讨论的方法：
+
+1. 如果一个节点有右子树，那么右子树的最左下子树就是下一个节点
+   如上图：b的下一个节点就是其右子树e的最左子节点h
+2. 如果一个节点没有右子树，但它本身是其父节点的左子树，那么下一个节点就应该是它的父节点
+   如上图：h的下一个节点是e
+3. 如果一个节点没有右子树，且是父节点的右子节点，那么就一直向上遍历，直到找到一个节点的父节点的左子节点是自己，那么就返回这个父节点，如果遍历到根节点还是空，那么就返回空
+   如上图：i没有右子树，且不是父节点的左子节点，i的下一个节点就要向上搜索，找到e，e不是b的左子节点，继续向上，找到b，b是a的左子节点，因此返回b的父节点a
+
+
+
+下面是python版本的实现
+
+```python
+class Solution:
+    def GetNext(self, pNode):
+        if not pNode:
+            return pNode
+        if pNode.right:
+            newNode = pNode.right
+            while newNode.left:
+                newNode = newNode.left
+            return newNode
+        if pNode.next:
+            while pNode.next and pNode.next.left != pNode:
+                pNode = pNode.next
+            if pNode.next:
+                return pNode.next
+            return None
+```
+
+以下是c++版本
+
+```c++
+/*
+struct TreeLinkNode {
+    int val;
+    struct TreeLinkNode *left;
+    struct TreeLinkNode *right;
+    struct TreeLinkNode *next;
+    TreeLinkNode(int x) :val(x), left(NULL), right(NULL), next(NULL) {
+        
+    }
+};
+*/
+class Solution {
+public:
+    TreeLinkNode* GetNext(TreeLinkNode* pNode)
+    {
+     if(pNode==nullptr){
+         return nullptr;
+     }
+        if(pNode->right!=nullptr){
+            TreeLinkNode* newNode = pNode->right;
+            while(newNode->left){
+                newNode=newNode->left;
+            }
+            return newNode;
+        }
+        else if(pNode->next!=nullptr){
+            while(pNode->next!=nullptr and pNode->next->left!=pNode){
+                pNode=pNode->next;
+            }
+            if(pNode->next!=nullptr){
+                return pNode->next;
+            }
+        }
+        return nullptr;
+    }
+};
+```
+
+#### 栈和队列
+
+栈是一个非常常见的数据结构，在计算机中管饭使用。比如操作系统给每个线程创建一个栈来存储函数调用时各个函数的参数，返回地址及临时变量等。
+
+栈的特点是后进先出，最后被push的元素或第一个被弹出（pop）。
+
+队列的特点是先进先出。
+
+#### 面试题9：用两个栈实现队列
+
+> 用两个栈实现一个队列，队列的声明如下，请实现他的两个函数appendTail和deleteHead，分别完成在对未插入节点和在队列头部删除节点的功能
+
+```c++
+template <typename T> class CQueue{
+    public:
+    	CqueueI(void);
+        ~CqueueI(void);
+    	
+    	void appendTail(const T& node);
+    	T deleteHead();
+    private:
+    	stack<T> stack1;
+    	stack<T> stack2;
+
+};
+```
+
+思路：两个栈实现一个队列，先把元素全部压入一个栈，在要删除队首元素的时候，将元素全部出栈，然后顺序压入另一个栈，再pop掉最上面一个元素，也就是最先入栈的元素，就删除了头部。加入尾部就直接压入第一个栈就行了。只要第二个栈不为空，我们就从第二个栈中pop，否则将第一个栈全部压入第二个栈。
+
+```c++
+template <typename T>  void CQueue<T>::appendTail(const T& node){
+    stack1.push(node);
+}
+```
+
+```c++
+template <typename T>  void CQueue<T>::deleteHead(){
+    if(stack2.size()<=0){
+        while(stack1.size()>0){
+            T& data = stack1.top;
+            stack1.pop();
+            stack2.push(data);
+        }
+    }
+    if(stack2.size()==0){
+        throw new exception("queue is empty");
+    }
+    T head = stack2.top();
+    stack2.pop();
+    return head
+}
+```
+
+#### 算法与数据结构
 
 
 
