@@ -1809,6 +1809,9 @@ public class BuyerOrderController {
     @PostMapping("/cancel")
     public ResultVO cancel(@RequestParam("openid") String openid,
                            @RequestParam("orderid") String orderid) {
+		// TODO 不安全的做法需要改进
+		// OrderDTO orderDTO = orderService.getOne(orderid);
+		// orderService.cancel(orderDTO);
         OrderDTO orderDTO = buyerService.findOrderOne(openid, orderid);
         return ResultVOUtil.success();
     }
