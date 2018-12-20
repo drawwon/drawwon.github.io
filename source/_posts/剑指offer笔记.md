@@ -815,3 +815,63 @@ class Solution:
             return fn
 ```
 
+#### 青蛙跳台阶
+
+> 一只青蛙，一次可以跳上一级台阶，也可以跳上两级台阶，那么跳上n级台阶一共有多少种方法。
+
+解析：因为青蛙最后一步，要么跳2级，要么跳1级，那么$f(n)=f(n-1)+f(n-2)$，这样一来，这其实就是一个斐波那契数列问题
+
+程序：python版本
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def jumpFloor(self, number):
+        # write code here
+        if number==1:
+            return 1
+        if number==2:
+            return 2
+        else:
+            a = 0
+            b = 1
+            fn = 0
+            for i in range(2,number+2):
+                fn = a+b
+                a = b
+                b = fn
+            return fn
+```
+
+c++版本
+
+```c++
+class Solution {
+public:
+    int jumpFloor(int number) {
+        if(number==1){
+            return 1;
+            }
+        if(number==2){
+            return 2;
+        }
+        else{
+            int f0 = 0;
+            int f1 = 1;
+            int fn = 0;
+            for(int i=1;i<=number;++i){
+                fn = f0+f1;
+                f0 = f1;
+                f1 = fn;
+            }
+            return fn;
+        }
+    }
+};
+```
+
+#### 变态青蛙跳台阶
+
+一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。
+
+解析：我们考虑一下n级台阶的时候有多少种跳法，第一步有n种跳法：跳1级、跳2级、到跳n级，跳1级，剩下n-1级，则剩下跳法是f(n-1)，跳2级，剩下n-2级，则剩下跳法是f(n-2)，所以f(n)=f(n-1)+f(n-2)+...+f(1)
