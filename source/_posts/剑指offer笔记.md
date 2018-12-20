@@ -764,3 +764,54 @@ class Solution:
 
 如果需要重复多次计算相同的问题，则通常可以选择用递归或循环两种算法。递归就是在函数的内部调用这个函数自身。循环是通过设置初值和种植条件，在一个范围内重复运算。
 
+#### 面试题10：斐波那契数列
+
+> 求斐波那契数列的第n项
+
+斐波那契数列定义如下：
+$$
+F_0=0\\
+F_1 =1\\
+F_{(n)}=F_{(n-1)}+F_{(n-2)}
+$$
+这是一个使用递归的直观例子，得到的代码如下：
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def Fibonacci(self, n):
+        # write code here
+        if n<=0:
+            return 0
+        if n==1:
+            return 1
+        else:
+            return self.Fibonacci(n-1)+self.Fibonacci(n-2)
+```
+
+但是，在这里使用递归有很大的问题，那就是会进行大量的重复计算，比如我们要得到$f(10)$，首先要计算$f(9)$和$f(8)$，要得到$f(9)$又要得到$f(8)$和$f(7)$，这里，$f(8)$就已经重复了，往后还有很多这样的重复，如图所示
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/20181213145206.png)
+
+因此，斐波那契数量的正确做法应该是循环，如下所示：
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def Fibonacci(self, n):
+        # write code here
+        if n<=0:
+            return 0
+        if n==1:
+            return 1
+        else:
+            a = 0
+            b = 1
+            fn = 0
+            for i in range(2,n+1):
+                fn = a+b
+                a = b
+                b = fn
+            return fn
+```
+
