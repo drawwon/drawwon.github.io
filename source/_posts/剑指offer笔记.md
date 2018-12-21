@@ -138,7 +138,7 @@ size3:8
 
 ##### 面试题3：查找数组中的重复的数字
 
-1. 在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复的次数。请找出数组中任意一个重复的数字。例如如果输入长度为7的数组{2,3,1,0,2,5,3},那么对应的输出是重复的数字2或者3。 
+> 在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复的次数。请找出数组中任意一个重复的数字。例如如果输入长度为7的数组{2,3,1,0,2,5,3},那么对应的输出是重复的数字2或者3。 
 
 解答：解决这个问题最简单的方法就是先排序，然后从头到尾扫描数组，如果第i个值与第i+1个值相等则有重复，排序一个长度为n的数组的时间复杂度是O(nlogn)，下面是为什么排序算法的复杂度是O(nlogn)
 
@@ -927,7 +927,142 @@ public:
 
 排序比较复杂，通常要求比较**插入排序，冒泡排序，归并排序，快速排序**等不同算法的优劣。要求应试者对各种排序算法烂熟于胸，能够从额外空间小号，平均时间复杂度和最差时间复杂度等方面去分析他们的优劣。很多面试官要求应聘者写出**快速排序**的代码。
 
-快速排序的关键在于现在数组中选择一个数字，接下来把数组中的数字分为两部分，比选择的数字小的数字移到数组左边，比选择大的数字移到数组右边。
+快速排序的关键在于现在数组中选择一个数字，接下来把数组中的数字分为两部分，比选择的数字小的数字移到数组左边，比选择大的数字移到数组右边。实现代码如下
+
+```python
+def quick_sort(array, l, r):
+    if l < r:
+        q = partition(array, l, r)
+        quick_sort(array, l, q - 1)
+        quick_sort(array, q + 1, r)
+ 
+def partition(array, l, r):
+    x = array[r]
+    i = l - 1
+    for j in range(l, r):
+        if array[j] <= x:
+            i += 1
+            array[i], array[j] = array[j], array[i]
+    array[i + 1], array[r] = array[r], array[i+1]
+    return i + 1
+```
+
+##### 面试题11：旋转数组的最小数字
+
+>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
+
+ 思路：想要找到最小的数字，最简单的想法就是直接遍历整个数组，这样就可以找到最小值，但是这样的时间复杂度是O(n)，明显没有利用这道题给出的非减数组和旋转数组的概念，这道题正确的解答方式是二分查找，时间复杂度为O(log(n))。
+
+可以使用二分查找的原因是，整个数组可以分成两个非递减的子数组，最小值一定在第二个子数组的第一个元素。
+
+二分查找就是两个指针，一个指向开头，一个指向结束，每次找到中间元素，如果中间元素大于等于开头元素，那么这个元素一定属于前半个子数组，最小值一定在当前中间值和末尾值之间，那么移动第一个指针到当前值的下一个值；如果中间元素小于最后一个值，那么当前元素一定属于第二个子数组，那么最小值一定在开头到当前值之间，移动第二个指针到当前值。
+
+```python
+class Solution:
+    def minNumberInRotateArray(self, rotateArray):
+        # write code here
+        length = len(rotateArray)
+        if length == 0:
+            return 0
+        elif length == 1:
+            return rotateArray[0]
+        else:
+            l = 0
+            r = length-1
+            mid = 0
+            while rotateArray[l] >= rotateArray[r]:
+                if r - l == 1:
+                    return rotateArray[r]
+                    break
+                mid = (r - l)//2 + l
+                if rotateArray[mid] >= rotateArray[l]:
+                    l = mid
+                elif rotateArray[mid] <= rotateArray[r]:
+                    r = mid
+            return rotateArray[mid]
+```
+
+上面的代码似乎可以成功，但是遗漏了一种特殊情况，如`[1,1,0,1,1,1,1]`，这样，你无法通过比较大小来缩小范围，遇到这样的情况，只能顺序查找。修改代码如下：
+
+```python
+class Solution:
+    def minNumberInRotateArray(self, rotateArray):
+        # write code here
+        length = len(rotateArray)
+        if length == 0:
+            return 0
+        elif length == 1:
+            return rotateArray[0]
+        else:
+            l = 0
+            r = length-1
+            mid = 0
+            while rotateArray[l] >= rotateArray[r]:
+                if r - l == 1:
+                    return rotateArray[r]
+                    break
+                mid = (r - l)//2 + l
+                if rotateArray[mid] == rotateArray[l] == rotateArray[r]:
+                    return minInOrder(rotateArray,l,r)
+                if rotateArray[mid] >= rotateArray[l]:
+                    l = mid
+                elif rotateArray[mid] <= rotateArray[r]:
+                    r = mid
+            return rotateArray[mid]
+        def minInOrder(rotateArray,l,r):
+            minv = rotateArray[l]
+            for i in rotateArray[l:r+1]:
+                if minv > i:
+                    minv = i
+            return minv
+```
+
+#### 回溯法
+
+回溯法非常适合有多个步骤组成的问题，并且每个步骤有多个选项。用回溯法解决的问题，可以形象的用树表示，每一步都有m个可能选项。如果叶节点的状态满足题目约束条件，则找到了可行方案。
+
+##### 面试题12：矩阵的路径
+
+>请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一个格子开始，每一步可以在矩阵中向左，向右，向上，向下移动一个格子。如果一条路径经过了矩阵中的某一个格子，则之后不能再次进入这个格子。 例如 a b c e s f c s a d e e 这样的3 X 4 矩阵中包含一条字符串"bcced"的路径，但是矩阵中不包含"abcb"路径，因为字符串的第一个字符b占据了矩阵中的第一行第二个格子之后，路径不能再次进入该格子。
+
+
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def hasPath(self, matrix, rows, cols, path):
+        if len(path) > len(matrix) or len(matrix)==0:
+            return False
+        # write code here
+        visited = [[False for i in range(cols)] for j in range(rows)]
+        pathLength = 0
+        for row in range(rows):
+            for col in range(cols):
+                if self.hasPathCore(row, col, matrix, rows, cols, path, visited, pathLength):
+                    return True
+        return False
+
+    def hasPathCore(self, row, col, matrix, rows, cols, path, visited, pathLength):
+        if pathLength == len(path):
+            return True
+        haspath = False
+        if col < cols and row < rows and path[pathLength] == matrix[row*cols+col] and not visited[row][col]:
+            pathLength += 1
+            visited[row][col] = True
+            haspath = self.hasPathCore(row + 1, col, matrix, rows, cols, path, visited, pathLength) or \
+                      self.hasPathCore(row - 1, col, matrix, rows, cols, path, visited, pathLength) or \
+                      self.hasPathCore(row, col + 1, matrix, rows, cols, path, visited, pathLength) or \
+                      self.hasPathCore(row, col - 1, matrix, rows, cols, path, visited, pathLength)
+            if not haspath:
+                pathLength -= 1
+                visited[row][col] = False
+        return haspath
+
+```
+
+##### 面试题13：机器人的运动范围
+
+>地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？
 
 
 
