@@ -1064,5 +1064,157 @@ class Solution:
 
 >地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？
 
+思路：这道题有一个小陷阱，这个机器人只能一步一步地走，如果使用循环，遍历所有节点是否满足加和的条件，在比如`rows=1`或者`cols=1`的时候，节点不能跨越其他节点访问，就会出错。因此使用的是回溯法，给定一个visited矩阵，如果节点在范围内且没有被访问过，且满足阈值条件，检查他和他的下一个节点是否满足条件，依次回溯。	
 
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def movingCount(self, threshold, rows, cols):
+        # write code here
+        count = 0
+        if rows <= 0 or cols <= 0:
+            return 0
+        if threshold == 0:
+            return rows * cols
+        visited = [[False for i in range(cols)] for j in range(rows)]
+        count = self.movingCountCore(rows, cols, threshold, 0, 0,visited)
+        return count
+
+    def movingCountCore(self, rows, cols, threshold, row, col, visited):
+        count = 0
+        if 0 <= row < rows and 0<= col < cols and not visited[row][col] and self.checkSum(row, col, threshold):
+            visited[row][col] = True
+            count = 1 + self.movingCountCore(rows, cols, threshold, row + 1, col, visited) + \
+                    self.movingCountCore(rows, cols, threshold, row - 1, col, visited) + \
+                    self.movingCountCore(rows, cols, threshold, row, col + 1, visited) + \
+                    self.movingCountCore(rows, cols, threshold, row, col - 1, visited)
+        return count
+
+    def checkSum(self, row, col, threshold):
+        sumv = 0
+        for i in str(row):
+            sumv += int(i)
+        for j in str(col):
+            sumv += int(j)
+        if sumv <= threshold:
+            return True
+        else:
+            return False
+```
+
+#### 动态规划和贪婪算法
+
+动态规划是编程面试的热门。如果面试题是一个问题的最优解（通常是求最大值或者最小值），而该问题可以分解成若干个子问题，并且子问题之间海鸥重叠的更小的子问题，就可以考虑用动态规划来解决这个问题。
+
+在用动态规划之前应该分析能否把大问题分解为小问题，且分解后的每个小问题也存在最优解。
+
+贪婪算法是在每一步都进行一个贪婪选择，具体可以看下面这个例子，用了贪婪算法和动态规划两种方法解决。
+
+##### 面试题14：剪绳子
+
+> 给你一根长度为n的绳子，请把绳子剪成m段 (m和n都是整数，n>1并且m>1)每段绳子的长度记为k[0],k[1],...,k[m].请问k[0]\*k[1]\*...\*k[m]可能的最大乘积是多少？例如，当绳子的长度为8时，我们把它剪成长度分别为2,3,3的三段，此时得到的最大乘积是18.
+
+###### 方法1：动态规划
+
+思路：动态规划首先要定义一个长度为n或者是n+1的数组，用于存放每个子问题的最大或最小值，这道题里面我们定义了一个maxv数组，长度为n+1，给定数组的前几个值，直到可以用子问题解决的时候，开始使用循环，第一个循环是长度为n的，第二个循环是每次剪长度为1，长度为2，长度为n-1的情况，这样第二个循环有重复，因为一刀剪1和一刀剪n-1是重复的，因此，每次只需要重复`i/2`即可。
+
+```
+def cutLine(length):
+    if length == 1:
+        return 0
+    if length == 2:
+        return 1
+    if length ==3:
+        return 2
+    maxv = [0 for _ in range(length+1)]
+    maxv[0] = 0
+    maxv[1] = 1
+    maxv[2] = 2
+    maxv[3] = 3
+    leng = length
+    for i in range(4,length+1):
+        maxvalue=0
+        for j in range(1,i//2+1):
+            tempv = maxv[j] * maxv[i-j]
+            if tempv > maxvalue:
+                maxvalue = tempv
+            maxv[i] = maxvalue
+    return maxv[-1]
+```
+
+###### 方法2：贪婪算法
+
+思路：尽可能剪长度为3的绳子，直到长度小于等于4，等于四的时候，剪成2\*2的乘积比1\*3要大，所以为4的时候剪成2\*2。这个可以通过数学方法证明，当n>=5的时候，3(n-3)>=2(n-2)的，当n=4的时候，有两种切法，一种是
+
+```python
+def cutLine(length):
+    if length == 1:
+        return 0
+    if length == 2:
+        return 1
+    if length ==3:
+        return 2
+    if length %3 ==0:
+        return 3**(length//3)
+    elif length%3 == 1:
+        return 3**(length//3 -1)*4
+    else:
+        return 3**(length//3)*2
+```
+
+#### 位运算
+
+位运算主要有五种：与，或，非，异或，移位运算
+
+前面三种比较常见，异或的符号是`^`，移位运算的符号是`<<`或者`>>`。
+
+左移n位，直接丢弃最前面的n位，是负数就在最符号位补1，正数就在符号位补0。右移n位同理。
+
+##### 面试题15：二进制中1的个数
+
+>任意给定一个32位无符号整数n，求n的二进制表示中1的个数，比如n = 5（0101）时，返回2，n = 15（1111）时，返回4
+
+思路：第一种思路是一直把给定值右移运算，然后和1做与运算，这样就能判断当前位是否为1，但是这种方法有陷入死循环的可能
+
+第二种思路是将1一直左移，这样每次与的结果都是当前位与1的结果，判断当前位是否为1。
+
+第三种思路是一种很巧妙的方法，先把给定值减去1，如果这个数不等于0，那么该数的二进制表示中至少有一位是1，假设这个数的最右边一位是1，那么减去1之后，最后一位变成0，而其它位保持不变，也就是想防御最后一位相当于做了取反操作，从1变成了0；而如果最后一位不是1，而是0，我们用第m位表示最右边的1所在的位置，减去1之后，m位右边的值取反，m位左边的值不变，举个例子，1100，减去1之后，最右边的1在第二位，第二位之后的所有值取反，第二位左边的值不变，结果是1011。
+
+总结第三种方法提到的特例，发现把1个整数减去1，就是把最右边的1变成0，如果他的右边还有0，则所有0都变成1，而它左边的所有位都不变。那么我们将一个数和它减去1的结果做与运算，相当于把最右边的1变成0，其余所有位都保持不变。那么我们反复这样操作，每进行一次，就少一个1，这样就统计出来有多少个1了。
+
+```python
+# 方法1：
+def countNum(num):
+    count = 0
+    while num!=1:
+        if num & 1:
+            count+=1
+        num = num >> 1
+    return count+1
+
+# 方法2
+def countNum(num):
+    count = 0
+    flag = 1
+    while flag!=2**64:
+        if num & flag:
+            count+=1
+        flag = flag << 1
+    return count
+
+# 方法3，重点：一个数和自己减去1的值相与，会使其最右边的一个1变为0
+def countNum(num):
+    count = 0
+    while num:
+        count+=1
+        num=(num-1)&num
+    return count
+```
+
+相关题目：
+
+1. 判断一个数是否是2的整数次方。
+   解答：一个数如果是2的整数次方，那么其中一定只有一个1，只需要将这个值和它减1的结果相与，判断1的个数，即可。
+2. 判断m需要多少步变化才能变成n，比如13的二进制是1101，10的二进制是1010，要把13变成10，需要改变其中的3位。
+   解答：直接两个值做异或，然后统计其中1的个数即可。
 
