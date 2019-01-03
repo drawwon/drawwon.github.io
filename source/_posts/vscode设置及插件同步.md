@@ -15,7 +15,7 @@ category: [编程学习,工具]
 
  **打开设置选项：**
 
-![](http://drawon-blog.oss-cn-beijing.aliyuncs.com/18-5-25/26703030.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-25/26703030.jpg)
 
  
 
@@ -25,7 +25,7 @@ category: [编程学习,工具]
 
 如图：
 
-![](http://drawon-blog.oss-cn-beijing.aliyuncs.com/18-5-25/1344863.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-25/1344863.jpg)
 
  **记住这个token值**
 
@@ -33,7 +33,7 @@ category: [编程学习,工具]
 
  按shift+alt +u  在弹出窗里输入你的token,然后等下会生成syncSummary.txt文件在窗口中打开这样就算成功了。
 
-![](http://drawon-blog.oss-cn-beijing.aliyuncs.com/18-5-25/99811178.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-25/99811178.jpg)
 
 syncSummary.txt这个文件里有个gist值或者到用户设置文件中查看gist的值，这个值用来你再另一台电脑上来下载你的设置，在设置中可以找到这个git的值
 
@@ -49,7 +49,7 @@ syncSummary.txt这个文件里有个gist值或者到用户设置文件中查看g
 
 **如果要重置同步设置：按ctrl+p  输入  '>sync'**  
 
-![](http://drawon-blog.oss-cn-beijing.aliyuncs.com/18-5-25/82132308.jpg)
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-25/82132308.jpg)
 
  
 

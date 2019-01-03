@@ -1829,3 +1829,4 @@ public class BuyerOrderController {
 }
 ```
 
+后面的内容主要是关于支付的，等开发有需要的时候再研究这部分。
