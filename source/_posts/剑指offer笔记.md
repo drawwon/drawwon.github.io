@@ -1301,3 +1301,286 @@ double PowerWithUnsignedExponent(double base, unsigned int exponent){
 
 **思路**：这道题的正确思路是用字符串来表示数字，因为最大数字是n位的，在c++中，需要给定一个n+1位的字符串，因为结束位是`\0`，当数字不够n位的时候，在字符串的前半部分补0。首先把字符串中的所有数字都初始化为0，每次喂字符串表示的数字加1，然后打印出来。因此有两个任务，一个是在字符串表示的数字上模拟加法，二是将他们打印出来。
 
+```c++
+void PrintToMaxOfDigits(int n){
+    if(n<=0)
+        return;
+    char* number = new char[n+1];
+    memset(number,'0',n);
+    number[n] = '\0';
+    while(!Increment(number)){
+        PrintNumber(number);
+    }
+}
+```
+
+模拟加法，每次加1就是从最后一位开始，每次加1，有进位则保留下来继续加下一位，否则结束加法，剩下的位数保持不变。那么什么时候应该继续加，什么时候应该结束加法呢？如果每加1次就和最大值999...999进行比较，时间复杂度每次都是o(n)。其实只需要判断最高位是否有进1，如果有则达到了最大值。
+
+```c++
+bool Increment(char* number){
+    bool isOverflow = false;
+    int nSum = 0;
+    int nTakeOver = 0;
+    len = strlen(number);
+    for(int i=len-1; i>=0 ; --i){
+        if(i==len-1)
+            nSum = nSum-'0'+1;
+        if (nSum == 10){
+            if(i==0){
+                isOverflow = true;
+                return isOverflow;
+            }
+            nSum -= 10;
+            nTakeOver = 1;
+            number[i] = '0'+nSum;
+                
+        }
+        else{
+            number[i] = nSum+'0';
+            break;
+        }
+        
+    }
+    return isOverflow;
+}
+```
+
+打印数字也存在小陷阱，如果使用printf直接打印，那么前面那些0也被打出来了，因此应该判断一下，打印第一个不为0的值到最后一个值。
+
+```c++
+void PrintNumber(char* number){
+    bool isBeginning0 = true;
+    int len = strlen(number);
+    for(int i=0;i<len;++i){
+        if(isBeginning0 && number[i]!='0'){
+            isBeginning0=false;
+        }
+        if(!isBeginning0){
+            printf("%d",number[i]);
+        }
+    }
+    printf("\t");
+}
+```
+
+###### 将问题转换为数字排列，递归实现
+
+模拟字符串加法比较复杂，因此可以使用递归进行每一位0-9的排列组合。打印的时候，前面的0不打印即可，递归结束条件是已经设置了数字的最后一位。
+
+```c++
+void PrintToMaxOfNDigits(int n){
+    if(n<=0)
+        return;
+    char* number=new char[n+1];
+    number[n] = '\0';
+    for(int i=0;i<10;++i){
+        number[0] = '0'+i;
+        print1toMaxOfNDigitsRecursively(number,n,0);
+    }
+    delete[] number;
+}
+void print1toMaxOfNDigitsRecursively(char* number,int length, int index){
+    if(index==length-1){
+        PrintNumber(number);
+        return;
+    }
+    for(i=0;i<10;++i){
+        number[index+1] == '0'+i;
+        print1toMaxOfNDigitsRecursively(number,length,index+1);
+    }
+}
+```
+
+##### 面试题18：删除链表节点
+
+> 在O(1)时间内删除链表节点
+>
+> 给定单链表的头指针讷河一个节点指针，定义一个在O(1)时间内删除该节点的函数。
+
+思路：这道题最直观的想法就是从头到尾遍历，知道找到这个节点的上一个节点，将该节点的上一个节点的next，指向该节点的next，但是这样的时间复杂度是O(n)，不符合要求。
+
+既然时间复杂度是O(1)，那么我们当然只能直接利用给定节点，直接给定节点只有两个信息，一个是当前值，一个是next，那么我们可以将next的value复制到当前节点，将当前的next指向next的next，也就成功删除了这个节点。
+
+考虑一下特殊情况，如果当前节点没有下一个节点，也就是当前值本身就是尾节点，那就得从头开始遍历到当前节点，然后将尾节点的前一个节点设置为空。还有一种特殊情况就是当前链表就只有一个元素，直接将头节点置为空就行了，
+
+```c++
+struct ListNode{
+    int m_nValue;
+    ListNode* m_pNext;
+};
+
+void DeleteNode(listNode** pListHead, listNode* pToBeDeleted){
+    if(pToBeDeleted->m_pNext != nullptr){
+        pToBeDeleted->m_nValue = pToBeDeleted->m_pNext->m_nValue;
+        pToBeDeleted->m_pNext = pToBeDeleted->m_pNext->m_pNext;
+        delete pToBeDeleted;
+    }
+    else if(*pListHead == pToBeDeleted){
+        delete pToBeDeleted;
+        pToBeDeleted = nullptr;
+        *pListHead = nullptr;
+    }
+    else{
+        listNode* pNode = *pListHead;
+        while(pNode->n_pNext!=pToBeDeleted){
+        	pNode = pNode->n_pNext;
+        }
+        pNode->n_pNext = nullptr;
+        delete pToBeDeleted;
+    }
+}
+```
+
+通过上面的方法，如果不是尾节点，时间复杂度为O(1)，如果是尾节点，时间复杂度为O(n)。平均时间复杂度为((n-1)\*O(1)+1\*O(n))/n，还是O(1)。
+
+这道题使用上面这种方法，暗含的假设就是待删除节点一定包含在链表中，如果不一定存在，那么这个就只能遍历链表。
+
+**题目2**
+
+> 删除链表中重复节点，如果当前值和前一个节点的值相同，那么删除当前节点和前一个节点。
+
+思路：要判断当前节点与后面节点是否重复并删除，要找到当前节点的前一个节点pPreNode，和当前节点的下一个节点pNext，把上一个不重复的节点的next指向下一个不重复的节点即可。
+
+```c++
+void deleteDuplicate(listNode** pHead){
+    if(*pHead==nullptr){
+        return;
+    }
+    listNode *pPreNode = nullptr;
+    listNode *pNode = *pHead;
+    while(pNode->m_pNext!=nullptr){
+        ListNode* pNext = pNode->m_pNext;
+        bool isDupicated == false;
+        if(pNext->m_nvalue == pNode->m_nvalue){
+            isDuplicated = True;
+        }
+        if(!isDuplicated){
+            pPreNode = pNode;
+            pNode = pNext;
+        }
+        else{
+            int value = pNode->m_nvalue;
+            while(pNext->m_nvalue==value && pNext-n_pNext!=nullptr){
+                pNext = pNext->m_pNext;
+               
+            }
+            if(pPreNode==nullptr){
+                *pHead = pNext;
+            }
+            else
+                pPreNode->m_pNext = pNext;
+            pNode = pNext;
+        }
+    }
+}
+```
+
+##### 面试题19：正则表达式匹配
+
+> 请实现一个函数用来匹配包括'.'和'*'的正则表达式。模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串"aaa"与模式"a.a"和"ab*ac*a"匹配，但是与"aa.a"和"ab*a"均不匹配
+
+思路：这道题的关键点在于“\*”这个字符，如果一个字符的下一个字符不是“\*”，直接拿出来跟string里面的字符比较就行。
+
+如果后一个字符是"\*"，那么这个问题变得稍微复杂一点。如果后一个是“\*”且当前字符与字符串的相符，那么有如下三种情况：
+
+1. pattern可以直接跳过2字符，s不变。相当于虽然匹配，但是忽略这个带“\*”的内容
+2. s+1，pattern+2，相当于只匹配当前这一个值
+3. s+1，pattern不变，相当于当前匹配，接着匹配后面的值
+
+因为只要其中一个符合就为true，因此返回的是上述三张情况的或。
+
+如果当前pattern的下一个字符是“\*”，且与当前值不匹配，可以直接跳过pattern的2个字符，忽略这个"\*"部分
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    # s, pattern都是字符串
+    def match(self, s, pattern):
+        # write code here
+        if len(s)==0 and len(pattern)==0:
+            return True
+        if len(s)!=0 and len(pattern)==0:
+            return False
+        if len(pattern)>1 and pattern[1] == "*":
+            if len(s)>0 and (pattern[0]=="." or pattern[0] == s[0]):
+                return self.match(s,pattern[2:]) or self.match(s[1:],pattern) or self.match(s[1:],pattern[2:])
+            else:
+                return self.match(s,pattern[2:])
+        if len(s)!=0 and (pattern[0] == '.' or pattern[0] == s[0]):
+            return self.match(s[1:],pattern[1:])
+        return False
+```
+
+这道题用的方法也是递归
+
+##### 面试题20：表示数值的字符串
+
+> 请实现一个函数用来判断字符串是否表示数值（包括整数和小数）。例如，字符串"+100","5e2","-123","3.1416"和"-1E-16"都表示数值。 但是"12e","1a3.14","1.2.3","+-5"和"12e+4.3"都不是。
+
+比较直观的思路就是直接一堆条件判断，比如第一位0-9或者是+-号，出现e之后不能出现"."，每个字符只能是0-9或者是"+-eE."，写这道题的思路比较乱，这样容易漏掉情况
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    # s字符串
+    def isNumeric(self, s):
+        # write code here
+        dotCount = 0
+        hasE = False
+        for i in range(len(s)):
+            if s[i]=='e' or s[i]=='E':
+                hasE = True
+            if i!=0 and ((s[i]=='+' or s[i]=='-') and not (s[i-1]=='e' or s[i-1]=='E')):
+                return False
+            if i==0 and not ('0'<=s[i]<='9' or s[i]=='+' or s[i]=='-'):
+                return False
+            if not ('0'<=s[i]<='9' or s[i]=='+' or s[i]=='-' or s[i]=='.' or s[i]=='e' or s[i]=='E'):
+                return False
+            if s[i] == '.':
+                dotCount+=1
+            if hasE and s[i]=='.':
+                return False
+        if dotCount>1:
+            return False
+        if s[-1] == 'e' or s[-1] == 'E':
+            return False
+        return True
+```
+
+书中给的方法十分有逻辑，首先用scanInterger扫描第一位是不是+或-，如果是，继续扫描后面是不是数字，如果出现小数点，则扫描小数点部分，如果出现e，则扫描指数部分
+
+```c++
+bool match(const char* str){
+    if(str==nullptr)
+        return false;
+    bool numeric = scanInterger(&str);
+    if(*str =='.'){
+        ++str;
+        numeric= scanUnsignedInteger(&str) || numeric;
+    }
+    if(*str=='e' or *str=='E'){
+        ++str;
+        numeric = numeric && scanInterer(&str);
+    }
+    return numeric && *str=='\0';
+    
+}
+
+bool scanUnsignedInteger(const char **str){
+    const char* before = *str;
+    while(**str!='\0' &&**str>='0' and **str<='9'){
+        ++(*str);
+    }
+    return *str>before;
+}
+bool scanInteger(const char** str){
+    if(**str=='+'||**str=='-')
+        ++(*str);
+    return scanUnsignedInteger(str);
+}
+```
+
+
+
+
+
