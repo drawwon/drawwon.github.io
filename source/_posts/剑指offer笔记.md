@@ -1218,6 +1218,81 @@ def countNum(num):
 2. 判断m需要多少步变化才能变成n，比如13的二进制是1101，10的二进制是1010，要把13变成10，需要改变其中的3位。
    解答：直接两个值做异或，然后统计其中1的个数即可。
 
+##### 面试题16：数值的整数次方
+
+> 实现函数double Power(double case, int exponent)，求base的exponent次方，不得使用库函数，且不需要考虑大数问题。
+
+直观思路是，从1到exponent，result每次乘以base，最后就得到了base次方
+
+```c++
+double Power(double base, int exponent){
+    double result = 1.0;
+    for(int i=1;i<=exponent;++i){
+        result *= base;
+    }
+    return result;
+}
+```
+
+这样看上去似乎是对的，但是没有考虑输入指数小于1（零和负数）的情况。接下来在代码中加入对特殊情况的判断。
+
+```c++
+double Power(double base, int exponent){
+    if(equal(base,0.0) && exponent<0){
+        return 0.0;
+    }
+    unsigned int absExponent = (unsigned int) exponent;
+    if(exponent<0){
+        absExponent = (unsigned int)(-exponent);
+    }
+    
+    double result = PowerWithUnsignedExponent(base, absExponent);
+    if(exponent<0){
+        result = 1.0/result;
+        return result;
+    }
+}
+
+double PowerWithUnsignedExponent(double base, unsigned int exponent){
+    double result = 1.0;
+        for(int i=1;i<=exponent;++i){
+        result *= base;
+    }
+    return result;
+}
+```
+
+这样一来，看上去似乎已经完美了，但是还存在更加高效的方法。
+
+假如需要求base的32次方，那么可以先做16次方，然后平方，再继续深究，先做8次方，再平方，再做4次方，平方，再做2次方。也就是只需要做5次乘法即可。这样就大大减少了运算量。
+$$
+f(x)=\left\{
+\begin{aligned}
+a^n  = & a^{n/2}*a^{n/2}\quad a为偶数\\  
+a^n  = & a^{(n-1)/2}*a^{(n-1)/2}*a\quad  a为奇数
+\end{aligned}
+\right.
+$$
+
+
+利用上面的公式，就可以通过递归实现整数次方的问题。
+```c++
+double PowerWithUnsignedExponent(double base, unsigned int exponent){
+    if(exponent==0){
+        return 1;
+    }
+    if(exponent==1){
+        return base;
+    }
+    double result = PowerWithUnsignedExponent(base, exponent>>1);
+    result *= reuslt;
+    if(exponent & 0x1 == 1){
+        result*=base;
+    }
+    return result;
+}
+```
+
 ##### 面试题17：打印从1到最大的n位数
 
 > 题目：输入数字n，按顺序打印出从1到最大的n位十进制数，比如输入3，则打印出1,2,3直到最大的三位数999
