@@ -1205,6 +1205,7 @@ def countNum(num):
 # 方法3，重点：一个数和自己减去1的值相与，会使其最右边的一个1变为0
 def countNum(num):
     count = 0
+    n = n&0xffffffff # 这一步的原因是python的负数前面有无限个1，不限制位数永远无法结束
     while num:
         count+=1
         num=(num-1)&num
@@ -1460,7 +1461,7 @@ void deleteDuplicate(listNode** pHead){
         }
         else{
             int value = pNode->m_nvalue;
-            while(pNext->m_nvalue==value && pNext-n_pNext!=nullptr){
+            while(pNext->m_nvalue==value && pNext->n_pNext!=nullptr){
                 pNext = pNext->m_pNext;
                
             }
