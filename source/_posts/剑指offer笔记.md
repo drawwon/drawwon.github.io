@@ -10,7 +10,9 @@ category: [算法]
 
 <!--more-->
 
-### 第一章
+第一章主要是介绍面试流程等，该篇博文主要讲述从第二章开始的编程知识相关的内容。
+
+### 第二章
 
 #### c++
 
@@ -1219,6 +1221,8 @@ def countNum(num):
 2. 判断m需要多少步变化才能变成n，比如13的二进制是1101，10的二进制是1010，要把13变成10，需要改变其中的3位。
    解答：直接两个值做异或，然后统计其中1的个数即可。
 
+### 第三章：高质量的代码
+
 ##### 面试题16：数值的整数次方
 
 > 实现函数double Power(double case, int exponent)，求base的exponent次方，不得使用库函数，且不需要考虑大数问题。
@@ -1442,6 +1446,10 @@ void DeleteNode(listNode** pListHead, listNode* pToBeDeleted){
 
 思路：要判断当前节点与后面节点是否重复并删除，要找到当前节点的前一个节点pPreNode，和当前节点的下一个节点pNext，把上一个不重复的节点的next指向下一个不重复的节点即可。
 
+一共定义3个节点，pPreNode，pNode，pNext，用于保存上一个不重复节点，当前节点，下一个节点。
+
+当重复的包含头结点的时候，需要判断，然后将头结点指向第一个不重复的节点。
+
 ```c++
 void deleteDuplicate(listNode** pHead){
     if(*pHead==nullptr){
@@ -1581,7 +1589,405 @@ bool scanInteger(const char** str){
 }
 ```
 
+##### 面试题21：调整数组顺序使奇数位于偶数前面
 
+> 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+
+如果用python这道题很简单，遍历数组，是奇数就放到一个list中，是偶数放到另一个中，最后做一个extend。
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def reOrderArray(self, array):
+        # write code here
+        result_odd = []
+        result_even = []
+        for i in array:
+            if i%2!=0:
+                result_odd.append(i)
+            else:
+                result_even.append(i)
+        result_odd.extend(result_even)
+        return result_odd
+```
+用c++会复杂一下，维护两个指针，一个指向数组开头(\*begin)，一个指向结尾(\*end)，只要begin<end，begin向后移动到第一个偶数，end向前移动到第一个奇数，两者交换。
+
+#### 代码鲁棒性
+
+##### 面试题22：链表中倒数第k个节点
+
+>输入一个链表，输出该链表中倒数第k个结点。
+
+这道题的思路就是维护两个指针，第一个指针先向前走k-1步，第二个指针开始开始和第一个指针一起向后走，直到第一个指针指向最后一个元素，此时，第二个指针刚好指向第k个元素。
+
+这道题考察的主要要点是鲁棒性：
+
+1. 如果链表长度小于k怎么办
+2. 如果输入的是空链表怎么办
+3. 如果输入的k是0怎么办（因为这道题说的最后一个节点是倒数第1个节点）
+
+```python
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def FindKthToTail(self, head, k):
+        # write code here
+        if not head or not k:
+            return
+        node1 = head
+        node2 = head
+        for i in range(k-1):
+            if node1.next:
+                node1 = node1.next
+            else:
+                return
+        while(node1.next):
+            node1=node1.next
+            node2 = node2.next
+        return node2
+```
+
+##### 面试题23：链表中环的入口节点
+
+>给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
+
+这道题可以用暴力方法解决，遍历链表，每遍历一个节点，就将其放入一个list中，直到再次在list中找到这个节点，那么返回节点，如果一直没有找到，返回None
+
+```python
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    def EntryNodeOfLoop(self, pHead):
+        # write code here
+        result = []
+        while pHead.next:
+            result.append(pHead)
+            pHead = pHead.next
+
+            if pHead in result:
+                return pHead
+        return None
+```
+
+书中给出的方法是充分利用了c++的指针，给定两个指针，一个每次移动2格，一个每次移动1格，那么每次移动两格的一定会追上每次移动一格的，两者相遇的时候，就表明链表中有环。
+
+从这个相遇节点出发，再次回到这个相遇节点，每走一步加1，就统计出了环中元素的个数n。那么再给两个指针指向链表头部，其中一个先移动n格，然后两个一起移动，每次一格，相遇的点即为环的入口。
+
+##### 面试题24：链表反转
+
+> 讲一个给定的单向链表进行反转
+
+这道题之前已经写过了，具体请看<a href="面试题6：链表从尾到头打印">
+
+```python
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    # 返回ListNode
+    def ReverseList(self, pHead):
+        # write code here
+        if not pHead:
+            return None
+        if not pHead.next:
+            return pHead
+        newHead = self.ReverseList(pHead.next)
+        pHead.next.next = pHead
+        pHead.next = None
+        return newHead
+```
+
+##### 面试题25：合并排序链表
+
+>输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
+
+
+
+```python
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    # 返回合并后列表
+    
+    #非递归方法,谁小就加在当前新节点后面，结束条件是两个列表其中一个为空了，最后判断有没有其中哪个不为空的，全部放在后面
+    def Merge(self, pHead1, pHead2):
+        #write code here
+        head = ListNode(0)
+        node = head
+        while pHead1 and pHead2:
+            if pHead1.val <= pHead2.val:
+                head.next = pHead1
+                head = head.next
+                pHead1 = pHead1.next
+            else:
+                head.next = pHead2
+                head = head.next
+                pHead2 = pHead2.next
+        if pHead1:
+            head.next = pHead1
+        if pHead2:
+            head.next = pHead2
+        return node.next
+        
+    # 递归方法，如果list1为空，返回list2，如果list2为空，返回list1，如果都不为空，且list的值小，那么list1.next = merge(list1.next, list2)，并return list1，反之同理
+    def Merge(self, pHead1, pHead2):
+        if not pHead1:
+            return pHead2
+        if not pHead2:
+            return pHead1
+        
+        if pHead1.val <= pHead2.val:
+            mergeHead = pHead1
+            mergeHead.next =  self.Merge(pHead1.next, pHead2)
+        else:
+            mergeHead = pHead2
+            mergeHead.next =  self.Merge(pHead1, pHead2.next)
+        return mergeHead
+
+```
+
+##### 面试题26：树的子结构
+
+>输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
+
+基本遇到树的问题，思路都是递归，这道题一共两个递归，第一个递归遍历第一棵树，如果找到某个节点和tree2的根节点相同的，开始第二个递归，第二个递归检查tree1的左右子树的值是不是跟tree2一样，直到遍历完tree2，此时返回True，其余情况均返回false（tree1为空或者某个地方值不等）
+
+```python
+class Solution:
+    def HasSubtree(self, pRoot1, pRoot2):
+        # write code here
+        result = False
+        if pRoot1 and pRoot2:
+            if pRoot1.val == pRoot2.val:
+                result = self.Tree1HasTree2(pRoot1, pRoot2)
+            if not result:
+                result = self.HasSubtree(pRoot1.left, pRoot2)
+            if not result:
+                result = self.HasSubtree(pRoot1.right, pRoot2)
+        return result
+
+    def Tree1HasTree2(self, pRoot1, pRoot2):
+        if not pRoot2:
+            return True
+        if not pRoot1:
+            return False
+        if pRoot1.val != pRoot2.val:
+            return False
+        return self.Tree1HasTree2(pRoot1.left, pRoot2.left) and self.Tree1HasTree2(pRoot1.right, pRoot2.right)
+```
+
+还有一种写法比较简洁，思路是如果一来其中一个为空，就返回false，否则进入一个递归，分别是从当前节点判断是否包含，从左子树判断是否包含，从右子树判断是否包含。判断方法与上述的第二个函数相同。
+
+```python
+class Solution:
+    def HasSubtree(self, pRoot1, pRoot2):        
+    	if not pRoot1 or not pRoot2:
+            return False
+        return self.HasTreeCore(pRoot1, pRoot2) or self.HasTreeCore(pRoot1.left, pRoot2) or self.HasTreeCore(pRoot1.right, pRoot2)
+    def HasTreeCore(self,A,B):
+        if not B:
+            return True
+        if not A or A.val!=B.val:
+            return False
+        return self.HasTreeCore(A.left,B.left) and self.HasTreeCore(A.right, B.right)
+```
+
+在python中是直接用`==`判断值是否相等的，而如果是c++，值如果定义为double类型，判断方法是两者相减是否`>-0.000000001 & <0.000000001`
+
+做这道题的时候，顺便看了树的遍历方法，思路就是如果树为空，返回，如果不为空，先打印值，然后遍历左子树，然后遍历右子树，这下面的是树的前序遍历，中序遍历和后序遍历只是把print的位置换一下，如下：
+
+```python
+def pre(tree):
+    if not tree:
+        return
+    print(tree.val)
+    pre(tree.left)
+    pre(tree.right)
+```
+
+还有层序遍历，层序遍历的思路是维护一个list，每次把当前节点的左右子节点都压入list，只要这个list不为空，就一直pop最先进入list的元素出来打印
+
+```python
+def layer(tree)
+	array = []
+    array.append(tree)
+    while array:
+        node = array.pop(0)
+        print(node.val)
+        if node.left:
+        	array.append(node.left)
+        if node.right:
+        	array.append(node.right)
+```
+
+### 第四章：解决面试题的思路
+
+在面试中，当面试官说出题目之后，不应该立即动笔开始写代码，而是应该先理清思路，给面试官讲一遍完整的思路，再开始写。举例子和画图都是比较好的解释思路的方法。
+
+#### 画图让抽象问题形象化
+
+有些面试题可能比较抽象，可以尝试多画几张图，找几个例子画出来，说不定就能看出规律，从而解决问题。
+
+##### 面试题27：二叉树的镜像
+
+> 操作给定的二叉树，将其变换为源二叉树的镜像。
+
+可以一开始不理解什么是镜像，画几张图就可以明白
+
+```python
+二叉树的镜像定义：源二叉树 
+    	    8
+    	   /  \
+    	  6   10
+    	 / \  / \
+    	5  7 9 11
+    	镜像二叉树
+    	    8
+    	   /  \
+    	  10   6
+    	 / \  / \
+    	11 9 7  5
+```
+
+这个题目和遍历很像，这是把遍历的print换成了左右子节点换顺序
+
+```python
+class Solution:
+    # 返回镜像树的根节点
+    def Mirror(self, root):
+        if not root:
+            return 
+        # write code here
+        if root != None:
+            root.left,root.right = root.right,root.left
+            self.Mirror(root.left)
+            self.Mirror(root.right)
+        return root
+```
+
+##### 面试题28：对称的二叉树
+
+>请实现一个函数，用来判断一颗二叉树是不是对称的。注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
+
+思路：如果定义一棵树的先序遍历有两种：一种先访问左子节点，一种先访问右子节点，只要这两种遍历方式相同，那么这棵树就是对称二叉树。具体而言：左子树的左子节点变成了右子树的右子节点，左子树的右子节点，变成了右子树的左子节点，只要这个变化之后的值始终相同，那么这棵树就是对称的。
+
+```python
+class Solution:
+    def isSymmetrical(self, pRoot):
+        # write code here
+        def reverse(left, right):
+            if not left and not right:
+                return True
+            elif left and right and left.val == right.val:
+                return reverse(left.left,right.right) and reverse(left.right,right.left)
+            else:
+                return False
+        if not pRoot:
+            return True
+        return reverse(pRoot,pRoot)
+```
+
+
+
+##### 面试题29：顺序打印矩阵
+
+> 输入一个矩阵，按照从外向里以顺时针的顺序依次打印出每一个数字，例如，如果输入如下4 X 4矩阵： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 则依次打印出数字1,2,3,4,8,12,16,15,14,13,9,5,6,7,11,10.
+
+这道题我一开始的思路是直接暴力解决：先一直向右，直到最右端；然后一直向下，直到最下端；然后向左，直到最左边；然后向上，到最上面。判断结束的条件是每一个节点都被访问过了，最后要求返回的值是一个包含所有元素的数组。
+```python
+class Solution:
+    # matrix类型为二维列表，需要返回列表
+    def printMatrix(self, matrix):
+        # write code here
+        if not matrix:
+            return None
+        if isinstance(matrix[0],int):
+            return matrix[0]
+
+        rows = len(matrix)
+        cols = len(matrix[0])
+        result = []
+        visited = [[0 for i in range(cols)] for j in range(rows)]
+        col = 0
+        row = 0
+        while sum(sum(i) for i in visited) < rows * cols:
+            if not visited[row][col]:
+                result.append(matrix[row][col])
+                visited[row][col] = 1
+            while col + 1 < cols and not visited[row][col + 1]:
+                col += 1
+                result.append(matrix[row][col])
+                visited[row][col] = 1
+            while row + 1 < rows and not visited[row + 1][col]:
+                row += 1
+                result.append(matrix[row][col])
+                visited[row][col] = 1
+            while col > 0 and not visited[row][col - 1]:
+                col -= 1
+                result.append(matrix[row][col])
+                visited[row][col] = 1
+            while row > 0 and not visited[row - 1][col]:
+                row -= 1
+                result.append(matrix[row][col])
+                visited[row][col] = 1
+        return result
+```
+暴力方法虽然可以解决这个问题，但并不是一个好选择。
+
+这道题的关键之处在于：顺时针打印就相当于按圈打印矩阵，每一个圈的起始点都是顺序主子矩阵的最左上方的节点
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190106114106.png)
+
+那么打印到什么时候结束呢，当矩阵是4\*4的时候，最后一个开始节点是(1,1)，当矩阵是5\*5的时候，最后一个开始节点是(2,2)；当矩阵是5\*4的时候，结束点还是(1,1)。从这几个可以总结出规律，结束条件是cols>=start\*2，或者rows>=start\*2
+
+每一圈还有个结束条件，$endx=cols-1-start，endy = rows-1-start$
+
+写出代码如下：
+
+```python
+class Solution:
+    # matrix类型为二维列表，需要返回列表
+    def printMatrix(self, matrix):
+        if not matrix or len(matrix)<=0:
+            return None
+        start=0
+        rows = len(matrix)
+        cols = len(matrix[0])
+        result = []
+        while start*2 < rows and start*2 < cols:
+            result.extend(self.printCircle(start,rows,cols,matrix))
+            start+=1
+        return result
+    
+    def printCircle(self, start,rows,cols,matrix):
+        endRow = rows-1-start
+        endCol = cols-1-start
+        temp = []
+        for i in range(start,endCol+1):
+            temp.append(matrix[start][i])
+        if endRow>start:
+            for i in range(start+1,endRow+1):
+                temp.append(matrix[i][endCol])
+        if endRow>start and endCol>start:
+            for i in range(endCol-1,start-1,-1):
+                temp.append(matrix[endRow][i])
+        if endCol>start and endRow>start+1:
+            for i in range(endRow-1,start,-1):
+                temp.append(matrix[i][start])
+        return temp
+```
 
 
 
