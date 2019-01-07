@@ -2140,7 +2140,7 @@ class Solution:
 
 >  之字形打印一棵二叉树
 
-![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190107154540.png)
+<img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190107154540.png" width="50%" height="50%"  style="margin: 0 auto;"/>
 
 假设根节点处于第1行，奇数行从左到右打印，偶数行从右到左打印。一开始的错误想法是，在奇数行pop(0)，偶数行pop最后一个，这样按照上面的例子，先打印1，然后打印3，然后打印7，这就乱了。
 
