@@ -929,7 +929,7 @@ public:
 
 排序比较复杂，通常要求比较**插入排序，冒泡排序，归并排序，快速排序**等不同算法的优劣。要求应试者对各种排序算法烂熟于胸，能够从额外空间小号，平均时间复杂度和最差时间复杂度等方面去分析他们的优劣。很多面试官要求应聘者写出**快速排序**的代码。
 
-快速排序的关键在于现在数组中选择一个数字，接下来把数组中的数字分为两部分，比选择的数字小的数字移到数组左边，比选择大的数字移到数组右边。实现代码如下
+快速排序的关键在于选择数组中选择一个数字，接下来把数组中的数字分为两部分，比选择的数字小的数字移到数组左边，比选择大的数字移到数组右边。实现代码如下
 
 ```python
 def quick_sort(array, l, r):
@@ -1989,5 +1989,274 @@ class Solution:
         return temp
 ```
 
+#### 举例让抽象问题具体化
 
+通过举例模拟的方法来分析复杂的问题。当一眼看不出问题隐藏的规律的时候，试着用一两个具体的例子模拟操作的过程，说不定能通过具体的例子找到抽象的规律。具体例子还有助于保证代码质量。测试用例可以用来测试结果是否与预期一致。
+
+##### 面试题30：包含min函数的栈
+
+>定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
+
+思路：一看到这道题，很可能的想法，就是直接实现一个栈，然后把栈元素的最小值保留下来，但是这种方法存在一个问题，就是如果当前pop出来的元素就是最小值，然后再求最小值就不存在了；自然而然想到把倒数第二小的元素也保存下来，那倒数第二小的元素也被pop出来了怎么办呢？这样的思路考虑下去，那就是把所有最小值都保存下来。
+
+我们举个例子来模拟一下这个步骤，每次压入一个元素到stack中，同时将当前最小值压入min_stack中，每次从stack pop元素的时候，同时从min_stack pop一个元素，这样能够保证min_stack最上面的值就是当前栈的最小值。
+
+这道题的关键就在于需要一个辅助栈，用于存放每一步的最小值。
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190107142830.png)
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
+    def push(self, node):
+        # write code here
+        self.stack.append(node)
+        if not self.min_stack or node < self.min_stack[-1]:
+            self.min_stack.append(node)
+        else:
+            self.min_stack.append(self.min_stack[-1])
+    def pop(self):
+        # write code here
+        pValue = self.stack.pop()
+        self.min_stack.pop()
+        return pValue
+    def top(self):
+        # write code here
+        if not self.stack:
+            return
+        return self.stack[-1]
+    def min(self):
+        # write code here
+        if not self.min_stack or not self.stack:
+            return
+        return self.min_stack[-1]
+```
+
+##### 面试题31：栈的压入，弹出序列
+
+> 输入两个整数序列，第一个序列表示栈的压入顺序，请判断第二个序列是否可能为该栈的弹出顺序。假设压入栈的所有数字均不相等。例如序列1,2,3,4,5是某栈的压入顺序，序列4,5,3,2,1是该压栈序列对应的一个弹出序列，但4,3,5,1,2就不可能是该压栈序列的弹出序列。（注意：这两个序列的长度是相等的）
+
+思路：给定push的顺序和pop的顺序。遍历pop顺序，如果当前要pop的元素不在栈中，将按照push顺序一直入栈到当前需要pop的元素，然后pop掉最后一个入栈的元素。遍历完整个pop序列，如果stack为空，则存在该pop序列，否则不存在。
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def IsPopOrder(self, pushV, popV):
+        # write code here
+        stack = []
+        pushIndex = 0
+        for popValue in popV:
+            if not stack or popValue != stack[-1]:
+                for p in range(pushIndex,len(pushV)):
+                    if pushV[p]!=popValue and pushIndex<len(pushV):
+                        pushIndex+=1
+                        stack.append(pushV[p])
+                pushIndex+=1
+            else:
+                stack.pop()
+        if not stack:
+            return True
+        else:
+            return False
+```
+
+##### 面试题32：从上打下打印二叉树
+
+>从上往下打印出二叉树的每个节点，同层节点从左至右打印。
+
+思路：这道题就是一个广度优先遍历问题，给定一个队列，先将根节点入队，只要队列不为空，pop出队列的第0个元素作为当前节点。如果当前节点的左右子节点不为空，就append到队列后面。知道queue为空，结束
+
+```python
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    # 返回从上到下每个节点值列表，例：[1,2,3]
+    def PrintFromTopToBottom(self, root):
+        # write code here
+        if not root:
+            return []
+        queue = []
+        queue.append(root)
+        result = []
+        while queue:
+            node = queue.pop(0)
+            result.append(node.val)
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        return result
+```
+
+题目2：
+
+> 分行从上到下打印二叉树
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190107154445.png)
+
+要求同一层的节点打印在一行里面，我一开始想法是每当打印到$2^n-1$的时候，就打印换行符。要判断是不是到了$2^n-1$，只需要将这个值+1，然后与上(n-1)，如果这个值的二进制表示中只有一个1，那么就是$2^n$。
+
+上面的方法可以解决问题，但是比较复杂，毕竟要判断$2^n$
+
+书中给的方法是给两个index，一个待打印的数目，一个下一层要打印的数目。
+
+```python
+class Solution:
+    # 返回从上到下每个节点值列表，例：[1,2,3]
+    def PrintFromTopToBottom(self, root):
+        # write code here
+        if not root:
+            return []
+        queue = []
+        queue.append(root)
+        result = []
+        toBePrinted = 1
+        nextLayer = 0
+        while queue:
+            node = queue.pop(0)
+            print(node.val)
+            toBePrinted -= 1
+            if node.left:
+                queue.append(node.left)
+                nextLayer += 1
+            if node.right:
+                queue.append(node.right)
+                nextLayer += 1
+            if toBePrinted == 0:
+                print('\n')
+                toBePrinted = nextLayer
+                nextLayer = 0
+        return result
+```
+
+题目3：
+
+>  之字形打印一棵二叉树
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190107154540.png)
+
+假设根节点处于第1行，奇数行从左到右打印，偶数行从右到左打印。一开始的错误想法是，在奇数行pop(0)，偶数行pop最后一个，这样按照上面的例子，先打印1，然后打印3，然后打印7，这就乱了。
+
+正确做法是使用2个栈，为什么使用2个栈，就是因为如果使用一个栈，跟上面错误思路的情况一样，那么打印3的时候，7就入栈了，下一个出栈的是7。两个栈，奇数行先添加右节点，再添加左节点，偶数行正常添加。
+
+```python
+class Solution:
+    # 返回从上到下每个节点值列表，例：[1,2,3]
+    def PrintFromTopToBottom(self, root):
+        # write code here
+        if not root:
+            return []
+        odd_queue = [root]
+        even_queue = []
+        result = []
+        toBePrinted = 1
+        nextLayer = 0
+        layer=1
+        while odd_queue or even_queue:
+            if layer%2 == 0:
+                node = even_queue.pop()
+                if node.right:
+                    odd_queue.append(node.right)
+                    nextLayer+=1
+                if node.left:
+                    odd_queue.append(node.left)
+                    nextLayer+=1
+            else:
+                node = odd_queue.pop()
+                if node.left:
+                    even_queue.append(node.left)
+                    nextLayer+=1
+                if node.right:
+                    even_queue.append(node.right)
+                    nextLayer+=1
+            print(node.val,end=' ')
+            toBePrinted -= 1
+            if toBePrinted == 0:
+                print('\n')
+                toBePrinted = nextLayer
+                nextLayer = 0
+                layer += 1
+        return result
+```
+
+或者改进一下，减少flag的数量，只用一个layer变量，每次用1-layer
+
+```python
+class Solution:
+    # 返回从上到下每个节点值列表，例：[1,2,3]
+    def PrintFromTopToBottom(self, root):
+        # write code here
+        if not root:
+            return []
+        queue = [[],[]]
+        layer = 0
+        queue[layer].append(root)
+        while queue[0] or queue[1]:
+            node = queue[layer].pop()
+            if layer:
+                if node.right:
+                    queue[1-layer].append(node.right)
+                if node.left:
+                    queue[1-layer].append(node.left)
+            else:
+                if node.left:
+                    queue[1-layer].append(node.left)
+                if node.right:
+                    queue[1-layer].append(node.right)
+            print(node.val,end=' ')
+            if not queue[layer]:
+                print('\n')
+                layer = 1-layer
+```
+
+##### 面试题33：二叉排序树的后序遍历
+
+>输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。如果是则输出True,否则输出False。假设输入的数组的任意两个数字都互不相同。
+
+**二叉查找树**（英语：Binary Search Tree），也称为**二叉搜索树**、**有序二叉树**（ordered binary tree）或**排序二叉树**（sorted binary tree），是指一棵空树或者具有下列性质的[二叉树](https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%8F%89%E6%A0%91)：
+
+1. 若任意节点的左子树不空，则左子树上所有节点的值均小于它的根节点的值；
+2. 若任意节点的右子树不空，则右子树上所有节点的值均大于它的根节点的值；
+3. 任意节点的左、右子树也分别为二叉查找树；
+4. 没有键值相等的节点。
+
+简单来说就是，根节点的左子树的所有节点都比根节点小，右子树的所有节点都比根节点大，且没有重复节点。
+
+要判断一个序列是不是二叉排序树，那就要找出左右子树，然后判断左右子树是不是满足上面的要求，并判断左右子树是不是二叉排序树。
+
+二叉排序树的最后一个节点一定是根节点，第一个比根节点大的值是左右子树的分界线。
+
+先排除意外情况，如果输入为空，返回False；否则进入递归函数。
+
+递归函数是首先从左到右找到第一个比根节点大的值，然后向右一直搜索到最后一个元素，如果中间出现任何一个元素小于根节点，那么就证明不是二叉排序树，返回False。如果一直到最后一个都满足条件，那么就判断左右子树是不是二叉排序树，最后返回left和right子树的and结果。
+
+```python
+class Solution:
+    def VerifySquenceOfBST(self, sequence):
+        # write code here
+        if not sequence:
+            return False
+        return self.verifyCore(sequence)
+    def verifyCore(self, sequence):
+        i = 0
+        while sequence[i] < sequence[-1]:
+            i+=1
+        for j in range(i,len(sequence)):
+            if sequence[j] < sequence[-1]:
+                return False
+        left = True
+        if i>0:
+            left = self.verifyCore(sequence[:i])
+        right = True
+        if i<len(sequence)-1:
+            right = self.verifyCore(sequence[i:-1])
+        return left and right
+```
 
