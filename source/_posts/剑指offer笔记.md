@@ -589,7 +589,7 @@ class Solution:
         if i > 0:
             root.left = self.reConstruct(pre_t[1:i+1], tin_t[:i])
         if len(pre_t)-1 > i:
-            root.right = self.reConstruct(pre_t[i + 1:], tin_t[i + 1:])
+            root.right = self.reConstruct(pre_t[i+1:], tin_t[i+1:])
         return root
 
     def reConstructBinaryTree(self, pre, tin):
@@ -2067,7 +2067,7 @@ class Solution:
 
 >从上往下打印出二叉树的每个节点，同层节点从左至右打印。
 
-思路：这道题就是一个广度优先遍历问题，给定一个队列，先将根节点入队，只要队列不为空，pop出队列的第0个元素作为当前节点。如果当前节点的左右子节点不为空，就append到队列后面。知道queue为空，结束
+思路：这道题就是一个广度优先遍历问题，给定一个队列，先将根节点入队，只要队列不为空，pop出队列的第0个元素作为当前节点。如果当前节点的左右子节点不为空，就append到队列后面。直到queue为空，结束
 
 ```python
 # -*- coding:utf-8 -*-
@@ -2101,7 +2101,7 @@ class Solution:
 
 ![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190107154445.png)
 
-要求同一层的节点打印在一行里面，我一开始想法是每当打印到$2^n-1$的时候，就打印换行符。要判断是不是到了$2^n-1$，只需要将这个值+1，然后与上(n-1)，如果这个值的二进制表示中只有一个1，那么就是$2^n$。
+要求同一层的节点打印在一行里面，我一开始想法是每当打印到$2^n-1​$的时候，就打印换行符。要判断是不是到了$2^n-1​$，只需要将这个值+1，然后与上(n-1)，如果这个值的二进制表示中只有一个1，那么就是$2^n​$。
 
 上面的方法可以解决问题，但是比较复杂，毕竟要判断$2^n$
 
@@ -2258,5 +2258,693 @@ class Solution:
         if i<len(sequence)-1:
             right = self.verifyCore(sequence[i:-1])
         return left and right
+```
+
+##### 面试题34：二叉树中和为某一值的路径
+
+>输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
+
+思路：先判断给定的是不是空，如果是空，直接返回空list。否则累积加和，如果加和等于值，就把刚才记录的所有值都放入result list中，如果没到叶节点，那么继续向下。递归实现。
+
+```python
+# -*- coding:utf-8 -*-
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+class Solution:
+    # 返回二维列表，内部每个列表表示找到的路径
+    def FindPath(self, root, expectNumber):
+        # write code here
+        if not root:
+            return []
+        result = []
+        self.FindPathCore(root, expectNumber,0,result,[])
+        return result
+
+    def FindPathCore(self,root, expectNumber,currNum,result,hisNode):
+        if root:
+            currNum += root.val
+            if currNum == expectNumber and not root.left and not root.right:
+                hisNode.append(root.val)
+                result.append([i for i in hisNode])
+                return
+            else:
+                hisNode.append(root.val)
+
+                if root.left:
+                    self.FindPathCore(root.left, expectNumber,currNum,result,hisNode)
+                    hisNode.pop()
+                if root.right:
+                    self.FindPathCore(root.right,expectNumber,currNum,result,hisNode)
+                    hisNode.pop()
+```
+
+#### 分解让复杂问题简单化
+
+##### 面试题35：复杂链表的复制
+
+> 输入一个复杂链表（每个节点中有节点值，以及两个指针，一个指向下一个节点，另一个特殊指针指向任意一个节点），返回结果为复制后复杂链表的head。（注意，输出结果中请不要返回参数中的节点引用，否则判题程序会直接返回空）
+
+思路：这道题主要思路，如果从直观来讲，我们先复制所有节点的值以及他们的next关系，第二步去复制random关系，在找random关系的时候，就要从头到尾一个一个找到random节点，如果在原始链表上走s步找到了这个random节点，那么只需要在新链表上同样走s步找到这个新节点。对于长度为n的链表，每次找到random节点都需要O(n)的时间复杂度，因此这种方法总时间复杂度为$O(n^2)​$。
+
+```python
+#-*- coding:utf-8 -*-
+#class RandomListNode:
+#    def __init__(self, x):
+#        self.label = x
+#        self.next = None
+#        self.random = None
+class Solution:
+    # 返回 RandomListNode
+    @staticmethod
+    def Clone(pHead):
+        # write code here
+        # 逐个节点进行复制
+        if not pHead:
+            return pHead
+        pCur = pHead
+        newHead = RandomListNode(pCur.label)
+        node = newHead
+        pCur = pCur.next
+        while pCur:
+            pCopy = RandomListNode(pCur.label)
+            node.next = pCopy
+            node = node.next
+            pCur = pCur.next
+
+        pCur = pHead
+        node = newHead
+        # 复制随机节点
+        while pCur:
+            if pCur.random:
+                index = 0
+                pNode = pHead
+                while pNode.label != pCur.random.label or pNode.next != pCur.random.next or pNode.random != pCur.random.random:
+                    index += 1
+                    pNode = pNode.next
+                Tempnode = newHead
+                for i in range(index):
+                    Tempnode = Tempnode.next
+                node.random = Tempnode
+            pCur = pCur.next
+            node = node.next
+        return newHead
+```
+
+由于这种方法最主要的时间损耗在于寻找random节点，尝试对该方法进行优化，第一步仍然是复制节点和next关系，但是区别是将这些复制的节点插入到原始链表中，第二步仍然是复制随机节点，这个时候新链表的值就是pCur.next，他的random就指向原始节点pCur的随机节点的复制值，也就是pCur.random.next，就是这个地方大大提升了效率。最后一步是拆分成2个独立的链表。
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190217205450.png)
+
+```python
+# -*- coding:utf-8 -*-
+# class RandomListNode:
+#     def __init__(self, x):
+#         self.label = x
+#         self.next = None
+#         self.random = None
+class Solution:
+    # 返回 RandomListNode
+    def Clone(self, pHead):
+        # write code here
+        # 逐个节点进行复制
+        if not pHead:
+            return pHead
+        pCur = pHead
+        while pCur:
+            pCopy = RandomListNode(pCur.label)
+            pNext = pCur.next
+            pCopy.next = pNext
+            pCur.next = pCopy
+            pCur = pNext
+            
+        pCur = pHead
+        # 复制随机节点
+        while pCur:
+            pCur.next.random = pCur.random.next if pCur.random else None
+            pCur = pCur.next.next
+        
+        # 拆分
+        pCur = pHead
+        newHead = pCur.next
+        while pCur:
+            pCopy = pCur.next
+            pCur.next = pCopy.next
+            pCopy.next = pCopy.next.next if pCopy.next else None
+            pCur = pCur.next
+            
+        return newHead
+
+```
+
+##### 面试题36：二叉搜索树与双向链表
+
+> 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向
+
+思路：一颗二叉搜索树本身就是排序好的，左子树节点一定小于根节点，右子树节点一定大于根节点，既然要排序，类似于中序遍历的方法，在找到左子树的最大节点时，将左子树的最大节点与根节点双向连接起来；将右子树的最小节点与左子树连接起来。
+
+```python
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def Convert(self, pRootOfTree):
+        if not pRootOfTree:
+            return
+        if not pRootOfTree.left and not pRootOfTree.right:
+            return pRootOfTree
+        
+        # 将左子树转换为双向链表
+        left = self.Convert(pRootOfTree.left)
+        # 将左子树的最大节点与根节点连接
+        if left:
+            while left.right:
+                left = left.right
+            left.right = pRootOfTree
+            pRootOfTree.left =  left
+        
+        # 将右子树转换为双向链表
+        right = self.Convert(pRootOfTree.right)
+        # 将右子树的最大节点与根节点连接
+        if right:
+            while right.left:
+                right = right.left
+            right.left = pRootOfTree
+            pRootOfTree.right =  right
+        
+        # 找到双向链表的起始节点，也就是树的最小节点
+        while pRootOfTree.left:
+            pRootOfTree = pRootOfTree.left
+        return pRootOfTree
+```
+
+##### 面试题37：序列化二叉树
+
+> 请实现两个函数，分别用来序列化和反序列化二叉树
+
+
+
+```python
+# -*- coding:utf-8 -*-
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+class Solution:
+    flag = -1
+
+    def Serialize(self, root):
+        # write code here
+        s = ""
+        s = self.SerializeCore(root, s)
+        return s
+
+    def SerializeCore(self, root, s):
+        if root is None:
+            s = "$,"
+            return s
+        s = str(root.val) + ','
+        left= self.SerializeCore(root.left,s)
+        right= self.SerializeCore(root.right,s)
+        s += left + right
+        return s
+
+    def Deserialize(self, s):
+        # write code here
+        self.flag += 1
+        l = s.split(',')
+        if (self.flag >= len(s)):
+            return None
+        root = None
+        
+        if l[self.flag] != '$':
+            root = TreeNode(int(l[self.flag]))
+            root.left = self.Deserialize(s)
+            root.right = self.Deserialize(s)
+        return root
+
+```
+
+
+
+##### 面试题38：字符串的排列
+
+> 输入一个字符串,按字典序打印出该字符串中字符的所有排列。例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。
+
+python有比较取巧的办法，itertools里面有purmutations这个函数，直接列出所有可能的排列组合，然后用''.join连接起来并去重就得到了结果。
+
+```python
+# -*- coding:utf-8 -*-
+from itertools import permutations
+class Solution:
+    def Permutation(self,ss):
+        # write code here
+        if not len(ss):
+            return []
+        letters = sorted([i for i in ss])
+        # result = []
+        # index = [i for i in range(1, len(letters) + 1)]
+        result = list(permutations(letters))
+        result = sorted(list(set([''.join(i) for i in result])))
+        return result
+```
+
+如果用正常的思路，应该是通过交换得到，从第一位开始，与后面每一位交换得到组合结果
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190218091606.png)
+
+```python
+class Solution:
+    def Permutation(self,ss):
+        # write code here
+        if not len(ss):
+            return []
+        letters = [i for i in ss]
+        result = []
+        self.perHelper(letters, 0, result)
+        return sorted(result)
+    
+    def perHelper(self, letters, i, result):
+        if i==len(letters)-1:
+            if ''.join(letters) not in result:
+                result.append("".join(letters))
+        else:
+            for j in range(i,len(letters)):
+                letters[i],letters[j] = letters[j],letters[i]
+                self.perHelper(letters, i+1, result)
+                letters[i],letters[j] = letters[j],letters[i]
+```
+
+**总结：**
+
+**求排列的方法**：传入一个字符串切割好的list，固定第i位，交换i（自己与自己交换保持位置）及后面的位数，直到已经换到了最后一位了，把结果放入result中。
+
+**求组合的方法**：传入一个由字符串切割得到的list，要得到长度为m的组合（m可能为0-n，其中n为字符串的总长度），此时可以分为2种情况：选择list的第一位，然后在list的剩下内容中选择m-1位；不选第一位，在list的剩下内容中选择m位，当需要选择的位数为0的时候，证明长度已经达到了需要的长度，此时直接join出结果并存入result中即可。
+
+```python
+def getCombine(s):
+    l = [i for i in s]
+    result = []
+    for i in range(1,len(l)+1):
+        temp = []
+        comBineCore(l, i, temp,result)
+    return result
+
+def comBineCore(l, i, temp,result):
+    if i==0:
+        result.append(''.join(temp))
+        return
+    if not l:
+        return
+    temp.append(l[0])
+    comBineCore(l[1:], i-1, temp,result)
+    temp.pop()
+    comBineCore(l[1:], i, temp,result)
+```
+
+### 第五章：时间效率
+
+##### 面试题39：数组中出现次数超过一半的数字
+
+> 数组中有一个数字出现的次数超过数组长度的一半，请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。由于数字2在数组中出现了5次，超过数组长度的一半，因此输出2。如果不存在则输出0。
+
+**方法一：字典计数**
+
+这种方法直接遍历一遍数组，但是需要辅助的字典来存储每个数字出现的次数，时间复杂度为o(n)，空间复杂度为o(n)
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    @staticmethod
+    def MoreThanHalfNum_Solution(numbers):
+        # write code here
+        numDict = {}
+        length = len(numbers)/2
+
+        for i in numbers:
+            if i not in numDict.keys():
+                numDict[i] = 1
+            else:
+                numDict[i] += 1
+        for key,value in numDict.items():
+            if value > length:
+                return key
+        return 0
+```
+
+**方法二：基于快排的partion函数**
+
+因为要找的是出现次数超过一半的数，那么这个数一定是横跨length/2的，因为只要超过一半，中位数那个值一定是需要找的值，那么我们只需要找到中位数就行了。利用partion函数，每次找一个值，直到找到中位数的值。
+
+partion函数是随机选一个数，把所有小于选中值的放在其左边，大于选中值的放在其右边，如果此时选中值的index小于length/2，那么证明中位数在其右边，反之证明中位数在其左边，循环换值，直到找到中位数。
+
+```python
+# 方法2：基于partion函数
+class Solution:
+    def MoreThanHalfNum_Solution(self,numbers):
+        # write code here
+        middle = int(len(numbers)/2)
+        start = 0
+        end = len(numbers) -1
+        index = self.partion(numbers,start,end)
+        while index!=middle:
+            if index > middle:
+                end = index - 1
+                index = self.partion(numbers, start, end)
+            else:
+                start = index + 1
+                index = self.partion(numbers, start, end)
+        result = numbers[index]
+        if self.checkIsMoreThanHalf(numbers,result):
+            return result
+        else:
+            return 0
+
+    def partion(self, numbers, start, end):
+        x = numbers[end]
+        s = start -1
+        for i in range(start,end):
+            if numbers[i] < x:
+                s+=1
+                numbers[i],numbers[s] = numbers[s], numbers[i]
+        s+=1
+        numbers[s],numbers[end] = numbers[end], numbers[s]
+        return s
+
+
+    def checkIsMoreThanHalf(self, numbers, result):
+        count = 0
+        half = len(numbers)/2
+        for i in numbers:
+            if i==result:
+                count+=1
+        if count>half:
+            return True
+        else:
+            return False
+```
+
+方法三：基于数组特点进行查找
+
+一个数字如果出现次数超过数组长度的一半，那么这个数字出现的次数就比其它所有数字出现次数的和还要多
+
+我们利用两个变量：numNow和countNow来表示当前指定的数和其出现的次数。
+
+* 如果countNow大于0，出现一个和numNow相同的值，那么countNow+1,；出现一个和numNow不同的值，countNow减1。
+* 如果countNow小于等于0，那么就需要更换当前的数字
+
+```python
+class Solution:
+    def MoreThanHalfNum_Solution(self,numbers):
+        # write code here
+        count = 1
+        num = numbers[0]
+        for i in numbers[1:]:
+            if i==num:
+                count+=1
+            else:
+                count-=1
+            if count==0:
+                num = i
+                count=1
+        if self.checkIsMoreThanHalf(numbers,num):
+            return num
+        else:
+            return 0
+    def checkIsMoreThanHalf(self, numbers, result):
+        count = 0
+        half = len(numbers)/2
+        for i in numbers:
+            if i==result:
+                count+=1
+        if count>half:
+            return True
+        else:
+            return False
+```
+
+##### 面试题40：数组中最小的k个值
+
+> 输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
+
+**方法一：利用partion函数进行排序*，时间复杂度为O(n)**
+
+在可以改变数组的情况下，用partion进行排序，找到第k大的值，partion是将比选定值小的放在左边，比选定值大的放在右边，那么k之前的就是最小的k个值
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def GetLeastNumbers_Solution(self, tinput, k):
+        # write code here
+        if len(tinput)<k or len(tinput)<=0 or k<=0:
+            return []
+        start = 0
+        end = len(tinput)-1
+        index = self.partion(tinput, start, end)
+        while index!= k-1:
+            if index < k-1:
+                start = index+1
+                index = self.partion(tinput, start, end)
+            else:
+                end = index - 1
+                index = self.partion(tinput, start, end)
+        return tinput[:index+1]
+    
+    def partion(self, tinput, start, end):
+        x = tinput[end]
+        s = start - 1
+        for i in range(start, end):
+            if tinput[i] < x:
+                s+=1
+                tinput[i],tinput[s] = tinput[s],tinput[i]
+        s += 1
+        tinput[end], tinput[s] = tinput[s], tinput[end]
+        return s
+
+```
+
+**方法二：时间复杂度为O(nlogk)的方法，基于红黑树**
+
+##### 面试题41：数据流中的中位数
+
+> 如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，那么中位数就是所有数值排序之后位于中间的数值。如果从数据流中读出偶数个数值，那么中位数就是所有数值排序之后中间两个数的平均值。我们使用Insert()方法读取数据流，使用GetMedian()方法获取当前读取数据的中位数。
+
+这道题的方法是使用两个堆，一个最大堆，一个最小堆，同时保证最小堆的最小值比最大堆的最大值更大，在当前元素个数为偶数的时候，新来的元素加入最小堆，当前元素个数为奇数的时候，新来的元素加入最大堆。
+
+##### 面试题42：连续子数组的最大和
+
+> 输入一个整形数组，数组里有正数有负数。数组的一个或连续多个数组组成一个子数组。求所有子数组的和的最大值。要求时间复杂度为O(n)
+
+这道题最直观的思路，就是枚举所有子数组并求和，子数组的总数是n*(n-1)/2（长度为1的子数组有n个，长度为2的子数组有n-1个...长度为n的子数组有1个，所以总个数是n+n-1+n-2+...+1），这样时间复杂度至少为$O(n^2)$。
+
+正确的做法是使用动态规划，累计加和数组中的元素，如果当前累积和大于0，那么下一次加和的时候继续加上这个累计和，如果当前结果已经小于0了，呢么下一次加和的时候就舍弃前面的累积和，重新加和。这样得到的结果就是加到当前位置的最大累计和。也就是子数组的最大和。
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def FindGreatestSumOfSubArray(self, array):
+        # write code here
+
+        maxhere = array[0]
+        maxv = array[0]
+        
+        for i in range(1,len(array)):
+            if maxhere <= 0:
+                maxhere = array[i]
+            else:
+                maxhere += array[i]
+            if maxhere>maxv:
+                maxv = maxhere
+        return maxv
+```
+
+##### 面试题43：1~n中数字1出现的次数
+
+> 求出1~13的整数中1出现的次数,并算出100~1300的整数中1出现的次数？为此他特别数了一下1~13中包含1的数字有1、10、11、12、13因此共出现6次,但是对于后面问题他就没辙了。ACMer希望你们帮帮他,并把问题更加普遍化,可以很快的求出任意非负整数区间中1出现的次数（从1 到 n 中1出现的次数）。
+
+最直观的方法肯定是通过循环，对每个数有多少个1进行判断，代码如下：
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def NumberOf1Between1AndN_Solution(self, n):
+        # write code here
+        count = 0
+        for i in range(1,n+1):
+            for letter in str(i):
+                if letter=='1':
+                    count+=1
+        return count
+```
+
+这种方法的时间复杂度太高了，因此需要进行优化。
+
+剑指offer上面给出的优化方法是：给定一个数，例如21345，我们先看他是五位数的时候，有多少个1，再看他4位数有多少个1，再看2位数有多少个1，直到为1位数，递归求得总共1的数目。
+
+在判断每次有多少个1的时候，又可以分为这样的方法：21345，万位为1的有10000个；剩下4位，其中某一位为1的时候，另外3位都可以在0-9之间变化，就是$10^3$种组合，而万位可以在1,2之间变化，总组合数就是$2\times10^3\times4$，到这里，五位数的情况就分析完了，下面分析4位数的情况。四位数只有1345，分析千位是1的情况，有345个，剩余方法类似。
+
+这种方法可理解性并不好，在牛客上面看到一种更容易被理解的方法。
+
+给定一个数字，比如还是21345，个位出现1的次数是(2134+1)\*1次，十位出现1的次数是(213+1)\*10次，百位出现1的次数是(21+1)\*100次，千位出现1的次数是2\*1000+346次，万位出现的次数是10000次。
+
+出现次数的规律是这样的：
+
+* 比如我们要找个位出现1的次数，先把数据分成2部分：2134和5，5之前的值可能是0-2134一共是2135次；
+* 找十位的时候，分成两部分：213和45，0-213共214种组合，每种组合出现1的次数是10（十位为1，个位0-9之间变化），也就是214\*10次；
+* 百位的时候分成：21和345，一共是100\*22种；
+* 千位的时候分为2和1345,这个时候情况就和前面不一样的，因为这次末尾的最高位是1，当第一部分在0-1之间变化时，情况不变得到2*1000种，但是当第一位为2的时候，只有345+1=346种，那次是一共是2346种；
+* 万位的时候分为没有和21345，此时是1\*10000种一共
+
+可以看出，只要当前要找的那一位大于等于2，那么就可以直接是前面的部分+1乘以当前的10的次方，如果当前那一位等于1，就要找当前位的后面几位+1加上前面的结果，如果当前位为0，那就只有前面部分。
+
+下面代码中用(a+8)//10的原因就是用于判断当前位是不是大于等于2
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def NumberOf1Between1AndN_Solution(self, n):
+        # write code here
+        count = 0
+        i = 1
+        while i <= n:
+            a = n//i
+            b = n%i
+            count += (a+8)//10 * i + (a%10==1) * (b+1)
+            i*=10
+        return count
+```
+
+##### 面试题44：序列中某一位的数字
+
+> 数字以1234567891011121314...这样的规则排列，在这个序列中，第5位是5，第13位是1，第19位是4，写出一个函数，可以求得第n位对应的数字
+
+这道题的思路就是，1-9之间有9个数字，10-99之间有90个数字，100-999之间有900个数字，分别占据9位，90\*2=180位，900\*3=2700位，如果我现在找1001位，那么肯定不在9位这部分里，跳过 ，剩下992位，也不再10-99之间，跳过，剩下992-180=812位，812是小于2700的，所以肯定在这个范围内，这个范围的起始值是100，(812-1)//3=270，那么就是从100开始的第270个值，也就是370，(812-1)%3=1，也就是中间那一位7
+
+```python
+class Solution:
+    def findNthDigit(self, n: 'int') -> 'int':
+        digits = 1
+        while True:
+            number = 9*(10**(digits-1))
+            if n <= number * digits:
+                return self.findDigit(n, digits)
+            n -= number * digits
+            digits+=1
+
+    def findDigit(self, n, digits):
+        intNum = (n-1)//digits
+        rest = (n-1)%digits
+        start = 10**(digits-1)
+        return int(str(start + intNum)[rest])
+```
+
+##### 面试题45：组合出最小数字
+
+> 输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
+
+思路：这道题主要是进行一个自定义的比较函数，如果a+b比b+a字符串连接的结果小，那么两者交换。这个比较函数定义在compare中，比较算法就是普通的冒泡排序即可。
+
+P.S.冒泡排序助记：i[0,n)->j[0,n-1-i)
+
+```python
+class Solution:
+    def PrintMinNumber(self, numbers):
+        # write code here
+        for i in range(0,len(numbers)):
+            for j in range(0, len(numbers)-i-1):
+                if self.compare(numbers[j],numbers[j+1]):
+                    numbers[j],numbers[j+1] = numbers[j+1],numbers[j]
+        return ''.join([str(i) for i in numbers])
+
+    def compare(self,a,b):
+        con1 = int(str(a)+str(b))
+        con2 = int(str(b)+str(a))
+        return 1 if con1 > con2 else 0
+```
+
+##### 面试题46：把数字翻译为字符串
+
+> 给定一个数字，按照如下规则翻译成字符串，0翻译成"a"，1翻译成”b“，11翻译成”l“,...,25翻译成”z“，一个数字可能有多种翻译，例如12258有五种翻译，请实现一个函数，能够计算一个数字有多少种翻译。
+
+这道题的关键在于写出递推关系式：$f(i) = f(i+1) + g(i,i+1)\times(i+2)$，f(i)表示从第i个数字开始，有多少种不同的翻译方式。
+
+这显然是一个递推的公式，如果用递推的写法来解决这个问题，效率比较低，因为有很多重复的情况，比如f(0)=f(1)+g(0,1)\*f(2)，f(1)=f(2)+g(1,2)\*f(3)，f(2)=f(3)+g(1,2)\*f(4)，这里就已经重复了f(2),f(3)的计算过程。
+
+递归是通过最终问题自上而下（从未知开始，在已知的时候退出）的解决，那如果通过循环自下而上（从已知开始，最终找到未知）的解决问题，就效率比较高了。
+
+```python
+# 方法1：递归
+def countNum(num,index):
+    if index == len(num) -1:
+        return 1
+    if index == len(num) -2:
+        if 10 <= int(num[index:index + 2]) <= 25:
+            return 2
+        else:
+            return 1
+    g = 1 if 10<= int(num[index:index+2]) <= 25 else 0
+    return countNum(num,index+1) + g * countNum(num, index+2)
+
+
+def num2Str(num):
+    if num < 0:
+        return 0
+    return countNum(str(num),0)
+
+# 方法2：循环
+def countNum(num):
+    counts = [0 for i in range(len(num))]
+    count = 0
+    for i in range(len(num)-1,-1,-1):
+        if i<len(num)-1:
+            count = counts[i+1]
+        else:
+            count = 1
+        if i<len(num)-1:
+            if 10<=int(num[i:i+2])<=25:
+                if i<len(num)-2:
+                    count+=counts[i+2]
+                else:
+                    count+=1
+        counts[i] = count
+    count = counts[0]
+    return count
+
+
+def num2Str(num):
+    if num < 0:
+        return 0
+    return countNum(str(num))
+```
+
+##### 面试题47：礼物的最大价值
+
+> 在一个m×n的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于0）。你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格，直到到达棋盘的右下角。给定一个棋盘及其上面的礼物，请计算你最多能够拿到多少价值的礼物。
+
+这道题也是动态规划，要写出递推公式就比较好做
+
+用f(i,j)表示到(i,j)这个坐标时，能去得到最大礼物值，那么$f(i,j) = gift[i][j]+\max(f(i-1,j),f(i,j-1))$，可以用递归的方法实现，但是效率低，最终依然用循环来实现
+
+```python
+class Bonus:
+    def getMost(self, board):
+        # write code here
+        maxv = [[0 for i in range(len(board[0]))] for j in range(len(board))]
+        count = 0
+        for i in range(len(board)):
+            for j in range(len(board)):
+                left = 0
+                up = 0
+                if i>0:
+                    up = maxv[i-1][j]
+                if j>0:
+                    left = maxv[i][j-1]
+                maxv[i][j] = board[i][j] + max(up,left)
+        return maxv[-1][-1]
 ```
 
