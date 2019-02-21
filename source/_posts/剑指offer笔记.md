@@ -2928,7 +2928,7 @@ def num2Str(num):
 
 这道题也是动态规划，要写出递推公式就比较好做
 
-用f(i,j)表示到(i,j)这个坐标时，能去得到最大礼物值，那么$f(i,j) = gift[i][j]+\max(f(i-1,j),f(i,j-1))$，可以用递归的方法实现，但是效率低，最终依然用循环来实现
+用f(i,j)表示到(i,j)这个坐标时，能去得到最大礼物值，那么$f(i,j) = {\rm gift}[i][j]+\max(f(i-1,j),f(i,j-1))$，可以用递归的方法实现，但是效率低，最终依然用循环来实现
 
 ```python
 class Bonus:
@@ -2947,4 +2947,549 @@ class Bonus:
                 maxv[i][j] = board[i][j] + max(up,left)
         return maxv[-1][-1]
 ```
+
+##### 面试题48：最大无重复子串
+
+> 请从给定字符串中找到一个最长的不包含重复字符串的子字符串，计算该字符串的长度
+
+书中给的方法是动态规划，用f(i)表示到第i个字符结尾的最长子串，f(i)=f(i-1)+1，如果第i个内容在之前没有出现过的话。如果出现过，记本次出现和上次出现的位置差为d，分为2种情况：1.d<=f(i-1)，也就是到上一个字符的最大子串长度比两个重复内容之间的长度要大，那么就要重新安排最大子串，比如qweraba，在计算最后一个a的时候，之前的最大长度已经是6了，而最后一个a与上一个a之间的距离是2，那么此时最大子串的长度就是ba，2
+
+具体代码如下：
+
+```python
+def getMaxStr(s):
+    if not s:
+        return 0
+    position = [-1 for _ in range(26)]
+    curlength = 0
+    maxlength = 0
+    for i in range(len(s)):
+        preIndex = position[s[i]-'a']
+        if preIndex<0 or i-preIndex > curlength:
+            curlength+=1
+        else:
+            if curlength > maxlength:
+                maxlength = curlength
+            curlength = i - preIndex
+        position[s[i]-'a'] = i
+        if curlength>maxlength:
+            maxlength = curlength
+    return maxlength
+```
+
+如果要返回这个最大子串，可以用一个list来存储当前的最大子串，最后返回
+
+```python
+def getMaxStr(s):
+    if not s:
+        return 0
+    f = [0 for _ in range(len(s))]
+    temp = []
+    maxv = 0
+    for i in range(len(s)):
+        if i==0:
+            f[i]=1
+            temp.append(s[0])
+        else:
+            if s[i] not in temp:
+                f[i]=f[i-1]+1
+                temp.append(s[i])
+            else:
+                while s[i] in temp:
+                    temp.pop(0)
+                f[i] = len(temp)+1
+                temp.append(s[i])
+        if f[i] > maxv:
+            maxv = f[i]
+            maxs = ''.join(temp)
+    return maxv,maxs
+```
+
+##### 面试题49：丑数
+
+>把只包含质因子2、3和5的数称作丑数（Ugly Number）。例如6、8都是丑数，但14不是，因为它包含质因子7。 习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第N个丑数。
+
+思路：直观上，我们可以一个数一个数地判断，看看当前值是不是丑数。判断丑数的办法，因为丑数的因子只有2,3,5，那么他一直除以2,3,5最后一定为1，怎么判断有多少个2，多少个3，多少个5呢？方法是判断能被2整除的时候，就一直除以2；能被3整除的时候，就除以3；能被5整除的时候，就除以5。判断方法就是求余。
+
+这种暴力方法虽然直观，但是时间复杂度太大了，无法通过系统测试。
+
+还有一种方法就是以空间换时间，建立一个只存放丑数的数组ugly，既然我有第一个ugly的值，那么只要把这个值乘以2或3或5就可以得到下一个值，下一个值要保证最小，就是乘2,3,5之后最小的值。用3个index来表示乘以2,3,5的值的位置，要求乘以之后的新值一定要大于当前的最大值。
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def GetUglyNumber_Solution(self, index):
+        # write code here
+        if index<1:
+            return 0
+        ugly = [0 for _ in range(index)]
+        p2,p3,p5 = 0,0,0
+        ugly[0] = 1
+        nextOne = 1
+        while nextOne < index:
+            ugly[nextOne] = min([ugly[p2]*2,ugly[p3]*3,ugly[p5]*5])
+            while ugly[p2]*2<=ugly[nextOne]:
+                p2+=1
+            while ugly[p3]*3<=ugly[nextOne]:
+                p3+=1
+            while ugly[p5]*5<=ugly[nextOne]:
+                p5+=1
+            nextOne+=1
+        return ugly[-1]
+```
+
+##### 面试题50：第一个只出现一次的字符
+
+> 在一个字符串(全部由字母组成)中找到第一个只出现一次的字符,并返回它的位置, 如果没有则返回 -1（需要区分大小写）.
+
+用hash表的方法来实现。有了hash表，每次查询的时间复杂度为O(1)，可以直接找到结果。因为char字符的大小是8位，一个char最多有256种可能，因此建立一个长度为256的数组，以char的ascii码为hash值，出现一个+1，再遍历一遍string，如果某一个char的出现次数为1，直接返回。
+
+```python
+class Solution:
+    def FirstNotRepeatingChar(self, s):
+        # write code here
+        if not s:
+            return -1
+        d = [0 for _ in range(256)]
+        for i in range(len(s)):
+            d[ord(s[i])]+=1
+        for i in range(len(s)):
+            if d[ord(s[i])]==1:
+                return i
+        return -1
+```
+
+##### 面试题51：数组中的逆序对
+
+> 在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。
+
+直观思路是暴力法，时间复杂度为$\rm O(n^2)​$
+
+这道题的思路是归并排序，归并排序的时间复杂度为O(nlogn)
+
+我们以数组｛7, 5, 6, 4｝为例来分析统计逆序对的过程。每次扫描到一个数字的时候，我们不能拿它和后面的每一个数字作比较，否则时间复杂度就是O(n^5)，因此我们可以考虑先比较两个相邻的数字。
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190221105000.png)
+
+如图5 . 1 ( a )和图5.1 ( b）所示，我们先把数组分解成两个长度为2的子数组， 再把这两个子数组分别拆分成两个长度为1 的子数组。接下来一边合并相邻的子数组， 一边统计逆序对的数目。在第一对长度为1 的子数组｛7｝、｛5｝中7 大于5 ， 因此（7, 5）组成一个逆序对。同样在第二对长度为1 的子数组｛6｝、｛4｝中也有逆序对（6, 4）。由于我们已经统计了这两对子数组内部的逆序对，因此需要把这两对子数组排序（ 图5.1 ( c）所示），以免在以后的统计过程中再重复统计。
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190221104942.png)
+
+注　图中省略了最后一步， 即复制第二个子数组最后剩余的4 到辅助数组中. 
+(a) P1指向的数字大于P2指向的数字，表明数组中存在逆序对．P2 指向的数字是第二个子数组的第二个数字， 因此第二个子数组中有两个数字比7 小． 把逆序对数目加2，并把7 复制到辅助数组，向前移动P1和P3. 
+(b) P1指向的数字小子P2 指向的数字，没有逆序对．把P2 指向的数字复制到辅助数组，并向前移动P2 和P3 . 
+(c) P1指向的数字大于P2 指向的数字，因此存在逆序对． 由于P2 指向的数字是第二个子数组的第一个数字，子数组中只有一个数字比5 小． 把逆序对数目加1 ，并把5复制到辅助数组，向前移动P1和P3 .
+
+接下来我们统计两个长度为2 的子数组之间的逆序对。我们在图5.2 中细分图5.1 ( d）的合并子数组及统计逆序对的过程。 
+我们先用两个指针分别指向两个子数组的末尾，并每次比较两个指针指向的数字。如果第一个子数组中的数字大于第二个子数组中的数字，则构成逆序对，并且逆序对的数目等于第二个子数组中剩余数字的个数（如图5.2 (a)和图5.2 (c)所示）。如果第一个数组中的数字小于或等于第二个数组中的数字，则不构成逆序对（如图5.2 (b)所示〉。每一次比较的时候，我们都把较大的数字从·后往前复制到一个辅助数组中去，确保辅助数组中的数字是递增排序的。在把较大的数字复制到辅助数组之后，把对应的指针向前移动一位，接下来进行下一轮比较。 
+　经过前面详细的诗论， 我们可以总结出统计逆序对的过程：先把数组分隔成子数组， 先统计出子数组内部的逆序对的数目，然后再统计出两个相邻子数组之间的逆序对的数目。在统计逆序对的过程中，还需要对数组进行排序。如果对排序贺，法很熟悉，我们不难发现这个排序的过程实际上就是归并排序。
+
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def InversePairs(self, data):
+        # write code here
+        if not data:
+            return 0
+        copy = [i for i in data]
+        count = self.InversePairsCore(data, copy, 0, len(data) - 1)
+        return count%1000000007
+
+    def InversePairsCore(self, data, copy, start, end):
+        if start == end:
+            # copy[start] = data[start]
+            return 0
+        mid = (end + start) // 2
+        left = self.InversePairsCore(data, copy, start, mid)%1000000007
+        right = self.InversePairsCore(data, copy, mid + 1, end)%1000000007
+        i = mid
+        j = end
+        indexCopy = end
+        count = 0
+        while i >= start and j > mid:
+            if data[i] > data[j]:
+                copy[indexCopy] = data[i]
+                i -= 1
+                indexCopy -= 1
+                count += j - mid
+                if count>1000000007:
+                    count=count%1000000007
+            else:
+                copy[indexCopy] = data[j]
+                j -= 1
+                indexCopy -= 1
+        while i >= start:
+            copy[indexCopy] = data[i]
+            i -= 1
+            indexCopy -= 1
+        while j >mid:
+            copy[indexCopy] = data[j]
+            j -= 1
+            indexCopy -= 1
+        for s in range(start, end+1):
+            data[s] = copy[s]
+        return (count + left + right)%1000000007
+```
+
+##### 面试题52：两个链表的第一个公共节点
+
+> 输入两个链表，找出它们的第一个公共结点。
+
+直观思路依然是暴力法，但是暴力法通常不会是好办法。两个链表的长度分别为m和n，那么暴力法的时间复杂度为O(mn)
+
+书中给出了两种思路：
+
+方法1：利用2个辅助栈
+
+如果两个链表有公共节点，那么最后一个节点是公共的（这道题的意思是只要两个链表有公共节点之后的所有节点都是相同的）。如果我们从后往前比较，那么一下就能找到结果。但是链表只能顺序访问，需要反向访问的时候，我们就借助栈来实现。
+
+方法2：利用链表长度差
+
+两个链表如果有公共节点，那么最后一个节点一定是一样的，那么我只要保证两个链表从同样的位置向后遍历即可找到公共节点。如下图，如果两个链表有公共节点，那么我们从2和4开始遍历，很容易找到6是公共节点并返回
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/1550713900346.png)
+
+```python
+# -*- coding:utf-8 -*-
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+class Solution:
+    def FindFirstCommonNode(self, pHead1, pHead2):
+        # write code here
+        l1 = self.getLength(pHead1)
+        l2 = self.getLength(pHead2)
+        if l1 > l2:
+            pHeadLong = pHead1
+            pHeadShort = pHead2
+            gap = l1-l2
+        else:
+            pHeadLong = pHead2
+            pHeadShort = pHead1
+            gap = l2-l1
+        for i in range(gap):
+            pHeadLong = pHeadLong.next
+        while pHeadLong and pHeadShort and pHeadLong!=pHeadShort:
+            pHeadLong=pHeadLong.next
+            pHeadShort= pHeadShort.next
+        return pHeadLong
+
+    def getLength(self, pHead):
+        length = 0
+        while pHead:
+            length += 1
+            pHead = pHead.next
+        return length
+```
+
+##### 面试题53：在排序数组中查找数字
+
+> 统计一个数字在排序数组中出现的次数。例如在排序数组[1,2,3,3,3,3,4,5]中查找3的出现次数，应该返回结果为4
+
+因为是排序数组，自然想到二分查找。既然要找出现的次数，那么就要找到第一个出现的位置，和最后一个出现的位置。两者相减+1即得到出现的次数。
+
+因此我们需要两个函数，getFirstK找到第一个出现的位置和getLastK找到最后一个出现的位置。
+
+分别用二分查找进行实现这两个函数。
+
+getFirstK的逻辑：
+
+* 如果找到的中间值大于k，那么在左半部分查找
+* 如果找到的中间值小于k，那么在右半部分查找
+* 如果找到的中间值等于k：
+  * 如果当前值已经是第一个k出现的位置：也就是当前值的前一个值不为k或者此时的中间值已经是数组的第一个值，那么返回当前位置
+  * 其余情况在左半部分查找
+
+getLastK的逻辑几乎相同。
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def GetNumberOfK(self, data, k):
+        # write code here
+        first = self.getFirstK(data, k, 0, len(data) - 1)
+        last = self.getLastK(data, k, 0, len(data) - 1)
+        if last != -1 and first != -1:
+            return last - first + 1
+        return 0
+
+    def getFirstK(self, data, k, start, end):
+        if start > end:
+            return -1
+        mid = (start + end) // 2
+        if data[mid] == k:
+            if (mid - 1 > 0 and data[mid - 1] != k) or mid == 0:
+                return mid
+            else:
+                end = mid - 1
+        elif data[mid] > k:
+            end = mid - 1
+        else:
+            start = mid + 1
+        return self.getFirstK(data, k, start, end)
+
+    def getLastK(self, data, k, start, end):
+        if start > end:
+            return -1
+        mid = (start + end) // 2
+        if data[mid] == k:
+            if (mid + 1 < len(data) - 1 and data[mid + 1] != k) or mid == len(data) - 1:
+                return mid
+            else:
+                start = mid + 1
+        elif data[mid] > k:
+            end = mid - 1
+        else:
+            start = mid + 1
+        return self.getLastK(data, k, start, end)
+```
+
+> 题目2： 0~n-1中缺失的数字。
+>
+> 长度为n-1的递增排序数组中的所有数字都是唯一的，且每个数字都在0~n-1之内，在范围0~n-1内的n个数字中有且仅有一个不在数组中，请找出该数字。
+
+同样使用二分排序。
+
+需要找的值一定是当前值不等于当前序号，但是上一个值等于上一个序号的情况。我们每次二分查找：
+
+* 如果当前值等于当前序号，那么缺失值一定在右半部分；
+* 如果当前值不等于当前序号：
+  * 如果上一个值等于上一个序号，返回当前值
+  * 如果上一个值不等于上一个序号，那么缺失值一定在左半部分
+
+```python
+def getMissingNum(data):
+    if not data:
+        return -1
+    left = 0
+    right = len(data)-1
+    while left <= right:
+        mid = (left+right)//2
+        if data[mid] != mid:
+            if data[mid-1] == mid-1 or mid==0:
+                return mid
+            right = mid-1
+        else:
+            left =mid+1
+    if left==len(data):
+        return len(data)
+```
+
+> 题目3：数组中数值和下标相等的元素
+>
+> 假设一个单调递增的数组中所有元素唯一。请实现一个函数找出任意一个数值等于其下标的元素。如在[-3,-1,1,3,5]中，数字3与其下标相等。
+
+同样，这道题还是使用二分查找。抓住数组是排序的这一特点，我们找到中间值：
+
+* 如果中间值已经比序号小了，那么中间值左边的值肯定都比序号小，那就只用找中间值右边的值就行了
+* 如果中间值比序号大，那么中间值右边的值一定都比序号大，那就只用找中间值左边的值就行了
+
+```python
+def getSameIndexNum(data):
+    if not data:
+        return -1
+    left = 0
+    right = len(data) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if data[mid] == mid:
+            return data[mid]
+        elif data[mid] < mid:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1
+```
+
+##### 面试题54：二叉搜索树的第k大节点
+
+> 给定一棵二叉搜索树，请找出其中的第k小的结点。例如， （5，3，7，2，4，6，8）    中，按结点数值大小顺序第三小结点的值为4。
+
+因为是二叉搜索树，因此中序遍历的结果就是从小到大排列的。只需要中序遍历直接拿结果就好了。
+
+```python
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    # 返回对应节点TreeNode
+    def KthNode(self, pRoot, k):
+        # write code here
+        if not pRoot or k<=0:
+            return None
+        data = []
+        self.pre(pRoot,data)
+        if k>len(data):
+            return None
+        return data[k-1]
+
+    def pre(self, pRoot, data):
+        if not pRoot:
+            return
+        self.pre(pRoot.left,data)
+        data.append(pRoot)
+        self.pre(pRoot.right,data)
+```
+
+##### 面试题55：二叉树的深度
+
+> 给定一棵二叉树，写出求二叉树深度的函数。
+
+二叉树深度只需要递归就可以求得。
+
+```python
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def TreeDepth(self, pRoot):
+        # write code here
+        if not pRoot:
+            return 0
+        return max(1 + self.TreeDepth(pRoot.left),1 + self.TreeDepth(pRoot.right))
+```
+
+> 题目2：平衡二叉树
+>
+> 输入一棵二叉树的根节点，判断该树是不是平衡二叉树。如果二叉树左右子树的深度相差不超过1，那么他就是平衡二叉树。
+
+直观方法就是判断左右子树的深度，如果他们的深度差不超过1，那么继续判断他们子树是不是平衡二叉树，直到判断到最后一个节点。
+
+这种方法存在大量的重复计算，如图，我们先判断以1为根节点的树是不是平衡的时候，我们要计算4,5,7这几个点，当判断以2为根节点的树是不是平衡的时候，我们依然要计算4,5,7这几个点，这就存在大量重复。
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190221150512.png)
+
+```python
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def IsBalanced_Solution(self, pRoot):
+        # write code here
+        if not pRoot:
+            return True
+        left = self.depth(pRoot.left)
+        right = self.depth(pRoot.right)
+        if abs(left-right)>1:
+            return False
+        else:
+            return self.IsBalanced_Solution(pRoot.left) and self.IsBalanced_Solution(pRoot.right)
+        
+    def depth(self,root):
+        if not root:
+            return 0
+        return max(self.depth(root.left),self.depth(root.right))+1
+```
+
+如果我们从下往上遍历，如果某个子树是平衡二叉树，就返回其深度，否则停止遍历，这样就减少了不必要的开销。
+
+```python
+class Solution:
+    def __init__(self):
+        self.balanced = True
+
+    def IsBalanced_Solution(self, pRoot):
+        # write code here
+        self.IsBalancedCore(pRoot)
+        return self.balanced
+
+    def IsBalancedCore(self, pRoot):
+        if not pRoot:
+            return 0
+        left = self.IsBalancedCore(pRoot.left)
+        right = self.IsBalancedCore(pRoot.right)
+        if abs(left-right)>1:
+            self.balanced=False
+        return 1+max(left,right)
+```
+
+##### 面试题56：数组中数字出现的次数
+
+> 题目一：数组中只出现一次的两个数字
+>
+> 一个数组里除了两个数字以外，其余数字都出现了2次。请找出这两个只出现了一次的数字，要求时间复杂度为O(n)，空间复杂度为O(1)
+
+这道题的难点在于限制了时间和空间复杂度。我们不妨先考虑他的简单版本，如果一个数组中有一个数只出现了1次，而其余数出现了2次，找到这一个数字可以用什么方法呢？
+
+找寻的技巧就是异或，如果所有元素异或起来，出现两次的元素一定被消除了，最后就剩下一个只出现了一次的元素。
+
+那么两个元素的时候怎么办呢？就要把这个数组分为两部分：每一部分只包含一个出现了1次的元素，且出现两次的元素一定在同一个子数组中。那么怎么划分呢？
+
+我们把所有元素异或起来，因为另外两个元素不相同，那么以后之后的结果至少有一位不为0，我们找到这个不为0的位。再遍历原数组，按照这一位为0和不为0分成两个数组，由于出现两次的元素某一位肯定是要么同时为0，要么同时为1，也就是划分到同一个子数组中了，就符合要求了。
+
+```python
+def findOneIndex(resultXOR):
+    index=0
+    while resultXOR & 1 != 1:
+        resultXOR = resultXOR >> 1
+        index+=1
+    return index
+
+
+def isBit1(i, oneIndex):
+    i = i>>oneIndex
+    return i&1
+
+
+def findTwoNumAppearOnce(data):
+    if not data or len(data) < 2:
+        return None
+    resultXOR = 0
+    for i in data:
+        resultXOR ^= i
+    # 找到第一个不为0的位
+    oneIndex = findOneIndex(resultXOR)
+    num1=num2=0
+    for i in data:
+        # 按照找到那位是否为0划分成2个子数组并分别异或
+        if isBit1(i,oneIndex):
+            num1^=i
+        else:
+            num2^=i
+    return num1,num2
+```
+
+> 题目2：数组中唯一出现的数字
+>
+> 一个数组中，除一个数字只出现一次之外，其余数字都出现了3次，找出这个只出现了一次的数字。
+
+虽然这道题不能用异或运算（因为抑或运算3个相同的值得到的肯定是本身），但是可以参考上面的思路。
+
+我们按位求和，出现三次数字的那一位一定是3的倍数，那么让每一位对3求余，余数一定是多出来那个数所带来的。
+
+```python
+def findNumAppearOnce(data):
+    if not data:
+        return None
+    bitSum = [0 for _ in range(32)]
+    for i in data:
+        bitMask = 1
+        for j in range(len(bitSum) - 1,-1,-1):
+            bit = bitMask & i
+            if bit!=0:
+                bitSum[j] += 1
+            bitMask = bitMask << 1
+    result=0
+    for i in bitSum:
+        result = result<<1
+        result+=i%3
+    return result
+```
+
+##### 面试题57：和为s的数字
+
+> 题目1,：和为s的两个数字
+>
+> 输入一个递增排序的数组和一个数字s，在数组中查找这两个数，使得他们的和刚好是s，如果有多对数字的和为s，输出其中一对即可。
 
