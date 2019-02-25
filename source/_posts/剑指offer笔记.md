@@ -177,7 +177,7 @@ if __name__ == '__main__':
 
    解答：与上一题很像，但是题目要求不能修改数组，因此不能用上一题最后一个方法。同样这道题可以用一个大小为n的辅助空间。
 
-   接下来尝试使用避免O(n)辅助空间的方法，那就是二分法。既然所有数字都在1~n之间，如果有重复的数字，那么这个重复数字要么在1~n/2之间，或者在(n+1)/2~n之间。判断在哪个区间的方法就是判断区间中数字的数量和区间长度，如果数量小于区间长度，那么证明重复值不在当前区间，反之则反之，判断数字的数量的方法就是遍历一遍数组。这样不停地分下去，直到区间的start和end相等的时候，如果这个值出现的次数还是>1，那么这个值就是重复的值。
+   接下来尝试使用避免O(n)辅助空间的方法，那就是二分法。既然所有数字都在1~n之间，如果有重复的数字，那么这个重复数字要么在1~n/2之间，或者在(n+1)/2~n之间。将1-n通过中间值m分成两部分：1~m和m+1~n，判断在哪个区间的方法就是判断区间中数字的数量和区间长度，如果数量小于区间长度，那么证明重复值不在当前区间，反之则反之，判断数字的数量的方法就是遍历一遍数组。这样不停地分下去，直到区间的start和end相等的时候，如果这个值出现的次数还是>1，那么这个值就是重复的值。
 
    二分查找有个问题就是：不一定能找到所有重复的数字，比如{2,2,3,4}这样一个数组，二分之后1,2之间值的个数是2，不会认为这个区间有重复
 
@@ -196,13 +196,9 @@ if __name__ == '__main__':
 # 方法2： 二分查找
 def get_duplicate_num(l):
     start = 1
-    end = len(l)-1
+    end = len(l)
     while start <= end:
-        middle = (end-start)/2 + start
-        if middle %1 !=0:
-            middle = int(middle) + 1
-        else:
-            middle = int(middle)
+        middle = (end+start)//2
         count = computeCount(l,start,middle)
         if start == end:
             if count > 1:
@@ -3492,4 +3488,412 @@ def findNumAppearOnce(data):
 > 题目1,：和为s的两个数字
 >
 > 输入一个递增排序的数组和一个数字s，在数组中查找这两个数，使得他们的和刚好是s，如果有多对数字的和为s，输出其中一对即可。
+
+如果使用暴力法，时间复杂度为$O(n^2)$
+
+正确的方法是使用两个指针，一个指向数组最前面，一个指向最后面，因为数组是排好序的
+
+* 如果a+b<target，那么表示a太小了，a指针向后移动
+* 如果a+b>target，证明值太大了，b指针向前移动
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def FindNumbersWithSum(self, array, tsum):
+        # write code here
+        left = 0
+        right = len(array)- 1
+        while left < right:
+            if array[left] + array[right]==tsum:
+                return array[left],array[right]
+            while left<right and array[left] + array[right]<tsum:
+                left+=1
+            while left<right and array[left] + array[right]>tsum:
+                right-=1
+        return []
+```
+
+> 题目2：和为s的连续正数序列
+>
+> 输入一个正数s，打印出所有和为s的连续正数序列（至少包含两个数），例如输入15，由于15=1+2+3+4+5=4+5+6=7+8，所以打印出三个序列[1-5,4-6,7-8]
+
+两个指针，一个指向1，一个指向2
+
+* 如果和小于目标，右侧指针+1
+* 如果和大于目标，左侧指针+1
+
+终止条件是左侧指针>(1+target)/2，因为当左侧指针等于(target-1)/2的时候，题目至少包含两个数的要求，下一个数是(target+1)/2，两者之和是target。
+
+求和有个小技巧，就是利用一个curSum变量来存储和，如果大了就减掉左边的值，如果小了，就加上右边的值。
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def FindContinuousSequence(self, tsum):
+        # write code here
+        l = 1
+        r = 2
+        mid = (1 + tsum) // 2
+        curSum = l + r
+        while l < mid:
+            if curSum==tsum:
+                for i in range(l,r+1):
+                    print(i)
+            while l<mid and curSum>tsum:
+                curSum-=l
+                l+=1
+                if curSum == tsum:
+                    for i in range(l, r + 1):
+                        print(i)
+            r+=1
+            curSum+=r
+```
+
+##### 面试题58：旋转字符串
+
+> 题目1：翻转单词顺序
+>
+> 输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变。比如输入“I am a student.”，翻转之后得到"student. a am I"
+
+这道题利用python的spilit方法很容易做出来`" ".join(s.split(" ")[::-1])`，但是这样并不是这道题考察的核心，要通过这道题的考察，我们需要看看剑指offer上面的方法。
+
+书中给出的方法是翻转2次，第一次翻转所有内容，第二次只单独翻转单词。
+
+```python
+# -*- coding:utf-8 -*-
+
+# def ReverseSentence(s):
+#     # write code here
+#     return " ".join(s.split(" ")[::-1])
+
+def reverseAll(s):
+    s = [i for i in s]
+    l = 0
+    r = len(s) - 1
+    while l < r:
+        s[l], s[r] = s[r], s[l]
+        l += 1
+        r -= 1
+    return "".join(s)
+
+
+def reverseOne(s, l, r):
+    s = [i for i in s]
+    while l<r:
+        s[l], s[r] = s[r], s[l]
+        l += 1
+        r -= 1
+    return "".join(s)
+
+
+def ReverseSentence(s):
+    # write code here
+    if not s:
+        return s
+    s = reverseAll(s)
+    l = 0
+    r = 0
+    while l < len(s)-1:
+        if s[l] == " ":
+            l += 1
+            r += 1
+        elif s[r] == " " or l==len(s)-1:
+            r -= 1
+            s = reverseOne(s, l, r)
+            r += 1
+            l = r
+        else:
+            r += 1
+    return s
+
+print(ReverseSentence("I am a student."))
+```
+
+> 题目2：左旋转字符串
+>
+> 左旋转操作就是把字符串前面的若干个自负转移到字符串尾部。请定义一个函数实现字符串的左旋转操作。比如，输入字符串"abcdefg"和数字2，输出"cdefgab"
+
+和上面问题的解法类似，将字符串分为两个部分，前n个和后面部分，先翻转前n个，再反转后面部分，再整体翻转，就得到了想要的结果。
+
+```python
+def reverseAll(s):
+    s = [i for i in s]
+    l = 0
+    r = len(s) - 1
+    while l < r:
+        s[l], s[r] = s[r], s[l]
+        l += 1
+        r -= 1
+    return "".join(s)
+
+
+def reverseOne(s, l, r):
+    s = [i for i in s]
+    while l<r:
+        s[l], s[r] = s[r], s[l]
+        l += 1
+        r -= 1
+    return "".join(s)
+
+def reverseLeft(s,n):
+    if n<0 or len(s)<n or not s:
+        return s
+    s = reverseOne(s,0,n-1)
+    s = reverseOne(s,n,len(s)-1)
+    s = reverseAll(s)
+    return s
+
+print(reverseLeft("abcdef",2))
+```
+
+##### 面试题59：队列的最大值
+
+> 题目1：滑动窗口的最大值
+>
+> 给定一个数组和滑动窗口的大小，请找出所有滑动窗口里的最大值。例如，输入数组[2,3,4,2,6,2,5,1]，滑动窗口大小为3，那么一共存在6个滑动窗口，他们的最大值分别为[4,4,6,6,6,5]
+
+思路：这道题的思路主要是用一个队列暂存可能是最大值的元素的index，根据当前遍历的值与已暂存的值的关系，决定已暂存值删除头部或尾部，并将当前最大值存入另一个专门用于存放最大值的队列中。
+
+这样说可能有些抽象，我们用上面这个例子来说明。
+
+定义两个队列，一个是result，存放返回的最大值，一个是temp，暂存最大值。
+
+temp首先存入2，然后存入3，由于3比2大，窗口中的最大值不可能为2，所以在temp中删除2，压入3。
+
+然后存入4，由于4比3大，同理删除3，压入4.
+
+继续，存入2，由于4比2大，在4出栈后，2可能成为最大值，因此不删除元素，直接压入2，此时temp里面的内容为4,2
+
+下一步存入6，由于6比4和2都大，因此把4,2都删了，压入6。
+
+接下来压入2，压入5，删除2。再压入1，此时因为6的index与1的index差已经大于等于3了，要删除掉6，此时temp的结果为5,1
+
+每次遍历一个元素的时候，我们都要将temp[0]压入result中，最终返回result即可。
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def maxInWindows(self, num, size):
+        # write code here
+        if len(num)<size or size<1:
+            return []
+        temp = []
+        result = []
+        for i in range(size):
+            while temp and num[i] > num[temp[-1]]:
+                temp.pop(0)
+            temp.append(i)
+        for i in range(size,len(num)):
+            result.append(num[temp[0]])
+            while temp and num[i] > num[temp[-1]]:
+                temp.pop()
+            if temp and i-temp[0] >= size:
+                temp.pop(0)
+            temp.append(i)
+        result.append(num[temp[0]])
+        return result
+```
+
+> 题目二：队列的最大值
+>
+> 定义一个队列并实现函数max得刀队列的最大值，要求函数max，push_back和pop_front的时间复杂度都是O(1)
+
+思路与前面问题一的思路相同，用一个maxnum队列来存储最大值。
+
+#### 抽象建模能力
+
+##### 面试题60：n个骰子的点数
+
+> 题目：把n个骰子扔在地上，所有骰子朝上的点数之和为s，输入为n，打印出s所有有可能的值出现的概率
+
+这道题很容易想到的方法是递归，但是递归的时间效率比较低，所以更好的方法是循环。递归的代码如下。
+
+`getTouziCore(origin, now, sumv, result)`这个函数的功能是一共有origin枚骰子，现在还剩下now枚，总值是sumv，所有结果放在result里面。result数组的长度为6*n+1（最后一个值为6n），最终需要的部分是[n:]这部分。
+
+```python
+def getTouziCore(origin, now, sumv, result):
+    if now == 0:
+        result[sumv] += 1
+    else:
+        for i in range(1,7):
+            getTouziCore(origin, now - 1, i + sumv, result)
+
+def getTouziSum(n):
+    result = [0 for _ in range(6 * n+1)]
+    if n <= 0:
+        return None
+
+    for i in range(1,7):
+        getTouziCore(n, n-1, i, result)
+    return result[n:]
+```
+
+基于循环方法的思路是这样的：假设我们现在有一个骰子，那么可能出现的点数是1-6，每个出现的次数都是一次，记作f(i)=1,i=1-6再来一个骰子。每种点数出现的次数是f(n-1)+f(n-2)+f(n-3)+f(n-4)+f(n-5)+f(n-6)，因此用两个list来存放值，，last存放上一次的可能出现值的结果，this存放本次的结果。代码如下：
+
+```python
+def getTouziSum(n):
+    last = [0 for _ in range(6 * n+1)]
+    for i in range(1,7):
+        last[i] = 1
+    this = [0 for _ in range(6 * n+1)]
+    if n <= 0:
+        return None
+
+    for j in range(n-1):
+        for i in range(2,6*n+1):
+            if i>=6:
+                this[i] = sum(last[i-6:i])
+            else:
+                this[i] = sum(last[1:i])
+        last = this
+    return this
+```
+
+##### 面试题61：扑克牌中的顺子
+
+> 题目：从扑克牌中随机抽5张牌，平判断是不是一个顺子。
+
+先排序，统计其中0的个数，从最后一个0的下下个元素开始遍历，如果当前元素与上一个元素的差值不是1，那么就用0来填充，只要最后0的数量大于等于0，那就是刚好填充完或者0还可以放在最前面或者最后面，此时返回true，其余情况返回false
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def IsContinuous(self, numbers):
+        # write code here
+        if not numbers:
+            return False
+        numbers = sorted(numbers)
+        count0 = numbers.count(0)
+        result = True
+        for i in range(count0+1, len(numbers)):
+            if numbers[i] - numbers[i - 1] - 1 == 0:
+                continue
+            elif numbers[i] - numbers[i - 1] - 1 > 0 and count0 > 0:
+                count0 -= (numbers[i] - numbers[i - 1] - 1)
+                continue
+            else:
+                result = False
+                break
+        if count0 < 0:
+            result = False
+        return result
+```
+
+##### 面试题62：圆圈中最后剩下的数字
+
+> 题目：0,1,...，n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈中删除第m个数字，求出圆圈中最后剩下的一个数字。
+
+思路：有两种思路，一种是用循环链表模拟这个圆圈，这种思路要用c++实现，因为python没有指针，实现起来不方便。
+
+还有一种思路是通过找数学规律来的，这个问题是著名的约瑟夫问题，其推导公式是f(n,m)=[f(n-1,m)+m]%n，f(n,m)表示的是从n个数中删除m个最后剩下的值。最后的实现代码如下。
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def LastRemaining_Solution(self, n, m):
+        # write code here
+        n = list(range(n))
+        if m <= 0 or len(n) <= 0:
+            return -1
+        i = 0
+        while len(n) != 1:
+            i = (m+i-1)%len(n)
+            n.pop(i)
+        return n[0]
+```
+
+##### 面试题63：股票的最大收益
+
+> 题目：假设把某只股票的价格按时间顺序存储在数组中，请问买卖这只股票一次获得的最大收益是多少？例如某只股票的价格是[9,11,8,5,7,12,16,14]，如果在价格5的时候买入，并在价格为16的时候卖出，则获得最大收益11.
+
+用暴力法很简单，直接遍历到每个元素的时候，都与前面的元素相减即可，这样做的时间复杂度为$O(n^2)$。
+
+改进的方法是抓住题目要求，要求是获得最大收益，那么我们只要用当前值，减去前面所有元素中的最小值就可以得到当前的最大收益。我们只需要用一个变量来存储之前的最小元素，一个变量存储最大收益，最终返回最大收益即可。
+
+```python
+def getMaxIncome(nums):
+    if not nums or len(nums) <= 1:
+        return 0
+    minv = nums[0]
+    maxv = 0
+    for i in range(1, len(nums)):
+        if nums[i] - minv > maxv:
+            maxv = nums[i] - minv
+        if nums[i] < minv:
+            minv = nums[i]
+    return maxv
+print(getMaxIncome([9,11,8,5,7,12,16,14]))
+```
+
+#### 发散思维能力
+
+##### 面试题64：求1+2+...+n
+
+> 求1+2+...+n，要求不能使用乘除法，for,while,if,else,switch,case等关键字及条件判断语句(a?b:c)
+
+c++可以用构造函数等方法来求解，python可以用and运算的短路机制来实现。
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def Sum_Solution(self, n):
+        # write code here
+        return n and n+self.Sum_Solution(n-1)
+```
+
+##### 面试题65：不用加减乘除做加法
+
+> 题目：写一个函数，求两个整数之和，要求函数体内不得使用+,-,\*,/等符号
+
+既然不能用四则运算，那么就只能考虑位运算，我们先来看看一个加减乘除是怎么做的。例如，计算5+17，先计算各位之和，5+7=12，不考虑进位的情况，各位为2，十位还是为1，接下来再考虑进位，1+1=2，结果是22.
+
+我们换成二进制来看看，5的二进制是101,17的二进制是10001，依然是三步：第一步相加不计进位，第二步记录仅为，第三步把前两部的结果相加。
+
+由于python当中左移运算可能溢出，所以返回的时候要判断是否为负数，如果为负数就返回按位取反的结果。
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def Add(self, num1, num2):
+        # write code here
+        sumv = num1 ^ num2
+        carry = num1 & num2
+        while carry:
+            sumv = (num1 ^ num2) & 0xffffffff
+            carry = ((num1 & num2) <<1)&0xffffffff
+            num1 = sumv
+            num2 = carry
+        return sumv if sumv<=0x7FFFFFFF else ~(sumv^0xFFFFFFFF)
+```
+
+##### 面试题66：构建乘积数组
+
+> 题目：给定一个数组A[0,1,...,n-1]，请构建一个数组B[0,1,...,n-1]，其中b的元素B[i]=A[0]\*A[1]\*...\*A[i-1]\*A[i+1]\*...\*A[n-1]，要求不能使用除法
+
+如果能使用除法，那么这道题变成先计算A[0]~A[n]的累积，然后每次除以A[i]即可找到B[i]，如果不能使用除法，直接暴力乘积的话，时间复杂度O(N^2)
+
+要找到简便方法，那就是用两个数组C和D来存储左半部分的乘积结果和右半部分的乘积结果。C[i]=A[0]\*A[1]\*...\*A[i-1]，D[i]=A[i+1]\*...\*A[n-1]
+
+这两个数组又分别可以通过循环迭代出来，C[i] = C[i-1]\*A[i-1]，D[i]=D[i+1]\*A[i+1]，C数组可以从小到大求得，D数组可以从大到小求得。然后分别相乘得到结果。这样省去了中间每一步计算累积的时候的重复计算。
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def multiply(self, A):
+        # write code here
+        c = [0 for _ in range(len(A))]
+        d = [0 for _ in range(len(A))]
+        b = [0 for _ in range(len(A))]
+        c[0] = 1
+        d[-1] = 1
+        for i in range(1, len(A)):
+            c[i] = c[i - 1] * A[i-1]
+        for j in range(len(A) - 2, -1, -1):
+            d[j] = d[j + 1] * A[j+1]
+        for i in range(len(A)):
+            b[i] = c[i] * d[i]
+        return b
+```
+
+### 第七章：模拟面试
 
