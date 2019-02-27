@@ -1,5 +1,5 @@
 ---
-title: Coursera deeplearning.ai (一)
+ title: Coursera deeplearning.ai (一)
 date: 2018-03-15 21:23:58
 tags: [deeplearning,机器学习,深度学习]
 category: [机器学习,深度学习]
@@ -95,9 +95,9 @@ $b:=b-\alpha\frac{\partial{J(w,b)}}{\partial{b}}$
 
 ![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-20/84901446.jpg)
 
-一直z，$\hat{y}$，以及L(a,y)公式如上，要通过调节w和b得到最大或者最小的L，应该用L对w和b求偏导，然后运用
+已知z，$\hat{y}$，以及L(a,y)公式如上，要通过调节w和b得到最大或者最小的L，应该用L对w和b求偏导，然后运用
 
-$w:=w-\alpha dw$
+$$w:=w-\alpha dw$$
 
 $$b:=b-\alpha db$$
 
