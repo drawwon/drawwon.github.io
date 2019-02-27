@@ -1,5 +1,5 @@
 ---
- title: Coursera deeplearning.ai (一)
+title: Coursera deeplearning.ai (一)
 date: 2018-03-15 21:23:58
 tags: [deeplearning,机器学习,深度学习]
 category: [机器学习,深度学习]
