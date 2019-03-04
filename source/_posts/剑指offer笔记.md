@@ -1044,7 +1044,7 @@ class Solution:
         if pathLength == len(path):
             return True
         haspath = False
-        if col < cols and row < rows and path[pathLength] == matrix[row*cols+col] and not visited[row][col]:
+        if 0 <= col < cols and o <= row < rows and path[pathLength] == matrix[row*cols+col] and not visited[row][col]:
             pathLength += 1
             visited[row][col] = True
             haspath = self.hasPathCore(row + 1, col, matrix, rows, cols, path, visited, pathLength) or \
