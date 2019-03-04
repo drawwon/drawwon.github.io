@@ -872,9 +872,9 @@ public:
 
 一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。
 
-解析：我们考虑一下n级台阶的时候有多少种跳法，第一步有n种跳法：跳1级、跳2级、到跳n级。跳1级，剩下n-1级，则剩下跳法是f(n-1)；跳2级，剩下n-2级，则剩下跳法是f(n-2)，所以$f(n)=f(n-1)+f(n-2)+...+f(1)+1$。同理可以推出$f(n-1)=f(n-2)+f(n-3)+...+f(1)+1$，因此$f(n)=f(n-1)+f(n-1)=2*f(n-1)=2*2*f(n-2)=...=2^{n-1}f(1)=2^{n-1}$
+解析：我们考虑一下n级台阶的时候有多少种跳法，第一步有n种跳法：跳1级、跳2级、到跳n级。跳1级，剩下n-1级，则剩下跳法是f(n-1)；跳2级，剩下n-2级，则剩下跳法是f(n-2)，所以$f(n)=f(n-1)+f(n-2)+...+f(1)+1$。同理可以推出$f(n-1)=f(n-2)+f(n-3)+...+f(1)+1$，因此$f(n)=f(n-1)+f(n-1)=2\times f(n-1)=2\times2\times f(n-2)=...=2^{n-1}f(1)=2^{n-1}$
 
-所以，直接返回$2^{n-1}$即可
+所以，直接返回$2^{n-1}​$即可
 
 ```c++
 #include <math.h>
@@ -1044,7 +1044,7 @@ class Solution:
         if pathLength == len(path):
             return True
         haspath = False
-        if col < cols and row < rows and path[pathLength] == matrix[row*cols+col] and not visited[row][col]:
+        if 0 <= col < cols and o <= row < rows and path[pathLength] == matrix[row*cols+col] and not visited[row][col]:
             pathLength += 1
             visited[row][col] = True
             haspath = self.hasPathCore(row + 1, col, matrix, rows, cols, path, visited, pathLength) or \
