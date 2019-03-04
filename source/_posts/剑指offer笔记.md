@@ -1386,7 +1386,7 @@ void print1toMaxOfNDigitsRecursively(char* number,int length, int index){
         return;
     }
     for(i=0;i<10;++i){
-        number[index+1] == '0'+i;
+        number[index+1] = '0'+i;
         print1toMaxOfNDigitsRecursively(number,length,index+1);
     }
 }
