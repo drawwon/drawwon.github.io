@@ -1386,7 +1386,7 @@ void print1toMaxOfNDigitsRecursively(char* number,int length, int index){
         return;
     }
     for(i=0;i<10;++i){
-        number[index+1] == '0'+i;
+        number[index+1] = '0'+i;
         print1toMaxOfNDigitsRecursively(number,length,index+1);
     }
 }
@@ -1396,9 +1396,9 @@ void print1toMaxOfNDigitsRecursively(char* number,int length, int index){
 
 > 在O(1)时间内删除链表节点
 >
-> 给定单链表的头指针任何一个节点指针，定义一个在O(1)时间内删除该节点的函数。
+> 给定单链表的头指针以及任何一个节点指针，定义一个在O(1)时间内删除该节点的函数。
 
-思路：这道题最直观的想法就是从头到尾遍历，知道找到这个节点的上一个节点，将该节点的上一个节点的next，指向该节点的next，但是这样的时间复杂度是O(n)，不符合要求。
+思路：这道题最直观的想法就是从头到尾遍历，直到找到这个节点的上一个节点，将该节点的上一个节点的next，指向该节点的next，但是这样的时间复杂度是O(n)，不符合要求。
 
 既然时间复杂度是O(1)，那么我们当然只能直接利用给定节点，直接给定节点只有两个信息，一个是当前值，一个是next，那么我们可以将next的value复制到当前节点，将当前的next指向next的next，也就成功删除了这个节点。
 
