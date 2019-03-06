@@ -3681,7 +3681,7 @@ class Solution:
         result = []
         for i in range(size):
             while temp and num[i] > num[temp[-1]]:
-                temp.pop(0)
+                temp.pop()
             temp.append(i)
         for i in range(size,len(num)):
             result.append(num[temp[0]])
