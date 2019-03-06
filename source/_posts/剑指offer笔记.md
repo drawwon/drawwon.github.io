@@ -3671,32 +3671,34 @@ temp首先存入2，然后存入3，由于3比2大，窗口中的最大值不可
 每次遍历一个元素的时候，我们都要将temp[0]压入result中，最终返回result即可。
 
 ```python
-# -*- coding:utf-8 -*-
 class Solution:
-    def maxInWindows(self, num, size):
+    @staticmethod
+    def maxInWindows(num, size):
         # write code here
-        if len(num)<size or size<1:
+        if len(num) < size or size < 1:
             return []
-        temp = []
+        tempMax = []
         result = []
         for i in range(size):
-            while temp and num[i] > num[temp[-1]]:
-                temp.pop()
-            temp.append(i)
-        for i in range(size,len(num)):
-            result.append(num[temp[0]])
-            while temp and num[i] > num[temp[-1]]:
-                temp.pop()
-            if temp and i-temp[0] >= size:
-                temp.pop(0)
-            temp.append(i)
-        result.append(num[temp[0]])
+            while tempMax and num[i] > num[tempMax[-1]]:
+                tempMax.pop()
+            tempMax.append(i)
+        for i in range(size, len(num)):
+            result.append(num[tempMax[0]])
+            while tempMax and num[i] > num[tempMax[-1]]:
+                tempMax.pop()
+            tempMax.append(i)
+            while i - tempMax[0] + 1 > size:
+                tempMax.pop(0)
         return result
+
+
+print(Solution.maxInWindows([2,3,4,2,6,2,8,1], 3))
 ```
 
 > 题目二：队列的最大值
 >
-> 定义一个队列并实现函数max得刀队列的最大值，要求函数max，push_back和pop_front的时间复杂度都是O(1)
+> 定义一个队列并实现函数max得到队列的最大值，要求函数max，push_back和pop_front的时间复杂度都是O(1)
 
 思路与前面问题一的思路相同，用一个maxnum队列来存储最大值。
 
