@@ -3349,17 +3349,17 @@ class Solution:
         if not pRoot or k<=0:
             return None
         data = []
-        self.pre(pRoot,data)
+        self.mid(pRoot,data)
         if k>len(data):
             return None
         return data[k-1]
 
-    def pre(self, pRoot, data):
+    def mid(self, pRoot, data):
         if not pRoot:
             return
-        self.pre(pRoot.left,data)
+        self.mid(pRoot.left,data)
         data.append(pRoot)
-        self.pre(pRoot.right,data)
+        self.mid(pRoot.right,data)
 ```
 
 ##### 面试题55：二叉树的深度
