@@ -2461,15 +2461,10 @@ class Solution:
         s = self.SerializeCore(root, s)
         return s
 
-    def SerializeCore(self, root, s):
-        if root is None:
-            s = "$,"
-            return s
-        s = str(root.val) + ','
-        left= self.SerializeCore(root.left,s)
-        right= self.SerializeCore(root.right,s)
-        s += left + right
-        return s
+    def SerializeCore(self, root):
+        if not root:
+            return "$"
+        return str(root.val)+','+self.SerializeCore(root.left)+','+self.SerializeCore(root.rightre)
 
     def Deserialize(self, s):
         # write code here
