@@ -1764,24 +1764,25 @@ class Solution:
 class Solution:
     def HasSubtree(self, pRoot1, pRoot2):
         # write code here
+        if not pRoot2:
+            return False
         result = False
         if pRoot1 and pRoot2:
             if pRoot1.val == pRoot2.val:
-                result = self.Tree1HasTree2(pRoot1, pRoot2)
+                result = self.HasSubtreeCore(pRoot1, pRoot2)
             if not result:
-                result = self.HasSubtree(pRoot1.left, pRoot2)
+                result = self.HasSubtreeCore(pRoot1.left, pRoot2)
             if not result:
-                result = self.HasSubtree(pRoot1.right, pRoot2)
+                result = self.HasSubtreeCore(pRoot1.right, pRoot2)
         return result
-
-    def Tree1HasTree2(self, pRoot1, pRoot2):
-        if not pRoot2:
+    def HasSubtreeCore(self,root1,root2):
+        if not root2:
             return True
-        if not pRoot1:
+        if not root1:
             return False
-        if pRoot1.val != pRoot2.val:
+        if root1.val!=root2.val:
             return False
-        return self.Tree1HasTree2(pRoot1.left, pRoot2.left) and self.Tree1HasTree2(pRoot1.right, pRoot2.right)
+        return self.HasSubtreeCore(root1.left, root2.left) and self.HasSubtreeCore(root1.right, root2.right)
 ```
 
 还有一种写法比较简洁，思路是如果一来其中一个为空，就返回false，否则进入一个递归，分别是从当前节点判断是否包含，从左子树判断是否包含，从右子树判断是否包含。判断方法与上述的第二个函数相同。
