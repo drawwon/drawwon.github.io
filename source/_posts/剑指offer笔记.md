@@ -1560,25 +1560,30 @@ class Solution:
     # s字符串
     def isNumeric(self, s):
         # write code here
-        dotCount = 0
+        if len(s) == 0:
+            return False
+        sign = False
+        decimal = False
         hasE = False
         for i in range(len(s)):
             if s[i]=='e' or s[i]=='E':
+                if i==len(s)-1:
+                    return False
+                elif hasE:
+                    return False
                 hasE = True
-            if i!=0 and ((s[i]=='+' or s[i]=='-') and not (s[i-1]=='e' or s[i-1]=='E')):
+            elif s[i]=="+" or s[i]=="-":
+                if sign and s[i-1]!='e' and s[i-1]!='E':
+                    return False
+                if not sign and i > 0 and s[i-1] != 'e' and s[i-1] != 'E':
+                    return False
+                sign = True
+            elif s[i]=='.':
+                if hasE or decimal:
+                    return False
+                decimal = True
+            elif not "0"<=s[i]<='9':
                 return False
-            if i==0 and not ('0'<=s[i]<='9' or s[i]=='+' or s[i]=='-'):
-                return False
-            if not ('0'<=s[i]<='9' or s[i]=='+' or s[i]=='-' or s[i]=='.' or s[i]=='e' or s[i]=='E'):
-                return False
-            if s[i] == '.':
-                dotCount+=1
-            if hasE and s[i]=='.':
-                return False
-        if dotCount>1:
-            return False
-        if s[-1] == 'e' or s[-1] == 'E':
-            return False
         return True
 ```
 
@@ -2494,7 +2499,7 @@ class Solution:
     def SerializeCore(self, root):
         if not root:
             return "$"
-        return str(root.val)+','+self.SerializeCore(root.left)+','+self.SerializeCore(root.rightre)
+        return str(root.val)+','+self.SerializeCore(root.left)+','+self.SerializeCore(root.right)
 
     def Deserialize(self, s):
         # write code here
@@ -2920,22 +2925,14 @@ def num2Str(num):
 
 # 方法2：循环
 def countNum(num):
-    counts = [0 for i in range(len(num))]
-    count = 0
-    for i in range(len(num)-1,-1,-1):
-        if i<len(num)-1:
-            count = counts[i+1]
-        else:
-            count = 1
-        if i<len(num)-1:
-            if 10<=int(num[i:i+2])<=25:
-                if i<len(num)-2:
-                    count+=counts[i+2]
-                else:
-                    count+=1
-        counts[i] = count
-    count = counts[0]
-    return count
+    num = str(num)
+    f = [0 for _ in range(len(num))]
+    f[0] = 1
+    f[1] = 2 if 10 <= int(num[:2]) <= 25 else 0
+    for i in range(2, len(num)):
+        g = 1 if 10 <= int(num[i - 1:i + 1]) <= 25 else 0
+        f[i] = f[i - 1] + g * f[i - 2]
+    return f
 
 
 def num2Str(num):
@@ -3242,34 +3239,31 @@ class Solution:
         return 0
 
     def getFirstK(self, data, k, start, end):
-        if start > end:
-            return -1
-        mid = (start + end) // 2
-        if data[mid] == k:
-            if (mid - 1 > 0 and data[mid - 1] != k) or mid == 0:
-                return mid
-            else:
+        while start<=end:
+            mid = (start + end) // 2
+            if data[mid] == k:
+                if (mid - 1 > 0 and data[mid - 1] != k) or mid == 0:
+                    return mid
+                else:
+                    end = mid - 1
+            elif data[mid] > k:
                 end = mid - 1
-        elif data[mid] > k:
-            end = mid - 1
-        else:
-            start = mid + 1
-        return self.getFirstK(data, k, start, end)
-
-    def getLastK(self, data, k, start, end):
-        if start > end:
-            return -1
-        mid = (start + end) // 2
-        if data[mid] == k:
-            if (mid + 1 < len(data) - 1 and data[mid + 1] != k) or mid == len(data) - 1:
-                return mid
             else:
                 start = mid + 1
-        elif data[mid] > k:
-            end = mid - 1
-        else:
-            start = mid + 1
-        return self.getLastK(data, k, start, end)
+        return -1
+    def getLastK(self, data, k, start, end):
+        while start<=end:
+            mid = (start + end) // 2
+            if data[mid] == k:
+                if (mid + 1 < len(data) - 1 and data[mid + 1] != k) or mid == len(data) - 1:
+                    return mid
+                else:
+                    start = mid + 1
+            elif data[mid] > k:
+                end = mid - 1
+            else:
+                start = mid + 1
+        return -1
 ```
 
 > 题目2： 0~n-1中缺失的数字。
@@ -3563,20 +3557,21 @@ class Solution:
         # write code here
         l = 1
         r = 2
-        mid = (1 + tsum) // 2
-        curSum = l + r
-        while l < mid:
-            if curSum==tsum:
-                for i in range(l,r+1):
-                    print(i)
-            while l<mid and curSum>tsum:
-                curSum-=l
-                l+=1
-                if curSum == tsum:
-                    for i in range(l, r + 1):
-                        print(i)
-            r+=1
-            curSum+=r
+        sumv = 3
+        result = []
+        while l < (1 + tsum) // 2:
+            if sumv == tsum:
+                result.append(list(range(l, r + 1)))
+                sumv -= l
+                l += 1
+            if sumv < tsum:
+                r += 1
+                sumv += r
+            if sumv > tsum:
+                sumv -= l
+                l += 1
+
+        return result
 ```
 
 ##### 面试题58：旋转字符串
