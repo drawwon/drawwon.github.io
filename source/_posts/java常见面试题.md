@@ -170,12 +170,12 @@ Statement接口提供了三种执行SQL语句的方法：executeQuery 、execute
 2、int executeUpdate(String sqlString)：用于执行INSERT、UPDATE或 DELETE语句以及SQL DDL语句，如：CREATE TABLE和DROP TABLE等
 3、execute(sqlString):用于执行返回多个结果集、多个更新计数或二者组合的 语句。 具体实现的代码：
 
-6、处理结果
+**6、处理结果**
 两种情况：
 1、执行更新返回的是本次操作影响到的记录数。
 2、执行查询返回的结果是一个ResultSet对象。
 
-7、关闭JDBC对象
+**7、关闭JDBC对象**
 操作完成以后要把所有使用的JDBC对象全都关闭，以释放JDBC资源，关闭顺序和声 明顺序相反：
 1、关闭记录集
 2、关闭声明
@@ -522,7 +522,7 @@ java中实现多继承有两种方式,一是接口，而是内部类.
 #### 10.Math.round(11.5) 等于多少? Math.round(-11.5)等于多少?
 Math.round(11.5)==12 Math.round(-11.5)==-11 round 方法返回与参数 最接近的长整数，参数加 1/2 后求其 floor.
 
-### 11. String, StringBuffer StringBuilder的区别。
+#### 11. String, StringBuffer StringBuilder的区别。
 
 String 的长度是不可变的；
 
@@ -662,7 +662,7 @@ java内存模型(JMM)是线程间通信的控制机制.JMM定义了主内存和�
 ####19.类加载器双亲委派模型机制？
 当一个类收到了类加载请求时，不会自己先去加载这个类，而是将其委派给父类，由父类去加载，如果此时父类不能加载，反馈给子类，由子类去完成类的加载。
 
-### 20.什么是类加载器，类加载器有哪些?
+#### 20.什么是类加载器，类加载器有哪些?
 
 实现通过类的权限定名获取该类的二进制字节流的代码块叫做类加载器。
 
@@ -674,7 +674,7 @@ java内存模型(JMM)是线程间通信的控制机制.JMM定义了主内存和�
 3. 系统类加载器（system class loader）：它根据 Java 应用的类路径（CLASSPATH）来加载 Java 类。一般来说，Java 应用的类都是由它来完成加载的。可以通过 ClassLoader.getSystemClassLoader()来获取它。
 4. 用户自定义类加载器，通过继承 java.lang.ClassLoader类的方式实现。
 
-### **21.简述java内存分配与回收策率以及Minor GC和Major GC**
+#### **21.简述java内存分配与回收策率以及Minor GC和Major GC**
 
 1. 对象优先在堆的Eden区分配。
 
@@ -976,3 +976,10 @@ Java有四种类型的垃圾回收器：
 并发标记扫描垃圾回收器（CMS Garbage Collector）
 G1垃圾回收器（G1 Garbage Collector）
 
+#### 红黑树定义
+
+1. 结点是红色或黑色
+2. 根结点始终是黑色
+3. 叶子结点（NIL 结点）都是黑色
+4. 红色结点的两个直接孩子结点都是黑色（即从叶子到根的所有路径上不存在两个连续的红色结点）
+5. 从任一结点到每个叶子的所有简单路径都包含相同数目的黑色结点
