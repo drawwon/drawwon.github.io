@@ -1045,6 +1045,35 @@ class Solution:
             return minv
 ```
 
+还有一个比较好的办法就是让中间值和右边值比较
+
+1. 如果中间值比右边值大，那么证明最小值在中间值右边
+2. 如果中间值<右边值，r=mid
+3. 如果中间值等于右边值，r=r-1，有重复值的情况只能一个一个找
+
+```python
+# -*- coding:utf-8 -*-
+class Solution:
+    def minNumberInRotateArray(self, rotateArray):
+        # write code here
+        if not rotateArray:
+            return 0
+        if len(rotateArray) == 1:
+            return rotateArray[0]
+        else:
+            l = 0
+            r = len(rotateArray) - 1
+            while l <= r:
+                mid = (l + r) // 2
+                if rotateArray[mid] > rotateArray[r]:
+                    l = mid + 1
+                elif rotateArray[mid] < rotateArray[r]:
+                    r = mid
+                else:
+                    r = r - 1
+            return rotateArray[l]
+```
+
 #### 回溯法
 
 回溯法非常适合有多个步骤组成的问题，并且每个步骤有多个选项。用回溯法解决的问题，可以形象的用树表示，每一步都有m个可能选项。如果叶节点的状态满足题目约束条件，则找到了可行方案。
@@ -1676,7 +1705,7 @@ class Solution:
                 node1 = node1.next
             else:
                 return
-        while(node1.next):
+        while node1.next:
             node1=node1.next
             node2 = node2.next
         return node2
@@ -1853,7 +1882,7 @@ def pre(tree):
 
 ```python
 def layer(tree)
-	array = []
+		array = []
     array.append(tree)
     while array:
         node = array.pop(0)
@@ -1902,10 +1931,9 @@ class Solution:
         if not root:
             return 
         # write code here
-        if root != None:
-            root.left,root.right = root.right,root.left
-            self.Mirror(root.left)
-            self.Mirror(root.right)
+        root.left,root.right = root.right,root.left
+        self.Mirror(root.left)
+        self.Mirror(root.right)
         return root
 ```
 
@@ -2077,22 +2105,21 @@ class Solution:
 # -*- coding:utf-8 -*-
 class Solution:
     def IsPopOrder(self, pushV, popV):
-        # write code here
+        # write code here      
+        n  = len(pushV)
+        i=j=0
         stack = []
-        pushIndex = 0
-        for popValue in popV:
-            if not stack or popValue != stack[-1]:
-                for p in range(pushIndex,len(pushV)):
-                    if pushV[p]!=popValue and pushIndex<len(pushV):
-                        pushIndex+=1
-                        stack.append(pushV[p])
-                pushIndex+=1
+        while i<n and j<n:
+            if pushV[i] != popV[j]:
+                stack.append(pushV[i])
+                i+=1
             else:
+                i+=1
+                j+=1
+            while stack and stack[-1]==popV[j]:
+                j+=1
                 stack.pop()
-        if not stack:
-            return True
-        else:
-            return False
+        return stack==[]
 ```
 
 ##### 面试题32：从上打下打印二叉树
@@ -2478,8 +2505,6 @@ class Solution:
 
 > 请实现两个函数，分别用来序列化和反序列化二叉树
 
-
-
 ```python
 # -*- coding:utf-8 -*-
 class TreeNode:
@@ -2516,8 +2541,6 @@ class Solution:
         return root
 
 ```
-
-
 
 ##### 面试题38：字符串的排列
 
@@ -2928,7 +2951,7 @@ def countNum(num):
     num = str(num)
     f = [0 for _ in range(len(num))]
     f[0] = 1
-    f[1] = 2 if 10 <= int(num[:2]) <= 25 else 0
+    f[1] = 2 if 10 <= int(num[:2]) <= 25 else 1
     for i in range(2, len(num)):
         g = 1 if 10 <= int(num[i - 1:i + 1]) <= 25 else 0
         f[i] = f[i - 1] + g * f[i - 2]
@@ -3255,7 +3278,7 @@ class Solution:
         while start<=end:
             mid = (start + end) // 2
             if data[mid] == k:
-                if (mid + 1 < len(data) - 1 and data[mid + 1] != k) or mid == len(data) - 1:
+                if (mid + 1 < len(data) and data[mid + 1] != k) or mid == len(data) - 1:
                     return mid
                 else:
                     start = mid + 1
@@ -3772,7 +3795,7 @@ def getTouziSum(n):
                 this[i] = sum(last[i-6:i])
             else:
                 this[i] = sum(last[1:i])
-        last = this
+        last = this[:]
     return this
 ```
 
@@ -3963,3 +3986,4 @@ B+树是B树的一个升级版，相对于B树来说B+树更充分的利用了�
 5. 浏览器解析渲染页面
 6. 连接结束
 
+  
