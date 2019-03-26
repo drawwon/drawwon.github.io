@@ -769,9 +769,9 @@ ThreadLocal提供了set和get方法.
 
 * 未提交读(Read Uncommitted)：允许脏读，也就是可能读取到其他会话中未提交事务修改的数据
 
-* 提交读(Read Committed)：只限制同一数据写事务禁止其它读写事务。解决”脏读”和”更新丢失”。Oracle等多数数据库默认都是该级别 (不重复读)
+* 提交读(Read Committed)：写禁止读写，只限制同一数据写事务禁止其它读写事务。解决”脏读”和”更新丢失”。Oracle等多数数据库默认都是该级别 (不重复读)
 
-* 可重复读(Repeated Read)：可重复读。限制同一数据写事务禁止其他读写事务，读事务禁止其它写事务(允许读)。InnoDB默认级别。在SQL标准中，该隔离级别消除了不可重复读，但是还存在幻象读
+* 可重复读(Repeated Read)：读写禁止其它读写。限制同一数据写事务禁止其他读写事务，读事务禁止其它写事务(允许读)。InnoDB默认级别。在SQL标准中，该隔离级别消除了不可重复读，但是还存在幻象读
 
 * 串行读(Serializable)：完全串行化的读，每次读都需要获得表级共享锁，读写相互都会阻塞
 
@@ -954,7 +954,15 @@ byte、short、int、long、float、double、boolean、char
 也称应用程序加载器是指 Sun公司实现的sun.misc.Launcher$AppClassLoader
 
 #### 双亲委派模式工作原理
-双亲委派模式要求除了顶层的启动类加载器外，其余的类加载器都应当有自己的父类加载器
+双亲委派模式要求除了顶层的启动类加载器外，其余的类加载器都应当由自己的父类加载器来进行加载。
+
+####双亲委派模型的原因
+
+因为如果用不同的加载器来加载同一个class文件，调用他们的equals方法，可能会得到无法确定的结果，因此需要双亲委派模型
+
+#### 双亲委派模型的破坏
+
+举个例子，driver接口定义在jdk中，对各个数据库厂商，他们都定义了自己的数据库连接类，需要数据库连接的时候，就需要由子类加载器来加载，此时就需要破坏双亲委派模型。打破方法是：重写classloader的loadclass方法。
 
 ### classnotfoundError
 什么时候会抛出classnotfoundException异常呢？
@@ -983,3 +991,53 @@ G1垃圾回收器（G1 Garbage Collector）
 3. 叶子结点（NIL 结点）都是黑色
 4. 红色结点的两个直接孩子结点都是黑色（即从叶子到根的所有路径上不存在两个连续的红色结点）
 5. 从任一结点到每个叶子的所有简单路径都包含相同数目的黑色结点
+
+#### 为什么hashmap线程不安全
+
+两个不安全的要点：
+
+1. put函数，两个线程同时put的时候，会丢失一个数据；
+
+2. resize函数，大小超过阈值的时候，扩容，新建一个更大的数组，将原来的数据复制到新数组中。因为是数组中的元素是链表，复制之后顺序改变，而如果两个线程同时复制，那么将一会变正，一会变反，形成死锁。
+
+#### 手写LRU算法
+
+```java
+import java.util.LinkedHashMap;
+
+public class LRU<K, V> {
+    private static final float hashLoadFactory = 0.75f;
+    private LinkedHashMap<K, V> map;
+    private int cacheSize;
+
+    public LRU(int cacheSize) {
+        this.cacheSize = cacheSize;
+        int capicity = (int) Math.ceil(cacheSize / hashLoadFactory) + 1;
+        this.map = new LinkedHashMap<K, V>(capicity, hashLoadFactory, true) {
+
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+                return size() > LRU.this.cacheSize;
+            }
+        };
+    }
+
+    public synchronized V get(K key) {
+        return this.map.get(key);
+    }
+
+    public synchronized void put(K key, V value) {
+        this.map.put(key, value);
+    }
+
+    public synchronized void clear() {
+        this.map.clear();
+    }
+
+    public synchronized int size() {
+        return this.map.size();
+    }
+}
+
+```
+

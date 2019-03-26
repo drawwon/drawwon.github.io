@@ -1870,12 +1870,73 @@ class Solution:
 做这道题的时候，顺便看了树的遍历方法，思路就是如果树为空，返回，如果不为空，先打印值，然后遍历左子树，然后遍历右子树，这下面的是树的前序遍历，中序遍历和后序遍历只是把print的位置换一下，如下：
 
 ```python
-def pre(tree):
-    if not tree:
+#递归前序遍历
+def pre(root):
+    if not root:
         return
-    print(tree.val)
-    pre(tree.left)
-    pre(tree.right)
+    print(root.val)
+    pre(root.left)
+    pre(root.right)
+
+#非递归前序遍历
+def preNoneRecur(root):
+    if not root:
+        return
+    stack = []
+    node = root
+    while stack or node:
+        while node:
+            print(node.val)
+            stack.append(node)
+            node=node.left
+        node = stack.pop()
+        node = node.right
+
+#递归中序遍历
+def mid(root):
+    if not root:
+        return
+    mid(root.left)
+    print(root.val)
+    mid(root.right)
+
+# 非递归中序遍历
+def midNoneRecur(root):
+    if not root:
+        return
+    stack = []
+    node = root
+    while node or stack:
+        while node:
+            stack.append(node)
+            node = node.left
+        node = stack.pop()
+        print(node.val)
+        node = node.right
+
+#递归后序遍历
+def last(root):
+    if not root:
+        return
+    last(root.left)
+    last(root.right)
+    print(root.val)
+
+# 非递归后序遍历
+def lastNoneRecur(root):
+    if not root:
+        return
+    stack1 = [root]
+    stack2 = []
+    while stack1:
+        node = stack1.pop()
+        if node.left:
+            stack1.append(node.left)
+        if node.right:
+            stack1.append(node.right)
+        stack2.append(node)
+    while stack2:
+        print(stack2.pop().val)
 ```
 
 还有层序遍历，层序遍历的思路是维护一个list，每次把当前节点的左右子节点都压入list，只要这个list不为空，就一直pop最先进入list的元素出来打印
@@ -2211,38 +2272,38 @@ class Solution:
     def PrintFromTopToBottom(self, root):
         # write code here
         if not root:
-            return []
-        odd_queue = [root]
-        even_queue = []
-        result = []
-        toBePrinted = 1
+            return
+        queue_odd = []
+        queue_even = [root]
         nextLayer = 0
-        layer=1
-        while odd_queue or even_queue:
-            if layer%2 == 0:
-                node = even_queue.pop()
+        toBePrinted = 1
+        layer = 0
+        while queue_even or queue_odd:
+            if layer & 0x1:
+                node = queue_odd.pop()
+                print(node.val,end=' ')
+                toBePrinted-=1
                 if node.right:
-                    odd_queue.append(node.right)
+                    queue_even.append(node.right)
                     nextLayer+=1
                 if node.left:
-                    odd_queue.append(node.left)
+                    queue_even.append(node.left)
                     nextLayer+=1
             else:
-                node = odd_queue.pop()
+                node = queue_even.pop()
+                print(node.val,end=' ')
+                toBePrinted-=1
                 if node.left:
-                    even_queue.append(node.left)
+                    queue_odd.append(node.left)
                     nextLayer+=1
                 if node.right:
-                    even_queue.append(node.right)
+                    queue_odd.append(node.right)
                     nextLayer+=1
-            print(node.val,end=' ')
-            toBePrinted -= 1
-            if toBePrinted == 0:
-                print('\n')
+            if toBePrinted==0:
                 toBePrinted = nextLayer
                 nextLayer = 0
-                layer += 1
-        return result
+                layer+=1
+                print('')
 ```
 
 或者改进一下，减少flag的数量，只用一个layer变量，每次用1-layer
@@ -3963,8 +4024,9 @@ class Solution:
 
 2、B树(B-tree)
 
-
 B树和平衡二叉树稍有不同的是B树属于多叉树又名平衡多路查找树（查找路径不只两个），数据库索引技术里大量使用者B树和B+树的数据结构。
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190325155435.png)
 
 3、B+树
 
@@ -3974,8 +4036,9 @@ B+树是B树的一个升级版，相对于B树来说B+树更充分的利用了�
 两者的区别：
 
 1. B树的每个结点都存储了key和data，而B+树的data存储在叶子节点上，节点不存储data，这样一个节点就可以存储更多的key。可以使得树更矮，所以IO操作次数更少。
-
 2. B+树的所有叶结点构成一个有序链表，可以按照关键字排序的次序遍历全部记录。由于数据顺序排列并且相连，所以便于区间查找和搜索。而B树则需要进行每一层的递归遍历。相邻的元素可能在内存中不相邻，所以缓存命中性没有B+树好。
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190325155534.png)
 
 #### 输入网址到页面出现的过程 
 
