@@ -688,6 +688,21 @@ java内存模型(JMM)是线程间通信的控制机制.JMM定义了主内存和�
 
 当Eden区没有足够的空间进行分配时，虚拟机会执行一次Minor GC.Minor Gc通常发生在新生代的Eden区，在这个区的对象生存期短，往往发生Gc的频率较高，回收速度比较快;Full Gc/Major GC 发生在老年代，一般情况下，触发老年代GC的时候不会触发Minor GC,但是通过配置，可以在Full GC之前进行一次Minor GC这样可以加快老年代的回收速度。
 
+**Minor GC条件**
+
+当Eden区空间不足以继续分配对象，发起Minor GC。
+
+**Full GC条件**
+
+1. 调用System.gc时，系统建议执行Full GC，但是不必然执行
+2. 老年代空间不足（通过Minor GC后进入老年代的大小大于老年代的可用内存）
+3. 方法区空间不足
+
+
+
+
+
+
 ### **22.HashMap的工作原理是什么?**
 
 HashMap内部是通过一个数组实现的，只是这个数组比较特殊，数组里存储的元素是一个Entry实体(jdk 8为Node)，这个Entry实体主要包含key、value以及一个指向自身的next指针。HashMap是基于hashing实现的，当我们进行put操作时，根据传递的key值得到它的hashcode，然后再用这个hashcode与数组的长度进行模运算，得到一个int值，就是Entry要存储在数组的位置（下标）；当通过get方法获取指定key的值时，会根据这个key算出它的hash值（数组下标），根据这个hash值获取数组下标对应的Entry，然后判断Entry里的key，hash值或者通过equals()比较是否与要查找的相同，如果相同，返回value，否则的话，遍历该链表（有可能就只有一个Entry，此时直接返回null），直到找到为止，否则返回null。
@@ -1132,3 +1147,85 @@ Innodb引擎提供了对数据库ACID事务的支持，并且实现了SQL标准�
 
 1. innodb支持四种SQL隔离，ACID四种特性，支持事物和行级锁，对于大数据一般用innodb
 2. Myiasm保存了行数，seleclt count(\*)的效率比较高，更新数据需要锁定整个表。如果大量读，也可以用myiasm
+
+#### spring boot如何启动一个项目
+
+
+
+#### aop底层实现
+
+#### 数据库分页
+
+#### 数据库索引失效
+
+#### redis分布式锁
+
+#### java获取系统时间
+
+#### 时间的格式化方法
+
+calendar库和date库，格式化方法是simpledateFormat(format和parse函数)或者string.format("%tY")
+
+#### 序列化反序列化
+
+
+
+#### 线程共享变量
+
+因为java对共享变量的读写需要从主存中复制到工作内存中成为副本，更改之后再从工作内存复制到主存中，如果多个线程对共享变量进行更改，需要保证更改后及时更新到主存，其他线程能够及时从主存中读取新的变量值更新到工作内存中。这就要求可见性。实现方式有synchronized 和 volatile 以及 java.concurrent.automic
+
+**volatile适用情况**
+
+a.对变量的写入操作不依赖当前值
+
+比如自增自减、number = number + 5等（不满足）
+
+b.当前volatile变量不依赖于别的volatile变量
+
+比如 volatile_var > volatile_var2这个不等式（不满足）
+
+
+
+**synchronized和volatile比较**
+
+a. volatile不需要同步操作，所以效率更高，不会阻塞线程，但是适用情况比较窄
+
+b. volatile读变量相当于加锁（即进入synchronized代码块），而写变量相当于解锁（退出synchronized代码块）
+
+c. synchronized既能保证共享变量可见性，也可以保证锁内操作的原子性；volatile只能保证可见性
+
+
+
+#### java内存模型
+
+
+
+#### ReentrantLock实现原理
+
+
+
+#### AQS底层原理
+
+
+
+#### 加锁会带来哪些性能问题。如何解决？
+
+
+
+#### NginX如何做负载均衡、常见的负载均衡算法有哪些
+
+
+
+#### 出现 OOM 后你会怎么排查问题？
+
+
+
+#### 操作系统的内存管理机制
+
+
+
+#### 说下你对线程安全的理解
+
+
+
+#### 哈夫曼编码是怎么回事
