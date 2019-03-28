@@ -34,6 +34,9 @@ category: [工作]
 
 int 是基本数据类型
 Integer是其包装类，注意是一个类。
+
+java包含8个基本类型：byte（字节型）、short（短整型）、int（整型）、long（长整型）、float（单精度浮点型）、double（双精度浮点型）、boolean（布尔型）、char（字符型）
+
 为什么要提供包装类呢？？？
 一是为了在各种类型间转化，通过各种方法的调用。否则 你无法直接通过变量转化。
 比如，现在int要转为String
@@ -1150,25 +1153,80 @@ Innodb引擎提供了对数据库ACID事务的支持，并且实现了SQL标准�
 
 #### spring boot如何启动一个项目
 
-
+```java
+@SpringBootApplication
+SpringApplication.run(SellApplicaiton.class,args)
+```
 
 #### aop底层实现
 
+AOP思想的实现一般都是基于 **代理模式** ，在JAVA中一般采用JDK动态代理模式，但是我们都知道，**JDK动态代理模式只能代理接口而不能代理类**。因此，Spring AOP 会这样子来进行切换，因为Spring AOP 同时支持 CGLIB、ASPECTJ、JDK动态代理。
+
+- 如果目标对象的实现类实现了接口，Spring AOP 将会采用 JDK 动态代理来生成 AOP 代理类；
+- 如果目标对象的实现类没有实现接口，Spring AOP 将会采用 CGLIB 来生成 AOP 代理类——不过这个选择过程对开发者完全透明、开发者也无需关心。
+
 #### 数据库分页
+
+在mysql当中是用limit实现的，select * from table limit 0,10
 
 #### 数据库索引失效
 
+1. 如果条件中有or，即使其中有条件带索引也不会使用(这也是为什么尽量少用or的原因)
+2. 对于多列索引，不是使用的第一部分(第一个)，则不会使用索引
+3. like查询是以%开头
+4. 如果列类型是字符串，那一定要在条件中将数据使用引号引用起来,否则不使用索引
+5. 如果mysql估计使用全表扫描要比使用索引快,则不使用索引
+
 #### redis分布式锁
+
+通过redlock实现，先按顺序加锁，如果锁住的服务器已经超过一半，并且如果锁的持续时间超过加锁耗费的时间，那么锁就加成功了，否则依次释放所有的锁。
 
 #### java获取系统时间
 
+calendar库和date库
+
 #### 时间的格式化方法
 
-calendar库和date库，格式化方法是simpledateFormat(format和parse函数)或者string.format("%tY")
+calendar库和date库，
+
+格式化方法是simpledateFormat(format和parse函数)或者string.format("%tY")
+
+```java
+Date day=new Date();
+
+SimpleDateFormat df = new SimpleDateFormat(“yyyy-MM-dd HH:mm:ss”);
+
+Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
+
+int year = c.get(Calendar.YEAR);
+
+```
 
 #### 序列化反序列化
 
+Java序列化是指把Java对象保存为二进制的过程，Java反序列化是指把二进制码重新转换成Java对象的过程。
 
+那么为什么需要序列化呢？
+
+第一种情况是：对java对象持久化保存
+
+第二种情况是：需要把Java对象通过网络进行传输的时候。
+
+```java
+FileOutputStream fos = new FileOutputStream("temp.out");
+ObjectOutputStream oos = new ObjectOutputStream(fos);
+TestObject testObject = new TestObject();
+oos.writeObject(testObject);
+
+
+FileInputStream fis = new FileInputStream("temp.out");
+ObjectInputStream ois = new ObjectInputStream(fis);
+TestObject deTest = (TestObject) ois.readObject();
+System.out.println(deTest.testValue);
+
+class TestObject implements Serializable {
+}
+```
 
 #### 线程共享变量
 
@@ -1194,38 +1252,132 @@ b. volatile读变量相当于加锁（即进入synchronized代码块），而写
 
 c. synchronized既能保证共享变量可见性，也可以保证锁内操作的原子性；volatile只能保证可见性
 
+d. `volatile`关键字会禁止指令重排。`synchronized`关键字保证同一时刻只允许一条线程操作。
+
 
 
 #### java内存模型
 
+有一个主存，所有变量都要从主存里面复制到工作内存中使用，如果一个变量改了，那么要立刻刷新回主存中，让其他变量知道，这就是可见性。一个操作要么执行，要么不执行，这就是原子性。sychronized保证的是原子性和可见性，volatile只保证可见性，但禁止了指令重排。
 
+#### Synchronized
 
-#### ReentrantLock实现原理
+synchronize关键字主要是用于解决多线程访问临界资源的同步性，保证被其修饰的代码块同时只有一个线程可以执行。早期版本synchronize关键字的monitor实现方式要用系统的mutex lock(互斥锁)实现，但是jdk6之后对其进行了优化，出现了自旋锁，偏向锁，轻量锁，重量锁等方法，效率提高
 
+有三种使用方式：
 
+1. 修饰实例方法：对实例加锁
+2. 修饰静态方法：对类加锁
+3. 修饰代码块：对指定对象加锁
+
+#### synchronized 关键字的底层原理
+
+1. 修饰代码块
+
+   用的是monitorenter和monitorexit实现，计数器为0的时候，可以获取锁，获取之后计数器变为1，释放锁的时候计数器变为0。如果获取锁失败就阻塞等待。
+
+2. 修饰方法
+
+   用一个acc_synchronized标志，通过访问标志确定是否加锁。
+
+#### Synchronized和ReentrantLock的区别
+
+**① 两者都是可重入锁**
+
+两者都是可重入锁。“可重入锁”概念是：自己可以再次获取自己的内部锁。比如一个线程获得了某个对象的锁，此时这个对象锁还没有释放，当其再次想要获取这个对象的锁的时候还是可以获取的，如果不可锁重入的话，就会造成死锁。同一个线程每次获取锁，锁的计数器都自增1，所以要等到锁的计数器下降为0时才能释放锁。
+
+**② synchronized 依赖于 JVM 而 ReenTrantLock 依赖于 API**
+
+synchronized 是依赖于 JVM 实现的，前面我们也讲到了 虚拟机团队在 JDK1.6 为 synchronized 关键字进行了很多优化，但是这些优化都是在虚拟机层面实现的，并没有直接暴露给我们。ReenTrantLock 是 JDK 层面实现的（也就是 API 层面，需要 lock() 和 unlock 方法配合 try/finally 语句块来完成），所以我们可以通过查看它的源代码，来看它是如何实现的。
+
+**③ ReenTrantLock 比 synchronized 增加了一些高级功能**
+
+相比synchronized，ReenTrantLock增加了一些高级功能。主要来说主要有三点：**①等待可中断；②可实现公平锁；③可实现选择性通知（锁可以绑定多个条件）**
+
+- **ReenTrantLock提供了一种能够中断等待锁的线程的机制**，通过lock.lockInterruptibly()来实现这个机制。也就是说正在等待的线程可以选择放弃等待，改为处理其他事情。
+- **ReenTrantLock可以指定是公平锁还是非公平锁。而synchronized只能是非公平锁。所谓的公平锁就是先等待的线程先获得锁。** ReenTrantLock默认情况是非公平的，可以通过 ReenTrantLock类的`ReentrantLock(boolean fair)`构造方法来制定是否是公平的。
+- synchronized关键字与wait()和notify/notifyAll()方法相结合可以实现等待/通知机制，ReentrantLock类当然也可以实现，但是需要借助于Condition接口与newCondition() 方法。Condition是JDK1.5之后才有的，它具有很好的灵活性，比如可以实现多路通知功能也就是在一个Lock对象中可以创建多个Condition实例（即对象监视器），**线程对象可以注册在指定的Condition中，从而可以有选择性的进行线程通知，在调度线程上更加灵活。 在使用notify/notifyAll()方法进行通知时，被通知的线程是由 JVM 选择的，用ReentrantLock类结合Condition实例可以实现“选择性通知”** ，这个功能非常重要，而且是Condition接口默认提供的。而synchronized关键字就相当于整个Lock对象中只有一个Condition实例，所有的线程都注册在它一个身上。如果执行notifyAll()方法的话就会通知所有处于等待状态的线程这样会造成很大的效率问题，而Condition实例的signalAll()方法 只会唤醒注册在该Condition实例中的所有等待线程。
 
 #### AQS底层原理
 
+AQS：AbstractQueuedSynchronizer
 
+AQS是一个用来构建锁和同步器的框架，使用AQS能简单且高效地构造出应用广泛的大量的同步器，比如我们提到的ReentrantLock，Semaphore，其他的诸如ReentrantReadWriteLock，SynchronousQueue，FutureTask等等皆是基于AQS的。当然，我们自己也能利用AQS非常轻松容易地构造出符合我们自己需求的同步器。
+
+AQS的核心思想是如果请求一个共享资源，他是没有被占用的，就把请求资源这个线程设置为有效的工作线程。如果被占用，就加入一个CLH双端队列
+
+AQS用一个state来表示同步状态，AQS用CAS对这个同步状态进行原子操作，为1表示被锁定，为0表示空闲。
+
+AQS有两种资源访问的形式，一种是独占的，一种是共享的(信号量，倒计时器，循环栅栏)
 
 #### 加锁会带来哪些性能问题。如何解决？
 
-
+缩小锁的范围，锁住变量而不是方法。使用java.util.concurrent下面的并发容器。
 
 #### NginX如何做负载均衡、常见的负载均衡算法有哪些
 
+Nginx的upstream目前支持的6种方式的分配，分别是：轮询策略，权重轮询策略，ip_hash策略，fair策略，url_hash策略，sticky策略等。
 
+轮询就是来一个请求就按顺序分给多台服务器
+
+权重轮询就是给每个服务器一个权重，请求按权重的比例为概率分给服务器
+
+ip_hash是根据ip的hash值选择服务器
+
+url_hash就是根据urlhash值选择服务器
+
+fair就是挑选目前负载最小的服务器
+
+sticky就是一个客户端只与一个后端服务器交互，直到断开之后再选一个服务器
 
 #### 出现 OOM 后你会怎么排查问题？
 
-
+1. 堆空间大小不足
+2. 内存泄漏：比如hashmap每次插入数据，数据重写了hashcode方法，但是数据没有重写equals方法
 
 #### 操作系统的内存管理机制
 
-
+虚拟内存，将物理地址映射成逻辑地址，通过页表查询，当程序需要的虚拟内存不在内存中时，产生缺页中断，通过页表去内存中找到需要的逻辑地址对应的物理地址，如果内存满了就用页面置换算法（最佳，最久未使用，最近未使用，先进先出，第二次机会，时钟算法）。
 
 #### 说下你对线程安全的理解
 
-
+当多个线程需要访问同一个互斥资源的时候，就会产生线程安全问题。
 
 #### 哈夫曼编码是怎么回事
+
+哈弗曼编码是一种无损压缩编码技术，出现次数多的内容用较短的编码，出现次数少的用较长的编码。
+
+假如我有A,B,C,D,E五个字符，出现的频率（即权值）分别为5,4,3,2,1,那么我们第一步先取两个最小权值作为左右子树构造一个新树，即取1，2构成新树，其结点为1+2=3，如图：
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190327215224.png)
+　　虚线为新生成的结点，第二步再把新生成的权值为3的结点放到剩下的集合中，所以集合变成{5,4,3,3}，再根据第二步，取最小的两个权值构成新树，如图：
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190327215238.png)
+
+再依次建立哈夫曼树，如下图：
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190327215252.png)
+
+其中各个权值替换对应的字符即为下图：
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190327215308.png)
+
+所以各字符对应的编码为：A->11,B->10,C->00,D->011,E->010
+
+#### 直接调用线程的start和run有什么区别
+
+start是真正的多线程运行，run方法是按顺序执行的。
+
+#### 线程池的好处
+
+- **降低资源消耗。** 通过重复利用已创建的线程降低线程创建和销毁造成的消耗。
+- **提高响应速度。** 当任务到达时，任务可以不需要的等到线程创建就能立即执行。
+- **提高线程的可管理性。** 线程是稀缺资源，如果无限制的创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一的分配，调优和监控。
+
+#### 泛型怎么实现的
+
+​       Java中的泛型基本上都是在编译器这个层次来实现的。在生成的Java字节码中是不包含泛型中的类型信息的。使用泛型的时候加上的类型参数，会在编译器在编译的时候去掉。这个过程就称为类型擦除。
+
+####  常见hash算法
+
+md4,md5,sha1
