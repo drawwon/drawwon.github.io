@@ -1394,3 +1394,10 @@ md4,md5,sha1
 #### Object 类方法
 
 getClass，hashcode，equals，clone，toString，notify，notifyAll，wait，finalize
+
+#### String为啥不可变
+
+string里面放的是一个char的数组，定义是final的，并且string本身也是final的，所以string是不可变的
+
+string设计为不可变是为了线程安全，同时string通常被用于hashmap的key，可变容易引起冲突
+

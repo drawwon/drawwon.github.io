@@ -348,7 +348,10 @@ public class ProductCategory {
 当然，如此多的getter和setter方法，可以通过`lombok`这个包来省去这一步，包括tostring方法也可以省略了，首先在pom.xml中加入dependency
 
 ```xml
-
+<dependency>
+  <groupId>org.projectlombok</groupId>
+  <artifactId>lombok</artifactId>
+</dependency>
 ```
 
 然后在idea的插件中搜索lombok，安装之后重启idea
