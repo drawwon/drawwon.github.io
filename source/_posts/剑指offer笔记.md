@@ -834,7 +834,7 @@ class Solution:
             a = 0
             b = 1
             fn = 0
-            for i in range(2,number+2):
+            for i in range(number):
                 fn = a+b
                 a = b
                 b = fn
@@ -928,21 +928,24 @@ public:
 快速排序的关键在于选择数组中选择一个数字，接下来把数组中的数字分为两部分，比选择的数字小的数字移到数组左边，比选择大的数字移到数组右边。实现代码如下
 
 ```python
-def quick_sort(array, l, r):
+def partion(nums, l, r):
+    x = nums[r]
+    s = l - 1
+    for i in range(l, r):
+        if nums[i] <= x:
+            s += 1
+            nums[s], nums[i] = nums[i], nums[s]
+    s += 1
+    nums[s], nums[r] = nums[r], nums[s]
+    return s
+
+
+def quickSort(nums, l, r):
     if l < r:
-        q = partition(array, l, r)
-        quick_sort(array, l, q - 1)
-        quick_sort(array, q + 1, r)
- 
-def partition(array, l, r):
-    x = array[r]
-    i = l - 1
-    for j in range(l, r):
-        if array[j] <= x:
-            i += 1
-            array[i], array[j] = array[j], array[i]
-    array[i + 1], array[r] = array[r], array[i+1]
-    return i + 1
+        q = partion(nums, l, r)
+        quickSort(nums, l, q - 1)
+        quickSort(nums, q + 1, r)
+    return nums
 ```
 
 归并排序如下：
@@ -961,7 +964,7 @@ def merge(left, right):
     ret.extend(left[i:])
     ret.extend(right[j:])
     return ret
-
+i
 
 def mergeSort(l):
     if len(l) <= 1:
@@ -2382,7 +2385,7 @@ class Solution:
 
 ##### 面试题34：二叉树中和为某一值的路径
 
->输入一颗二叉树的跟节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
+>输入一颗二叉树的根节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
 
 思路：先判断给定的是不是空，如果是空，直接返回空list。否则累积加和，如果加和等于值，就把刚才记录的所有值都放入result list中，如果没到叶节点，那么继续向下。递归实现。
 
