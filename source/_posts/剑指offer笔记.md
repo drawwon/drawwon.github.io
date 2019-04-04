@@ -2581,8 +2581,7 @@ class Solution:
 
     def Serialize(self, root):
         # write code here
-        s = ""
-        s = self.SerializeCore(root, s)
+        s = self.SerializeCore(roor)
         return s
 
     def SerializeCore(self, root):
@@ -2804,7 +2803,7 @@ class Solution:
 
 ##### 面试题40：数组中最小的k个值
 
-> 输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
+> 输入n个整数，找出其中最d小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
 
 **方法一：利用partion函数进行排序*，时间复杂度为O(n)**
 
@@ -3709,7 +3708,7 @@ def ReverseSentence(s):
         if s[l] == " ":
             l += 1
             r += 1
-        elif s[r] == " " or l==len(s)-1:
+        elif s[r] == " " or r==len(s):
             r -= 1
             s = reverseOne(s, l, r)
             r += 1
