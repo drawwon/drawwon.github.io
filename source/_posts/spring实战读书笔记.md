@@ -1,5 +1,5 @@
 ---
-title: ssm到springboot的校园电商平台
+title: Spring实战读书笔记
 mathjax: true
 date: 2019-04-10 21:20:38
 tags: [spring]
@@ -16,7 +16,7 @@ category: [编程学习]
 
 Maven是一个构建项目的工具，他的主要思想是通过配置一个pom.xml文件（project object model），一键式迁移java环境，不管在哪个环境中，只要拿到这个pom.xml，相关依赖就可以一键下载部署。
 
-因为之前对spring没有了解，先看看《spring 实战》这本书
+因为之前对spring了解不多，先看看《spring 实战》这本书
 
 ### spring基本概念
 
