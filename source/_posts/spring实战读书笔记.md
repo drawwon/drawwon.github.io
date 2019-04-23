@@ -406,9 +406,296 @@ public class SgtPeppers implements CompactDisc {
 }
 ```
 
+这里最重要的是*@Component*注解，它告诉Spring需要创建SgtPeppers bean。除此之外，还需要启动自动扫描机制，有两种方法：基于XML配置文件；基于Java配置文件，代码如下（二选一）：
 
+1. 创建soundsystem.xml配置文件
 
+```xml
+<?xml version="1.0" encoding="UTF-8"?><beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       
+<context:component-scan base-package="com.spring.sample.soundsystem" />
+</beans>
+```
 
+在这个XML配置文件中，使用`<context:component-scan>`标签启动Component扫描功能，并可设置base-package属性。
 
+- 创建Java配置文件
 
+```java
+package com.spring.sample.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = "com.spring.sample.soundsystem")
+public class SoundSystemConfig {
+}
+```
+
+在这个Java配置文件中有两个注解值得注意：
+
+* `@Configuration`表示这个.java文件是一个配置文件；
+* `@ComponentScan`表示开启Component扫描，并且可以设置basePackages属性——Spring将会设置该目录以及子目录下所有被*@Component*注解修饰的类。
+
+自动配置的另一个关键注解是*@Autowired*，基于之前的两个类和一个Java配置文件，可以写个测试
+
+```java
+package com.spring.sample.soundsystem;
+
+import com.spring.sample.config.SoundSystemConfig;
+import org.junit.Assert;import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = SoundSystemConfig.class)
+public class SoundSystemTest {
+    @Autowired
+    private CompactDisc cd;
+
+    @Test
+    public void cdShouldNotBeNull() {
+        Assert.assertNotNull(cd);
+    }
+}
+```
+
+运行测试，测试通过，说明*@Autowired*注解起作用了：自动将扫描机制创建的CompactDisc类型的bean注入到SoundSystemTest这个bean中。
+
+#### 2.2.2 给被扫描的bean命名
+
+在Spring上下文中，每个bean都有自己的ID。在上一个小节的例子中并没有提到这一点，但Spring在扫描到*SgtPeppers*这个组件并创建对应的bean时，默认给它设置的ID为*sgtPeppers*——是的，这个ID就是将类名称的首字母小写。
+
+如果你需要给某个类对应的bean一个特别的名字，则可以给*@Component*注解传入指定的参数，例如：
+
+```java
+@Component("lonelyHeartsClub")
+public class SgtPeppers implements CompactDisc {
+  ...
+}
+```
+
+#### 2.2.3 设置需要扫描的目标basepackage
+
+在之前的例子中，我们通过给*@Component*注解传入字符串形式的包路径，来设置需要扫描指定目录下的类并为之创建bean。
+
+可以看出，*basePackages*是复数，意味着你可以设置多个目标目录，例如：
+
+```java
+@Configuration
+@ComponentScan(basePackages = {"com.spring.sample.soundsystem", "com.spring.sample.video"})
+public class SoundSystemConfig {
+}
+```
+
+这种字符串形式的表示虽然可以，但是不具备“类型安全”，因此Spring也提供了更加类型安全的机制，即通过类或者接口来设置扫描机制的目标目录，例如：
+
+```java
+@Configuration
+@ComponentScan(basePackageClasses = {CDPlayer.class, DVDPlayer.class})
+public class SoundSystemConfig {
+}
+```
+
+通过如上设置，会将CDPlayer和DVDPlayer各自所在的目录作为扫描机制的目标根目录。
+
+如果应用中的对象是孤立的，并且互相之间没有依赖关系，例如*SgtPeppers*bean，那么这就够了。
+
+#### 2.2.4 自动装配bean
+
+简单得说，自动装配的意思是让Spring从应用上下文中找到对应的bean的引用，并将它们注入到指定的bean。通过`@Autowired`注解可以完成自动装配。
+
+例如，考虑下面代码中的*CDPlayer*类，它的构造函数被*@Autowired*修饰，表明当Spring创建CDPlayer的bean时，会给这个构造函数传入一个CompactDisc的bean对应的引用。
+
+```java
+package com.spring.sample.soundsystem;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Component
+public class CDPlayer implements MediaPlayer {
+    private CompactDisc cd;
+
+    @Autowired
+    public CDPlayer(CompactDisc cd) {
+        this.cd = cd;
+    }
+    public void play() {
+        cd.play();
+    }
+}
+```
+
+还有别的实现方法，例如将*@Autowired*注解作用在*setCompactDisc()*方法上:
+
+```java
+@Autowired
+public void setCd(CompactDisc cd) {
+    this.cd = cd;
+}
+```
+
+或者是其他名字的方法上，例如：
+
+```java
+@Autowired
+public void insertCD(CompactDisc cd) {
+    this.cd = cd;
+}
+```
+
+更简单的用法是，可以将*@Autowired*注解直接作用在成员变量之上，例如：
+
+```java
+@Autowired
+private CompactDisc cd;
+```
+
+只要对应类型的bean有且只有一个，则会自动装配到该属性上。如果没有找到对应的bean，应用会抛出对应的异常，如果想避免抛出这个异常，则需要设置*@Autowired(required=false)*。不过，在应用程序设计中，应该谨慎设置这个属性，因为这会使得你必须面对*NullPointerException*的问题。
+
+如果存在多个同一类型的bean，则Spring会抛出异常，表示装配有歧义，解决办法有两个：（1）通过*@Qualifier*注解指定需要的bean的ID；（2）通过*@Resource*注解指定注入特定ID的bean；
+
+#### 2.2.5 验证自动配置
+
+通过下列代码，可以验证：CompactDisc的bean已经注入到CDPlayer的bean中，同时在测试用例中是将CDPlayer的bean注入到当前测试用例。
+
+```java
+package com.spring.sample.soundsystem;
+
+import com.spring.sample.config.SoundSystemConfig;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = SoundSystemConfig.class)
+public class CDPlayerTest {
+    public final Logger log = LoggerFactory.getLogger(CDPlayerTest.class);
+    @Autowired
+    private MediaPlayer player;
+
+    @Test
+    public void playTest() {
+        player.play();
+    }
+}
+```
+
+### 2.3 基于Java配置文件装配bean
+
+Java配置文件不同于其他用于实现业务逻辑的Java代码，因此不能将Java配置文件业务逻辑代码混在一起。一般都会给Java配置文件新建一个单独的package。
+
+#### 2.3.1 创建配置类
+
+实际上在之前的例子中我们已经实践过基于Java的配置文件，看如下代码：
+
+```java
+@Configuration
+@ComponentScan(basePackageClasses = {CDPlayer.class, DVDPlayer.class})
+public class SoundSystemConfig {
+}
+```
+
+*@Configuration*注解表示这个类是配置类，之前我们是通过*@ComponentScan*注解实现bean的自动扫描和创建，这里我们重点是学习如何显式创建bean，因此首先将`@ComponentScan(basePackageClasses = {CDPlayer.class, DVDPlayer.class})`这行代码去掉。
+
+#### 2.3.2 定义bean
+
+通过*@Bean*注解创建一个Spring bean，该bean的默认ID和函数的方法名相同，即sgtPeppers。例如：
+
+```java
+@Bean
+public CompactDisc sgtPeppers() {
+    return new SgtPeppers();
+}
+```
+
+同样，可以指定bean的ID，例如：
+
+```java
+@Bean(name = "lonelyHeartsClub")
+public CompactDisc sgtPeppers() {
+    return new SgtPeppers();
+}
+```
+
+可以利用Java语言的表达能力，实现类似工厂模式的代码如下：
+
+```java
+@Bean
+public CompactDisc randomBeatlesCD() {
+    int choice = (int)Math.floor(Math.random() * 4);
+
+    if (choice == 0) {
+        return new SgtPeppers();
+    } else if (choice == 1) {
+        return new WhiteAlbum();
+    } else if (choice == 2) {
+        return new HardDaysNight();
+    } else if (choice == 3) {
+        return new Revolover();
+    }
+}
+```
+
+#### 2.3.3 JavaConfig中的属性注入
+
+最简单的办法是将被引用的bean的生成函数传入到构造函数或者set函数中，例如：
+
+```java
+@Bean
+public CDPlayer cdPlayer() {
+    return new CDPlayer(sgtPeppers());
+}
+```
+
+看起来是函数调用，实际上不是：由于sgtPeppers()方法被*@Bean*注解修饰，所以Spring会拦截这个函数调用，并返回之前已经创建好的bean——确保该SgtPeppers bean为单例。
+
+假如有下列代码：
+
+```java
+@Bean
+public CDPlayer cdPlayer() {
+    return new CDPlayer(sgtPeppers());
+}
+
+@Bean
+public CDPlayer anotherCDPlayer() {
+    return new CDPlayer(sgtPeppers());
+}
+```
+
+如果把*sgtPeppers()*方法当作普通Java方法对待，则*cdPlayer*bean和*anotherCDPlayer*bean会持有不同的*SgtPeppers*实例——结合CDPlayer的业务场景看：就相当于将一片CD同时装入两个CD播放机中，显然这不可能。
+
+默认情况下，Spring中所有的bean都是单例模式，因此*cdPlayer*和*anotherCDPlayer*这俩bean持有相同的*SgtPeppers*实例。
+
+当然，还有一种更清楚的写法：
+
+```java
+@Bean
+public CDPlayer cdPlayer(CompactDisc compactDisc) {
+    return new CDPlayer(compactDisc);
+}
+
+@Bean
+public CDPlayer anotherCDPlayer() {
+    return new CDPlayer(sgtPeppers());
+}
+```
+
+这种情况下，*cdPlayer*和*anotherCDPlayer*这俩bean持有相同的*SgtPeppers*实例，该实例的ID为*lonelyHeartsClub*。这种方法最值得使用，因为它不要求CompactDisc bean在同一个配置文件中定义——只要在应用上下文容器中即可（不管是基于自动扫描发现还是基于XML配置文件定义）。
+
+### 2.6 总结
+
+这一章中学习了Spring 装配bean的三种方式：自动装配、基于Java文件装配和基于XML文件装配。
+
+由于自动装配几乎不需要手动定义bean，建议优先选择自动装配；如何必须使用显式配置，则优先选择基于Java文件装配这种方式，因为相比于XML文件，Java文件具备更多的能力、类型安全等特点；但是也有一种情况必须使用XML配置文件，即你需要使用某个名字空间（name space），该名字空间只在XML文件中可以使用。
 
