@@ -251,6 +251,27 @@ if __name__ == '__main__':
     print(getNumFromArray([[1,2,8,9],[2,4,9,12],[4,7,10,13],[6,8,11,15]],2))
 ```
 
+java版：
+
+```java
+public boolean Find(int target, int[][] array) {
+        if (array == null || array.length == 0 || array[0].length == 0) {
+            return false;
+        }
+        int row = 0, col = array[0].length - 1;
+        while (row < array.length && col >= 0) {
+            if (target == array[row][col]) {
+                return true;
+            } else if (target < array[row][col]) {
+                col--;
+            } else {
+                row++;
+            }
+        }
+        return false;
+    }
+```
+
 #### 字符串
 
 在c++中，字符串是以`\0`结束的，因此如果复制一个长度为10的字符串，需要初始化一个长度为11的char数组
@@ -281,6 +302,35 @@ def replaceBlank(string):
 
 if __name__ == '__main__':
     print(replaceBlank("we are family"))
+```
+
+java版本：
+
+```java
+    public String replaceSpace(StringBuffer str) {
+        int count = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == ' ') {
+                count++;
+            }
+        }
+        int finalLength = str.length() + count * 2;
+        int oldIndex = str.length() - 1;
+        str.setLength(finalLength);
+        int newIndex = str.length() - 1;
+
+        while (oldIndex >= 0) {
+            if (str.charAt(oldIndex) == ' ') {
+                str.setCharAt(newIndex--, '0');
+                str.setCharAt(newIndex--, '2');
+                str.setCharAt(newIndex--, '%');
+            } else {
+                str.setCharAt(newIndex--, str.charAt(oldIndex));
+            }
+            oldIndex--;
+        }
+        return str.toString();
+    }
 ```
 
 在C++当中解决这个问题的方法是：用两个index，先遍历字符串算出空格的数量，求出字符串长度和更改之后的字符串长度，p1指向原始数据的结束字符，p2指向替换之后数据的结束字符，p1每次往前走一格，p2每次复制p1当前值并同时往前走一格，如果遇到空格则p2加入`%20`三个字符，而p1往前走一格，直到p1和p2相等或p1为0。
@@ -445,11 +495,10 @@ void PrintReverseList(ListNode *pHead){
 
 ```c++
 void PrintReverseList(ListNode *pHead){
-    if(pHead!=nullptr){
-        if(pHead->next!=nullptr){
+        if(pHead!=nullptr){
             PrintReverseList(pHead->next);
+            printf('%d\t',pHead->m_nValue);
         }
-        printf('%d\t',pHead->m_nValue);
     }
 }
 ```
@@ -472,11 +521,77 @@ ListNode* ReverseList(ListNode* pHead) {
 }
 ```
 
+java版：
+
+```java
+public ListNode ReverseList(ListNode head) {
+  if (head == null || head.next==null) {
+    return head;
+  }
+  ListNode newHead = ReverseList(head.next);
+  head.next.next = head;
+  head.next = null;
+  return newHead;
+}
+```
+
 解释：翻转 [head, n1, n2, n3, ...]，等于先翻转 [n1, n2, n3, ...] ，再把 head 放到最后
 head.next 就是 [n1, n2, n3, ...]，翻转就是 reverseList(head.next)，结果是 [..., n3, n2, n1]，注意 head.next 现在仍然指向 n1，也就是最后
 所以，next_node = head.next 等于 next_node 赋值为 n1，也就是末尾的结点
 然后 next_node.next = head，就是构造 [..., n3, n2, n1, head]
 head.next = None，就是把 head 指向 n1 去掉，就翻转了
+
+非递归：
+
+```java
+//非递归
+public static ListNode ReverseList1(ListNode head) {
+  if (head==null || head.next==null){
+    return head;
+  }
+  ListNode pre = null;
+  ListNode cur = head;
+  ListNode next = null;
+  while (cur!=null){
+    next=cur.next;
+    cur.next = pre;
+    pre = cur;
+    cur = next;
+  }
+  return pre;
+}
+```
+
+java版本
+
+```java
+public static ListNode reverseListNode(ListNode head) {
+  if (head == null || head.next == null) {
+    return head;
+  }
+  ListNode newHead = reverseListNode(head.next);
+  head.next.next = head;
+  head.next = null;
+  return head;
+}
+
+public static ListNode reverseListNodeNonRecur(ListNode head) {
+  if (head == null || head.next == null) {
+    return head;
+  }
+  ListNode pre = null;
+  ListNode cur = head;
+  while (cur != null) {
+    ListNode next = cur.next;
+    cur.next = pre;
+    cur = next;
+    pre = cur;
+  }
+  return pre;
+}
+```
+
+
 
 #### 树
 
@@ -596,6 +711,32 @@ class Solution:
             return self.reConstruct(pre, tin)
 ```
 
+java版本：
+
+```java
+public static TreeNode reConstructBinaryTree(int[] pre, int[] in) {
+  return reConstructBinaryTree(pre, 0, pre.length - 1, in, 0, in.length - 1);
+}
+
+private static TreeNode reConstructBinaryTree(int[] pre, int preStart, int preEnd, int[] in, int inStart, int inEnd) {
+  if (preStart > preEnd || inStart > inEnd) {
+    return null;
+  }
+  int rootVal = pre[preStart];
+  TreeNode root = new TreeNode(rootVal);
+  for (int i = inStart; i < inEnd; i++) {
+    if (in[i] == rootVal) {
+      root.left = reConstructBinaryTree(pre, preStart + 1, preStart + i - inStart, in, inStart, i-1);
+      root.right = reConstructBinaryTree(pre, preStart + 1 + i - inStart, preEnd, in, i + 1, inEnd);
+      break;
+    }
+  }
+  return root;
+}
+```
+
+
+
 ##### 面试题8：二叉树的下一个节点
 
 >给定一棵二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
@@ -674,9 +815,30 @@ public:
 };
 ```
 
+java版本：
+
+```java
+public TreeLinkNode GetNext(TreeLinkNode pNode) {
+  if (pNode==null){
+    return null;
+  }
+  if (pNode.right!=null){
+    TreeLinkNode node = pNode.right;
+    while (node.left!=null){
+      node = node.left;
+    }
+    return node;
+  }
+  while (pNode.next!=null && pNode.next.left!=pNode){
+    pNode = pNode.next;
+  }
+  return pNode.next;
+}
+```
+
 #### 栈和队列
 
-栈是一个非常常见的数据结构，在计算机中管饭使用。比如操作系统给每个线程创建一个栈来存储函数调用时各个函数的参数，返回地址及临时变量等。
+栈是一个非常常见的数据结构，在计算机中广泛使用。比如操作系统给每个线程创建一个栈来存储函数调用时各个函数的参数，返回地址及临时变量等。
 
 栈的特点是后进先出，最后被push的元素或第一个被弹出（pop）。
 
@@ -744,6 +906,33 @@ class Solution:
                 self.stack2.append(self.stack1.pop())
         return self.stack2.pop()
         # return xx
+```
+
+java
+
+```java
+package com.drawon;
+
+import java.util.Stack;
+
+public class Solution {
+    Stack<Integer> stack1 = new Stack<Integer>();
+    Stack<Integer> stack2 = new Stack<Integer>();
+
+    public void push(int node) {
+        stack1.push(node);
+    }
+
+    public int pop() {
+        if (!stack2.isEmpty()) {
+            return stack2.pop();
+        }
+        while (!stack1.isEmpty()) {
+            stack2.push(stack1.pop());
+        }
+        return stack2.pop();
+    }
+}
 ```
 
 #### 算法与数据结构
@@ -817,7 +1006,7 @@ class Solution:
 
 > 一只青蛙，一次可以跳上一级台阶，也可以跳上两级台阶，那么跳上n级台阶一共有多少种方法。
 
-解析：因为青蛙最后一步，要么跳2级，要么跳1级，那么$f(n)=f(n-1)+f(n-2)$，这样一来，这其实就是一个斐波那契数列问题
+解析：因为青蛙最后一步，要么跳2级，要么跳1级，那么$f(n)=f(n-1)+f(n-2)​$，这样一来，这其实就是一个斐波那契数列问题
 
 程序：python版本
 
@@ -978,6 +1167,22 @@ def mergeSort(l):
 print(mergeSort([1, 3, 4, 2, 6, 5, 7, -1]))
 ```
 
+插入排序如下：
+
+```java
+    public static void insertionSort(int[] nums) {
+        for (int i = 1; i < nums.length; i++) {
+            int key = nums[i];
+            int j = i - 1;
+            while (j >= 0 && nums[j] > key) {
+                nums[j + 1] = nums[j];
+                j--;
+            }
+            nums[j + 1] = key;
+        }
+    }
+```
+
 ##### 面试题11：旋转数组的最小数字
 
 >把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。 NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。
@@ -1066,7 +1271,7 @@ class Solution:
         else:
             l = 0
             r = len(rotateArray) - 1
-            while l <= r:
+            while l < r:
                 mid = (l + r) // 2
                 if rotateArray[mid] > rotateArray[r]:
                     l = mid + 1
@@ -1356,6 +1561,76 @@ double PowerWithUnsignedExponent(double base, unsigned int exponent){
 }
 ```
 
+java非递归代码：
+
+```java
+public static double pow(int base, int exponent) {
+    boolean flag = true;
+    if (exponent < 0) {
+        flag = false;
+        exponent = -exponent;
+    }
+    double res = 1;
+    while (exponent != 0) {
+        if ((exponent & 1) != 0) {
+            res = base * res;
+        }
+        base = base * base;
+        exponent >>= 1;
+    }
+    return flag ? res : 1 / res;
+}
+```
+
+##### 矩阵快速幂
+
+当遇到`f(n)=a*f(n-1)+b*f(b-2)`的情况，如果用递推公式计算量非常大，因此比较好的方式是用矩阵快速幂，构造如下矩阵乘法：
+$$
+\left(\begin{array}{cc}{a} & {b} \\ {1} & {0}\end{array}\right)\left(\begin{array}{c}{f(n-1)} \\ {f(n-2)}\end{array}\right)=\left(\begin{array}{c}{f(n)} \\ {f(n-1)}\end{array}\right)
+$$
+则求f(n)的过程变为：
+$$
+\left(\begin{array}{cc}{a} & {b} \\ {1} & {0}\end{array}\right)^{n-2}\left(\begin{array}{c}{f(2)} \\ {f(1)}\end{array}\right)=\left(\begin{array}{c}{f(n)} \\ {f(n-1)}\end{array}\right)
+$$
+此时就可以利用快速幂了，只是把res和base的乘法换成了矩阵乘法
+
+```java
+public static double[][] matrixPow(double[][] nums, int exponent) {
+        if (nums == null || nums.length == 0 || nums[0].length == 0) {
+            return null;
+        }
+        double[][] res = new double[nums.length][nums[0].length];
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < nums[0].length; j++) {
+                if (i==j){
+                    res[i][j] = 1;
+                }
+            }
+        }
+        while (exponent != 0) {
+            if ((exponent & 1) != 0) {
+                res = matrixMultiply(res, nums);
+            }
+            nums = matrixMultiply(nums, nums);
+            exponent >>= 1;
+        }
+        return res;
+    }
+
+//计算矩阵乘法
+    private static double[][] matrixMultiply(double[][] a, double[][] b) {
+        double[][] res = new double[a.length][b[0].length];
+        for (int i = 0; i < a.length; i++) {
+            for (int j = 0; j < b[0].length; j++) {
+                for (int k = 0; k < a[0].length; k++) {
+                    res[i][j] += (a[i][k] * b[k][j]);
+                }
+            }
+        }
+        return res;
+    }
+```
+
 ##### 面试题17：打印从1到最大的n位数
 
 > 题目：输入数字n，按顺序打印出从1到最大的n位十进制数，比如输入3，则打印出1,2,3直到最大的三位数999
@@ -1542,6 +1817,34 @@ void deleteDuplicate(listNode** pHead){
 }
 ```
 
+java版本：
+
+```java
+public ListNode deleteDuplication(ListNode pHead) {
+  if (pHead == null) {
+    return null;
+  }
+  ListNode newHead = new ListNode(-1);
+  newHead.next = pHead;
+  ListNode pre = newHead;
+  ListNode cur = pHead;
+  while (cur != null) {
+    ListNode next = cur.next;
+    if (next != null && next.val == cur.val) {
+      while (next != null && next.val == cur.val) {
+        next = next.next;
+      }
+      pre.next = next;
+      cur = next;
+    } else {
+      pre = cur;
+      cur = next;
+    }
+  }
+  return newHead.next;
+}
+```
+
 ##### 面试题19：正则表达式匹配
 
 > 请实现一个函数用来匹配包括'.'和'\*'的正则表达式。模式中的字符'.'表示任意一个字符，而'\*'表示它前面的字符可以出现任意次（包含0次）。 在本题中，匹配是指字符串的所有字符匹配整个模式。例如，字符串"aaa"与模式"a.a"和"ab\*ac\*a"匹配，但是与"aa.a"和"ab\*a"均不匹配
@@ -1579,6 +1882,38 @@ class Solution:
 ```
 
 这道题用的方法也是递归
+
+java版本：
+
+```java
+public static boolean match(char[] str, char[] pattern) {
+    if (str == null || pattern == null) {
+      return false;
+    }
+    return match(str, 0, pattern, 0);
+}
+
+public static boolean match(char[] str, int sIndex, char[] pattern, int pIndex) {
+    if (sIndex == str.length && pIndex == pattern.length) {
+      return true;
+    }
+    if (sIndex != str.length && pIndex == pattern.length) {
+      return false;
+    }
+    if (pIndex < pattern.length - 1 && pattern[pIndex + 1] == '*') {
+      if (sIndex<str.length && (str[sIndex] == pattern[pIndex] || pattern[pIndex] == '.')) {
+        return match(str, sIndex, pattern, pIndex + 2) || match(str, sIndex + 1, pattern, pIndex + 2) ||
+          match(str, sIndex + 1, pattern, pIndex);
+      } else {
+        return match(str, sIndex, pattern, pIndex + 2);
+      }
+    }
+    if (sIndex<str.length && (pattern[pIndex] == str[sIndex] || pattern[pIndex] == '.')) {
+      return match(str, sIndex + 1, pattern, pIndex + 1);
+    }
+    return false;
+}
+```
 
 ##### 面试题20：表示数值的字符串
 
@@ -1772,8 +2107,6 @@ class Solution:
 ##### 面试题25：合并排序链表
 
 >输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
-
-
 
 ```python
 # -*- coding:utf-8 -*-
@@ -2256,7 +2589,7 @@ class Solution:
                 print('\n')
                 toBePrinted = nextLayer
                 nextLayer = 0
-        return result
+        return resultr
 ```
 
 题目3：
@@ -2571,38 +2904,35 @@ class Solution:
 
 ```python
 # -*- coding:utf-8 -*-
-class TreeNode:
-    def __init__(self, x):
-        self.val = x
-        self.left = None
-        self.right = None
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
 class Solution:
-    flag = -1
-
+    def __init__(self):
+        self.flag = -1
+         
     def Serialize(self, root):
         # write code here
-        s = self.SerializeCore(roor)
-        return s
-
-    def SerializeCore(self, root):
         if not root:
-            return "$"
-        return str(root.val)+','+self.SerializeCore(root.left)+','+self.SerializeCore(root.right)
-
+            return '#'
+        return str(root.val)+','+self.Serialize(root.left)+','self.Serialize(root.right)
+         
     def Deserialize(self, s):
         # write code here
         self.flag += 1
         l = s.split(',')
-        if (self.flag >= len(s)):
+         
+        if self.flag >= len(s):
             return None
         root = None
-        
-        if l[self.flag] != '$':
+         
+        if l[self.flag] != '#':
             root = TreeNode(int(l[self.flag]))
             root.left = self.Deserialize(s)
             root.right = self.Deserialize(s)
         return root
-
 ```
 
 ##### 面试题38：字符串的排列
@@ -2803,7 +3133,7 @@ class Solution:
 
 ##### 面试题40：数组中最小的k个值
 
-> 输入n个整数，找出其中最d小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
+> 输入n个整数，找出其中最小的K个数。例如输入4,5,1,6,2,7,3,8这8个数字，则最小的4个数字是1,2,3,4,。
 
 **方法一：利用partion函数进行排序*，时间复杂度为O(n)**
 
@@ -2920,16 +3250,7 @@ class Solution:
 ```python
 # -*- coding:utf-8 -*-
 class Solution:
-    def NumberOf1Between1AndN_Solution(self, n):
-        # write code here
-        count = 0
-        i = 1
-        while i <= n:
-            a = n//i
-            b = n%i
-            count += (a+8)//10 * i + (a%10==1) * (b+1)
-            i*=10
-        return count
+i
 ```
 
 ##### 面试题44：序列中某一位的数字
@@ -3053,6 +3374,31 @@ class Bonus:
         return maxv[-1][-1]
 ```
 
+优化空间复杂度为O(n)：只有一维数组来存储最大值，数组每一个值`maxVal[j]`表示的是第i行，到第j列为止的最大礼物值，因此`maxVal[j-1]`表示左侧的最大值，而`maxVal[j]`在更新之前表示的就是上一行的最大值it
+
+```java
+public static int maxValueOptimize(int[][] gifts) {
+    //判空
+    int rows = gifts.length;
+    int cols = gifts[0].length;
+    int[] maxVal = new int[cols];
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            int left = 0;
+            int up = 0;
+            if (i > 0) {
+                up = maxVal[j];
+            }
+            if (j > 0) {
+                left = maxVal[j - 1];
+            }
+            maxVal[j] = Math.max(up, left) + gifts[i][j];
+        }
+    }
+    return maxVal[cols - 1];
+}
+```
+
 ##### 面试题48：最大无重复子串
 
 > 请从给定字符串中找到一个最长的不包含重复字符串的子字符串，计算该字符串的长度
@@ -3061,7 +3407,7 @@ class Bonus:
 
 1. d<=f(i-1)，也就是到上一个字符的最大子串长度比两个重复内容之间的长度要大，那么就要重新安排最大子串，比如qweraba，在计算最后一个a的时候，之前的最大长度已经是6了，而最后一个a与上一个a之间的距离是2，那么上一个a出现在f(i-1)的最长子串中，此时对应的最长无重复子串是'ba'，长度为2
 
-2. d>f(i-1)，也就是当前字符上次出现的位置在之前的最大子串之前，因此此时f(i)=f(i-1)+1，比如arabcacf，在分析最后一个元素f的时候，f(i-1)=3，上一步的最大无重复子串是aca，那么最终的最大无重复子串只需要加1，结果为4
+2. d>f(i-1)，也就是当前字符上次出现的位置在之前的最大子串之前，因此此时f(i)=f(i-1)+1，比如afabcacf，在分析最后一个元素f的时候，f(i-1)=2，上一步的最大无重复子串是ac，那么最终的最大无重复子串只需要加1，结果为3
 
 具体代码如下：
 
@@ -3190,8 +3536,8 @@ class Solution:
 (c) P1指向的数字大于P2 指向的数字，因此存在逆序对． 由于P2 指向的数字是第二个子数组的第一个数字，子数组中只有一个数字比5 小． 把逆序对数目加1 ，并把5复制到辅助数组，向前移动P1和P3 .
 
 接下来我们统计两个长度为2 的子数组之间的逆序对。我们在图5.2 中细分图5.1 ( d）的合并子数组及统计逆序对的过程。 
-我们先用两个指针分别指向两个子数组的末尾，并每次比较两个指针指向的数字。如果第一个子数组中的数字大于第二个子数组中的数字，则构成逆序对，并且逆序对的数目等于第二个子数组中剩余数字的个数（如图5.2 (a)和图5.2 (c)所示）。如果第一个数组中的数字小于或等于第二个数组中的数字，则不构成逆序对（如图5.2 (b)所示〉。每一次比较的时候，我们都把较大的数字从·后往前复制到一个辅助数组中去，确保辅助数组中的数字是递增排序的。在把较大的数字复制到辅助数组之后，把对应的指针向前移动一位，接下来进行下一轮比较。 
-　经过前面详细的诗论， 我们可以总结出统计逆序对的过程：先把数组分隔成子数组， 先统计出子数组内部的逆序对的数目，然后再统计出两个相邻子数组之间的逆序对的数目。在统计逆序对的过程中，还需要对数组进行排序。如果对排序贺，法很熟悉，我们不难发现这个排序的过程实际上就是归并排序。
+我们先用两个指针分别指向两个子数组的末尾，并每次比较两个指针指向的数字。如果第一个子数组中的数字大于第二个子数组中的数字，则构成逆序对，并且逆序对的数目等于第二个子数组中剩余数字的个数（如图5.2 (a)和图5.2 (c)所示）。如果第一个数组中的数字小于或等于第二个数组中的数字，则不构成逆序对（如图5.2 (b)所示〉。每一次比较的时候，我们都把较大的数字从后往前复制到一个辅助数组中去，确保辅助数组中的数字是递增排序的。在把较大的数字复制到辅助数组之后，把对应的指针向前移动一位，接下来进行下一轮比较。 
+　经过前面详细的诗论， 我们可以总结出统计逆序对的过程：先把数组分隔成子数组， 先统计出子数组内部的逆序对的数目，然后再统计出两个相邻子数组之间的逆序对的数目。在统计逆序对的过程中，还需要对数组进行排序。如果对排序很熟悉，我们不难发现这个排序的过程实际上就是归并排序。
 
 
 ```python
@@ -3708,7 +4054,7 @@ def ReverseSentence(s):
         if s[l] == " ":
             l += 1
             r += 1
-        elif s[r] == " " or r==len(s):
+        elif r==len(s) or s[r] == " ":
             r -= 1
             s = reverseOne(s, l, r)
             r += 1
@@ -3864,7 +4210,7 @@ def getTouziSum(n):
 
 ##### 面试题61：扑克牌中的顺子
 
-> 题目：从扑克牌中随机抽5张牌，平判断是不是一个顺子。
+> 题目：从扑克牌中随机抽5张牌，并判断是不是一个顺子。
 
 先排序，统计其中0的个数，从最后一个0的下下个元素开始遍历，如果当前元素与上一个元素的差值不是1，那么就用0来填充，只要最后0的数量大于等于0，那就是刚好填充完或者0还可以放在最前面或者最后面，此时返回true，其余情况返回false
 
@@ -3958,7 +4304,7 @@ class Solution:
 
 > 题目：写一个函数，求两个整数之和，要求函数体内不得使用+,-,\*,/等符号
 
-既然不能用四则运算，那么就只能考虑位运算，我们先来看看一个加减乘除是怎么做的。例如，计算5+17，先计算各位之和，5+7=12，不考虑进位的情况，各位为2，十位还是为1，接下来再考虑进位，1+1=2，结果是22.
+既然不能用四则运算，那么就只能考虑位运算，我们先来看看一个加减乘除是怎么做的。例如，计算5+17，先计算各位之和，5+7=12，不考虑进位的情况，个位为2，十位还是为1，接下来再考虑进位，1+1=2，结果是22.
 
 我们换成二进制来看看，5的二进制是101,17的二进制是10001，依然是三步：第一步相加不计进位，第二步记录仅为，第三步把前两部的结果相加。
 
@@ -4055,3 +4401,52 @@ B+树是B树的一个升级版，相对于B树来说B+树更充分的利用了�
 
 ![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190321144642.png)
 
+#### 子矩阵最大和
+
+> 给定一个矩阵，求子矩阵的最大和
+
+这道题其实是数组最大和的扩展版本，具体实现方式是一个i循环，一个j循环，表示的是从第i行到第j行的子矩阵，每过一行，把上一行的每一列的值加到下一行，再用一维数组求最大和的方式就可以得到结果。
+
+```java
+public class MaxSubMatrix {
+    public static int maxSubMatrix(int[][] matrix) {
+        int max = -Integer.MAX_VALUE;
+        for (int i = 0; i < matrix.length; i++) {
+            int[] temp = new int[matrix[0].length];
+            for (int j = 0; j < matrix[0].length; j++) {
+                for (int k = 0; k < matrix[0].length; k++) {
+                    temp[k] += matrix[j][k];
+                    int tempMax = oneDimensionMax(temp, k);
+                    if (tempMax > max) {
+                        max = tempMax;
+                    }
+                }
+            }
+        }
+        return max;
+    }
+
+    private static int oneDimensionMax(int[] temp, int k) {
+        int curSum = 0;
+        int max = -Integer.MAX_VALUE;
+        for (int i = 0; i <= k; i++) {
+            if (curSum > 0) {
+                curSum += temp[i];
+            } else {
+                curSum = temp[i];
+            }
+            if (curSum > max) {
+                max = curSum;
+            }
+        }
+        return max;
+    }
+}
+
+```
+
+#### 背包问题
+
+两种背包问题做法类似，都是先枚举物品，再枚举容量，不同点在于完全背包问题要从小到大枚举容
+
+量，0/1 背包问题要从大到小枚举容量。

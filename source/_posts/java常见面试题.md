@@ -63,7 +63,7 @@ List<Integer> nums;
 
 #### 4. 重载和重写的区别
 
-**override（重写）**
+**overwrite（重写）**
 
 1. 方法名、参数、返回值相同。
 
@@ -123,8 +123,6 @@ GET方法会把名值对追加在请求的URL后面。因为URL对字符数目�
 
 POST方法通过把请求参数值放在请求体中来克服GET方法的限制，因此，可以发送的参数的数目是没有限制的。最后，通过POST请求传递的敏感信息对外部客户端是不可见的。
 
-具体来说cookie机制采用的是在客户端保持状态的方案，而session机制采用的是在服务器端保持状态的方案
-
 #### 8.cookie 和session 的区别：
 
 1、cookie数据存放在客户的浏览器上，session数据放在服务器上。
@@ -140,6 +138,8 @@ POST方法通过把请求参数值放在请求体中来克服GET方法的限制�
 5、所以个人建议：
    将登陆信息等重要信息存放为SESSION
    其他信息如果需要保留，可以放在COOKIE中
+
+具体来说cookie机制采用的是在客户端保持状态的方案，而session机制采用的是在服务器端保持状态的方案
 
 #### JDBC 流程
 
@@ -415,7 +415,7 @@ newScheduledThreadPool(int corePoolSize)
 
 正在睡眠：用sleep(long t) 方法可使线程进入睡眠方式。一个睡眠着的线程在指定的时间过去可进入就绪状态。
 
-正在等待：调用wait()方法。（调用motify()方法回到就绪状态）
+正在等待：调用wait()方法。（调用notify()方法回到就绪状态）
 
 被另一个线程所阻塞：调用suspend()方法。（调用resume()方法恢复）
 
@@ -608,7 +608,7 @@ java虚拟机主要分为以下五个区: 方虚本程堆
 
  2. **复制算法:**
 
-     为了解决效率问题，复制算法将可用内存按容量划分为相等的两部分，然后每次只使用其中的一块，当一块内存用完时，就将还存活的对象复制到第二块内存上，然后一次性清楚完第一块内存，再将第二块上的对象复制到第一块。但是这种方式，内存的代价太高，每次基本上都要浪费一般的内存。
+     为了解决效率问题，复制算法将可用内存按容量划分为相等的两部分，然后每次只使用其中的一块，当一块内存用完时，就将还存活的对象复制到第二块内存上，然后一次性清除完第一块内存，再将第二块上的对象复制到第一块。但是这种方式，内存的代价太高，每次基本上都要浪费一半的内存。
 
      于是将该算法进行了改进，内存区域不再是按照1：1去划分，而是将内存划分为8:1:1三部分，较大那份内存交Eden区，其余是两块较小的内存区叫Survior区。每次都会优先使用Eden区，若Eden区满，就将对象复制到第二块内存区上，然后清除Eden区，如果此时存活的对象太多，以至于Survivor不够时，会将这些对象通过分配担保机制复制到老年代中。(java堆又分为新生代和老年代)
 
@@ -619,6 +619,38 @@ java虚拟机主要分为以下五个区: 方虚本程堆
 4. **分代收集** 
 
      现在的虚拟机垃圾收集大多采用这种方式，它根据对象的生存周期，将堆分为新生代和老年代。在新生代中，由于对象生存期短，每次回收都会有大量对象死去，那么这时就采用**复制**算法。老年代里的对象存活率较高，没有额外的空间进行分配担保，所以可以使用**标记-整理** 或者 **标记-清除**。
+
+#### 15.1 CMS 收集器
+
+**CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器。它非常符合在注重用户体验的应用上使用。**
+
+**CMS（Concurrent Mark Sweep）收集器是 HotSpot 虚拟机第一款真正意义上的并发收集器，它第一次实现了让垃圾收集线程与用户线程（基本上）同时工作。**
+
+从名字中的**Mark Sweep**这两个词可以看出，CMS 收集器是一种 **“标记-清除”算法**实现的，它的运作过程相比于前面几种垃圾收集器来说更加复杂一些。整个过程分为四个步骤：(初并重清)
+
+- **初始标记：** 暂停所有的其他线程，并记录下直接与 root 相连的对象，速度很快 ；
+- **并发标记：** 同时开启 GC 和用户线程，用一个闭包结构去记录可达对象。但在这个阶段结束，这个闭包结构并不能保证包含当前所有的可达对象。因为用户线程可能会不断的更新引用域，所以 GC 线程无法保证可达性分析的实时性。所以这个算法里会跟踪记录这些发生引用更新的地方。
+- **重新标记：** 重新标记阶段就是为了修正并发标记期间因为用户程序继续运行而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段的时间稍长，远远比并发标记阶段时间短
+- **并发清除：** 开启用户线程，同时 GC 线程开始对为标记的区域做清扫。
+
+从它的名字就可以看出它是一款优秀的垃圾收集器，主要优点：**并发收集、低停顿**。但是它有下面三个明显的缺点：
+
+- **对 CPU 资源敏感；**
+- **无法处理浮动垃圾；**
+- **它使用的回收算法-“标记-清除”算法会导致收集结束时会有大量空间碎片产生。**
+
+#### 15.2 G1 收集器
+
+**G1 (Garbage-First) 是一款面向服务器的垃圾收集器,主要针对配备多颗处理器及大容量内存的机器. 以极高概率满足 GC 停顿时间要求的同时,还具备高吞吐量性能特征.**
+
+G1 收集器的运作大致分为以下几个步骤：
+
+- **初始标记**
+- **并发标记**
+- **最终标记**
+- **筛选回收**
+
+**G1 收集器在后台维护了一个优先列表，每次根据允许的收集时间，优先选择回收价值最大的 Region(这也就是它的名字 Garbage-First 的由来)**。这种使用 Region 划分内存空间以及有优先级的区域回收方式，保证了 GF 收集器在有限时间内可以尽可能高的收集效率（把内存化整为零）。
 
 #### 16.java内存模型
 
@@ -686,7 +718,7 @@ java内存模型(JMM)是线程间通信的控制机制.JMM定义了主内存和�
 1. 启动类加载器(Bootstrap ClassLoader)用来加载java核心类库，无法被java程序直接引用。
 2. 扩展类加载器(extensions class loader):它用来加载 Java 的扩展库。Java 虚拟机的实现会提供一个扩展库目录。该类加载器在此目录里面查找并加载 Java 类。
 
-3. 系统类加载器（system class loader）：它根据 Java 应用的类路径（CLASSPATH）来加载 Java 类。一般来说，Java 应用的类都是由它来完成加载的。可以通过 ClassLoader.getSystemClassLoader()来获取它。
+3. 应用类加载器（Application class loader）：它根据 Java 应用的类路径（CLASSPATH）来加载 Java 类。一般来说，Java 应用的类都是由它来完成加载的。可以通过 ClassLoader.getSystemClassLoader()来获取它。
 4. 用户自定义类加载器，通过继承 java.lang.ClassLoader类的方式实现。
 
 #### **21.简述java内存分配与回收策率以及Minor GC和Major GC**
@@ -756,7 +788,7 @@ ArrayList、HashMap、TreeMap和HashTable类提供对元素的随机访问。
 
 ### 30.LinkedHashMap的实现原理?
 
-LinkedHashMap也是基于HashMap实现的，他继承自HashMap，不同的是其讲hashmap的每个元素加了一个before和after指针，由此组成了一个双向链表。
+LinkedHashMap也是基于HashMap实现的，他继承自HashMap，不同的是其将hashmap的每个元素加了一个before和after指针，由此组成了一个双向链表。linkedHashMap是有序的。
 
 TreeMap也是有序的map容器，红黑树的插入删除访问时间复杂度为O(logn)，是按照key的排序方式排序的（通过comparotor进行排序的，可以自定义）。
 
@@ -840,7 +872,7 @@ public class Singleton {
 
 * 提交读(Read Committed)：写禁止读写，只限制同一数据写事务禁止其它读写事务。解决”脏读”和”更新丢失”。Oracle等多数数据库默认都是该级别 (不重复读)
 
-* 可重复读(Repeated Read)：读写禁止其它读写。限制同一数据写事务禁止其他读写事务，读事务禁止其它写事务(允许读)。InnoDB默认级别。在SQL标准中，该隔离级别消除了不可重复读，但是还存在幻象读
+* 可重复读(Repeated Read)：读写禁止其它读写。限制同一数据写事务禁止其他读写事务，读事务禁止其它写事务(允许读)。InnoDB默认级别。在SQL标准中，该隔离级别消除了不可重复读，但是还存在幻读
 
 * 串行读(Serializable)：完全串行化的读，每次读都需要获得表级共享锁，读写相互都会阻塞
 
@@ -851,6 +883,12 @@ public class Singleton {
 **④ 幻读:**事务 T1 读取一条指定的 Where 子句所返回的结果集，然后 T2 事务新插入一行记录，这行记录恰好可以满足T1 所使用的查询条件。然后 T1 再次对表进行检索，但又看到了 T2 插入的数据。 （和可重复读类似，但是事务 T2 的数据操作仅仅是插入和删除，不是修改数据，读取的记录数量前后不一致）
 
 #### 倒排索引
+
+倒排索引主要是一种搜索引擎使用的索引方式，记录每个单词出现的文档ID和出现的位置。
+
+普通的正向索引是：{文档ID：单词A：出现位置a，单词B：出现位置b}，那么当你要搜索一句话的时候，要遍历所有的文档。
+
+倒排索引是：{单词A：(文档id-M：出现的位置m), (文档ID-N:出现的位置n)}，当你要找what is it这句话的时候，那么就是找到what，is，it三个单词的交集，得到的结果就是三个单词都出现了的文档，然后在找到的文档结果中，找到按照what is it的顺序排序的文档，返回文档ID。
 
 #### 是否可以在static环境中访问非static变量？
 
@@ -989,7 +1027,7 @@ new一个线程之后，处于新建状态，调用start之后，处于可运行
 #### IOC和AOP
 **IOC（DI）**
 
-控制反转：原来是自己主动去new一个对象去用，现在是由容器工具配置文件创建实例让自己用，	说白了就是用面向接口编程和配置文件减少对象间的耦合，同时解决硬编码的问题（XML）
+控制反转：原来是自己主动去new一个对象去用，现在是由容器工具配置文件创建实例让自己用，说白了就是用面向接口编程和配置文件减少对象间的耦合，同时解决硬编码的问题（XML）
 
 依赖注入：在运行过程中当你需要这个对象才给你实例化并注入其中，不需要管什么时候注入的，只需要写好成员变量和set方法
 
@@ -1012,7 +1050,7 @@ new一个线程之后，处于新建状态，调用start之后，处于可运行
 #### 扩展（Extension）类加载器
 扩展类加载器是指Sun公司(已被Oracle收购)实现的sun.misc.Launcher$ExtClassLoader类，包含`/lib/ext`
 
-#### 系统（System）类加载器
+#### 应用（Application）类加载器
 也称应用程序加载器是指 Sun公司实现的sun.misc.Launcher$AppClassLoader，`java.class.path`
 
 #### 双亲委派模式工作原理
@@ -1020,13 +1058,12 @@ new一个线程之后，处于新建状态，调用start之后，处于可运行
 
 ####双亲委派模型的原因
 
-因为如果用不同的加载器来加载同一个class文件，调用他们的equals方法，可能会得到无法确定的结果，因此需要双亲委派模型。
-
-java类随着其类加载器一起具备了一种带有优先级的层次关系.例如 java.lang.Object,无论哪一个类加载器要加载该类,最终都是委托给处于顶端的启动类加载器,因此object在程序的各种类加载器环境中都是同一个类.相反如果没有使用双亲委派模型,那么假如用户自定义了一个称为java.lang.Object的类,并放在classPath中,那么系统将会出现多个不同的Object类,则java类型体系中最基础的行为都无法保证.
+1. 避免重复加载：类加载耗时耗内存，如果父类加载的话，同一个类加载器只加载一次（JVM 区分不同类的方式不仅仅根据类名，相同的类文件被不同的类加载器加载产生的是两个不同的类）
+2. 避免系统类被替换,比如java.lang.Integer，如果你自己写了一个，不用双亲委派，就会出现多个不同的Integer
 
 #### 双亲委派模型的破坏
 
-举个例子，driver接口定义在jdk中，对各个数据库厂商，他们都定义了自己的数据库连接类，需要数据库连接的时候，就需要由子类加载器来加载，此时就需要破坏双亲委派模型。打破方法是：重写classloader的loadclass方法。
+举个例子，driver接口定义在jdk中，对各个数据库厂商，他们都定义了自己的数据库连接类，需要数据库连接的时候，就需要由子类加载器来加载，此时就需要破坏双亲委派模型。打破方法是：继承classLoader类，重写classloader的loadclass方法。
 
 ### classnotfoundError
 什么时候会抛出classnotfoundException异常呢？
@@ -1055,6 +1092,18 @@ G1垃圾回收器（G1 Garbage Collector）
 3. 叶子结点（NIL 结点）都是黑色
 4. 红色结点的两个直接孩子结点都是黑色（即从叶子到根的所有路径上不存在两个连续的红色结点）
 5. 从任一结点到每个叶子的所有简单路径都包含相同数目的黑色结点
+
+#### 红黑树 vs AVL树
+
+AVL树是严格平衡二叉树，红黑树严格程度更低。因此红黑树的插入效率更高，因为需要旋转的次数更少。但是avl的搜索效率更高
+
+#### 树的用途
+
+AVL树：:  最早的平衡二叉树之一。应用相对其他数据结构比较少。windows对进程地址空间的管理用到了AVL树。
+
+红黑树：: 平衡二叉树，广泛用在C++的STL中。如map和set都是用红黑树实现的。java的treemap也是红黑树实现的。
+
+B树，b+树：用在磁盘文件组织 数据索引和数据库索引。
 
 #### 为什么hashmap线程不安全
 
@@ -1271,7 +1320,7 @@ b.当前volatile变量不依赖于别的volatile变量
 
 **volatile实现原理**
 
-用单例模式，对应的汇编代码有一个lock 的add 0操作，对应的x86的操作者手册，有lock的汇编操作有两个：1.讲缓存数据写回到系统内存，2.当前写回操作会使其他内存中的对应地址无效。
+用单例模式，对应的汇编代码有一个lock 的add 0操作，对应的x86的操作者手册，有lock的汇编操作有两个：1.将缓存数据写回到系统内存，2.当前写回操作会使其他内存中的对应地址无效。
 
 **synchronized和volatile比较**
 
@@ -1631,13 +1680,158 @@ SETNX，是「SET if Not eXists」的缩写，也就是只有不存在的时候�
 
 stream：stream API得到完善，集合类不用遍历，而转换为stream然后用lambda表达式进行操作
 
+#### length, length(), size()的区别
+
+1 java中的length属性是针对数组说的,比如说你声明了一个数组,想知道这个数组的长度则用到了length这个属性.
+
+2 java中的length()方法是针对字符串String说的,如果想看这个字符串的长度则用到length()这个方法.
+
+3.java中的size()方法是针对泛型集合说的,如果想看这个泛型有多少个元素,就调用此方法来查看!
+
+#### Spring 中的 bean 的作用域有哪些?
+
+- singleton : 唯一 bean 实例，Spring 中的 bean 默认都是单例的。
+- prototype : 每次请求都会创建一个新的 bean 实例。
+- request : 每一次HTTP请求都会产生一个新的bean，该bean仅在当前HTTP request内有效。
+- session : 每一次HTTP请求都会产生一个新的 bean，该bean仅在当前 HTTP session 内有效。
+- global-session： 全局session作用域，仅仅在基于portlet的web应用中才有意义，Spring5已经没有了。Portlet是能够生成语义代码(例如：HTML)片段的小型Java Web插件。它们基于portlet容器，可以像servlet一样处理HTTP请求。但是，与 servlet 不同，每个 portlet 都有不同的会话
+
+#### Spring 中的单例 bean 的线程安全问题了解吗？
+
+单例 bean 存在线程问题，主要是因为当多个线程操作同一个对象的时候，对这个对象的非静态成员变量的写操作会存在线程安全问题。
+
+常见的有两种解决办法：
+
+1. 在Bean对象中尽量避免定义可变的成员变量（不太现实）。
+2. 在类中定义一个ThreadLocal成员变量，将需要的可变成员变量保存在 ThreadLocal 中（推荐的一种方式）。
+
+#### Spring 中的 bean 生命周期?
+
+- Bean 容器找到配置文件中 Spring Bean 的定义。
+- Bean 容器利用 Java Reflection API 创建一个Bean的实例。
+- 如果涉及到一些属性值 利用 `set()`方法设置一些属性值。
+- 如果 Bean 实现了 `BeanNameAware` 接口，调用 `setBeanName()`方法，传入Bean的名字。
+- 如果 Bean 实现了 `BeanClassLoaderAware` 接口，调用 `setBeanClassLoader()`方法，传入 `ClassLoader`对象的实例。
+- 如果Bean实现了 `BeanFactoryAware` 接口，调用 `setBeanClassLoader()`方法，传入 `ClassLoade` r对象的实例。
+- 与上面的类似，如果实现了其他 `*.Aware`接口，就调用相应的方法。
+- 如果有和加载这个 Bean 的 Spring 容器相关的 `BeanPostProcessor` 对象，执行`postProcessBeforeInitialization()` 方法
+- 如果Bean实现了`InitializingBean`接口，执行`afterPropertiesSet()`方法。
+- 如果 Bean 在配置文件中的定义包含 init-method 属性，执行指定的方法。
+- 如果有和加载这个 Bean的 Spring 容器相关的 `BeanPostProcessor` 对象，执行`postProcessAfterInitialization()` 方法
+- 当要销毁 Bean 的时候，如果 Bean 实现了 `DisposableBean` 接口，执行 `destroy()` 方法。
+- 当要销毁 Bean 的时候，如果 Bean 在配置文件中的定义包含 destroy-method 属性，执行指定的方法。
+
+图示如下：
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190823110438.png)
+
+#### 说说自己对于 Spring MVC 了解?
+
+MVC 是一种设计模式,Spring MVC 是一款很优秀的 MVC 框架。Spring MVC 可以帮助我们进行更简洁的Web层的开发，并且它天生与 Spring 框架集成。Spring MVC 下我们一般把后端项目分为 Service层（处理业务）、Dao层（数据库操作）、Entity层（实体类）、Controller层(控制层，返回数据给前台页面)。
+
+用户请求发送到controller，交给模型层：service,dao,entity处理，返回结果给View层渲染，将响应交还给用户。
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190823111145.png)
+
+#### Spring MVC工作原理
+
+1. 客户端（浏览器）发送请求，直接请求到 `DispatcherServlet`。
+2. `DispatcherServlet` 根据请求信息调用 `HandlerMapping`，解析请求对应的 `Handler`。
+3. 解析到对应的 `Handler`（也就是我们平常说的 `Controller` 控制器）后，开始由 `HandlerAdapter` 适配器处理。
+4. `HandlerAdapter` 会根据 `Handler `来调用真正的处理器开处理请求，并处理相应的业务逻辑。
+5. 处理器处理完业务后，会返回一个 `ModelAndView` 对象，`Model` 是返回的数据对象，`View` 是个逻辑上的 `View`。
+6. `ViewResolver` 会根据逻辑 `View` 查找实际的 `View`。
+7. `DispaterServlet` 把返回的 `Model` 传给 `View`（视图渲染）。
+8. 把 `View` 返回给请求者（浏览器）
+
+#### 简单SQL
+
+1. 查：select column from table where column=xx;
+
+2. 更新：update table set (columnA=a,columnB=b….) where  column=xx;
+
+3. 插入：insert into table (columnA,columnB,…)VALUES(a,b,c,d);
+
+4. 删除：delete from table where column=xx;
+
+5. 建表：
+
+   ```sql
+   create table xx(
+   `id` bigint(32) not null AUTO_INCREMENT primary key,
+   `name` varchar(10) not null,
+   `money` float(32) default 0,
+   `birthday` date default null,
+     key `mutliKey` (`id`,`name`)
+   )ENGINE='InnoDB' default charset='utf8mb4';
+   ```
+
+#### SQL join
+
+left/right join：以左/右边为基础
+
+inner join：交集
+
+full outer join：并集
+
+![](https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190826113127.png)
+
+#### SQL group by
+
+select coulum, 聚合函数(column) from table group by column;
+
+比如从销售数据中提取出每个用户总共花过多少钱：
 
 
 
+#### c++虚函数
+
+每个包含了虚函数的类都包含一个虚表。 虚表是一个指针数组，其元素是虚函数的指针，在代码的编译阶段，虚表就可以构造出来了。为了让每个包含虚表的类的对象都拥有一个虚表指针，编译器在类中添加了一个指针，*__vptr，用来指向虚表。虚表是属于类的，而不是属于某个具体的对象，一个类只需要一个虚表即可。同一个类的所有对象都使用同一个虚表。
+
+如果子类继承了父类的虚函数，并重写了虚函数，那么新的虚函数表中，重写部分指向新地址，没重新部分依然指向旧地址。如果此时用一个父类指针，指向子类的对象，调用重写的方法，就会出现多态的效果。
+
+```c++
+class A {
+public:
+    virtual void vfunc1();
+    virtual void vfunc2();
+    void func1();
+    void func2();
+private:
+    int m_data1, m_data2;
+};
+
+class B : public A {
+public:
+    virtual void vfunc1();
+    void func1();
+private:
+    int m_data3;
+};
+```
+
+此时新建对象，并调用，会发现调用A指针的vfunc1方法，实际调用到的是B对象的vfunc1()方法，实现了多态。
+
+```c++
+B bObject;
+A *p = & bObject;
+p->vfunc1();
+```
 
 
 
+如何保证缓存（Redis）与数据库的双写一致性？ 
 
 
 
+Kafka 如何处理消息丢失的问题? 
 
+如何设计 HBase 的 rowKey？依据哪些设计原则？ 
+
+Java 中会出现内存泄漏的情况吗？（OOM）如何解决？ 
+
+说一下 volatile 的原理及应用场景 
+
+了解 Java NIO 吗？了解的话说一下 
+
+说一下 Java 反射的原理及应用场景
