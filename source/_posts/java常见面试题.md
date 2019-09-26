@@ -341,7 +341,7 @@ Java中创建线程主要有三种方式：
 
 线程类已经继承了Thread类，所以不能再继承其他父类。
 
-#### sleep() 、join（）、yield（）有什么区别
+#### sleep() 、yield（）、join（）有什么区别
 
 **1、sleep()方法**
 
@@ -486,7 +486,7 @@ static方法也是不能覆盖的，就算覆盖了父类的static方法，也�
 
 #### 4.Java支持的基本数据类型有哪些？什么是自动拆装箱？
 
-java支持的基本数据类型有以下9种:byte,shot,int,long,float,double,char,boolean,void.
+java支持的基本数据类型有以下9种:byte,short,int,long,float,double,char,boolean,void.
 
 自动拆装箱是java从jdk1.5引用，目的是将原始类型自动的装换为相对应的对象，也可以逆向进行，即拆箱。这也体现java中一切皆对象的宗旨。
 
@@ -776,7 +776,7 @@ HashMap之所以在每个数组元素存储的是一个链表，是为了解决h
 
 1. Array可以容纳基本类型和对象，而ArrayList只能容纳对象。
 
-2. Array是指定大小的，而ArrayList大小是固定的
+2. Array是指定大小的，而ArrayList大小是不固定的
 
 ### 28.哪些集合类提供对元素的随机访问？
 
@@ -813,7 +813,7 @@ ThreadLocal是一个创建——线程局部变量的类。通常情况下我们
 **ThreadLocal内部实现**
 
 ThreadLocal提供了set和get方法.
- set方法会先获取当前线程,然后用当前线程作为句柄,获取ThreadLocalMap对象,并判断该对象是否为空,如果为空则创建一个,并设置值,不为空则直接设置值。
+因为一个线程内可以存在多个 ThreadLocal 对象，所以其实是 ThreadLocal 内部维护了一个 Map ，这个 Map 不是直接使用的 HashMap ，而是 ThreadLocal 实现的一个叫做 ThreadLocalMap 的静态内部类。而我们使用的 get()、set() 方法其实都是调用了这个ThreadLocalMap类对应的 get()、set() 方法。
 
 #### 38. synchronized和lock的区别？
 
@@ -1220,7 +1220,7 @@ MyIASM是MySQL默认的引擎，但是它没有提供对数据库事务的支持
 
 **Innodb**
 
-Innodb引擎提供了对数据库ACID事务的支持，并且实现了SQL标准的四种隔离级别，关于数据库事务与其隔离级别的内容请见数据库事务与其隔离级别这篇文章。该引擎还提供了行级锁和外键约束，它的设计目标是处理大容量数据库系统，它本身其实就是基于MySQL后台的完整数据库系统，MySQL运行时Innodb会在内存中建立缓冲池，用于缓冲数据和索引。但是该引擎不支持FULLTEXT类型的索引，而且它没有保存表的行数，当SELECT COUNT(*) FROM TABLE时需要扫描全表。当需要使用数据库事务时，该引擎当然是首选。由于锁的粒度更小，写操作不会锁定全表，所以在并发较高时，使用Innodb引擎会提升效率。但是使用行级锁也不是绝对的，如果在执行一个SQL语句时MySQL不能确定要扫描的范围，InnoDB表同样会锁全表。
+Innodb引擎提供了对数据库ACID事务的支持，并且实现了SQL标准的四种隔离级别。该引擎还提供了行级锁和外键约束，它的设计目标是处理大容量数据库系统，它本身其实就是基于MySQL后台的完整数据库系统，MySQL运行时Innodb会在内存中建立缓冲池，用于缓冲数据和索引。但是该引擎不支持FULLTEXT类型的索引，而且它没有保存表的行数，当SELECT COUNT(*) FROM TABLE时需要扫描全表。当需要使用数据库事务时，该引擎当然是首选。由于锁的粒度更小，写操作不会锁定全表，所以在并发较高时，使用Innodb引擎会提升效率。但是使用行级锁也不是绝对的，如果在执行一个SQL语句时MySQL不能确定要扫描的范围，InnoDB表同样会锁全表。
 
 **总结：**
 
@@ -1818,9 +1818,42 @@ A *p = & bObject;
 p->vfunc1();
 ```
 
+#### i=i+1和i+=1的区别
 
+区别是i+=1会自动将右侧的运算结果转型成左侧的值；
+
+#### malloc和new，free和delete的区别
+
+1. malloc与free是C++/C语言的标准库函数，new/delete是C++的运算符。它们都可用于申请动态内存和释放内存。 
+2. 对于非内部数据类型的对象而言，光用maloc/free无法满足动态对象的要求。对象在创建的同时要自动执行构造函数，对象在消亡之前要自动执行析构函数。由于malloc/free是库函数而不是运算符，不在编译器控制权限之内，不能够把执行构造函数和析构函数的任务强加于malloc/free。 
+3.  因此C++语言需要一个能完成动态内存分配和初始化工作的运算符new，以一个能完成清理与释放内存工作的运算符delete。注意new/delete不是库函数。
+4. C++程序经常要调用C函数，而C程序只能用malloc/free管理动态内存。  
+5. new可以认为是malloc加构造函数的执行。new出来的指针是直接带类型信息的。而malloc返回的都是void指针。
 
 如何保证缓存（Redis）与数据库的双写一致性？ 
+
+#### 重写equals方法
+
+```
+public class Person{
+  int age;
+  String name;
+  @override
+  public boolean equals(Object o){
+    if(o isinstanceof Person){
+      Person p = (Person) o;
+      if(age==p.age && name.equals(p.name)){
+        return true;
+      }
+    }
+  }
+  return false;
+}
+```
+
+
+
+
 
 
 

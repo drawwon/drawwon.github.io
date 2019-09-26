@@ -140,7 +140,7 @@ size3:8
 
 ##### 面试题3：查找数组中的重复的数字
 
-> 在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复的次数。请找出数组中任意一个重复的数字。例如如果输入长度为7的数组{2,3,1,0,2,5,3},那么对应的输出是重复的数字2或者3。 
+> 在一个长度为n的数组里的所有数字都在0到n-1的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复的次数。请找出数组中任意一个重复的数字。例如如果输入长度为7的数组{},那么对应的输出是重复的数字2或者3。 
 
 解答：解决这个问题最简单的方法就是先排序，然后从头到尾扫描数组，如果第i个值与第i+1个值相等则有重复，排序一个长度为n的数组的时间复杂度是O(nlogn)，下面是为什么排序算法的复杂度是O(nlogn)
 
@@ -172,6 +172,25 @@ def get_duplicate(lists):
 if __name__ == '__main__':
     print(get_duplicate([2,3,1,0,2,5,3]))
 ```
+
+java版本：
+
+```java
+public static int dupNum(int[] nums){
+    for (int i = 0; i < nums.length; i++) {
+        while (nums[i]!=i){
+            if (nums[i]==nums[nums[i]]){
+                return nums[i];
+            }
+            int temp = nums[i];
+            nums[i] = nums[temp];
+            nums[temp] = temp;
+        }
+    }
+    return -1;
+}
+```
+
 
 2. 在一个长度为n+1的数组里的所有数字都在1~n的范围内，所以数组中至少有一个数字是重复的。请找出数组中任意一个重复的数字，但是**不能修改输入的数组**。例如，如果输入长度为8的数组{2,3,5,4,3,2,6,7}，那么对应的输出是重复的数字2或者3。
 
@@ -561,37 +580,6 @@ public static ListNode ReverseList1(ListNode head) {
   return pre;
 }
 ```
-
-java版本
-
-```java
-public static ListNode reverseListNode(ListNode head) {
-  if (head == null || head.next == null) {
-    return head;
-  }
-  ListNode newHead = reverseListNode(head.next);
-  head.next.next = head;
-  head.next = null;
-  return head;
-}
-
-public static ListNode reverseListNodeNonRecur(ListNode head) {
-  if (head == null || head.next == null) {
-    return head;
-  }
-  ListNode pre = null;
-  ListNode cur = head;
-  while (cur != null) {
-    ListNode next = cur.next;
-    cur.next = pre;
-    cur = next;
-    pre = cur;
-  }
-  return pre;
-}
-```
-
-
 
 #### 树
 
@@ -3248,9 +3236,29 @@ class Solution:
 下面代码中用(a+8)//10的原因就是用于判断当前位是不是大于等于2
 
 ```python
-# -*- coding:utf-8 -*-
-class Solution:
-i
+public class S43r {
+    public static int NumberOf1Between1AndN_Solution(int n) {
+        if (n < 0) {
+            n = -n;
+        }
+        int a = 0;
+        int b = 0;
+        int i = 1;
+        int count = 0;
+        while (i <= n) {
+            a = n / i;
+            b = n % i;
+            int temp = (a + 8) / 10;
+            count += temp * i;
+            if (a % 10 == 1) {
+                count += b + 1;
+            }
+            i *= 10;
+        }
+        return count;
+    }
+}
+
 ```
 
 ##### 面试题44：序列中某一位的数字
@@ -4445,8 +4453,185 @@ public class MaxSubMatrix {
 
 ```
 
+也可以直接每次把中间值记录下来：
+
+```java
+public static int maxSubMatrix(int[][] matrix) {
+    int max = -Integer.MAX_VALUE;
+    for (int i = 0; i < matrix.length; i++) {
+        int[] temp = new int[matrix[0].length];
+        for (int j = 0; j < matrix.length; j++) {
+            int sum = 0;
+            for (int k = 0; k < matrix[0].length; k++) {
+                temp[k] += matrix[j][k];
+                if (sum > 0) {
+                    sum += temp[k];
+                } else {
+                    sum = temp[k];
+                }
+                max = Math.max(max, sum);
+            }
+        }
+    }
+    return max;
+}
+```
+
 #### 背包问题
 
 两种背包问题做法类似，都是先枚举物品，再枚举容量，不同点在于完全背包问题要从小到大枚举容
 
 量，0/1 背包问题要从大到小枚举容量。
+
+
+
+#### 直方图最大矩形面积
+
+<img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190908105816.png" width="50%" height="50%">
+
+两种方法
+
+1. 单调栈：维护一个单调递增的栈，如果发现一个比栈顶元素小的值，栈顶元素出栈，计算栈顶元素对应的矩形面积。遍历完整个直方图数组，如果栈里还有元素，依次出栈计算面积。
+
+   ```java
+   public static int maxRect(int[] hists) {
+       if (hists == null || hists.length == 0) {
+           return 0;
+       }
+       int max = 0;
+       Stack<Integer> stack = new Stack<>();
+       int i = 0;
+       while (i < hists.length) {
+           if (stack.isEmpty() || hists[stack.peek()] <= hists[i]) {
+               stack.push(i++);
+           } else {
+               int top = stack.pop();
+               int area = hists[top] * (stack.isEmpty() ? i : i - stack.peek() - 1);
+               max = Math.max(max, area);
+           }
+       }
+       while (!stack.isEmpty()) {
+           int top = stack.pop();
+           int area = hists[top] * (stack.isEmpty() ? i : i - stack.peek() - 1);
+           max = Math.max(max, area);
+       }
+       return max;
+   
+   }
+   ```
+
+提前计算左右边界：
+
+对于i，left[i]表示左边第一个比i小的元素的位置，right[i]表示右边第一个比i小的元素的位置
+
+```java
+public static int largestRectangleArea1(int[] heights) {
+    if (heights == null || heights.length == 0) {
+        return 0;
+    }
+    int max = 0;
+    int n = heights.length;
+    int[] left = new int[n];
+    int[] right = new int[n];
+    left[0] = -1;
+    right[n - 1] = n;
+    for (int i = 1; i < n; i++) {
+        int j = i - 1;
+        while (j >= 0 && heights[j] >= heights[i]) {
+            j--;
+        }
+        left[i] = j;
+    }
+
+    for (int i = n-2; i >=0; i--) {
+        int j = i + 1;
+        while (j < n && heights[j] >= heights[i]) {
+            j++;
+        }
+        right[i] = j;
+    }
+    for (int i = 0; i < n; i++) {
+        max = Math.max(max, heights[i] * (right[i] - left[i] - 1));
+    }
+    return max;
+}
+```
+
+有一个trick在这里，每次`j—`或者`j++`这样的效率很低，复杂度是O(n^2)，如果利用已经算好的结果就会快很多，`j--`改成`j=left[j]`，`j++`改成`j=right[j]`，解释一下这两个公式的含义，比如{1,10,11,9,3}这个数组，在计算3的left的时候，发现9比3大，left[9]其实已经算出来是1了，所以直接跳到1，这是因为9都比3大了，那么比9大的10和11肯定也比3大，同理right数组也是一个道理。
+
+#### 最大子矩阵
+
+如下图：给定一个由1，0组成的矩阵，求其中最大的全为1的子矩阵
+
+```
+Input:
+[
+  ["1","0","1","0","0"],
+  ["1","0","1","1","1"],
+  ["1","1","1","1","1"],
+  ["1","0","0","1","0"]
+]
+Output: 6
+```
+
+思路：其实这道题的思路和求直方图最大面积很像，把每一行看做一个直方图，找到当前行所有列的高度，然后求最大面积即可。height数组表示直方图的高度，left表示左边第一个比i小的位置，right数组表示右边第一个比i小的位置。面积就等于`(height[i]*(right[i]-left[i]-1))`，为什么这个长度是`right[i]-left[i]-1`呢，是因为本来满足条件的个数是`right[i]-1-(left[i]+1)+1`，刚好就是前面的结果。
+
+```java
+public static int maximalRectangle(char[][] matrix) {
+    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+        return 0;
+    }
+    int cols = matrix[0].length;
+    int rows = matrix.length;
+    int[] hights = new int[cols];
+    int[] left = new int[cols];
+    int[] right = new int[cols];
+    int max = 0;
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (matrix[i][j] == '1') {
+                hights[j]++;
+            } else {
+                hights[j] = 0;
+            }
+        }
+        left[0] = -1;
+        right[cols - 1] = cols;
+        for (int j = 1; j < cols; j++) {
+            int p = j - 1;
+            while (p >= 0 && hights[p] >= hights[j]) {
+                p = left[p];
+            }
+            left[j] = p;
+        }
+        for (int j = cols - 2; j >= 0; j--) {
+            int p = j + 1;
+            while (p < cols && hights[p] >= hights[j]) {
+                p = right[p];
+            }
+            right[j] = p;
+        }
+        for (int j = 0; j < cols; j++) {
+            max = Math.max(max, (right[j] - left[j] - 1) * hights[j]);
+        }
+    }
+    return max;
+}
+```
+
+#### 水塘抽样
+
+一个流式数据集，不知道最终会有多少个数据，要求从这些数据中抽出k个，并且每个元素被抽到的概率相同。
+
+* 这个问题被归纳为水塘抽样问题，用一个大小为k的池子，先一个一个放进去，放满之后，下一个元素放进去的概率是`k/(k+i)`，那么对于之前就在水池里面的元素X，他仍然被保留在水池中的概率是
+  p(X之前就在水池中)\*p(X在k+i这个数据到来的时候没有被替换掉)
+
+  =p(X之前就在水池中)\*(1-p(X在k+i这个数据到来的时候被替换掉))
+
+  =p(X之前就在水池中)\*(1-p(k+i被留下来，并且替换掉了X))
+
+  `=k/(k+i-1) * (1-k/(k+i)*1/k)` 
+
+  `=k/(k+i)` 
+
+因此此时所有元素被选中的概率都是k/(k+i)，当k+i=n的时候，所有元素被选中的概率都是k/n。
