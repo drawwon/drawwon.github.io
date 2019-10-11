@@ -1975,6 +1975,35 @@ bool scanInteger(const char** str){
 }
 ```
 
+java版本：
+
+```java
+public static boolean checkNum(char[] num) {
+    boolean hasE = false;
+    boolean hasDot = false;
+    for (int i = 0; i < num.length; i++) {
+        if (num[i] == 'e' || num[i] == 'E') {
+            if (hasE || i == num.length - 1 || i == 0) {
+                return false;
+            }
+            hasE = true;
+        } else if (num[i] == '.') {
+            if (hasE || hasDot) {
+                return false;
+            }
+            hasDot = true;
+        } else if (num[i] == '+' || num[i] == '-') {
+            if ((i != 0 && num[i - 1] != 'e' && num[i - 1] != 'E') || i == num.length - 1) {
+                return false;
+            }
+        } else if (num[i] > '9' || num[i] < '0') {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
 ##### 面试题21：调整数组顺序使奇数位于偶数前面
 
 > 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
@@ -2037,6 +2066,26 @@ class Solution:
         return node2
 ```
 
+java版本：
+
+```java
+public static ListNode reverseKthNode(ListNode head, int k) {
+    ListNode node = head;
+    for (int i = 0; i < k; i++) {
+        if (node != null) {
+            node = node.next;
+        } else {
+            return null;
+        }
+    }
+    while (node != null) {
+        node = node.next;
+        head = head.next;
+    }
+    return head;
+}
+```
+
 ##### 面试题23：链表中环的入口节点
 
 >给一个链表，若其中包含环，请找出该链表的环的入口结点，否则，输出null。
@@ -2065,6 +2114,44 @@ class Solution:
 书中给出的方法是充分利用了c++的指针，给定两个指针，一个每次移动2格，一个每次移动1格，那么每次移动两格的一定会追上每次移动一格的，两者相遇的时候，就表明链表中有环。
 
 从这个相遇节点出发，再次回到这个相遇节点，每走一步加1，就统计出了环中元素的个数n。那么再给两个指针指向链表头部，其中一个先移动n格，然后两个一起移动，每次一格，相遇的点即为环的入口。
+
+```java
+public static ListNode enterNodeOfCircle(ListNode head) {
+		if(pHead==null || pHead.next==null){
+            return null;
+        }
+    ListNode fast = pHead;
+    ListNode slow = pHead;
+    boolean hasCircle = false;
+    while(fast.next.next!=null){
+      fast = fast.next.next;
+      slow = slow.next;
+      if(fast==slow){
+        hasCircle=true;
+        break;
+      }
+    }
+	  if (!hasCircle){
+  	  return null;
+  	}
+    int count = 1;
+    fast = slow.next;
+    while (fast!=slow){
+        fast=fast.next;
+        count++;
+    }
+    fast = head;
+    slow = head;
+    for (int i = 0; i < count; i++) {
+        fast = fast.next;
+    }
+    while (fast!=slow){
+        fast=fast.next;
+        slow=slow.next;
+    }
+    return fast;
+}
+```
 
 ##### 面试题24：链表反转
 
@@ -2188,6 +2275,32 @@ class Solution:
             return False
         return self.HasTreeCore(A.left,B.left) and self.HasTreeCore(A.right, B.right)
 ```
+
+java版本：
+
+```java
+public static boolean subTree(TreeNode root1, TreeNode root2){
+    if (root2==null){
+      return false;
+    }
+    return subTreeCore(root1,root2) || subTreeCore(root1.left,root2) || subTreeCore(root1.right, root2);
+  }
+
+private static boolean subTreeCore(TreeNode root1, TreeNode root2) {
+    if (root2==null){
+      return true;
+    }
+    if (root1==null){
+      return false;
+    }
+    if (root1.val==root2.val){
+      return subTreeCore(root1.left,root2.left) && subTreeCore(root1.right,root2.right);
+    }
+    return false;
+  }
+```
+
+
 
 在python中是直接用`==`判断值是否相等的，而如果是c++，值如果定义为double类型，判断方法是两者相减是否`>-0.000000001 & <0.000000001`
 
@@ -2343,8 +2456,6 @@ class Solution:
             return True
         return reverse(pRoot,pRoot)
 ```
-
-
 
 ##### 面试题29：顺序打印矩阵
 
@@ -2505,7 +2616,35 @@ class Solution:
                 j+=1
                 stack.pop()
         return stack==[]
+      
 ```
+
+```java
+public static boolean pushPopOrder(int[] push, int[] pop){
+    if (push.length!=pop.length){
+        return false;
+    }
+    Stack<Integer> stack = new Stack<>();
+    int i=0;
+    int j=0;
+    while (i<push.length && j<pop.length){
+        if (push[i]!=pop[j]){
+            stack.push(push[i]);
+            i++;
+        }else {
+            i++;
+            j++;
+        }
+    }
+    while (!stack.isEmpty() && stack.peek()==pop[j]){
+        j++;
+        stack.pop();
+    }
+    return stack.isEmpty();
+}
+```
+
+
 
 ##### 面试题32：从上打下打印二叉树
 
@@ -2704,6 +2843,31 @@ class Solution:
         return left and right
 ```
 
+java版本
+
+```java
+private static boolean isPostVisitCore(int[] nums,int start,int end) {
+    if (start>=end){
+        return true;
+    }
+    int rootVal = nums[end];
+    int i = start;
+    for (; i < end; i++) {
+        if (nums[i]>rootVal){
+            break;
+        }
+    }
+    int index = i;
+    while (i<end){
+        if (nums[i]<rootVal){
+            return false;
+        }
+        i++;
+    }
+    return isPostVisitCore(nums,start,index-1) && isPostVisitCore(nums,index,end-1);
+}
+```
+
 ##### 面试题34：二叉树中和为某一值的路径
 
 >输入一颗二叉树的根节点和一个整数，打印出二叉树中结点值的和为输入整数的所有路径。路径定义为从树的根结点开始往下一直到叶结点所经过的结点形成一条路径。(注意: 在返回值的list中，数组长度大的数组靠前)
@@ -2743,6 +2907,40 @@ class Solution:
                 if root.right:
                     self.FindPathCore(root.right,expectNumber,currNum,result,hisNode)
                     hisNode.pop()
+```
+
+java版本：
+
+```java
+public static ArrayList<ArrayList<Integer>> sumPath(TreeNode root, int target) {
+    if (root == null) {
+        return null;
+    }
+    ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+    ArrayList<Integer> temp = new ArrayList<>();
+    sumPathCore(root, target, temp, res, 0);
+    return res;
+}
+
+private static void sumPathCore(TreeNode root, int target, ArrayList<Integer> temp, ArrayList<ArrayList<Integer>> res, int sum) {
+    if (root != null) {
+        sum += root.val;
+        temp.add(root.val);
+        if (sum == target) {
+            res.add(new ArrayList<>(temp));
+            temp = new ArrayList<>();
+            return;
+        }
+        if (root.left != null) {
+            sumPathCore(root.left, target, temp, res, sum);
+            temp.remove(temp.size()-1);
+        }
+        if (root.right!=null){
+            sumPathCore(root.right, target, temp, res, sum);
+            temp.remove(temp.size()-1);
+        }
+    }
+}
 ```
 
 #### 分解让复杂问题简单化
@@ -2842,6 +3040,58 @@ class Solution:
 
 ```
 
+java版本：
+
+```java
+    static class RandomListNode {
+        int label;
+        RandomListNode next = null;
+        RandomListNode random = null;
+
+        RandomListNode(int label) {
+            this.label = label;
+        }
+    }
+
+
+    public static RandomListNode copy(RandomListNode head) {
+        if (head == null) {
+            return null;
+        }
+        RandomListNode node = head;
+        while (node != null) {
+            RandomListNode temp = new RandomListNode(node.label);
+            RandomListNode next = node.next;
+            node.next = temp;
+            temp.next = next;
+            node = next;
+        }
+        node = head;
+        while (node != null) {
+            if (node.random != null) {
+                node.next.random = node.random.next;
+            }
+            node = node.next.next;
+        }
+        RandomListNode newHead = head.next;
+        RandomListNode copyNode = newHead;
+        node = head;
+        while (node != null) {
+            if (copyNode.next != null) {
+                copyNode.next = copyNode.next.next;
+            } else {
+                copyNode.next = null;
+            }
+            node.next = node.next.next;
+            node = node.next;
+            copyNode = copyNode.next;
+        }
+        return newHead;
+    }
+```
+
+
+
 ##### 面试题36：二叉搜索树与双向链表
 
 > 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向
@@ -2921,6 +3171,34 @@ class Solution:
             root.left = self.Deserialize(s)
             root.right = self.Deserialize(s)
         return root
+```
+
+java版本：
+
+```java
+public static String serialize(TreeNode root) {
+    if (root == null) {
+        return "#";
+    }
+    return root.val + "," + serialize(root.left) + "," + serialize(root.right);
+}
+
+private static int flag = -1;
+
+public static TreeNode deSerialize(String s) {
+    flag++;
+    TreeNode root = null;
+    if (flag < s.length()) {
+        if (s.charAt(flag) == '#') {
+            return null;
+        } else {
+            root = new TreeNode(s.charAt(flag) - '0');
+            root.left = deSerialize(s);
+            root.right = deSerialize(s);
+        }
+    }
+    return root;
+}
 ```
 
 ##### 面试题38：字符串的排列
@@ -4216,6 +4494,54 @@ def getTouziSum(n):
     return this
 ```
 
+java版本：
+
+```java
+public static int[] touzi(int n) {
+    int[] nums = new int[n * 6 + 1];
+    for (int i = 1; i <= 6; i++) {
+        touziCore(nums, n - 1, i);
+
+    }
+    return nums;
+}
+
+private static void touziCore(int[] nums, int n, int sum) {
+    if (n == 0) {
+        nums[sum] += 1;
+        return;
+    }
+    for (int i = 1; i <= 6; i++) {
+        touziCore(nums, n - 1, sum + i);
+    }
+}
+
+public static int[] touziNoneRecur(int n) {
+    int[] nums = new int[n * 6 + 1];
+    for (int i = 1; i <= 6; i++) {
+        nums[i] = 1;
+
+    }
+    int[] copy = Arrays.copyOf(nums, nums.length);
+    for (int i = 2; i <= n; i++) {
+        for (int j = 0; j <= 6 * n; j++) {
+            nums[j] = sum(copy, j - 6, j - 1);
+        }
+        System.arraycopy(nums, 0, copy, 0, 6 * n);
+    }
+    return nums;
+}
+
+private static int sum(int[] copy, int start, int end) {
+    start = Math.max(0, start);
+    int sum = 0;
+    for (int i = start; i <= end; i++) {
+        sum += copy[i];
+    }
+    return sum;
+}
+```
+
 ##### 面试题61：扑克牌中的顺子
 
 > 题目：从扑克牌中随机抽5张牌，并判断是不是一个顺子。
@@ -4246,6 +4572,38 @@ class Solution:
         return result
 ```
 
+java版本
+
+```java
+//1. 除0以外没有重复数字
+//2. 最大值-最小值 < 5
+public static boolean isContinuous(int[] numbers) {
+    if(numbers==null||numbers.length!=5){
+        return false;
+    }
+    int max = 0;
+    int min = 14;
+    int[] count = new int[14];
+    for (int i = 0; i < numbers.length; i++) {
+        if (numbers[i]==0){
+            continue;
+        }
+        count[numbers[i]]++;
+        if(count[numbers[i]]>1){
+            return false;
+        }
+        if (numbers[i]>max){
+            max=numbers[i];
+        }
+        if(numbers[i]<min){
+            min=numbers[i];
+        }
+
+    }
+    return max-min<5;
+}
+```
+
 ##### 面试题62：圆圈中最后剩下的数字
 
 > 题目：0,1,...，n-1这n个数字排成一个圆圈，从数字0开始，每次从这个圆圈中删除第m个数字，求出圆圈中最后剩下的一个数字。
@@ -4267,6 +4625,26 @@ class Solution:
             i = (m+i-1)%len(n)
             n.pop(i)
         return n[0]
+```
+
+java版本：
+
+```java
+public static int restNum(int n, int m){
+    if (n<=0){
+        return -1;
+    }
+    ArrayList<Integer> nums= new ArrayList<>();
+    for (int i = 0; i < n; i++) {
+        nums.add(i);
+    }
+    int index = 0;
+    while (nums.size()!=1){
+        index = (index+m-1)%n;
+        nums.remove(index);
+    }
+    return nums.get(0);
+}
 ```
 
 ##### 面试题63：股票的最大收益

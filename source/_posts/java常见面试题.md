@@ -63,7 +63,7 @@ List<Integer> nums;
 
 #### 4. 重载和重写的区别
 
-**overwrite（重写）**
+**override（重写）**
 
 1. 方法名、参数、返回值相同。
 
