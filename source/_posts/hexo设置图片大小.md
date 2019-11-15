@@ -19,3 +19,4 @@ category: [hexo]
 ```
 
 其中后面的`style="margin:0 auto;"`用来控制图片的居中，图片大小有width和height控制，可以输入50%这样的比例，也可以直接输入大小200px这样的值
+
