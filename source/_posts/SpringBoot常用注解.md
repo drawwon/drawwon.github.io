@@ -12,15 +12,24 @@ category: [SpringBoot]
 
 2. @Configuration 等同于spring的XML配置文件；使用[Java](http://lib.csdn.net/base/javase)代码可以检查类型安全。
 
+<!--more-->
+
 3. @EnableAutoConfiguration 自动配置。
 
 4. @ComponentScan 组件扫描，可自动发现和装配一些Bean。
+
 5. @Component可配合CommandLineRunner使用，在程序启动后执行一些基础任务。
+
 6. @ResponseBody：restful接口，加了之后返回的是json格式的数据，如果不加，返回的是某个跳转的地址
+
 7. @RestController注解是@Controller和@ResponseBody的合集,表示这是个控制器bean,并且是将函数的返回值直 接填入HTTP响应体中,是REST风格的控制器。
+
 8. @Autowired自动导入。
+
 9. @PathVariable获取参数。
+
 10. @JsonBackReference解决嵌套外链问题。
+
 11. @RepositoryRestResourcepublic配合spring-boot-starter-data-rest使用。
 
 **二、注解(annotations)详解**
