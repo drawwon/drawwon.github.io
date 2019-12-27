@@ -6,12 +6,12 @@
 favicon: /images/favicon.ico
 
 # Set default keywords (Use a comma to separate)
-keywords: 'Program, Life, Read'
+keywords: "Program, Life, Read"
 
 # Set rss to false to disable feed link.
 # Leave rss as empty to use site's feed link.
 # Set rss to specific value if you have burned your feed already.
-? rss
+rss:
 
 # Specify the date when the site was setup
 since: 2016
@@ -83,7 +83,7 @@ font:
   enable: true
 
   # Uri of fonts host. E.g. //fonts.googleapis.com (Default)
-  host: //fonts.lug.ustc.edu.cn # fonts.lug.ustc.edu.cn是中科大的源。
+  host: //fonts.useso.com # fonts.lug.ustc.edu.cn是中科大的源。
 
   # Global font settings used on <body> element.
   global:
@@ -95,27 +95,27 @@ font:
   # Fallback to `global` font settings.
   headings:
     external: true
-    ? family
+    family:
 
   # Font settings for posts
   # Fallback to `global` font settings.
   posts:
     external: true
-    ? family
+    family:
 
   # Font settings for Logo
   # Fallback to `global` font settings.
   # The `size` option use `px` as unit
   logo:
     external: true
-    ? family
-    ? size
+    family:
+    size:
 
   # Font settings for <code> and code blocks.
   codes:
     external: true
-    ? family
-    ? size
+    family:
+    size:
 
 # ---------------------------------------------------------------
 # Sidebar Settings
@@ -251,7 +251,7 @@ post_copyright:
 #   image: url-of-image   - Images's url
 custom_logo:
   enabled: false
-  ? image
+  image:
 
 # Code Highlight theme
 # Available value:
@@ -281,7 +281,7 @@ mathjax:
 # Disqus
 disqus:
   enable: false
-  ? shortname
+  shortname:
   count: true
 
 # Hypercomments
@@ -293,8 +293,8 @@ disqus:
 # changyan
 changyan:
   enable: false
-  ? appid
-  ? appkey
+  appid:
+  appkey:
 
 # Support for youyan comments system.
 # You can get your uid from http://www.uyan.cc
@@ -388,15 +388,15 @@ busuanzi_count:
   # custom uv span for the whole site
   site_uv: true
   site_uv_header: <i class="fa fa-user"></i> #如果使用默认的，会显示图标
-  ? site_uv_footer
+  site_uv_footer:
   # custom pv span for the whole site
   site_pv: true
   site_pv_header: <i class="fa fa-eye"></i> #如果使用默认的，会显示图标
-  ? site_pv_footer
+  site_pv_footer:
   # custom pv span for one page only
   page_pv: true
   page_pv_header: <i class="fa fa-file-o"></i> #如果使用默认的，会显示图标
-  ? page_pv_footer
+  page_pv_footer:
 
 # Tencent analytics ID
 # tencent_analytics:
@@ -419,7 +419,7 @@ calendar:
   orderBy: startTime
   offsetMax: 24
   offsetMin: 4
-  ? timeZone
+  timeZone:
   showDeleted: false
   singleEvents: true
   maxResults: 250
@@ -432,7 +432,7 @@ algolia_search:
   labels:
     input_placeholder: Search for Posts
     hits_empty: "We didn't find any results for the search: ${query}"
-    hits_stats: '${hits} results found in ${time} ms'
+    hits_stats: "${hits} results found in ${time} ms"
 
 # Local search
 local_search:
@@ -475,53 +475,53 @@ vendors:
   _internal: lib
 
   # Internal version: 2.1.3
-  ? jquery
+  jquery:
 
   # Internal version: 2.1.5
   # See: http://fancyapps.com/fancybox/
-  ? fancybox
-  ? fancybox_css
+  fancybox:
+  fancybox_css:
 
   # Internal version: 1.0.6
   # See: https://github.com/ftlabs/fastclick
-  ? fastclick
+  fastclick:
 
   # Internal version: 1.9.7
   # See: https://github.com/tuupola/jquery_lazyload
-  ? lazyload
+  lazyload:
 
   # Internal version: 1.2.1
   # See: http://VelocityJS.org
-  ? velocity
+  velocity:
 
   # Internal version: 1.2.1
   # See: http://VelocityJS.org
-  ? velocity_ui
+  velocity_ui:
 
   # Internal version: 0.7.9
   # See: https://faisalman.github.io/ua-parser-js/
-  ? ua_parser
+  ua_parser:
 
   # Internal version: 4.6.2
   # See: http://fontawesome.io/
-  ? fontawesome
+  fontawesome:
 
   # Internal version: 1
   # https://www.algolia.com
-  ? algolia_instant_js
-  ? algolia_instant_css
+  algolia_instant_js:
+  algolia_instant_css:
 
   # Internal version: 1.0.0
   # https://github.com/hustcc/canvas-nest.js
-  ? canvas_nest
+  canvas_nest:
 
   # three
-  ? three
-  ? three_waves
+  three:
+  three_waves:
 
   # Internal version: 1.0.0
   # https://github.com/zproo/canvas-ribbon
-  ? canvas_ribbon
+  canvas_ribbon:
 
 # Assets
 css: css
