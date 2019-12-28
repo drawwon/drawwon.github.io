@@ -85,3 +85,9 @@ search:
 #   text: Donate for me
 #   wechat: http://ooi9t4tvk.bkt.clouddn.com/%E5%BE%AE%E4%BF%A1%E6%94%AF%E4%BB%98.jpg
 #   alipay: http://ooi9t4tvk.bkt.clouddn.com/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98.jpg
+
+# Algolia Search API Key
+algolia:
+  applicationID: 'N00HWEGM76'
+  apiKey: '916479ea342925b0950c99bd2b0401bb'
+  indexName: 'drawon'
