@@ -74,12 +74,12 @@ deploy:
   branch: master
   avatar: http://ooi9t4tvk.bkt.clouddn.com/logo.JPG
 
-# #search
-# search:
-#   path: search.xml
-#   field: post
-#   format: html
-#   limit: 10000
+#search
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
 
 # # Donate
 # donate:
@@ -88,12 +88,12 @@ deploy:
 #   alipay: http://ooi9t4tvk.bkt.clouddn.com/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98.jpg
 
 # Algolia Search API Key
-algolia:
-  applicationID: 'N00HWEGM76'
-  apiKey: '4ffb067af552b681a359a4481381869e'
-  indexName: 'drawon'
-  adminApiKey: 'e9d796e783c34ca994179d2a425a22bd'
-  chunkSize: 5000
+# algolia:
+#   applicationID: 'N00HWEGM76'
+#   apiKey: '4ffb067af552b681a359a4481381869e'
+#   indexName: 'drawon'
+#   adminApiKey: 'e9d796e783c34ca994179d2a425a22bd'
+#   chunkSize: 5000
 
 sitemap:
   path: sitemap.xml
