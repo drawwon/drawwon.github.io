@@ -503,8 +503,8 @@ vendors:
 
   # Internal version: 1
   # https://www.algolia.com
-  algolia_instant_js: https://www.algolia.com
-  algolia_instant_css: https://www.algolia.com
+  algolia_instant_js: https://cdn.jsdelivr.net/npm/instantsearch.js@2.4.1/dist/instantsearch.js
+  algolia_instant_css: https://cdn.jsdelivr.net/npm/instantsearch.js@2.4.1/dist/instantsearch.min.css
 
   # Internal version: 1.0.0
   # https://github.com/hustcc/canvas-nest.js
