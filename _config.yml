@@ -89,7 +89,7 @@ search:
 # Algolia Search API Key
 algolia:
   applicationID: 'N00HWEGM76'
-  apiKey: '916479ea342925b0950c99bd2b0401bb'
+  apiKey: '4ffb067af552b681a359a4481381869e'
   indexName: 'drawon'
   adminApiKey: 'e9d796e783c34ca994179d2a425a22bd'
   chunkSize: 5000
