@@ -91,3 +91,8 @@ algolia:
   applicationID: 'N00HWEGM76'
   apiKey: '916479ea342925b0950c99bd2b0401bb'
   indexName: 'drawon'
+
+sitemap:
+  path: sitemap.xml
+baidusitemap:
+  path: baidusitemap.xml
