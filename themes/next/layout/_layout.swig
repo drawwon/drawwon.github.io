@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 
 {% set html_class = 'theme-next ' + theme.scheme %}
-{% if theme.motion.enable %}
+{% if theme.use_motion %}
   {% set html_class = html_class + ' use-motion' %}
 {% endif %}
 
@@ -9,17 +9,18 @@
 <head>
   {% include '_partials/head.swig' %}
   <title>{% block title %}{% endblock %}</title>
-  {% include '_third-party/analytics/index.swig' %}
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="{{ page.lang || page.language || config.language }}">
+
+  {% include '_third-party/analytics/index.swig' %}
 
   {% set container_class = "container " %}
   {% if theme.sidebar.position %}
     {% set container_class = container_class + 'sidebar-position-' + theme.sidebar.position %}
   {% endif %}
 
-  <div class="{{ container_class }} {% block page_class %}{% endblock %}">
+  <div class="{{ container_class }} {% block page_class %}{% endblock %} ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -44,7 +45,7 @@
     <footer id="footer" class="footer">
       <div class="footer-inner">
         {% include '_partials/footer.swig' %}
-        {% include '_third-party/analytics/analytics-with-widget.swig' %}
+        {% include '_third-party/analytics/busuanzi-counter.swig' %}
         {% block footer %}{% endblock %}
       </div>
     </footer>
@@ -55,14 +56,6 @@
         {% if theme.sidebar.scrollpercent %}
           <span id="scrollpercent"><span>0</span>%</span>
         {% endif %}
-      </div>
-    {% endif %}
-
-    {% if theme.needmoreshare2.enable and theme.needmoreshare2.float.enable %}
-      <div id="needsharebutton-float">
-        <span class="btn">
-          <i class="fa fa-share-alt" aria-hidden="true"></i>
-        </span>
       </div>
     {% endif %}
 
@@ -81,12 +74,8 @@
   {% include '_third-party/comments/index.swig' %}
   {% include '_third-party/search/index.swig' %}
   {% include '_third-party/analytics/lean-analytics.swig' %}
-  {% include '_third-party/analytics/firestore.swig' %}
   {% include '_third-party/seo/baidu-push.swig' %}
-  {% include '_third-party/needsharebutton.swig' %}
-  {% include '_third-party/rating.swig' %}
   {% include '_third-party/mathjax.swig' %}
-  {% include '_third-party/scroll-cookie.swig' %}
   {% include '_third-party/exturl.swig' %}
 </body>
 </html>

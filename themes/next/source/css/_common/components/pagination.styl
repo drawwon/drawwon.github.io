@@ -9,7 +9,8 @@
   position: relative;
   top: -1px;
   margin: 0 10px;
-  padding: 0 11px;
+  padding: 0 10px;
+  line-height: 30px;
 
   +mobile() { margin: 0 5px; }
 }
@@ -43,13 +44,12 @@
 
 @media (max-width: 767px)
   .pagination { border-top: none; }
-
+  
   .pagination {
     .prev, .next, .page-number {
       margin-bottom: 10px;
       border-top: 0;
       border-bottom: 1px solid $pagination-link-border;
-      padding: 0 10px;
 
       &:hover { border-bottom-color: $pagination-link-hover-border; }
     }

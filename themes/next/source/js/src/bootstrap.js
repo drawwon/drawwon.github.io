@@ -12,7 +12,6 @@ $(document).ready(function () {
 
   NexT.utils.registerBackToTop();
 
-  // Mobile top menu bar.
   $('.site-nav-toggle button').on('click', function () {
     var $siteNav = $('.site-nav');
     var ON_CLASS_NAME = 'site-nav-on';
@@ -25,13 +24,8 @@ $(document).ready(function () {
     });
   });
 
-  /**
-   * Register JS handlers by condition option.
-   * Need to add config option in Front-End at 'layout/_partials/head.swig' file.
-   */
-  CONFIG.fancybox && NexT.utils.wrapImageWithFancyBox();
-  CONFIG.tabs && NexT.utils.registerTabsTag();
 
+  CONFIG.fancybox && NexT.utils.wrapImageWithFancyBox();
   NexT.utils.embeddedVideoTransformer();
   NexT.utils.addActiveClassToMenuItem();
 
@@ -46,7 +40,7 @@ $(document).ready(function () {
   $(document).trigger('motion:before');
 
   // Bootstrap Motion.
-  CONFIG.motion.enable && NexT.motion.integrator.bootstrap();
+  CONFIG.motion && NexT.motion.integrator.bootstrap();
 
   $(document).trigger('bootstrap:after');
 });
