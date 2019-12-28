@@ -89,8 +89,9 @@ deploy:
 # Algolia Search API Key
 algolia:
   applicationID: 'N00HWEGM76'
-  apiKey: '916479ea342925b0950c99bd2b0401bb'
+  apiKey: '4ffb067af552b681a359a4481381869e'
   indexName: 'drawon'
+  chunkSize: 5000
 
 sitemap:
   path: sitemap.xml
