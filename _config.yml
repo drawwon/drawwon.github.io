@@ -74,12 +74,13 @@ deploy:
   branch: master
   avatar: http://ooi9t4tvk.bkt.clouddn.com/logo.JPG
 
-#search
-search:
-  path: search.xml
-  field: post
-  format: html
-  limit: 10000
+# #search
+# search:
+#   path: search.xml
+#   field: post
+#   format: html
+#   limit: 10000
+
 # # Donate
 # donate:
 #   text: Donate for me
