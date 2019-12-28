@@ -9,8 +9,6 @@
 <head>
   {% include '_partials/head.swig' %}
   <title>{% block title %}{% endblock %}</title>
-  <meta name="baidu-site-verification" content="Lc9OrpdXiM" />
-  <meta baidu-gxt-verify-token="b4c65815fced37d0fce6a59dc42f50f6">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="{{ page.lang || page.language || config.language }}">
@@ -78,40 +76,6 @@
   {% include '_third-party/analytics/lean-analytics.swig' %}
   {% include '_third-party/seo/baidu-push.swig' %}
   {% include '_third-party/mathjax.swig' %}
-  {% include '_third-party/scroll-cookie.swig' %}
   {% include '_third-party/exturl.swig' %}
-  {% if theme.canvas_nest %}
-
-																										
-<script type="text/javascript">
-	if(!detectmob()){
-		loadJs("//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js");
-	}
-	function detectmob() {  
-                if( navigator.userAgent.match(/Android/i)  
-                || navigator.userAgent.match(/webOS/i)  
-                || navigator.userAgent.match(/iPhone/i)  
-                || navigator.userAgent.match(/iPad/i)  
-                || navigator.userAgent.match(/iPod/i)  
-                || navigator.userAgent.match(/BlackBerry/i)  
-                || navigator.userAgent.match(/Windows Phone/i)  
-                ){  
-                    return true;  
-                }  
-                else {  
-                    return false;  
-                }  
-            }  
-	function loadJs(src) {
-	var script = document.createElement('script');
-	script.type="text/javascript";
-	script.language = 'javascript';
-	script.src= src;
-	document.getElementsByTagName('head')[0].appendChild(script);
-}
-</script>
-
-																										
-{% endif %}
 </body>
 </html>

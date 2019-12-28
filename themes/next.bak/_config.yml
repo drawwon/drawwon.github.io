@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------
 
 # Put your favicon.ico into `hexo-site/source/` directory.
-favicon: images/favicon.ico
+favicon: /images/favicon.ico
 
 # Set default keywords (Use a comma to separate)
 keywords: "Program, Life, Read"
@@ -21,7 +21,6 @@ authoricon: heart
 
 # Footer `powered-by` and `theme-info` copyright
 copyright: true
-
 
 # Canonical, set a canonical link tag in your hexo, you could use it for your SEO of blog.
 # See: https://support.google.com/webmasters/answer/139066
@@ -44,9 +43,7 @@ menu:
   about: /about
 
   #sitemap: /sitemap.xml
-
   #commonweal: /404.html
-
 
 # Enable/Disable menu icons.
 # Icon Mapping:
@@ -65,9 +62,6 @@ menu_icons:
   sitemap: sitemap
   commonweal: heartbeat
 
-
-
-
 # ---------------------------------------------------------------
 # Scheme Settings
 # ---------------------------------------------------------------
@@ -76,7 +70,6 @@ menu_icons:
 # scheme: Muse
 scheme: Mist
 #scheme: Pisces
-
 
 # ---------------------------------------------------------------
 # Font Settings
@@ -90,7 +83,7 @@ font:
   enable: true
 
   # Uri of fonts host. E.g. //fonts.googleapis.com (Default)
-  host:host: //fonts.lug.ustc.edu.cn
+  host: //fonts.googleapis.com # fonts.lug.ustc.edu.cn是中科大的源。
 
   # Global font settings used on <body> element.
   global:
@@ -124,13 +117,9 @@ font:
     family:
     size:
 
-
-
-
 # ---------------------------------------------------------------
 # Sidebar Settings
 # ---------------------------------------------------------------
-
 
 # Social Links
 # Key is the link label showing to end users.
@@ -140,7 +129,6 @@ social:
   QQ: http://wpa.qq.com/msgrd?v=3&uin=847707695&site=qq&menu=yes
   email: mailto:jeffrey.pacino@gmail.com
   #LinkLabel: Link
-
 
 # Social Links Icons
 # Icon Mapping:
@@ -157,12 +145,10 @@ social_icons:
   QQ: QQ
   email: paper-plane
 
-
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.jpg
 # in site  directory(source/uploads): /uploads/avatar.jpg
 #avatar:
-
 
 # Table Of Contents in the Sidebar
 toc:
@@ -171,13 +157,11 @@ toc:
   # Automatically add list number to toc.
   number: true
 
-
 # Creative Commons 4.0 International License.
 # http://creativecommons.org/
 # Available: by | by-nc | by-nc-nd | by-nc-sa | by-nd | by-sa | zero
 #creative_commons: by-nc-sa
 #creative_commons:
-
 
 sidebar:
   # Sidebar Position, available value: left | right
@@ -204,14 +188,12 @@ sidebar:
   # Scroll percent label in b2t button
   scrollpercent: false
 
-
 # Blog rolls
 #links_title: Links
 #links_layout: block
 #links_layout: inline
 #links:
-  #Title: http://example.com/
-
+#Title: http://example.com/
 
 # ---------------------------------------------------------------
 # Post Settings
@@ -248,17 +230,15 @@ post_wordcount:
 
 # Wechat Subscriber
 #wechat_subscriber:
-  #enabled: true
-  #qcode: /path/to/your/wechatqcode ex. /uploads/wechat-qcode.jpg
-  #description: ex. subscribe to my blog by scanning my public wechat account
+#enabled: true
+#qcode: /path/to/your/wechatqcode ex. /uploads/wechat-qcode.jpg
+#description: ex. subscribe to my blog by scanning my public wechat account
 
 # Declare license on posts
 post_copyright:
   enable: false
   license: CC BY-NC-SA 3.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/3.0/
-
-
 
 # ---------------------------------------------------------------
 # Misc Theme Settings
@@ -273,13 +253,11 @@ custom_logo:
   enabled: false
   image:
 
-
 # Code Highlight theme
 # Available value:
 #    normal | night | night eighties | night blue | night bright
 # https://github.com/chriskempson/tomorrow-theme
 highlight_theme: normal
-
 
 # ---------------------------------------------------------------
 # Third Party Services Settings
@@ -287,10 +265,9 @@ highlight_theme: normal
 
 # MathJax Support
 mathjax:
-  enable: false
-  per_page: false
-  cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
-
+  enable: true
+  per_page: true
+  cdn: //cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 
 # Swiftype Search API Key
 #swiftype_key:
@@ -311,7 +288,7 @@ disqus:
 #hypercomments_id:
 
 # Gentie productKey
-gentie_productKey: 6a7d4e9c75c34bd5962493d1f6e941dd
+# gentie_productKey: 6a7d4e9c75c34bd5962493d1f6e941dd
 
 # changyan
 changyan:
@@ -369,34 +346,32 @@ duoshuo_info:
   user_id: 0
   #admin_nickname: Author
 
-
 # Facebook SDK Support.
 # https://github.com/iissnan/hexo-theme-next/pull/410
 facebook_sdk:
   enable: false
-  app_id:       #<app_id>
-  fb_admin:     #<user_id>
-  like_button:  #true
-  webmaster:    #true
+  app_id: #<app_id>
+  fb_admin: #<user_id>
+  like_button: #true
+  webmaster: #true
 
 # Facebook comments plugin
 # This plugin depends on Facebook SDK.
 # If facebook_sdk.enable is false, Facebook comments plugin is unavailable.
 facebook_comments_plugin:
   enable: false
-  num_of_posts: 10  # min posts num is 1
-  width: 100%       # default width is 550px
-  scheme: light     # default scheme is light (light or dark)
+  num_of_posts: 10 # min posts num is 1
+  width: 100% # default width is 550px
+  scheme: light # default scheme is light (light or dark)
 
 # VKontakte API Support.
 # To get your AppID visit https://vk.com/editapp?act=create
 vkontakte_api:
   enable: false
-  app_id:       #<app_id>
-  like:         true
-  comments:     true
+  app_id: #<app_id>
+  like: true
+  comments: true
   num_of_posts: 10
-
 
 # Show number of visitors to each article.
 # You can visit https://leancloud.cn get AppID and AppKey.
@@ -409,27 +384,25 @@ leancloud_visitors:
 # Get more information on http://ibruce.info/2015/04/04/busuanzi/
 busuanzi_count:
   # count values only if the other configs are false
-  enable: true
+  enable: false
   # custom uv span for the whole site
   site_uv: true
-  site_uv_header: <i class="fa fa-user"></i>    #如果使用默认的，会显示图标
+  site_uv_header: <i class="fa fa-user"></i> #如果使用默认的，会显示图标
   site_uv_footer:
   # custom pv span for the whole site
   site_pv: true
-  site_pv_header: <i class="fa fa-eye"></i>     #如果使用默认的，会显示图标
+  site_pv_header: <i class="fa fa-eye"></i> #如果使用默认的，会显示图标
   site_pv_footer:
   # custom pv span for one page only
   page_pv: true
-  page_pv_header: <i class="fa fa-file-o"></i>  #如果使用默认的，会显示图标
+  page_pv_header: <i class="fa fa-file-o"></i> #如果使用默认的，会显示图标
   page_pv_footer:
-
 
 # Tencent analytics ID
 # tencent_analytics:
 
 # Tencent MTA ID
 # tencent_mta:
-
 
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO
 baidu_push: false
@@ -453,24 +426,22 @@ calendar:
 
 # Algolia Search
 algolia_search:
-  enable: false
+  enable: true
   hits:
     per_page: 10
   labels:
     input_placeholder: Search for Posts
-    hits_empty: "We didn't find any results for the search: ${query}"
-    hits_stats: "${hits} results found in ${time} ms"
-
+    hits_empty: "我们没有找到任何搜索结果: ${query}"
+    hits_stats: "找到约${hits}条结果（用时${time}ms）"
 
 # Local search
 local_search:
-  enable: true
+  enable: false
 
 # External URL with BASE64 encrypt & decrypt
 # Usage: {% exturl text url "title" %}
 # Alias: {% extlink text url "title" %}
 exturl: false
-
 
 #! ---------------------------------------------------------------
 #! DO NOT EDIT THE FOLLOWING SETTINGS
@@ -484,7 +455,7 @@ use_motion: true
 fancybox: true
 
 # Canvas-nest
-canvas_nest: true
+canvas_nest: false
 
 #three_waves
 three_waves: false
@@ -501,39 +472,34 @@ canvas_ribbon: false
 # Please use the https protocol of CDN files when you enable https on your site.
 vendors:
   # Internal path prefix. Please do not edit it.
-  _internal: lib
+  _internal: vendors
 
   # Internal version: 2.1.3
-  jquery:
+  jquery: //cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js
 
   # Internal version: 2.1.5
-  # See: http://fancyapps.com/fancybox/
-  fancybox:
-  fancybox_css:
+  # Fancybox: http://fancyapps.com/fancybox/
+  fancybox: //cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js
+  fancybox_css: //cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css
 
   # Internal version: 1.0.6
-  # See: https://github.com/ftlabs/fastclick
-  fastclick:
+  fastclick: //cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js
 
   # Internal version: 1.9.7
-  # See: https://github.com/tuupola/jquery_lazyload
-  lazyload:
+  lazyload: //cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js
 
   # Internal version: 1.2.1
-  # See: http://VelocityJS.org
-  velocity:
+  velocity: //cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js
 
   # Internal version: 1.2.1
-  # See: http://VelocityJS.org
-  velocity_ui:
+  velocity_ui: //cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js
 
   # Internal version: 0.7.9
-  # See: https://faisalman.github.io/ua-parser-js/
-  ua_parser:
+  ua_parser: //cdn.jsdelivr.net/ua-parser.js/0.7.10/ua-parser.min.js
 
-  # Internal version: 4.6.2
-  # See: http://fontawesome.io/
-  fontawesome:
+  # Internal version: 4.4.0
+  # http://fontawesome.io/
+  fontawesome: //maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css
 
   # Internal version: 1
   # https://www.algolia.com
@@ -544,15 +510,17 @@ vendors:
   # https://github.com/hustcc/canvas-nest.js
   canvas_nest:
 
-  # three
+  # Internal version: r84
+  # https://github.com/mrdoob/three.js/releases
   three:
+
+  # Internal version: 1.0.0
+  # https://github.com/jjandxa/three_waves
   three_waves:
 
   # Internal version: 1.0.0
   # https://github.com/zproo/canvas-ribbon
   canvas_ribbon:
-
-
 
 # Assets
 css: css
