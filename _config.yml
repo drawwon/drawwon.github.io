@@ -74,12 +74,12 @@ deploy:
   branch: master
   avatar: http://ooi9t4tvk.bkt.clouddn.com/logo.JPG
 
-# #search
-# search:
-#   path: search.xml
-#   field: post
-#   format: html
-#   limit: 10000
+#search
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
 # # Donate
 # donate:
 #   text: Donate for me
@@ -89,7 +89,7 @@ deploy:
 # Algolia Search API Key
 algolia:
   applicationID: 'N00HWEGM76'
-  apiKey: '4ffb067af552b681a359a4481381869e'
+  apiKey: '916479ea342925b0950c99bd2b0401bb'
   indexName: 'drawon'
   chunkSize: 5000
 
