@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第 0001 题：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python练习册 from github">
+<meta property="og:url" content="http://drawwon.github.io/2017/05/09/python%E7%BB%83%E4%B9%A0%E5%86%8C-from-github/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="第 0001 题：">
+<meta property="og:locale">
+<meta property="og:image" content="http://i.imgur.com/aVhbegV.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-5-19/17092919-file_1495191243805_2e7f.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-5-25/96708619.jpg">
+<meta property="og:image" content="http://i.imgur.com/rOHbUzg.png">
+<meta property="og:image" content="http://i.imgur.com/iuz0Pbv.png">
+<meta property="og:image" content="http://i.imgur.com/VIyCZ0i.jpg">
+<meta property="article:published_time" content="2017-05-09T11:22:26.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.408Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/aVhbegV.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2017/05/09/python练习册-from-github/"/>
+
+
+
+
+
+  <title>python练习册 from github | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2017/05/09/python%E7%BB%83%E4%B9%A0%E5%86%8C-from-github/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python练习册 from github</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-09T19:22:26+08:00">
+                2017-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E7%BB%83%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程练习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="第-0001-题："><a href="#第-0001-题：" class="headerlink" title="第 0001 题："></a><strong>第 0001 题：</strong></h1><span id="more"></span>
+
+<p><strong>做为 Apple Store App 独立开发者，你要搞限时促销，为你的应用生成激活码</strong>（或者优惠券），使用 Python 如何生成 200 个激活码（或者优惠券）？</p>
+<h2 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a><strong>解决思路</strong></h2><ol>
+<li><p>首先，我们想到要编写一个200大小的循环，放置一个new_active的激活码生成函数 </p>
+</li>
+<li><p>new_active函数：既然要随机，那么我们就要有random模块，import random模块进来，主要使用的是random.choice 函数，从大写字母，小写字母以及数字当中选择</p>
+</li>
+<li><p>大写字母:<code>string.upper</code>，小写字母：<code>string.lower</code>，数字<code>range(0,10)</code>，但是前两个是<code>string</code>类型的<code>list</code>，<code>range</code>是<font color = "red" ><code>int</code></font>类型，在后面<font color='red'><code>&quot;&quot;.join(list)</code></font>的时候就无法拼接，所以我们用了<code>[str(i) for i in range(0,10) ]</code>，这样就保证了在最后可以把生成的字符串拼接起来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> pprint</span><br><span class="line"><span class="comment"># from random import *</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">new_activation</span>(<span class="params">n</span>):</span><br><span class="line">    choice_list = <span class="built_in">list</span>(string.lowercase) + <span class="built_in">list</span>(string.uppercase) + [<span class="built_in">str</span>(i) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">10</span>)]</span><br><span class="line">    string_temp = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(n):</span><br><span class="line">        temp_string = random.choice(choice_list)</span><br><span class="line">        string_temp.append(temp_string)</span><br><span class="line">    string_temp = <span class="string">&quot;&quot;</span>.join(string_temp)</span><br><span class="line">    <span class="keyword">return</span> string_temp</span><br><span class="line"></span><br><span class="line">activa_list = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">    activa_list.append(new_activation(<span class="number">110</span>))</span><br><span class="line"></span><br><span class="line">pprint.pprint(activa_list)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="第-0002-题："><a href="#第-0002-题：" class="headerlink" title="第 0002 题："></a><strong>第 0002 题</strong>：</h1><p>将 0001 题生成的 200 个激活码（或者优惠券）保存到 <strong>MySQL</strong> 关系型数据库中。 </p>
+<h2 id="解决思路-1"><a href="#解决思路-1" class="headerlink" title="解决思路"></a><strong>解决思路</strong></h2><ol>
+<li>MySql教程详见<a href="http://drawon.site/2017/05/11/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">mysql教程</a></li>
+<li>安装数据库，仅需要安装SQL sever即可</li>
+<li>使用SQlite3包，连接只需要<code>conn = sqlite3.connect(&#39;xx.db&#39;)</code>，然后建立cursor，<code>cursor = conn.cursor</code>,之后就可以建立数据表，然后存储数据了</li>
+<li>建表的sql命令，</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sql = <span class="string">&#x27;&#x27;&#x27;CREATE TABLE `activate`(\</span></span><br><span class="line"><span class="string">         `ID` integer PRIMARY KEY NOT NULL,\               # integer表示自增</span></span><br><span class="line"><span class="string">         `ACTIVATE_CODE` char(20) NOT NULL )&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>存储的命令</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql1 = <span class="string">&quot;INSERT INTO ACTIVATE (ACTIVATE_CODE) VALUES (&#x27;%s&#x27;)&quot;</span>%activate_list[i]</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>activate_list[i]</code>表示每次需要存储的激活码的值</p>
+<p><strong>详细代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/5/11 18:27</span></span><br><span class="line"><span class="keyword">from</span> activate <span class="keyword">import</span> new_activation</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sqlite3</span><br><span class="line">activate_list = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">    activate_list.append(new_activation(<span class="number">20</span>))</span><br><span class="line"><span class="keyword">if</span> os.path.exists(<span class="string">&#x27;./active.db&#x27;</span>):</span><br><span class="line">    os.remove(<span class="string">&#x27;./active.db&#x27;</span>)</span><br><span class="line">conn = sqlite3.connect(<span class="string">&#x27;./active.db&#x27;</span>)</span><br><span class="line">cursor = conn.cursor()</span><br><span class="line">sql = <span class="string">&#x27;&#x27;&#x27;CREATE TABLE `activate`(\</span></span><br><span class="line"><span class="string">         `ID` integer PRIMARY KEY NOT NULL,\</span></span><br><span class="line"><span class="string">         `ACTIVATE_CODE` char(20) NOT NULL )&#x27;&#x27;&#x27;</span></span><br><span class="line">cursor.execute(sql)</span><br><span class="line">conn.commit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">        sql1 = <span class="string">&quot;INSERT INTO ACTIVATE (ACTIVATE_CODE) VALUES (&#x27;%s&#x27;)&quot;</span>%activate_list[i]</span><br><span class="line">        <span class="built_in">print</span> sql1</span><br><span class="line">        cursor.execute(sql1)</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">raise</span> e</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    sql2 = <span class="string">&#x27;select * from activate&#x27;</span></span><br><span class="line">    cursor.execute(sql2)</span><br><span class="line">    <span class="built_in">print</span> cursor.fetchall()</span><br><span class="line">    conn.commit()</span><br><span class="line">    cursor.close()</span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
+
+<h1 id="第-0003-题："><a href="#第-0003-题：" class="headerlink" title="第 0003 题："></a><strong>第 0003 题</strong>：</h1><p><strong>第 0003 题：</strong>将 0001 题生成的 200 个激活码（或者优惠券）保存到 <strong>Redis</strong> 非关系型数据库中。 </p>
+<h2 id="解决思路-2"><a href="#解决思路-2" class="headerlink" title="解决思路"></a><strong>解决思路</strong></h2><ol>
+<li><p>ridis非关系型数据库就是一个简化的关系型数据库，没有建表这些复杂的操作</p>
+</li>
+<li><p>连接数据库的函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r = redis.Redis(host=<span class="string">&#x27;localhost&#x27;</span>,port=<span class="number">6379</span>,db=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>利用<code>r.set(&#39;列名&#39;,数据值)</code>存储数据，用<code>r.get(&#39;列名&#39;)</code>获取数据值</p>
+</li>
+</ol>
+<p>**完整代码 **</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/5/11 18:27</span></span><br><span class="line"><span class="keyword">from</span> activate <span class="keyword">import</span> new_activation</span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line">activate_list = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">100</span>):</span><br><span class="line">    activate_list.append(new_activation(<span class="number">20</span>))</span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;localhost&#x27;</span>,port=<span class="number">6379</span>,db=<span class="number">0</span>)</span><br><span class="line">r.<span class="built_in">set</span>(<span class="string">&#x27;activate&#x27;</span>,activate_list)</span><br><span class="line"><span class="built_in">print</span> r.get(<span class="string">&#x27;activate&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="第0004题"><a href="#第0004题" class="headerlink" title="第0004题"></a>第0004题</h1><p>任一个英文的纯文本文件，统计其中的单词出现的个数。</p>
+<h2 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>首先要分离出每一个单词，主要用到<code>re</code>模块和<code>string.punctuation</code>，这样就可以从文本中用<code>punctuation</code>分离开来</li>
+<li>其次要统计单词个数，就要去重，最简单的去重方式就是利用<code>set</code></li>
+</ol>
+<p><strong>具体代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/5/11 22:21</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> punctuation</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(raw_input(<span class="string">&#x27;filename:&#x27;</span>)) <span class="keyword">as</span> f:</span><br><span class="line">    text = f.read()</span><br><span class="line">    punctuation = punctuation+<span class="string">&#x27; &#x27;</span></span><br><span class="line">    pat = <span class="string">&#x27;[%s]+&#x27;</span> % punctuation</span><br><span class="line">    word = re.split(pat,text)</span><br><span class="line">    <span class="built_in">print</span> word</span><br><span class="line">    <span class="built_in">print</span> <span class="built_in">len</span>(<span class="built_in">set</span>(word))</span><br></pre></td></tr></table></figure>
+
+<h1 id="第0005题"><a href="#第0005题" class="headerlink" title="第0005题"></a>第0005题</h1><p>你有一个目录，装了很多照片，把它们的尺寸变成都不大于 iPhone5 分辨率的大小。</p>
+<h2 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>引用<code>PIL</code>(python image library)的<code>Image</code>包，其中的<code>resize</code>方法，可以调整图片大小</li>
+<li><code>os.walk</code>方法返回一个元组迭代器，然后用<code>for root, dirs, files in list_dir:</code>可以得到根目录，目录名和文件名</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">resize</span>(<span class="params">filename,new_name</span>):</span><br><span class="line">    pic = Image.<span class="built_in">open</span>(filename)</span><br><span class="line">    out = pic.resize((<span class="number">100</span>,<span class="number">200</span>),Image.ANTIALIAS)</span><br><span class="line">    out.save(new_name,quality=<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">list_dir = os.walk(<span class="string">r&#x27;C:\Users\jeffrey\Desktop\python exercise\python练习册\5\pic&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> list_dir:</span><br><span class="line">    <span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">        a = os.path.join(root, f)</span><br><span class="line">        <span class="built_in">print</span> a</span><br><span class="line">        new_name = os.path.join(root,<span class="string">&#x27;new_1&#x27;</span>+f)</span><br><span class="line">        <span class="built_in">print</span> new_name</span><br><span class="line">        resize(a,new_name)</span><br></pre></td></tr></table></figure>
+
+<h1 id="第-0006-题："><a href="#第-0006-题：" class="headerlink" title="第 0006 题："></a><strong>第 0006 题：</strong></h1><p>你有一个目录，放了你一个月的日记，都是 txt，为了避免分词的问题，假设内容都是英文，请统计出你认为每篇日记最重要的词。</p>
+<h2 id="解题思路-2"><a href="#解题思路-2" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>引用第0004题的方法，可以分离单词，然后遍历单词，就可以得到每个单词的出现次数</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/5/12 20:24</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> string <span class="keyword">import</span> punctuation</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;a.txt&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    text = f.read()</span><br><span class="line">    punctuation = punctuation+<span class="string">&#x27; &#x27;</span></span><br><span class="line">    pat = <span class="string">&#x27;[%s]+&#x27;</span> % punctuation</span><br><span class="line">    word = re.split(pat,text)</span><br><span class="line">    w = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> w1 <span class="keyword">in</span> word:</span><br><span class="line">        count = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> w2 <span class="keyword">in</span> word:</span><br><span class="line">            <span class="keyword">if</span> w1 == w2:</span><br><span class="line">                count += <span class="number">1</span></span><br><span class="line">        w[w1]=count</span><br><span class="line">    <span class="built_in">print</span> w</span><br><span class="line">    cou = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> key,value <span class="keyword">in</span> w.iteritems():</span><br><span class="line">        <span class="keyword">if</span> value &gt; cou:</span><br><span class="line">            cou = value</span><br><span class="line">            key_temp = key</span><br><span class="line"><span class="built_in">print</span> key_temp</span><br></pre></td></tr></table></figure>
+
+<h1 id="第-0007-题："><a href="#第-0007-题：" class="headerlink" title="第 0007 题："></a>第 0007 题：</h1><p>有个目录，里面是你自己写过的程序，统计一下你写过多少行代码。包括空行和注释，但是要分别列出来。</p>
+<h2 id="解题思路-3"><a href="#解题思路-3" class="headerlink" title="解题思路"></a>解题思路</h2><p>1.有目录的问题，一定会用到<code>os.walk</code>函数,使用方法如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">list_dir = os.walk(raw_input(<span class="string">&quot;dictionary name:&quot;</span>))</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> list_dir:</span><br><span class="line">	<span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(os.path.join(root,f))</span><br></pre></td></tr></table></figure>
+
+<p><strong><font color='red'>注意</font>，这里只需要<code>join(root，f)</code>就可以得到所有文件的地址</strong></p>
+<p>具体代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: gbk -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/5/14 18:31</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    list_dir = os.walk(raw_input(<span class="string">&quot;dictionary name:&quot;</span>))</span><br><span class="line">    pat = <span class="string">&#x27;\n&#x27;</span></span><br><span class="line">    code_num = <span class="number">0</span></span><br><span class="line">    annotation_num = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> list_dir:</span><br><span class="line">        <span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">            file_name = os.path.join(root,f)</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(file_name) <span class="keyword">as</span> ff:</span><br><span class="line">                text = ff.read()</span><br><span class="line">                sentence = text.split(pat)</span><br><span class="line">                <span class="keyword">for</span> line <span class="keyword">in</span> sentence:</span><br><span class="line">                    <span class="keyword">if</span> line.strip().startswith(<span class="string">&#x27;#&#x27;</span>) <span class="keyword">or</span> line.strip() == <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">                        annotation_num = annotation_num + <span class="number">1</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        code_num += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span> annotation_num</span><br><span class="line">    <span class="built_in">print</span> code_num</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="第0008题："><a href="#第0008题：" class="headerlink" title="第0008题："></a>第0008题：</h1><p>一个HTML文件，找出里面的<strong>正文</strong>。</p>
+<h2 id="解题思路-4"><a href="#解题思路-4" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>先要获取网页内容，<code>urlib2.open(&#39;www.baidu.com&#39;).read()</code></li>
+<li>要想解析网页，想到网页解析器，在网上查到可以利用<code>readability</code>模块的<code>Document</code> ，找出正文的话就用<code>get_content</code>函数就可以了</li>
+</ol>
+<h3 id="源码："><a href="#源码：" class="headerlink" title="源码："></a>源码：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">from</span> readability <span class="keyword">import</span> Document</span><br><span class="line">html = urllib2.urlopen(<span class="string">&#x27;https://github.com/drawwon/show-me-the-code&#x27;</span>)<span class="comment">#(raw_input(&#x27;please input the file name:&#x27;))</span></span><br><span class="line">text = html.read()</span><br><span class="line">doc = Document(text)</span><br><span class="line"><span class="built_in">print</span> doc.content()</span><br></pre></td></tr></table></figure>
+
+<h1 id="第0009题："><a href="#第0009题：" class="headerlink" title="第0009题："></a>第0009题：</h1><p>一个HTML文件，找出里面的<strong>链接</strong>。</p>
+<h2 id="解题思路-5"><a href="#解题思路-5" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>获取网页内容，<code>urlib2.open(&#39;www.baidu.com&#39;).read()</code></li>
+<li>找出连接，只要用<code>re</code>模块匹配<code>(http://.+)</code>，<code>re.findall(pat,text)</code>就找到了</li>
+</ol>
+<h3 id="源码：-1"><a href="#源码：-1" class="headerlink" title="源码："></a>源码：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> urllib2</span><br><span class="line"><span class="keyword">from</span> readability <span class="keyword">import</span> Document</span><br><span class="line">html = urllib2.urlopen(<span class="string">&#x27;https://github.com/drawwon/show-me-the-code&#x27;</span>)<span class="comment">#(raw_input(&#x27;please input the file name:&#x27;))</span></span><br><span class="line">text = html.read()</span><br><span class="line">pat = re.<span class="built_in">compile</span>(<span class="string">&#x27;&quot;(http.+?)&quot;&#x27;</span>)</span><br><span class="line">links = re.findall(pat, text)</span><br><span class="line"><span class="built_in">print</span> links</span><br></pre></td></tr></table></figure>
+
+<h1 id="第0010题"><a href="#第0010题" class="headerlink" title="第0010题"></a>第0010题</h1><p>使用 Python 生成类似于下图中的<strong>字母验证码图片</strong></p>
+<p><img src="http://i.imgur.com/aVhbegV.jpg" alt="字母验证码"></p>
+<h2 id="解题思路-6"><a href="#解题思路-6" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li><p>要处理图片，肯定用到<code>PIL</code>(Python Image Library)</p>
+</li>
+<li><p>首先用<code>pil.Image.new(&#39;RGB&#39;,(width,height),0xffff)</code>新建一张空白图片</p>
+</li>
+<li><p>从字母(<code>string.letters</code>)和数字<code>&#39;&#39;.join([str(i) for i in range(10)])</code>里面随机选值，用到<code>random.choice</code></p>
+</li>
+<li><p>要画图就要用到<code>ImageDraw.Draw(pic)</code></p>
+</li>
+<li><p>然后从三个随机的颜色中选一个来填满图片，<code>draw.point(xy,fill=random.choice(color1))</code></p>
+</li>
+<li><p>然后字母随机取颜色并画上，<code>draw.text(xy,text,fill,font=font))</code>，其中字体是<code>ImageFont.truetype(&quot;arial.ttf&quot;,80)</code></p>
+</li>
+<li><p>要得到模糊图片，用<code>PIL</code>当中的<code>filter</code>函数进行高斯滤波，参数为<code>ImageFilter.BLUR</code></p>
+<p>​</p>
+<p>效果</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-5-19/17092919-file_1495191243805_2e7f.jpg"></p>
+</li>
+</ol>
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> division</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageDraw</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image,ImageFont,ImageFilter</span><br><span class="line">l = []</span><br><span class="line">num = <span class="number">4</span></span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(num):</span><br><span class="line">    l.append(random.choice(string.letters+<span class="string">&#x27;&#x27;</span>.join([<span class="built_in">str</span>(i) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)])))</span><br><span class="line">pic = Image.new(<span class="string">&#x27;RGB&#x27;</span>,(<span class="number">500</span>,<span class="number">200</span>),<span class="number">0xffff</span>)</span><br><span class="line">draw = ImageDraw.Draw(pic)</span><br><span class="line">color2 = [<span class="string">&#x27;purple&#x27;</span>,<span class="string">&#x27;green&#x27;</span>,<span class="string">&#x27;brown&#x27;</span>]</span><br><span class="line">color1 = [<span class="string">&#x27;BurlyWood&#x27;</span>,<span class="string">&#x27;DarkGray&#x27;</span>,<span class="string">&#x27;DarkOliveGreen&#x27;</span>]</span><br><span class="line">width, height = pic.size</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(width+<span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(height+<span class="number">1</span>):</span><br><span class="line">        draw.point(xy=(i,j),fill=random.choice(color1))</span><br><span class="line">font = ImageFont.truetype(<span class="string">&quot;arial.ttf&quot;</span>, <span class="number">100</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(l)):</span><br><span class="line">    x = i*width/num+<span class="number">5</span></span><br><span class="line">    c = random.choice(color2)</span><br><span class="line">    draw.text(xy=(x,<span class="number">50</span>),text=l[i],fill=c,font=font)</span><br><span class="line"></span><br><span class="line">pic = pic.<span class="built_in">filter</span>(ImageFilter.BLUR)</span><br><span class="line">pic.show()</span><br><span class="line">pic.save(<span class="string">&#x27;a.jpg&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="第-0011-题"><a href="#第-0011-题" class="headerlink" title="第 0011 题"></a><strong>第 0011 题</strong></h1><p>敏感词文本文件 filtered_words.txt，里面的内容为以下内容，当用户输入敏感词语时，则打印出 Freedom，否则打印出 Human Rights。<code>北京 程序员 公务员 领导 牛比 牛逼 你娘 你妈 love sex jiangge</code></p>
+<h2 id="解题思路-7"><a href="#解题思路-7" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li><code>while 1</code>的循环，如果在列表里打印freedom，否则打印Human rights</li>
+</ol>
+<h3 id="源代码"><a href="#源代码" class="headerlink" title="源代码"></a>源代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">b_list = [<span class="string">&#x27;北京&#x27;</span>,<span class="string">&#x27;程序员&#x27;</span>,<span class="string">&#x27;公务员&#x27;</span>,<span class="string">&#x27;领导&#x27;</span>,<span class="string">&#x27;牛比&#x27;</span>,<span class="string">&#x27;牛逼&#x27;</span>,<span class="string">&#x27;你娘&#x27;</span>,<span class="string">&#x27;你妈&#x27;</span>,<span class="string">&#x27;love&#x27;</span>,<span class="string">&#x27;sex&#x27;</span>,<span class="string">&#x27;jiangge&#x27;</span>]</span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    a = raw_input(<span class="string">&#x27;请输入词汇:&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> a <span class="keyword">in</span> b_list:</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&#x27;freedom&#x27;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&#x27;human 中国&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="第-0012-题"><a href="#第-0012-题" class="headerlink" title="第 0012 题"></a><strong>第 0012 题</strong></h1><p>敏感词文本文件 filtered_words.txt，里面的内容 和 0011题一样，当用户输入敏感词语，则用 星号 * 替换，例如当用户输入「北京是个好城市」，则变成「**是个好城市」。</p>
+<h2 id="解题思路-8"><a href="#解题思路-8" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li><p>一个txt文件读入之后是ascii的编码，是不能用于正则表达式的，从其他编码到unicode需要<code>decode</code>，而从unicode到utf-8之类的编码需要encode，因为系统认为unicode是通用编码，其他编码都是通过通用编码再编码得到的</p>
+</li>
+<li><p>打开文件的时候，可以用<code>codecs.open</code>指定编码格式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">with</span> codecs.<span class="built_in">open</span>(filename,<span class="string">&#x27;r&#x27;</span>,<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    text = f.read</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>正则表达式匹配的时候，最好都变成unicode编码来匹配</p>
+</li>
+<li><p>要匹配多个关键词的时候，可以用for 一个一个的匹配</p>
+</li>
+</ol>
+<h3 id="源代码-1"><a href="#源代码-1" class="headerlink" title="源代码"></a>源代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/5/19 18:59</span></span><br><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> chardet</span><br><span class="line">b_list = [<span class="string">&#x27;北京&#x27;</span>,<span class="string">&#x27;程序员&#x27;</span>,<span class="string">&#x27;公务员&#x27;</span>,<span class="string">&#x27;领导&#x27;</span>,<span class="string">&#x27;牛比&#x27;</span>,<span class="string">&#x27;牛逼&#x27;</span>,<span class="string">&#x27;你娘&#x27;</span>,<span class="string">&#x27;你妈&#x27;</span>,<span class="string">&#x27;love&#x27;</span>,<span class="string">&#x27;sex&#x27;</span>,<span class="string">&#x27;jiangge&#x27;</span>]</span><br><span class="line"><span class="comment"># with codecs.open(&#x27;a.txt&#x27;,&#x27;r&#x27;,&#x27;utf-8&#x27;) as f:</span></span><br><span class="line"><span class="comment">#     text =  f.read()</span></span><br><span class="line"><span class="comment">#     print text</span></span><br><span class="line">text = <span class="built_in">open</span>(<span class="string">&#x27;a.txt&#x27;</span>).read().decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">pat_f = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> b_list:</span><br><span class="line">    pat_f = pat_f + <span class="string">&#x27;[&#x27;</span> + i + <span class="string">&#x27;]&#x27;</span> + <span class="string">&#x27;+&#x27;</span></span><br><span class="line"><span class="comment"># pat_f = pat_f.encode(&#x27;utf-8&#x27;, &#x27;unicode&#x27;)</span></span><br><span class="line"><span class="comment"># b = re.findall(u&#x27;(北京)+&#x27;, text)</span></span><br><span class="line">pat_f = pat_f.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span> <span class="built_in">type</span>(pat_f)</span><br><span class="line"><span class="built_in">print</span> <span class="built_in">type</span>(text)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> b_list:</span><br><span class="line">    pat = <span class="built_in">str</span>(<span class="string">&#x27;(&#x27;</span>+ i +<span class="string">&#x27;)&#x27;</span> + <span class="string">&#x27;+&#x27;</span>).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    text = re.sub(<span class="string">u&#x27;%s&#x27;</span>%pat, <span class="string">u&#x27;*&#x27;</span>*(<span class="built_in">len</span>(pat)-<span class="number">3</span>), unicode(text))</span><br><span class="line"><span class="comment"># a = re.sub(pat_f, &#x27;*&#x27;, text)</span></span><br><span class="line"><span class="comment"># print a</span></span><br><span class="line"><span class="built_in">print</span> text</span><br><span class="line"><span class="comment"># print &#x27;&#x27;.join(b).encode(&#x27;utf-8&#x27;,&#x27;gbk&#x27;)</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="第0013题"><a href="#第0013题" class="headerlink" title="第0013题"></a>第0013题</h1><p>用 Python 写一个爬图片的程序，爬 <a href="http://tieba.baidu.com/p/2166231880">这个链接里的日本妹子图片 :-)</a></p>
+<h2 id="解题思路-9"><a href="#解题思路-9" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>用<code>urllib2.urlopen(&#39;***.com&#39;).read()</code>打开网页获得网页内容</li>
+<li><code>(r&#39;src=&quot;(http[s]?://.+?\.jp[e]?g)&quot;&#39;)</code> 正则表达式，提取图片</li>
+<li>用<code>urllib.urlretrieve</code>下载图片文件，其中的链接需要去重复，用<code>set</code>就可以去重了</li>
+</ol>
+<h3 id="源代码-2"><a href="#源代码-2" class="headerlink" title="源代码"></a>源代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/5/20 14:11</span></span><br><span class="line"><span class="keyword">import</span> re,os</span><br><span class="line"><span class="keyword">import</span> urllib2,urllib,socket</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line">text = urllib2.urlopen(<span class="string">&#x27;https://www.zhihu.com/question/23535321&#x27;</span>).read()</span><br><span class="line">pat = re.<span class="built_in">compile</span>(<span class="string">r&#x27;src=&quot;(http[s]?://.+?\.(jp[e]?g|png))&quot;&#x27;</span>)</span><br><span class="line"><span class="comment"># pat2 = re.compile(r&#x27;src=&quot;(.+?\.png)&quot;&#x27;)</span></span><br><span class="line">links = re.findall(pat, text)</span><br><span class="line">socket.setdefaulttimeout(<span class="number">10</span>)</span><br><span class="line"><span class="built_in">print</span> links</span><br><span class="line">links = <span class="built_in">set</span>(links)</span><br><span class="line"><span class="comment"># links2 = re.findall(pat2, text)</span></span><br><span class="line"><span class="comment"># print len(links2)</span></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">r&#x27;.\pic&#x27;</span>):</span><br><span class="line">    os.makedirs(<span class="string">r&#x27;.\pic&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i,p <span class="keyword">in</span> <span class="built_in">enumerate</span>(links):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># print p[0]</span></span><br><span class="line">        urllib.urlretrieve(p[<span class="number">0</span>],<span class="string">r&#x27;.\pic\%s.jpg&#x27;</span>%i)</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&#x27;%s.jpg is downloading&#x27;</span>%i</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&#x27;%s.jpg download fail&#x27;</span> % i</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="第0014题"><a href="#第0014题" class="headerlink" title="第0014题"></a>第0014题</h1><p>纯文本文件 student.txt为学生信息, 里面的内容（包括花括号）如下所示：</p>
+<blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;1&quot;:[&quot;张三&quot;,150,120,100],</span><br><span class="line">	&quot;2&quot;:[&quot;李四&quot;,90,99,95],</span><br><span class="line">	&quot;3&quot;:[&quot;王五&quot;,60,66,68]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>请将上述内容写到 student.xls 文件中，如下图所示：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-5-25/96708619.jpg"></p>
+<h2 id="解题思路-10"><a href="#解题思路-10" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>txt文件是json格式，那我们那就引入<code>json</code>包，用<code>json.loads()</code>函数将txt转换为一个列表</li>
+<li>要把列表写到excel中，要用到<code>xlwt</code>包，先用<code>excel = wlwt.workbook()</code>新建一个工作簿，然后用<code>sheet = excel.add_sheet()</code>加入一个sheet，然后用<code>sheet.write(row,col, text)</code>写入内容，最后<code>excel.save(filename)</code>保存xls</li>
+<li>要遍历一个字典的key和value，用到<code>for k,v in dict.items()</code></li>
+<li>字典排序<code>sorted(dict.items, key = lambda: x:x[0])</code>，其中x是指前面要排序内容中的每一个元素</li>
+</ol>
+<h3 id="源代码-3"><a href="#源代码-3" class="headerlink" title="源代码"></a>源代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/5/25 15:42</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> csv,json,xlwt</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">read_json</span>(<span class="params">filename</span>):</span><br><span class="line">    <span class="keyword">return</span> json.loads(<span class="built_in">open</span>(filename).read().encode(<span class="string">&#x27;gbk&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">write_to_csv</span>(<span class="params">data,filename</span>):</span><br><span class="line"></span><br><span class="line">    dw = xlwt.Workbook()</span><br><span class="line">    ws = dw.add_sheet(<span class="string">&quot;student&quot;</span>,cell_overwrite_ok=<span class="literal">True</span>)</span><br><span class="line">    row = <span class="number">0</span></span><br><span class="line">    col = <span class="number">0</span></span><br><span class="line">    <span class="built_in">print</span>(data.items())</span><br><span class="line">    <span class="keyword">for</span> k,v <span class="keyword">in</span> <span class="built_in">sorted</span>(data.items(), key=<span class="keyword">lambda</span> d:d[<span class="number">0</span>]):</span><br><span class="line">        ws.write(row, col, k)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> v:</span><br><span class="line">            col = col+<span class="number">1</span></span><br><span class="line">            ws.write(row,col,i)</span><br><span class="line">        row+=<span class="number">1</span></span><br><span class="line">        col=<span class="number">0</span></span><br><span class="line">    dw.save(filename)</span><br><span class="line"></span><br><span class="line">write_to_csv(read_json(<span class="string">&#x27;a.txt&#x27;</span>),<span class="string">&#x27;student.csv&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="第0015题"><a href="#第0015题" class="headerlink" title="第0015题"></a>第0015题</h1><p>纯文本文件 city.txt为城市信息, 里面的内容（包括花括号）如下所示：</p>
+<blockquote>
+<p>   {<br>   “1” : “上海”,<br>   “2” : “北京”,<br>   “3” : “成都”<br>   }<br>   请将上述内容写到 city.xls 文件中，如下图所示：</p>
+</blockquote>
+<p><img src="http://i.imgur.com/rOHbUzg.png" alt="city.xls"></p>
+<h2 id="解题思路-11"><a href="#解题思路-11" class="headerlink" title="解题思路"></a>解题思路</h2><p>主要方法同上题相似：</p>
+<ol>
+<li>使用<code>json</code>包的<code>json.loads()</code>读入数据</li>
+<li>使用<code>xlwt</code>，打开workbook，通过<code>xlwt.add_sheet()</code>添加新的子表格，通过<code>for k,v in sorted(data,key= lambda d:d[0])</code>得到经过排序后的key和value值，并通过<code>xlrd</code>的<code>write</code>方法写入表格<br>ps.如果想输出在字典或者是list当中的中文，可以使用<code>json.dumps(list, ensure_ascii=False)</code>进行输出</li>
+</ol>
+<h2 id="源代码-4"><a href="#源代码-4" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/5/25 20:42</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> xlwt,json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">excel_write</span>(<span class="params">txtfile, csvfile</span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(txtfile) <span class="keyword">as</span> f:</span><br><span class="line">        data = json.loads(f.read().encode(<span class="string">&#x27;gbk&#x27;</span>))</span><br><span class="line">    cs = xlwt.Workbook()</span><br><span class="line">    shet = cs.add_sheet(<span class="string">&#x27;student&#x27;</span>)</span><br><span class="line">    row = <span class="number">0</span></span><br><span class="line">    col = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i,j <span class="keyword">in</span> data.items():</span><br><span class="line">        shet.write(row,col,i)</span><br><span class="line">        shet.write(row,col+<span class="number">1</span>,j)</span><br><span class="line">        row += <span class="number">1</span></span><br><span class="line">        col = <span class="number">0</span></span><br><span class="line">    cs.save(csvfile)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    excel_write(<span class="string">&#x27;a.txt&#x27;</span>,<span class="string">&#x27;student.xls&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="第0016题"><a href="#第0016题" class="headerlink" title="第0016题"></a>第0016题</h1><p> 纯文本文件 numbers.txt, 里面的内容（包括方括号）如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">	[1, 82, 65535], </span><br><span class="line">	[20, 90, 13],</span><br><span class="line">	[26, 809, 1024]</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>请将上述内容写到 numbers.xls 文件中，如下图所示：</p>
+<p><img src="http://i.imgur.com/iuz0Pbv.png" alt="numbers.xls"></p>
+<h2 id="解题思路-12"><a href="#解题思路-12" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>与上题类似，先使用<code>json</code>包的<code>load</code>方法导入数据</li>
+<li>使用<code>xlwt</code>包对数据写入xls文件中，在建立表格的时候，需要设置表格覆盖：<code>wb.add_sheet(&#39;num&#39;,cell_overwrite_ok=True)</code></li>
+</ol>
+<h2 id="源代码-5"><a href="#源代码-5" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/5/25 21:28</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> xlwt,json</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">read_txt_to_xlsfile</span>(<span class="params">txtfile,xlsfile</span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(txtfile) <span class="keyword">as</span> f:</span><br><span class="line">        data = json.loads(f.read().encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    wb = xlwt.Workbook()</span><br><span class="line">    sheet = wb.add_sheet(<span class="string">&#x27;num&#x27;</span>,cell_overwrite_ok=<span class="literal">True</span>)</span><br><span class="line">    row = col = <span class="number">0</span></span><br><span class="line">    <span class="built_in">print</span>(data)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> data:</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> i:</span><br><span class="line">            sheet.write(row,col,j)</span><br><span class="line">            col = col+<span class="number">1</span></span><br><span class="line">        row = row+<span class="number">1</span></span><br><span class="line">        col = <span class="number">0</span></span><br><span class="line">    wb.save(xlsfile)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    read_txt_to_xlsfile(<span class="string">&#x27;number.txt&#x27;</span>,<span class="string">&#x27;number.xls&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="第0017题"><a href="#第0017题" class="headerlink" title="第0017题"></a>第0017题</h1><p>将 第 0014 题中的 student.xls 文件中的内容写到 student.xml 文件中，如下所示：</p>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;root&gt;</span><br><span class="line">&lt;students&gt;</span><br><span class="line">&lt;!-- </span><br><span class="line">	学生信息表</span><br><span class="line">	<span class="string">&quot;id&quot;</span> : [名字, 数学, 语文, 英文]</span><br><span class="line">--&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">&quot;1&quot;</span> : [<span class="string">&quot;张三&quot;</span>, <span class="number">150</span>, <span class="number">120</span>, <span class="number">100</span>],</span><br><span class="line">	<span class="string">&quot;2&quot;</span> : [<span class="string">&quot;李四&quot;</span>, <span class="number">90</span>, <span class="number">99</span>, <span class="number">95</span>],</span><br><span class="line">	<span class="string">&quot;3&quot;</span> : [<span class="string">&quot;王五&quot;</span>, <span class="number">60</span>, <span class="number">66</span>, <span class="number">68</span>]</span><br><span class="line">&#125;</span><br><span class="line">&lt;/students&gt;</span><br><span class="line">&lt;/root&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="解题思路-13"><a href="#解题思路-13" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li><p>要将xls文件写入到xml文件中，首先要将数据读取出来，使用<code>xlrd</code>模块的<code>xlrd.open_workbook</code>方法打开xls文件，然后<code>ws = wb.sheet_by_index[0]</code>找到工作表，然后通过有序字典存储学生信息</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">table = OrderDict()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(ws.nrows) :</span><br><span class="line">	key = ws.row_values(i)[<span class="number">0</span>]</span><br><span class="line">	value = ws.row_values(i)[<span class="number">1</span>:]</span><br><span class="line">	table[key] = value</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开<code>xml</code>文件，用<code>with open(&#39;students.xml&#39;,&#39;w&#39;) as f：</code>打开</p>
+</li>
+<li><p>要写xml文件要用到<code>etree</code>模块，</p>
+<ul>
+<li>首先建立根节点<code>root=etree.Element(&quot;root&quot;)</code>，</li>
+<li>然后以root为根节点建立树<code>e_root = ElementTree(root)</code>，建立子节点students<code>e_students = etree.subElement(root,&#39;students&#39;)</code>，</li>
+<li>写students子节点的内容<code>e_students.text = &#39;\n&#39;+json.dumps(table, indent=4 , ensure_ascii=False)</code>，</li>
+<li>然后添加注释comment<code>e_students.append(etree.Comment(&#39;\n    学生信息表\n    &quot;id&quot; : [名字，数学，语文，英语]\n&#39;))</code>，</li>
+<li>最后写入etree的unicode元素，<code>f.write((&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#39;+etree.tounicode(e_root.getroot())))</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="源代码-6"><a href="#源代码-6" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/6/27 14:59</span></span><br><span class="line"><span class="keyword">import</span> xlrd,json</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">xls2xml</span>(<span class="params">xls_filename</span>):</span><br><span class="line">    <span class="keyword">with</span> xlrd.open_workbook(xls_filename) <span class="keyword">as</span> wb:</span><br><span class="line">        ws = wb.sheet_by_index(<span class="number">0</span>)</span><br><span class="line">    table = OrderedDict()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(ws.nrows):</span><br><span class="line">        key = <span class="built_in">int</span>(ws.row_values(i)[<span class="number">0</span>])</span><br><span class="line">        value = <span class="built_in">str</span>(ws.row_values(i)[<span class="number">1</span>:])</span><br><span class="line">        table[key] = value</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;student.xml&quot;</span>,<span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        root = etree.Element(<span class="string">&quot;root&quot;</span>)</span><br><span class="line">        e_root = etree.ElementTree(root)</span><br><span class="line">        e_students = etree.SubElement(root,<span class="string">&#x27;students&#x27;</span>)</span><br><span class="line">        e_students.text = <span class="string">&#x27;\n&#x27;</span>+json.dumps(table,indent=<span class="number">4</span>,ensure_ascii=<span class="literal">False</span>)+<span class="string">&#x27;\n&#x27;</span></span><br><span class="line">        e_students.append(etree.Comment(<span class="string">&#x27;\n    学生信息表\n    &quot;id&quot; : [名字，数学，语文，英语]\n&#x27;</span>))</span><br><span class="line">        f.write((<span class="string">&#x27;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x27;</span>+etree.tounicode(e_root.getroot())))</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    xls2xml(<span class="string">&#x27;student.xls&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span> <span class="string">&#x27;done&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="第0018题"><a href="#第0018题" class="headerlink" title="第0018题"></a>第0018题</h1><p>将 第 0015 题中的 city.xls 文件中的内容写到 city.xml 文件中，如下所示：</p>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xmlversion=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;root&gt;</span><br><span class="line">&lt;citys&gt;</span><br><span class="line">&lt;!-- </span><br><span class="line">	城市信息</span><br><span class="line">--&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">&quot;1&quot;</span> : <span class="string">&quot;上海&quot;</span>,</span><br><span class="line">	<span class="string">&quot;2&quot;</span> : <span class="string">&quot;北京&quot;</span>,</span><br><span class="line">	<span class="string">&quot;3&quot;</span> : <span class="string">&quot;成都&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">&lt;/citys&gt;</span><br><span class="line">&lt;/root&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="解题思路-14"><a href="#解题思路-14" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>方法类似于0017题，首先将xls文件通过<code>xlrd</code>读出来，放在有序字典中</li>
+<li>然后通过<code>xml.dom.minidom</code>模块建立<code>Document</code>，然后创建元素root<code>root = xml.createElement(&#39;root&#39;)</code>，然后建立子节点，最后写入xml文件中</li>
+</ol>
+<h2 id="源代码-7"><a href="#源代码-7" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/6/10 17:09</span></span><br><span class="line"><span class="keyword">import</span> xlrd,json</span><br><span class="line"><span class="keyword">from</span> xml.dom <span class="keyword">import</span> minidom</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># def list2dict(list_name):</span></span><br><span class="line"><span class="comment">#     dic = &#123;&#125;</span></span><br><span class="line"><span class="comment">#     for list_element in list_name:</span></span><br><span class="line"><span class="comment">#         dic[list_element[0]] = list_element[1:]</span></span><br><span class="line"><span class="comment">#     return dic</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">creat_and_write_xml</span>(<span class="params">filename,row_data</span>):</span><br><span class="line">    xml = minidom.Document()</span><br><span class="line">    root = xml.createElement(<span class="string">&#x27;root&#x27;</span>)</span><br><span class="line">    xml.appendChild(root)</span><br><span class="line">    city = xml.createElement(<span class="string">&#x27;city&#x27;</span>)</span><br><span class="line">    root.appendChild(city)</span><br><span class="line">    city.appendChild(xml.createComment(<span class="string">&quot;城市信息&quot;</span>))</span><br><span class="line">    row_data = json.dumps(row_data,ensure_ascii=<span class="literal">False</span>,indent=<span class="number">1</span>)</span><br><span class="line">    text = xml.createTextNode(row_data.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    city.appendChild(text)</span><br><span class="line">    f = <span class="built_in">open</span>(filename,<span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">    f.write(xml.toprettyxml())</span><br><span class="line">    f.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    data = xlrd.open_workbook(<span class="string">&#x27;city.xls&#x27;</span>)</span><br><span class="line">    table = data.sheet_by_index(<span class="number">0</span>)</span><br><span class="line">    row_data = &#123;&#125;</span><br><span class="line">    <span class="comment"># res=[]</span></span><br><span class="line">    <span class="comment"># for i in range(table.nrows):</span></span><br><span class="line">    <span class="comment">#     for j in range(table.ncols):</span></span><br><span class="line">    <span class="comment">#         if isinstance(table.cell(i,j).value,unicode):</span></span><br><span class="line">    <span class="comment">#             a = table.cell(i,j).value.encode(&#x27;gb2312&#x27;)</span></span><br><span class="line">    <span class="comment">#             # print table.cell(i,j).value</span></span><br><span class="line">    <span class="comment">#         elif isinstance(table.cell(i,j).value,float) or isinstance(table.cell(i,j).value, int):</span></span><br><span class="line">    <span class="comment">#             a = unicode(table.cell(i,j).value).decode(&#x27;utf-8&#x27;).encode(&#x27;gb2312&#x27;)</span></span><br><span class="line">    <span class="comment">#             # print table.cell(i, j).value</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment">#         # table.cell(i, j).value = str(table.cell(i, j).value).decode(&#x27;utf-8&#x27;).encode(&#x27;gb2312&#x27;)</span></span><br><span class="line">    <span class="comment">#         res.append(a)</span></span><br><span class="line">    <span class="comment">#     res.append(&quot;|&quot;)</span></span><br><span class="line">    <span class="comment"># # print res</span></span><br><span class="line">    <span class="comment"># res_string = &#x27; &#x27;.join(res).split(&quot;|&quot;)</span></span><br><span class="line">    <span class="comment"># res_string.pop(-1)</span></span><br><span class="line">    <span class="comment"># print res_string,&#x27;11111111112&#x27;</span></span><br><span class="line">    <span class="comment"># for i in range(len(res_string)):</span></span><br><span class="line">    <span class="comment">#     row_data[i+1] = res_string[i][1:]</span></span><br><span class="line">    <span class="comment"># print row_data</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(table.nrows):</span><br><span class="line">        <span class="built_in">print</span> <span class="string">&#x27;&#x27;</span>.join(table.row_values(i)[<span class="number">1</span>:])</span><br><span class="line">        row_data[i+<span class="number">1</span>] = <span class="string">&#x27;&#x27;</span>.join(table.row_values(i)[<span class="number">1</span>:])</span><br><span class="line">    filename = <span class="string">&#x27;city.xml&#x27;</span></span><br><span class="line">    creat_and_write_xml(filename, row_data)</span><br></pre></td></tr></table></figure>
+
+<h1 id="第0019题"><a href="#第0019题" class="headerlink" title="第0019题"></a>第0019题</h1><p>将 第 0016 题中的 numbers.xls 文件中的内容写到 numbers.xml 文件中，如下所示：</p>
+<blockquote>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">root</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">numbers</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- </span></span><br><span class="line"><span class="comment">	数字信息</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line"></span><br><span class="line">[</span><br><span class="line">	[1, 82, 65535],</span><br><span class="line">	[20, 90, 13],</span><br><span class="line">	[26, 809, 1024]</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">numbers</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="解题思路-15"><a href="#解题思路-15" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>整体思路与0018题类似，用<code>xlrd</code>文件读取xls文件内容</li>
+<li>用<code>xml.dom.minidom</code>创建<code>Document</code>对象，然后通过创建名为root的element<code>xml.createElement(&#39;root&#39;)</code>，然后通过<code>xml.appendChild(root)</code>把root添加为xml文件的根节点，创建并添加number节点，添加<code>comment</code>注释节点并添加为子节点，添加文本节点并添加为子节点，最终用<code>topreetyxml</code>写入xml</li>
+</ol>
+<h2 id="源代码-8"><a href="#源代码-8" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/6/10 17:09</span></span><br><span class="line"><span class="keyword">import</span> xlrd,json</span><br><span class="line"><span class="keyword">from</span> xml.dom <span class="keyword">import</span> minidom</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">creat_and_write_xml</span>(<span class="params">filename,row_data</span>):</span><br><span class="line">    xml = minidom.Document()</span><br><span class="line">    root = xml.createElement(<span class="string">&#x27;root&#x27;</span>)</span><br><span class="line">    xml.appendChild(root)</span><br><span class="line">    number = xml.createElement(<span class="string">&#x27;number&#x27;</span>)</span><br><span class="line">    root.appendChild(number)</span><br><span class="line">    number.appendChild(xml.createComment(<span class="string">&quot;城市信息&quot;</span>))</span><br><span class="line">    row_data = json.dumps(row_data,ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    text = xml.createTextNode(row_data.encode(<span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line"></span><br><span class="line">    number.appendChild(text)</span><br><span class="line">    f = <span class="built_in">open</span>(filename,<span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">    f.write(xml.toprettyxml())</span><br><span class="line">    f.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    data = xlrd.open_workbook(<span class="string">&#x27;number.xls&#x27;</span>)</span><br><span class="line">    table = data.sheet_by_index(<span class="number">0</span>)</span><br><span class="line">    row_data = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(table.nrows):</span><br><span class="line">        row_data[i+<span class="number">1</span>] = table.row_values(i)[<span class="number">1</span>:]</span><br><span class="line">    filename = <span class="string">&#x27;number.xml&#x27;</span></span><br><span class="line">    creat_and_write_xml(filename, row_data)</span><br></pre></td></tr></table></figure>
+
+<h1 id="第0020题"><a href="#第0020题" class="headerlink" title="第0020题"></a>第0020题</h1><p> <a href="http://iservice.10010.com/index_.html">登陆中国联通网上营业厅</a> 后选择「自助服务」 –&gt; 「详单查询」，然后选择你要查询的时间段，点击「查询」按钮，查询结果页面的最下方，点击「导出」，就会生成类似于 2014年10月01日～2014年10月31日通话详单.xls 文件。写代码，对每月通话时间做个统计。</p>
+<h2 id="解题思路-16"><a href="#解题思路-16" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li><p>导出的文件是一个xls文件，我们使用<code>xlrd</code>模块读入内容</p>
+</li>
+<li><p>统计数据并通过<code>plt.bar</code>画直方图，第一个参数为横坐标，第二个参数为纵坐标，<font color="red">要想plt显示中文标注</font>，需要：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>]=[<span class="string">&#x27;SimHei&#x27;</span>] <span class="comment">#用来正常显示中文标签</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>]=<span class="literal">False</span> <span class="comment">#用来正常显示负号</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="源代码-9"><a href="#源代码-9" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/6/27 16:50</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> xlrd,re,pprint</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> seaborn</span><br><span class="line">plt.rcParams[<span class="string">&#x27;font.sans-serif&#x27;</span>]=[<span class="string">&#x27;SimHei&#x27;</span>] <span class="comment">#用来正常显示中文标签</span></span><br><span class="line">plt.rcParams[<span class="string">&#x27;axes.unicode_minus&#x27;</span>]=<span class="literal">False</span> <span class="comment">#用来正常显示负号</span></span><br><span class="line">wb = xlrd.open_workbook(<span class="string">&#x27;2017-6.xls&#x27;</span>)</span><br><span class="line">ws = wb.sheet_by_index(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">time2second</span>(<span class="params">time</span>):</span><br><span class="line">    second_pattern = <span class="string">u&#x27;([0-9]+)秒&#x27;</span></span><br><span class="line">    minute_pattern = <span class="string">u&#x27;([0-9]+)分&#x27;</span></span><br><span class="line">    minute = re.findall(minute_pattern, time)</span><br><span class="line">    second = re.findall(second_pattern, time)</span><br><span class="line">    <span class="comment"># print minute,second</span></span><br><span class="line">    <span class="keyword">if</span> minute:</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">int</span>(minute[<span class="number">0</span>]) * <span class="number">60</span> + <span class="built_in">int</span>(second[<span class="number">0</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">if</span> second:</span><br><span class="line">            <span class="keyword">return</span> <span class="built_in">int</span>(second[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data=[]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(ws.nrows):</span><br><span class="line">    data.append(ws.row_values(i))</span><br><span class="line">data.pop(<span class="number">0</span>)</span><br><span class="line">call_num = OrderedDict()</span><br><span class="line">call_time = OrderedDict()</span><br><span class="line">month = <span class="string">&#x27;2017-06-&#x27;</span></span><br><span class="line">day_range = <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">31</span>)</span><br><span class="line"><span class="keyword">for</span> i,item <span class="keyword">in</span> <span class="built_in">enumerate</span>(day_range):</span><br><span class="line">    <span class="keyword">if</span> item &lt; <span class="number">10</span>:</span><br><span class="line">        day_range[i] = <span class="string">&#x27;0&#x27;</span>+<span class="built_in">str</span>(item)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        day_range[i] = <span class="built_in">str</span>(i)</span><br><span class="line">date_range = [ month + day + <span class="string">&quot; &quot;</span> <span class="keyword">for</span> day <span class="keyword">in</span> day_range]</span><br><span class="line"><span class="keyword">for</span> date <span class="keyword">in</span> date_range:</span><br><span class="line">    call_num[date] = <span class="number">0</span></span><br><span class="line">    call_time[date] = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data)):</span><br><span class="line">    row_value = data[row]</span><br><span class="line">    time = time2second(row_value[<span class="number">3</span>])</span><br><span class="line">    <span class="keyword">for</span> element <span class="keyword">in</span> row_value:</span><br><span class="line">        <span class="keyword">for</span> date <span class="keyword">in</span> date_range:</span><br><span class="line">            <span class="keyword">if</span> re.<span class="keyword">match</span>(date,element):</span><br><span class="line">                <span class="comment"># print element</span></span><br><span class="line">                call_num[date] = call_num[date] + <span class="number">1</span></span><br><span class="line">                call_time[date] = call_time[date] + time</span><br><span class="line"><span class="comment"># print call_num</span></span><br><span class="line"><span class="comment"># print call_time</span></span><br><span class="line">num = []</span><br><span class="line">time = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> call_num.iteritems():</span><br><span class="line">    num.append(i[<span class="number">1</span>])</span><br><span class="line">    time.append(i[<span class="number">0</span>])</span><br><span class="line"><span class="built_in">print</span> num</span><br><span class="line"><span class="built_in">print</span> np.arange(<span class="built_in">len</span>(num))</span><br><span class="line">plt.bar(np.arange(<span class="built_in">len</span>(num)),num)</span><br><span class="line">plt.xticks(<span class="built_in">range</span>(<span class="built_in">len</span>(num)))</span><br><span class="line">plt.xlabel(<span class="string">u&#x27;6月通话时间&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> i, v <span class="keyword">in</span> <span class="built_in">enumerate</span>(num):</span><br><span class="line">    plt.text(i-<span class="number">0.35</span>,v+<span class="number">0.2</span>, <span class="built_in">str</span>(v), color=<span class="string">&#x27;blue&#x27;</span>, fontweight=<span class="string">&#x27;bold&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h1 id="第0021题"><a href="#第0021题" class="headerlink" title="第0021题"></a>第0021题</h1><p>通常，登陆某个网站或者 APP，需要使用用户名和密码。密码是如何加密后存储起来的呢？请使用 Python 对密码加密。</p>
+<h2 id="解题思路-17"><a href="#解题思路-17" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>要想加密，可以使用<code>hashlib.sha256</code>库，使用<code>os.random(8)</code>生成一个长度为8位的salt，让密码与salt一起进行哈希，进行哈希的函数是<code>hmac.HMAC</code></li>
+<li>判定输入的密码是不是正确，只需要将新接受到的密码与原先的salt一起进行一次hash看是否等于之前的hash结果</li>
+</ol>
+<h2 id="源代码-10"><a href="#源代码-10" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/6/28 11:00</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">from</span> hmac <span class="keyword">import</span> HMAC</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hash_password</span>(<span class="params">password, salt = <span class="literal">None</span></span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(password, unicode):</span><br><span class="line">        password = password.encode(<span class="string">&#x27;UTF-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> salt <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        salt = os.urandom(<span class="number">8</span>)</span><br><span class="line">    result = HMAC(password, salt, sha256).digest()</span><br><span class="line">    <span class="keyword">return</span> result,salt</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">authen_password</span>(<span class="params">result, new_password, salt</span>):</span><br><span class="line">    <span class="keyword">return</span> hash_password(new_password,salt)[<span class="number">0</span>] == result</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    password = raw_input(<span class="string">&#x27;please input the password: &#x27;</span>)</span><br><span class="line">    result,salt = hash_password(password)</span><br><span class="line">    <span class="built_in">print</span> result</span><br><span class="line">    new_password = raw_input(<span class="string">&#x27;please input the password again: &#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span> authen_password(result,password,salt)</span><br></pre></td></tr></table></figure>
+
+<h1 id="第0022题"><a href="#第0022题" class="headerlink" title="第0022题"></a>第0022题</h1><p> iPhone 6、iPhone 6 Plus 早已上市开卖。请查看你写得 第 0005 题的代码是否可以复用。</p>
+<h2 id="解题思路-18"><a href="#解题思路-18" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li>整体思路与0005题类似，利用<code>PIL.Image.resize</code>函数对图片进行重塑大小</li>
+</ol>
+<h2 id="源代码-11"><a href="#源代码-11" class="headerlink" title="源代码"></a>源代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding: gbk -*-</span></span><br><span class="line"><span class="comment"># @Time    : 2017/6/28 13:53</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">resize</span>(<span class="params">filename,new_name</span>):</span><br><span class="line">    pic = Image.<span class="built_in">open</span>(filename)</span><br><span class="line">    out = pic.resize((<span class="number">1000</span>,<span class="number">800</span>),Image.ANTIALIAS)</span><br><span class="line">    out.save(new_name,quality=<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">list_dir = os.walk(<span class="string">r&#x27;C:\Users\jeffrey\Desktop\python exercise\python练习册\22\pic&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> list_dir:</span><br><span class="line">    <span class="keyword">for</span> f <span class="keyword">in</span> files:</span><br><span class="line">        a = os.path.join(root, f)</span><br><span class="line">        <span class="built_in">print</span> a</span><br><span class="line">        new_name = os.path.join(root,<span class="string">&#x27;new_1&#x27;</span>+f)</span><br><span class="line">        <span class="built_in">print</span> new_name</span><br><span class="line">        resize(a,new_name)</span><br></pre></td></tr></table></figure>
+
+<h1 id="第0023题"><a href="#第0023题" class="headerlink" title="第0023题"></a>第0023题</h1><p>使用 Python 的 Web 框架，做一个 Web 版本 留言簿 应用。</p>
+<p><a href="http://v2ex.com/t/151643#reply53">阅读资料：Python 有哪些 Web 框架</a></p>
+<p><img src="http://i.imgur.com/VIyCZ0i.jpg" alt="留言簿参考"></p>
+<h2 id="解题思路-19"><a href="#解题思路-19" class="headerlink" title="解题思路"></a>解题思路</h2><ol>
+<li><p>使用的是flask框架，参照网上的示例，先在app文件夹下建立<code>__init__.py</code>，在文件中写入如下内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> FLASK</span><br><span class="line"><span class="keyword">from</span> flask_mongoengine <span class="keyword">import</span> MongoEngine</span><br><span class="line"></span><br><span class="line">app = FLASK(__name__)</span><br><span class="line">app.config.from_object(<span class="string">&quot;config&quot;</span>)</span><br><span class="line">db = MongoEngine(app)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> views,models</span><br></pre></td></tr></table></figure>
+
+<p>其中的<code>models.py</code>定义了Todo类，包含内容，时间，和状态三个属性，如下所示:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> db</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> flask_mongoengine.wtf <span class="keyword">import</span> model_form</span><br></pre></td></tr></table></figure>
+
+
+<p>class Todo(db.Document):<br>content &#x3D; db.StringField(required&#x3D;True, max_length&#x3D;20)<br>time &#x3D; db.DateTimeField(default&#x3D;datetime.datetime.now())<br>status &#x3D; db.IntField(default&#x3D;0)<br>TodoForm &#x3D; model_form(Todo)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">其中`views.py`定义了每个页面的函数，如下：</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">from . import app</span><br><span class="line">from flask import render_template, request</span><br><span class="line">from models import Todo, TodoForm</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/&#x27;)</span><br><span class="line">def index():</span><br><span class="line">    form = TodoForm()</span><br><span class="line">    todos = Todo.objects.order_by(&#x27;-time&#x27;)</span><br><span class="line">    return render_template(&quot;index.html&quot;, todos=todos, form=form)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/add&#x27;, methods=[&#x27;POST&#x27;, ])</span><br><span class="line">def add():</span><br><span class="line">    form = TodoForm(request.form)</span><br><span class="line">    if form.validate():</span><br><span class="line">        content = form.content.data</span><br><span class="line">        todo = Todo(content=content)</span><br><span class="line">        todo.save()</span><br><span class="line">    todos = Todo.objects.order_by(&#x27;-time&#x27;)</span><br><span class="line">    return render_template(&quot;index.html&quot;, todos=todos, form=form)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/done/&lt;string:todo_id&gt;&#x27;)</span><br><span class="line">def done(todo_id):</span><br><span class="line">    form = TodoForm()</span><br><span class="line">    todo = Todo.objects.get_or_404(id=todo_id)</span><br><span class="line">    todo.status = 1</span><br><span class="line">    todo.save()</span><br><span class="line">    todos = Todo.objects.all()</span><br><span class="line">    return render_template(&#x27;index.html&#x27;, todos=todos, form=form)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/undone/&lt;string:todo_id&gt;&#x27;)</span><br><span class="line">def undone(todo_id):</span><br><span class="line">    form = TodoForm()</span><br><span class="line">    todo = Todo.objects.get_or_404(id=todo_id)</span><br><span class="line">    todo.status = 0</span><br><span class="line">    todo.save()</span><br><span class="line">    todos = Todo.objects.all()</span><br><span class="line">    return render_template(&quot;index.html&quot;, todos=todos,form=form)</span><br><span class="line"></span><br><span class="line">@app.route(&#x27;/delete/&lt;string:todo_id&gt;&#x27;)</span><br><span class="line">def delete(todo_id):</span><br><span class="line">    form = TodoForm()</span><br><span class="line">    todo = Todo.objects.get_or_404(id=todo_id)</span><br><span class="line">    todo.delete()</span><br><span class="line">    todos = Todo.objects.all()</span><br><span class="line">    return render_template(&#x27;index.html&#x27;, todos=todos,form=form)</span><br><span class="line"></span><br><span class="line">@app.errorhandler(404)</span><br><span class="line">def not_found(e):</span><br><span class="line">    return render_template(&#x27;404.html&#x27;),404</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+<p><strong>其中<code>index.html</code>文件是放在<code>app/templates</code>文件夹下的网页模板文件</strong></p>
+<p><strong>所有关于<code>index.html</code>文件的静态文件（如js和css文件）均放在<code>app/statics</code>下面</strong></p>
+</li>
+<li><p>在<code>index.html</code>文件中写入网页模板如下：<br>如果要用到循环：大括号加百分号的形式，<code>&#123; % for error in form.error.content % &#125;</code><br>要用到某个变量：双大括号，<code>&#123; &#123; &#125; &#125; t.content &#125;&#125;</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&#123; % extends &quot;base.html&quot; % &#125; &#123; % block content % &#125; <span class="comment">&lt;!--继承base.html--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">td</span>&#123;<span class="attribute">text-align</span>: center&#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-class">.content_td</span>&#123;<span class="attribute">width</span>: <span class="number">100px</span>&#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-class">.time_td</span>&#123;<span class="attribute">width</span>: <span class="number">300px</span>&#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-class">.done_td</span>&#123;<span class="attribute">width</span>: <span class="number">100px</span>&#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">class</span>=<span class="string">&quot;input-form&quot;</span> <span class="attr">action</span>=<span class="string">&quot;/add&quot;</span> <span class="attr">method</span>=<span class="string">&quot;post&quot;</span>&gt;</span>   <span class="comment">&lt;!--输入框，记录输入的内容--&gt;</span></span><br><span class="line">    &#123; &#123; &#125; &#125; form.hidden_tag() &#125;&#125;</span><br><span class="line">    &#123; &#123; &#125; &#125; form.content(class=&quot;form-control&quot;) &#125;&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;input-btn&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">&quot;btn-primary&quot;</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>Add<span class="tag">&lt;/<span class="name">button</span>&gt;</span>  <span class="comment">&lt;!--提交按钮--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line">&#123; % for error in form.errors.content % &#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;flash alert&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123; &#123; &#125; &#125; error &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">&#123; % endfor % &#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Todo List<span class="tag">&lt;/<span class="name">h2</span>&gt;</span> </span><br><span class="line">    &#123; % if todos % &#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">&quot;table&quot;</span> <span class="attr">style</span>=<span class="string">&quot;margin: 0 auto&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">thead</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;content_td&quot;</span>&gt;</span>Content<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;time_td&quot;</span>&gt;</span>Time<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;done_td&quot;</span>&gt;</span>Operation<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">thead</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tbody</span>&gt;</span></span><br><span class="line">            &#123; % for t in todos % &#125;</span><br><span class="line">            <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;content_td&quot;</span>&gt;</span>&#123; &#123; &#125; &#125; t.content &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;time_td&quot;</span>&gt;</span>&#123; &#123; &#125; &#125; t.time.strftime(&#x27; %m-%d %H:%M&#x27;) &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">td</span> <span class="attr">class</span>=<span class="string">&quot;done_td&quot;</span>&gt;</span></span><br><span class="line">                    &#123; % if t.status == 0 % &#125;</span><br><span class="line">                    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;/done/&#123; &#123; &#125; &#125; t.id &#125;&#125;&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-primary&quot;</span> <span class="attr">style</span>=<span class="string">&quot;color: blue&quot;</span>&gt;</span>Done<span class="tag">&lt;/<span class="name">a</span>&gt;</span> </span><br><span class="line">                    &#123; % else % &#125;</span><br><span class="line">                    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;/undone/&#123; &#123; &#125; &#125; t.id &#125;&#125;&quot;</span> <span class="attr">class</span>=<span class="string">&quot;btn btn-primary&quot;</span> <span class="attr">style</span>=<span class="string">&quot;color: red&quot;</span>&gt;</span>Undone<span class="tag">&lt;/<span class="name">a</span>&gt;</span> </span><br><span class="line">                    &#123; % endif % &#125;</span><br><span class="line">                    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;/delete/&#123; &#123; &#125; &#125; t.id &#125;&#125;&quot;</span> <span class="attr">class</span>=<span class="string">&quot;delete btn&quot;</span>&gt;</span>Delete<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">            &#123; % endfor % &#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">    &#123; % else % &#125;</span><br><span class="line">        <span class="tag">&lt;<span class="name">h3</span> <span class="attr">style</span>=<span class="string">&quot;color: red&quot;</span>&gt;</span>NO Todos, please add things<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    &#123; % endif % &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">&#123; % endblock % &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>而<code>index.html</code>文件继承于<code>base.html</code>文件如下：</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">        *&#123;<span class="attribute">text-align</span>: center&#125;</span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">td</span>&#123;<span class="attribute">line-height</span>: <span class="number">30px</span>&#125;</span></span><br><span class="line"><span class="language-css">        </span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>to_do<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;&#123; &#123; &#125; &#125; url_for(&#x27;static&#x27;,filename=&#x27;bootstrap.css&#x27;) &#125;&#125;&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">&quot;&#123; &#123; &#125; &#125; url_for(&#x27;static&#x27;,filename=&#x27;index.css&#x27;) &#125;&#125;&quot;</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;page-header&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>my-flask-todo<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;row&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;col-lg-10&quot;</span>&gt;</span></span><br><span class="line">           &#123; % block content % &#125;</span><br><span class="line">           &#123; % endblock % &#125;</span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">footer</span> <span class="attr">class</span>=<span class="string">&quot;footer&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;text-muted&quot;</span>&gt;</span>Copyright © drawon 2015<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在<code>my_to_do/app</code>的<code>my_to_do</code>文件夹下，写配置文件<code>config.py</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SECRET_KEY = <span class="string">&quot;never tell you&quot;</span></span><br><span class="line">MONGODB_SETTINGS = &#123;<span class="string">&#x27;DB&#x27;</span>: <span class="string">&#x27;todo_db&#x27;</span>&#125;</span><br><span class="line">WTF_CSRF_ENABLED = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在<code>my_to_do/app</code>的<code>my_to_do</code>文件夹下，写管理文件<code>manage.py</code>，通过这个py文件启动flask：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask.ext.script <span class="keyword">import</span> Manager, Server</span><br><span class="line"><span class="keyword">from</span> app <span class="keyword">import</span> app</span><br><span class="line"><span class="keyword">from</span> app.models <span class="keyword">import</span> Todo</span><br><span class="line"></span><br><span class="line">manager = Manager(app)                     <span class="comment">#定义Manager对象</span></span><br><span class="line"></span><br><span class="line">manager.add_command(<span class="string">&quot;runserver&quot;</span>,</span><br><span class="line">                    Server(host=<span class="string">&#x27;0.0.0.0&#x27;</span>,</span><br><span class="line">                           port=<span class="number">5000</span>,</span><br><span class="line">                           use_debugger=<span class="literal">True</span>)) <span class="comment">#通过add_command命令添加网页启动命令 runserver </span></span><br><span class="line"></span><br><span class="line"><span class="meta">@manager.command    </span><span class="comment"># 添加新的命令save_todo</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">save_todo</span>():</span><br><span class="line">todo = Todo(content=<span class="string">&quot;my first todo&quot;</span>)</span><br><span class="line">todo.save()</span><br><span class="line"><span class="keyword">if</span> name == <span class="string">&#x27;main&#x27;</span>:</span><br><span class="line">	manager.run()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在命令行运行 <code>python manage.py runserver</code>即可开启网页</p>
+</li>
+</ol>
+<h2 id="源代码-12"><a href="#源代码-12" class="headerlink" title="源代码"></a>源代码</h2><p>具体请查看<a href="https://github.com/drawwon/show-me-the-code/tree/master/23">github</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/20/python%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B%EF%BC%88%E5%8D%81%E4%BA%94%EF%BC%89%EF%BC%9Apython%E5%92%8Cweb/" rel="next" title="python基础教程（十五）：Python和Web">
+                <i class="fa fa-chevron-left"></i> python基础教程（十五）：Python和Web
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/11/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/" rel="prev" title="数据库基础教程">
+                数据库基础教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC-0001-%E9%A2%98%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">第 0001 题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF"><span class="nav-number">1.1.</span> <span class="nav-text">解决思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC-0002-%E9%A2%98%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">第 0002 题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">解决思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC-0003-%E9%A2%98%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">第 0003 题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%80%9D%E8%B7%AF-2"><span class="nav-number">3.1.</span> <span class="nav-text">解决思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0004%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">第0004题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="nav-number">4.1.</span> <span class="nav-text">解题思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0005%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">第0005题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-1"><span class="nav-number">5.1.</span> <span class="nav-text">解题思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC-0006-%E9%A2%98%EF%BC%9A"><span class="nav-number">6.</span> <span class="nav-text">第 0006 题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-2"><span class="nav-number">6.1.</span> <span class="nav-text">解题思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC-0007-%E9%A2%98%EF%BC%9A"><span class="nav-number">7.</span> <span class="nav-text">第 0007 题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-3"><span class="nav-number">7.1.</span> <span class="nav-text">解题思路</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0008%E9%A2%98%EF%BC%9A"><span class="nav-number">8.</span> <span class="nav-text">第0008题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-4"><span class="nav-number">8.1.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%EF%BC%9A"><span class="nav-number">8.1.1.</span> <span class="nav-text">源码：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0009%E9%A2%98%EF%BC%9A"><span class="nav-number">9.</span> <span class="nav-text">第0009题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-5"><span class="nav-number">9.1.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%EF%BC%9A-1"><span class="nav-number">9.1.1.</span> <span class="nav-text">源码：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0010%E9%A2%98"><span class="nav-number">10.</span> <span class="nav-text">第0010题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-6"><span class="nav-number">10.1.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E7%A0%81"><span class="nav-number">10.1.1.</span> <span class="nav-text">源码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC-0011-%E9%A2%98"><span class="nav-number">11.</span> <span class="nav-text">第 0011 题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-7"><span class="nav-number">11.1.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="nav-number">11.1.1.</span> <span class="nav-text">源代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC-0012-%E9%A2%98"><span class="nav-number">12.</span> <span class="nav-text">第 0012 题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-8"><span class="nav-number">12.1.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-1"><span class="nav-number">12.1.1.</span> <span class="nav-text">源代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0013%E9%A2%98"><span class="nav-number">13.</span> <span class="nav-text">第0013题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-9"><span class="nav-number">13.1.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-2"><span class="nav-number">13.1.1.</span> <span class="nav-text">源代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0014%E9%A2%98"><span class="nav-number">14.</span> <span class="nav-text">第0014题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-10"><span class="nav-number">14.1.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-3"><span class="nav-number">14.1.1.</span> <span class="nav-text">源代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0015%E9%A2%98"><span class="nav-number">15.</span> <span class="nav-text">第0015题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-11"><span class="nav-number">15.1.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-4"><span class="nav-number">15.2.</span> <span class="nav-text">源代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0016%E9%A2%98"><span class="nav-number">16.</span> <span class="nav-text">第0016题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-12"><span class="nav-number">16.1.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-5"><span class="nav-number">16.2.</span> <span class="nav-text">源代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0017%E9%A2%98"><span class="nav-number">17.</span> <span class="nav-text">第0017题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-13"><span class="nav-number">17.1.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-6"><span class="nav-number">17.2.</span> <span class="nav-text">源代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0018%E9%A2%98"><span class="nav-number">18.</span> <span class="nav-text">第0018题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-14"><span class="nav-number">18.1.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-7"><span class="nav-number">18.2.</span> <span class="nav-text">源代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0019%E9%A2%98"><span class="nav-number">19.</span> <span class="nav-text">第0019题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-15"><span class="nav-number">19.1.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-8"><span class="nav-number">19.2.</span> <span class="nav-text">源代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0020%E9%A2%98"><span class="nav-number">20.</span> <span class="nav-text">第0020题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-16"><span class="nav-number">20.1.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-9"><span class="nav-number">20.2.</span> <span class="nav-text">源代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0021%E9%A2%98"><span class="nav-number">21.</span> <span class="nav-text">第0021题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-17"><span class="nav-number">21.1.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-10"><span class="nav-number">21.2.</span> <span class="nav-text">源代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0022%E9%A2%98"><span class="nav-number">22.</span> <span class="nav-text">第0022题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-18"><span class="nav-number">22.1.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-11"><span class="nav-number">22.2.</span> <span class="nav-text">源代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC0023%E9%A2%98"><span class="nav-number">23.</span> <span class="nav-text">第0023题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-19"><span class="nav-number">23.1.</span> <span class="nav-text">解题思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81-12"><span class="nav-number">23.2.</span> <span class="nav-text">源代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

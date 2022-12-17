@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="deeplearning,机器学习,深度学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这篇博文主要讲的是关于deeplearning.ai的第三门课程的内容，《Structuring Machine Learning Projects》">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coursera-deeplearning-ai-（三）">
+<meta property="og:url" content="http://drawwon.github.io/2018/05/07/Coursera-deeplearning-ai-%EF%BC%88%E4%B8%89%EF%BC%89/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="这篇博文主要讲的是关于deeplearning.ai的第三门课程的内容，《Structuring Machine Learning Projects》">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/31363076.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/18118181.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/77729361.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/48157316.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/8559400.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/77589726.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-8/14356520.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-8/67730158.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/77418193.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/17088670.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/78361136.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/83829145.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/52399374.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/6819337.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/59103871.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/60205274.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/58730529.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/92028508.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/63267645.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/98914578.jpg">
+<meta property="article:published_time" content="2018-05-07T02:19:44.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.389Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="deeplearning">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/31363076.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2018/05/07/Coursera-deeplearning-ai-（三）/"/>
+
+
+
+
+
+  <title>Coursera-deeplearning-ai-（三） | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2018/05/07/Coursera-deeplearning-ai-%EF%BC%88%E4%B8%89%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Coursera-deeplearning-ai-（三）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-07T10:19:44+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇博文主要讲的是关于deeplearning.ai的第三门课程的内容，《Structuring Machine Learning Projects》</p>
+<span id="more"></span>
+
+<h2 id="Week-one"><a href="#Week-one" class="headerlink" title="Week one"></a>Week one</h2><h3 id="机器学习策略简介"><a href="#机器学习策略简介" class="headerlink" title="机器学习策略简介"></a>机器学习策略简介</h3><p>当你构建了一个机器学习系统，但是结果达不到你的要求的时候，你可能会尝试以下的方法</p>
+<ul>
+<li>collect more data</li>
+<li>collect more diverse training set</li>
+<li>train algorithm longer with gradient descent</li>
+<li>try Adam instead of gradient descent</li>
+<li>try bigger network</li>
+<li>try smaller network</li>
+<li>try dropout</li>
+<li>add L2 regularization</li>
+<li>network architecture<ul>
+<li>activation functions</li>
+<li># hidden units</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<h3 id="Orthogonalization-正交化"><a href="#Orthogonalization-正交化" class="headerlink" title="Orthogonalization(正交化)"></a>Orthogonalization(正交化)</h3><p>正如同调整电视或者是汽车的控制一样，通常一个按钮用于调整一个方面，这样才方便调整到你希望的结果，如果一个按钮控制很多个方面，那么你很难将结果调整到合适</p>
+<p>在机器学习的过程中，通常需要调整如下图的四个目标</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/31363076.jpg"></p>
+<ol>
+<li>首先是要在训练集上面表现够好（基本达到人工识别的水平），如果效果不够好，尝试更大的网络，或者好的优化算法比如Adam</li>
+<li>第二要在dev set 上面表现够好，如果不过好，尝试正则化或者更大的训练集</li>
+<li>其次在test set上面表现够好，如果不够好，需要尝试更大的dev set（因为你之前在dev set上面表现已经足够好了，但是在test set上面表现不够好，很可能是因为dev set取的太小了）</li>
+<li>最后要求在现实世界的问题中表现够好，如果不够好，那么就要改变你的dev set 或者是 cost function，因为你之前在dev和test上用定义好的cost function已经能达到很好的结果，而在现实世界中不行，那可能就是你的cost function定义不够符合现实问题</li>
+</ol>
+<h3 id="设定目标"><a href="#设定目标" class="headerlink" title="设定目标"></a>设定目标</h3><h4 id="单一数值化评价矩阵"><a href="#单一数值化评价矩阵" class="headerlink" title="单一数值化评价矩阵"></a>单一数值化评价矩阵</h4><p>加入有A,B两个分类器，其精确率和召回率分别如下，精确率的定义是你分类为猫的样本中真正是猫的比例，召回率是所有是猫的图片最终被正确分类为猫的比例</p>
+<p>两个定义倒不是非常重要，重要的是我们通常会需要在这两者当中做折中</p>
+<p>如果你尝试了很多组超参的组合，你就需要不仅仅是在2个分类器之间选择，而是在十几个分类器之间选择了</p>
+<p>为了能够同时照顾到精确率和召回率，引入一个F1 score，这个指标同时考虑了精确率和召回率</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/18118181.jpg"></p>
+<p>F1score 的定义是precision和recall的调和平均数（hormonic mean），表示为$F_1&#x3D;\frac{2}{1&#x2F;P+1&#x2F;R}$,P和R分别表示精确率和召回率</p>
+<h4 id="满足-statisficing-和优化-optimizing-矩阵"><a href="#满足-statisficing-和优化-optimizing-矩阵" class="headerlink" title="满足(statisficing)和优化(optimizing)矩阵"></a>满足(statisficing)和优化(optimizing)矩阵</h4><p>加入你现在有两个系统，第一个是用来分类猫图片的，但是又要考虑时间；第二个是用来唤醒关键字的，要同时考虑准确率和false positive（没有说话但是被唤醒了）</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/77729361.jpg"></p>
+<p>第一个猫图片系统可以用&lt;&#x3D;100ms的值的最大精确度来衡量</p>
+<p>第二个可以用在24小时内被唤醒小于等于1次的，最大化精度的系统</p>
+<h4 id="训练，开发，测试集的分布"><a href="#训练，开发，测试集的分布" class="headerlink" title="训练，开发，测试集的分布"></a>训练，开发，测试集的分布</h4><p>开发集和测试集需要来自于同一个分布，如果不同，你在开发集上面得到了很好的精度，运用到测试集的时候，就相当于是找另外一个问题的最优值，这样效果一般来说都不够好</p>
+<p>在传统的机器学习项目中，因为数据量不是很大，比如有100个，1000个或者10000个数据，通常train和test的比例是7 0%和30%，如果需要dev set的情况就是60%train，20%dev，20%test</p>
+<p>在数据量比较大的时候，比如100w条数据的时候，可能98%的train，1%的dev和test，因为1w条dev和test已经绰绰有余了</p>
+<h4 id="改变dev-x2F-test-setd和评估矩阵"><a href="#改变dev-x2F-test-setd和评估矩阵" class="headerlink" title="改变dev&#x2F;test setd和评估矩阵"></a>改变dev&#x2F;test setd和评估矩阵</h4><p>比如你现在有一个分类猫图片的分类器，其中一个错误率低，但是存在一些色情图片，这个时候就要改变你的评估矩阵，加入一个系数，这个系数当图片不是色情图片的时候为1，是色情图片的时候为10或者100，这样如果是色情图片，错误率就会变得很高，实现了你的要求</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/48157316.jpg"></p>
+<p>再来看个例子，假如你的分类器的dev和test的数据都是高清的猫图片，而最后应用的时候的图片的质量都很差，此时你分不出来猫图片，这个时候我们就要考虑改变dev&#x2F;test set，或者改变评价指标</p>
+<h3 id="与人工分辨水平的比较"><a href="#与人工分辨水平的比较" class="headerlink" title="与人工分辨水平的比较"></a>与人工分辨水平的比较</h3><p>当你的系统超过了人类的精度的时候，可能就接近一个称之为贝叶斯优化错误或者是贝叶斯错误的值了，这个值是理论上的最佳精度，你不论如何用更复杂的模型或者是调参都无法逾越这个值</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/8559400.jpg"></p>
+<p>与人类相比的原因是因为人类擅长很多方面，只要你的系统还不如人类做得好，你就可以用人工标注出更多的数据，以及分析为什么人工做的比机器好，更好的分析偏差和方差</p>
+<h3 id="可避免的偏差和方差"><a href="#可避免的偏差和方差" class="headerlink" title="可避免的偏差和方差"></a>可避免的偏差和方差</h3><p>训练集误差和贝叶斯误差之间的距离成为可避免的偏差，训练集误差和开发集误差之间的差距成为可避免的偏差，如下图所示</p>
+<p>两者当中，哪个大我们就专注于减少哪一个</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-7/77589726.jpg"></p>
+<h3 id="超过人工水平"><a href="#超过人工水平" class="headerlink" title="超过人工水平"></a>超过人工水平</h3><p>人类尤其擅长感知任务，比如图片分类，自然语言处理和语音识别，机器更擅长数据挖掘，找寻数字规律等任务</p>
+<p>机器在感知领域能够超越人工水平是非常棒的效果，现在越来越多领域已经可以超越人类</p>
+<h3 id="改进模型效果的策略"><a href="#改进模型效果的策略" class="headerlink" title="改进模型效果的策略"></a>改进模型效果的策略</h3><p>如下图，改进模型表现，主要有两点，首先是可以在训练集上面表现的很好，然后是扩展到开发集和测试集</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-8/14356520.jpg"></p>
+<p>具体来说，对于不同的问题，有如下的策略</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-8/67730158.jpg"></p>
+<h2 id="Week-Two"><a href="#Week-Two" class="headerlink" title="Week Two"></a>Week Two</h2><h3 id="错误分析"><a href="#错误分析" class="headerlink" title="错误分析"></a>错误分析</h3><p>加入你现在建立了一个分类猫的分类器，但是你发现其中有些狗的图片也被分成了猫，那么你是否需要去找更多的狗的图片并标记好，放在你的训练样本中呢？</p>
+<p>这个时候我们就需要进行错误分析，看看我们对某个方向的努力是否值得</p>
+<p>错误分析的步骤：</p>
+<ul>
+<li>找出100个错误标记的开发集样例</li>
+<li>计算这里有多少张本来是狗，结果分成了猫的情况</li>
+</ul>
+<p>如果这里100张分错的样例中只有5张是狗，那么也就是5%的错误原因来源于狗的图片。如果你之前的错误率是10%，那么你最多也就只能减少5%，达到9.5%，这显然不太值得去做</p>
+<p>如果这100张分错的样例中有50张是狗，那么就是50%的错误原因来源于狗的图片。如果你之前错误率是10%，那么现在可以减少50%，达到5%，这就值得去做了</p>
+<p>当然，我们可能会找到很多个方向去优化，比如在猫的分类器的问题中：</p>
+<ol>
+<li>解决狗被分成猫的情况</li>
+<li>解决大型猫科动物（狮子，老虎等等）被认为是猫的情况</li>
+<li>解决模糊图片分错的问题</li>
+</ol>
+<p>这个时候，我们找出大概100张分错的图片，然后列一个表格，对每个分错的图片进行归因，最终得到每个因素的影响的比例，为我们提供改进的参考，如下图：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/77418193.jpg"></p>
+<h3 id="清理标记错误的数据"><a href="#清理标记错误的数据" class="headerlink" title="清理标记错误的数据"></a>清理标记错误的数据</h3><p>当训练集中存在标记错误的数据的时候，只要比例不是很大，深度学习系统是可以克服这样的情况的</p>
+<p>当开发集和测试集中存在错误标记的数据的时候，我们就把错误标记也看作一个影响因素，然后加入一列在上面的错误分析表中，如果影响大则去纠正，否则就先纠正别的</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/17088670.jpg"></p>
+<h3 id="快速建立你的第一个系统，并迭代"><a href="#快速建立你的第一个系统，并迭代" class="headerlink" title="快速建立你的第一个系统，并迭代"></a>快速建立你的第一个系统，并迭代</h3><p>假如你现在正在建立一个语音识别的系统，你可能考虑很多下图左边的影响，比如背景噪声，方言的影响等等。</p>
+<p>但是正确的做法应该如右边所示，首先建立一个开发和测试集以及评价矩阵，然后快速建立一个系统，之后使用偏差&#x2F;方差分析和错误分析来进行迭代，优化你的系统</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/78361136.jpg"></p>
+<h3 id="不匹配的训练和开发-x2F-测试集数据"><a href="#不匹配的训练和开发-x2F-测试集数据" class="headerlink" title="不匹配的训练和开发&#x2F;测试集数据"></a>不匹配的训练和开发&#x2F;测试集数据</h3><p>假设你现在有一个分类猫的app，你能从网上找到的猫图片都是高清的，但是用户用手机上传的都是不够清晰的，这时就有一个训练与开发&#x2F;测试集数据不匹配的问题</p>
+<p>假设你能从网上找到20w张高清猫图，而用户那种模糊的图只有1w张</p>
+<p>现在有两种方案：</p>
+<ol>
+<li>随机混合所有数据，用20500张训练，2500张开发集，2500张测试集</li>
+<li>将20w张高清图和5k张模糊图用于训练，2500张模糊图作为开发集，2500张模糊图作为测试集</li>
+</ol>
+<p>显然第一种方法是错误的，因为如果你随机混合之后，2500张开发集中只有119张来自于模糊图，你最终的目标是去识别模糊图中的猫，这样一来目标就设置错了</p>
+<p>因此我们选用第二种方法</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/83829145.jpg"></p>
+<p>再假设你现在在开发一个语音激活的后视镜系统，你有别的语音数据50w条，而语音控制后视镜的你有2w条，那么正确的方法应该是50w条语音加上1w条控制语音作为训练，5k条控制语言作为开发集，5k条控制语言作为测试集</p>
+<h3 id="不同分布数据的偏差-x2F-方差分析"><a href="#不同分布数据的偏差-x2F-方差分析" class="headerlink" title="不同分布数据的偏差&#x2F;方差分析"></a>不同分布数据的偏差&#x2F;方差分析</h3><p>假设你现在有一个猫分类器，training error是1%，dev error 是10%。同时，你已经知道你的训练数据和dev&#x2F;test数据分布不同，训练图清晰，dev&#x2F;test数据不清晰。那么你这个1%到10%的差距，到底来源于high variance还是来自于数据的不匹配呢？此时就说不清了</p>
+<p>我们在可能存在数据不匹配的情况下，再划分一个training-dev set，用于衡量究竟是high variance 还是数据不匹配对系统造成了印象，分类方式如下图，原来的train set分成了train和training-dev，原来的dev和test不变</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/52399374.jpg"></p>
+<p>接下来在新的train set上面训练，并用training-dev set和dev&#x2F;test set进行测试，根据结果来判断到底是high variance造成的问题，还是数据不匹配造成的问题，那么怎么判断呢，我们来看几个例子</p>
+<p>例1. 你现在的training error 是1%，training-dev error是9%，dev error 是10%，可以看到，即使数据分布相同时，数据的variance依然很高，所以我们先处理high variance的问题</p>
+<p>例2. 你现在的training error 是1%，training-dev error是1.5%，dev error 是10%。可以看到，数据分布相同时的差距很小，而数据分布不同的时候差距很大， 应该着重处理数据失配(missmatch)问题</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/6819337.jpg"></p>
+<p>human error和training error之间的差距是avoid bias，需要更复杂的模型或者超参数</p>
+<p>traning error 和 training-dev error之间的差距是high variance，需要正则化</p>
+<p>training-dev error 和 dev error之间的差距是data missmatch</p>
+<p>dev error 和 test error 之间的差距是 overfitting dev set，要找一个更大的dev error</p>
+<h3 id="解决data-missmatch"><a href="#解决data-missmatch" class="headerlink" title="解决data missmatch"></a>解决data missmatch</h3><p>解决data missmatch的方法，总体来说就是构造与dev&#x2F;test相同分布的数据</p>
+<p>我们举个例子，比如你现在有很多安静环境下的录音，同时还有少量汽车噪音下的录音，我们最终的dev&#x2F;test数据是这个汽车噪音下的录音，因此我们可以将安静环境下的录音与单纯的汽车噪音混合，这样我们就快要得到更多汽车噪音下的数据</p>
+<p>但是在混合的时候也要注意，比如你现在有10000小时的安静录音，1小时的汽车噪音，你将这1小时的汽车噪音重复到10000次得到10000小时的汽车噪音，这对人耳来说可能是正常的，但是对于深度学习算法来说，可以就会对这1小时的汽车噪声产生过拟合。因此正确的做法是尽可能收集10000小时的汽车噪声，然后与这10000小时的安静录音混合。</p>
+<h3 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h3><p>假如你现在有两个任务A和B，你有大量的A的数据，只有少量B的数据，但是你最终想要去识别B，此时，只要A和B是同一类的数据（比如都是图片，或者都是语音），那么我们就可以使用迁移学习</p>
+<p>迁移学习就是用数据量大的A数据先构建模型，然后去掉输出层（数据量非常少的时候，如果数据量稍微多一些，可以多去掉几层），用数据量少的B的数据进行训练，最终这个系统能够很好地分类B</p>
+<p>举个例子，比如你现在有个分类猫的分类器，但是你想要能够分类x光，那么你先用猫的数据建立分类猫的分类器，然后去掉输出层，再用x光的数据进行训练，就得到了一个分类x光的分类器</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/59103871.jpg"></p>
+<p>再比如说你有一个语音识别的分类器，现在要建立一个唤醒词的分类器，那么你只需要去掉输出层，然后再训练唤醒词分类器即可，这个唤醒词分类器可以只有1层，也可以扩展为好几层</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/60205274.jpg"></p>
+<h3 id="多任务学习"><a href="#多任务学习" class="headerlink" title="多任务学习"></a>多任务学习</h3><p>假设你正在做一个自动驾驶物体检测的问题，检测一张图上是否有行人，车辆，路标和交通灯，如果有则标记出来，比如下面这张图的标记为y&#x3D;(0,1,1,0)</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/58730529.jpg"></p>
+<p>所谓的多任务学习就是一次学习出的分类器可以分类多个目标，比如上述的问题，我们把四个的loss放到一起，甚至有些分类没有标记也是可以学习的，你只需要在计算loss的时候只算标记好的类型，如下图</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/92028508.jpg"></p>
+<p>多任务学习和softmax回归的区别：多分类可以有多个类别是1，而softmax回归只能有一个类别为1</p>
+<h3 id="端到端的深度学习"><a href="#端到端的深度学习" class="headerlink" title="端到端的深度学习"></a>端到端的深度学习</h3><p>传统的机器学习方法，是输入原始数据，然后分好几步提取特征，最终得到分类结果</p>
+<p>端到端的学习，就是直接输入原始数据，得到最终的分类结果，这是需要大量的数据作为支撑的</p>
+<p>举个例子，在人脸识别这个问题中，你是不能使用端到端的方法的，因为在人脸识别的时候，人脸可能处于图中任何位置，因此没有这么多的数据支撑你进行端到端的识别。你应该分成两个子任务，首先是提取出人脸这个任务，然后再是人脸的比较任务</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/63267645.jpg"></p>
+<p>再比如机器翻译这个任务，用端到端的方法是很合适的，因为翻译的数据足够多，可以支撑你的端到端方法</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-9/98914578.jpg"></p>
+<h4 id="决定是否使用端到端的方法"><a href="#决定是否使用端到端的方法" class="headerlink" title="决定是否使用端到端的方法"></a>决定是否使用端到端的方法</h4><p>端到端学习的优劣势</p>
+<p>优势：</p>
+<ul>
+<li>数据自我解释</li>
+<li>很少的需要动手去设计的中间步骤</li>
+</ul>
+<p>劣势：</p>
+<ul>
+<li>需要大量数据</li>
+<li>不能使用手动设计的步骤中的有效内容</li>
+</ul>
+<p>是否使用端到端的方法，最主要的问题就是你是否有足够的数据去找出x到y的映射</p>
+<p>比如在自动驾驶的过程中，目标检测的过程我们用的是深度学习的方法，在路径规划的时候用的是motion planning 的方法，然后到如何控制油门刹车，方向盘之类的时候用的是控制学</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/deeplearning/" rel="tag"># deeplearning</a>
+          
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/02/download-from-coursera-jupyter-notebook/" rel="next" title="download-from-coursera-jupyter-notebook">
+                <i class="fa fa-chevron-left"></i> download-from-coursera-jupyter-notebook
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/10/Coursera-deeplearning-ai-%EF%BC%88%E5%9B%9B%EF%BC%89/" rel="prev" title="Coursera-deeplearning-ai-（四）">
+                Coursera-deeplearning-ai-（四） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Week-one"><span class="nav-number">1.</span> <span class="nav-text">Week one</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">机器学习策略简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Orthogonalization-%E6%AD%A3%E4%BA%A4%E5%8C%96"><span class="nav-number">1.2.</span> <span class="nav-text">Orthogonalization(正交化)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E5%AE%9A%E7%9B%AE%E6%A0%87"><span class="nav-number">1.3.</span> <span class="nav-text">设定目标</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E4%B8%80%E6%95%B0%E5%80%BC%E5%8C%96%E8%AF%84%E4%BB%B7%E7%9F%A9%E9%98%B5"><span class="nav-number">1.3.1.</span> <span class="nav-text">单一数值化评价矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BB%A1%E8%B6%B3-statisficing-%E5%92%8C%E4%BC%98%E5%8C%96-optimizing-%E7%9F%A9%E9%98%B5"><span class="nav-number">1.3.2.</span> <span class="nav-text">满足(statisficing)和优化(optimizing)矩阵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%EF%BC%8C%E5%BC%80%E5%8F%91%EF%BC%8C%E6%B5%8B%E8%AF%95%E9%9B%86%E7%9A%84%E5%88%86%E5%B8%83"><span class="nav-number">1.3.3.</span> <span class="nav-text">训练，开发，测试集的分布</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%B9%E5%8F%98dev-x2F-test-setd%E5%92%8C%E8%AF%84%E4%BC%B0%E7%9F%A9%E9%98%B5"><span class="nav-number">1.3.4.</span> <span class="nav-text">改变dev&#x2F;test setd和评估矩阵</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E%E4%BA%BA%E5%B7%A5%E5%88%86%E8%BE%A8%E6%B0%B4%E5%B9%B3%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-number">1.4.</span> <span class="nav-text">与人工分辨水平的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E9%81%BF%E5%85%8D%E7%9A%84%E5%81%8F%E5%B7%AE%E5%92%8C%E6%96%B9%E5%B7%AE"><span class="nav-number">1.5.</span> <span class="nav-text">可避免的偏差和方差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E8%BF%87%E4%BA%BA%E5%B7%A5%E6%B0%B4%E5%B9%B3"><span class="nav-number">1.6.</span> <span class="nav-text">超过人工水平</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E6%A8%A1%E5%9E%8B%E6%95%88%E6%9E%9C%E7%9A%84%E7%AD%96%E7%95%A5"><span class="nav-number">1.7.</span> <span class="nav-text">改进模型效果的策略</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Week-Two"><span class="nav-number">2.</span> <span class="nav-text">Week Two</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90"><span class="nav-number">2.1.</span> <span class="nav-text">错误分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%90%86%E6%A0%87%E8%AE%B0%E9%94%99%E8%AF%AF%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">2.2.</span> <span class="nav-text">清理标记错误的数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%BB%BA%E7%AB%8B%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%B3%BB%E7%BB%9F%EF%BC%8C%E5%B9%B6%E8%BF%AD%E4%BB%A3"><span class="nav-number">2.3.</span> <span class="nav-text">快速建立你的第一个系统，并迭代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%8C%B9%E9%85%8D%E7%9A%84%E8%AE%AD%E7%BB%83%E5%92%8C%E5%BC%80%E5%8F%91-x2F-%E6%B5%8B%E8%AF%95%E9%9B%86%E6%95%B0%E6%8D%AE"><span class="nav-number">2.4.</span> <span class="nav-text">不匹配的训练和开发&#x2F;测试集数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E5%88%86%E5%B8%83%E6%95%B0%E6%8D%AE%E7%9A%84%E5%81%8F%E5%B7%AE-x2F-%E6%96%B9%E5%B7%AE%E5%88%86%E6%9E%90"><span class="nav-number">2.5.</span> <span class="nav-text">不同分布数据的偏差&#x2F;方差分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3data-missmatch"><span class="nav-number">2.6.</span> <span class="nav-text">解决data missmatch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.7.</span> <span class="nav-text">迁移学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E4%BB%BB%E5%8A%A1%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.8.</span> <span class="nav-text">多任务学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="nav-number">2.9.</span> <span class="nav-text">端到端的深度学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%B3%E5%AE%9A%E6%98%AF%E5%90%A6%E4%BD%BF%E7%94%A8%E7%AB%AF%E5%88%B0%E7%AB%AF%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.9.1.</span> <span class="nav-text">决定是否使用端到端的方法</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

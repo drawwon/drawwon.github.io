@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="对于没有公网 IP 的内网用户来说，远程管理或在外网访问内网机器上的服务是一个问题。通常解决方案就是用内网穿透工具将内网的服务穿透到公网中，便于远程管理和在外部访问。内网穿透的工具很多，之前也介绍过 Ngrok、Localtunnel。 今天给大家介绍另一款好用内网穿透工具 FRP，FRP 全名：Fast Reverse Proxy。FRP 是一个使用 Go 语言开发的高性能的反向代理应用，可以帮">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FRP反向代理软件的使用（转）">
+<meta property="og:url" content="http://drawwon.github.io/2018/05/31/FRP%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="对于没有公网 IP 的内网用户来说，远程管理或在外网访问内网机器上的服务是一个问题。通常解决方案就是用内网穿透工具将内网的服务穿透到公网中，便于远程管理和在外部访问。内网穿透的工具很多，之前也介绍过 Ngrok、Localtunnel。 今天给大家介绍另一款好用内网穿透工具 FRP，FRP 全名：Fast Reverse Proxy。FRP 是一个使用 Go 语言开发的高性能的反向代理应用，可以帮">
+<meta property="og:locale">
+<meta property="og:image" content="https://www.hi-linux.com/img/linux/frp-architecture.png">
+<meta property="og:image" content="https://www.hi-linux.com/img/linux/frp1.png">
+<meta property="og:image" content="https://www.hi-linux.com/img/linux/frp2.png">
+<meta property="article:published_time" content="2018-05-31T04:25:29.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.400Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.hi-linux.com/img/linux/frp-architecture.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2018/05/31/FRP反向代理软件的使用/"/>
+
+
+
+
+
+  <title>FRP反向代理软件的使用（转） | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2018/05/31/FRP%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">FRP反向代理软件的使用（转）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-31T12:25:29+08:00">
+                2018-05-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>对于没有公网 <code>IP</code> 的内网用户来说，远程管理或在外网访问内网机器上的服务是一个问题。通常解决方案就是用内网穿透工具将内网的服务穿透到公网中，便于远程管理和在外部访问。内网穿透的工具很多，之前也介绍过 <a href="https://www.hi-linux.com/posts/29097.html">Ngrok</a>、<a href="https://www.hi-linux.com/posts/24471.html">Localtunnel</a>。</p>
+<p>今天给大家介绍另一款好用内网穿透工具 <code>FRP</code>，<code>FRP</code> 全名：Fast Reverse Proxy。<code>FRP</code> 是一个使用 <code>Go</code> 语言开发的高性能的反向代理应用，可以帮助您轻松地进行内网穿透，对外网提供服务。<code>FRP</code> 支持 <code>TCP</code>、<code>UDP</code>、<code>HTTP</code>、<code>HTTPS</code>等协议类型，并且支持 <code>Web</code> 服务根据域名进行路由转发。</p>
+<span id="more"></span>
+
+<p>FRP 项目地址：<a href="https://github.com/fatedier/frp">https://github.com/fatedier/frp</a></p>
+<p><strong>FRP 的作用</strong></p>
+<ul>
+<li>利用处于内网或防火墙后的机器，对外网环境提供 <code>HTTP</code> 或 <code>HTTPS</code> 服务。</li>
+<li>对于 <code>HTTP</code>, <code>HTTPS</code> 服务支持基于域名的虚拟主机，支持自定义域名绑定，使多个域名可以共用一个 80 端口。</li>
+<li>利用处于内网或防火墙后的机器，对外网环境提供 <code>TCP</code> 和 <code>UDP</code> 服务，例如在家里通过 <code>SSH</code> 访问处于公司内网环境内的主机。</li>
+</ul>
+<p><strong>FRP 架构</strong></p>
+<p><a href="https://www.hi-linux.com/img/linux/frp-architecture.png"><img src="https://www.hi-linux.com/img/linux/frp-architecture.png" alt="img"></a></p>
+<h3 id="FRP-安装"><a href="#FRP-安装" class="headerlink" title="FRP 安装"></a>FRP 安装</h3><p><code>FRP</code> 采用 <code>Go</code> 语言开发，支持 <code>Windows</code>、<code>Linux</code>、<code>MacOS</code>、<code>ARM</code>等多平台部署。<code>FRP</code> 安装非常容易，只需下载对应系统平台的软件包，并解压就可用了。</p>
+<p>这里以 <code>Linux</code> 为例，为了方便管理我们把解压后的目录重命名为 frp ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://github.com/fatedier/frp/releases/download/v0.15.1/frp_0.15.1_linux_amd64.tar.gz</span><br><span class="line">$ tar xzvf frp_0.15.1_linux_amd64.tar.gz</span><br><span class="line">$ mv frp_0.15.1_linux_amd64 frp</span><br></pre></td></tr></table></figure>
+
+<p>更多平台的软件包下载地址：<a href="https://github.com/fatedier/frp/releases">https://github.com/fatedier/frp/releases</a></p>
+<h3 id="FRP-配置"><a href="#FRP-配置" class="headerlink" title="FRP 配置"></a>FRP 配置</h3><h4 id="FRP-服务端配置"><a href="#FRP-服务端配置" class="headerlink" title="FRP 服务端配置"></a>FRP 服务端配置</h4><p>配置 <code>FRP</code> 服务端的前提条件是需要一台具有公网 <code>IP</code> 的设备，得益于 <code>FRP</code> 是 <code>Go</code> 语言开发的，具有良好的跨平台特性。你可以在 <code>Windows</code>、<code>Linux</code>、<code>MacOS</code>、<code>ARM</code>等几乎任何可联网设备上部署。</p>
+<p>这里以 <code>Linux</code> 为例，<code>FRP</code> 默认给出两个服务端配置文件，一个是简版的 frps.ini，另一个是完整版本 frps_full.ini。</p>
+<p>我们先来看看简版的 frps.ini，通过这个配置可以快速的搭建起一个 FRP 服务端。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cat frps.ini</span><br><span class="line"></span><br><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>默认配置中监听的是 7000 端口，可根据自己实际情况修改。</li>
+</ul>
+</blockquote>
+<p>启动 FRP 服务端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./frps -c ./frps.ini</span><br><span class="line">2018/01/25 10:52:45 [I] [service.go:96] frps tcp listen on 0.0.0.0:7000</span><br><span class="line">2018/01/25 10:52:45 [I] [main.go:112] Start frps success</span><br><span class="line">2018/01/25 10:52:45 [I] [main.go:114] PrivilegeMode is enabled, you should pay more attention to security issues</span><br></pre></td></tr></table></figure>
+
+<p>通过上面简单的两步就可以成功启动一个监听在 7000 端口的 <code>FRP</code> 服务端。</p>
+<h4 id="FRP-客户端配置"><a href="#FRP-客户端配置" class="headerlink" title="FRP 客户端配置"></a>FRP 客户端配置</h4><p>和 FRP 服务端类似，<code>FRP</code> 默认也给出两个客户端配置文件，一个是简版的 frpc.ini，另一个是完整版本 frpc_full.ini。</p>
+<p>这里同样以简版的 frpc.ini 文件为例，假设 FRP 服务端所在服务器的公网 <code>IP</code> 为 4.3.2.1。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line"></span><br><span class="line">[common]</span><br><span class="line"># server_addr 为 FRP 服务端的公网 IP</span><br><span class="line">server_addr = 4.3.2.1</span><br><span class="line"># server_port 为 FRP 服务端监听的端口</span><br><span class="line">server_port = 7000</span><br></pre></td></tr></table></figure>
+
+<p>启动 FRP 客户端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc -c ./frpc.ini</span><br><span class="line">2018/01/25 11:15:49 [I] [proxy_manager.go:284] proxy removed: []</span><br><span class="line">2018/01/25 11:15:49 [I] [proxy_manager.go:294] proxy added: []</span><br><span class="line">2018/01/25 11:15:49 [I] [proxy_manager.go:317] visitor removed: []</span><br><span class="line">2018/01/25 11:15:49 [I] [proxy_manager.go:326] visitor added: []</span><br><span class="line">2018/01/25 11:15:49 [I] [control.go:240] [83775d7388b8e7d9] login to server success, get run id [83775d7388b8e7d9], server udp port [0]</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以成功在 <code>FRP</code> 服务端上成功建立一个客户端连接，当然现在还并不能对外提供任何内网机器上的服务，因为我们并还没有在 <code>FRP</code> 服务端注册任何内网服务的端口。</p>
+<h3 id="FRP-使用实例"><a href="#FRP-使用实例" class="headerlink" title="FRP 使用实例"></a>FRP 使用实例</h3><p>下面我们就来看几个常用的例子，通过这些例子来了解下 FRP 是如何实现内网服务穿透的。</p>
+<h4 id="通过-TCP-访问内网机器"><a href="#通过-TCP-访问内网机器" class="headerlink" title="通过 TCP 访问内网机器"></a>通过 TCP 访问内网机器</h4><p>这里以访问 <code>SSH</code> 服务为例， 修改 FRP 客户端配置文件 frpc.ini 文件并增加如下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cat frpc.ini</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line">type = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22</span><br><span class="line">remote_port = 6000</span><br></pre></td></tr></table></figure>
+
+<p>启动 FRP 客户端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc -c ./frpc.ini</span><br><span class="line">2018/01/25 12:21:23 [I] [proxy_manager.go:284] proxy removed: []</span><br><span class="line">2018/01/25 12:21:23 [I] [proxy_manager.go:294] proxy added: [ssh]</span><br><span class="line">2018/01/25 12:21:23 [I] [proxy_manager.go:317] visitor removed: []</span><br><span class="line">2018/01/25 12:21:23 [I] [proxy_manager.go:326] visitor added: []</span><br><span class="line">2018/01/25 12:21:23 [I] [control.go:240] [3b468a55191341cb] login to server success, get run id [3b468a55191341cb], server udp port [0]</span><br><span class="line">2018/01/25 12:21:23 [I] [control.go:165] [3b468a55191341cb] [ssh] start proxy success</span><br></pre></td></tr></table></figure>
+
+<p>这样就在 <code>FRP</code> 服务端上成功注册了一个端口为 6000 的服务，接下来我们就可以通过这个端口访问内网机器上 <code>SSH</code> 服务，假设用户名为 mike：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -oPort=6000 mike@4.3.2.1</span><br></pre></td></tr></table></figure>
+
+<h4 id="通过自定义域名访问部署于内网的-Web-服务"><a href="#通过自定义域名访问部署于内网的-Web-服务" class="headerlink" title="通过自定义域名访问部署于内网的 Web 服务"></a>通过自定义域名访问部署于内网的 Web 服务</h4><p>有时需要在公有网络通过域名访问我们在本地环境搭建的 <code>Web</code> 服务，但是由于本地环境机器并没有公网 <code>IP</code>，无法将域名直接解析到本地的机器。</p>
+<p>现在通过 <code>FRP</code> 就可以很容易实现这一功能，这里以 <code>HTTP</code> 服务为例：首先修改 <code>FRP</code> 服务端配置文件，通过 <code>vhost_http_port</code> 参数来设置 <code>HTTP</code> 访问端口，这里将 <code>HTTP</code> 访问端口设为 80。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ vim frps.ini</span><br><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br><span class="line">vhost_http_port = 80</span><br></pre></td></tr></table></figure>
+
+<p>启动 FRP 服务端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ ./frps -c ./frps.ini</span><br><span class="line">2018/01/25 13:33:26 [I] [service.go:96] frps tcp listen on 0.0.0.0:7000</span><br><span class="line">2018/01/25 13:33:26 [I] [service.go:125] http service listen on 0.0.0.0:80</span><br><span class="line">2018/01/25 13:33:26 [I] [main.go:112] Start frps success</span><br><span class="line">2018/01/25 13:33:26 [I] [main.go:114] PrivilegeMode is enabled, you should pay more attention to security issues</span><br></pre></td></tr></table></figure>
+
+<p>其次我们在修改 <code>FRP</code> 客户端配置文件并增加如下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line"></span><br><span class="line">[web]</span><br><span class="line">type = http</span><br><span class="line">local_port = 80</span><br><span class="line">custom_domains = mike.hi-linux.com</span><br></pre></td></tr></table></figure>
+
+<p>这里通过 <code>local_port</code> 和 <code>custom_domains</code> 参数来设置本地机器上 <code>Web</code> 服务对应的端口和自定义的域名，这里我们分别设置端口为 80，对应域名为 <code>mike.hi-linux.com</code>。</p>
+<p>启动 FRP 客户端</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc -c ./frpc.ini</span><br><span class="line">2018/01/25 13:56:11 [I] [proxy_manager.go:284] proxy removed: []</span><br><span class="line">2018/01/25 13:56:11 [I] [proxy_manager.go:294] proxy added: [web ssh]</span><br><span class="line">2018/01/25 13:56:11 [I] [proxy_manager.go:317] visitor removed: []</span><br><span class="line">2018/01/25 13:56:11 [I] [proxy_manager.go:326] visitor added: []</span><br><span class="line">2018/01/25 13:56:11 [I] [control.go:240] [296fe9e31a551e07] login to server success, get run id [296fe9e31a551e07], server udp port [0]</span><br><span class="line">2018/01/25 13:56:11 [I] [control.go:165] [296fe9e31a551e07] [web] start proxy success</span><br><span class="line">2018/01/25 13:56:11 [I] [control.go:165] [296fe9e31a551e07] [ssh] start proxy success</span><br></pre></td></tr></table></figure>
+
+<p>最后将 <code>mike.hi-linux.com</code> 的域名 A 记录解析到 <code>FRP</code> 服务器的公网 <code>IP</code> 上，现在便可以通过 <code>http://mike.hi-linux.com:8080</code> 这个 <code>URL</code>访问到处于内网机器上对应的 <code>Web</code> 服务。</p>
+<blockquote>
+<ul>
+<li><code>HTTPS</code> 服务配置方法类似，只需将 <code>vhost_http_port</code> 替换为 <code>vhost_https_port</code>， type 设置为 <code>https</code> 即可。</li>
+</ul>
+</blockquote>
+<p>多个web应用的情况：</p>
+<p>服务器端配置：<code>frps.ini</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br><span class="line">vhost_http_port = 80</span><br><span class="line">privilege_token = xxxxxx</span><br><span class="line">subdomain_host = drawon.site</span><br></pre></td></tr></table></figure>
+
+<p>客户端配置：<code>frpc.ini</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr = 144.xxx.xxx.xxx</span><br><span class="line">server_port = 7000</span><br><span class="line">privilege_token = xxxxxx</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line"><span class="built_in">type</span> = tcp</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22</span><br><span class="line">remote_port = 6000</span><br><span class="line"></span><br><span class="line">[web]</span><br><span class="line"><span class="built_in">type</span> = http</span><br><span class="line">local_port = 8891</span><br><span class="line">subdomain = dj</span><br><span class="line"></span><br><span class="line">[web1]</span><br><span class="line"><span class="built_in">type</span> = http</span><br><span class="line">local_port = 8890</span><br><span class="line">subdomain = jupyter</span><br><span class="line"></span><br><span class="line">[web2]</span><br><span class="line"><span class="built_in">type</span> = http</span><br><span class="line">local_port = 8892</span><br><span class="line">subdomain = data</span><br></pre></td></tr></table></figure>
+
+<p>在本地的8890,8891,8892端口部署三个网页，记得<a href="http://drawon.site/2017/12/05/ubuntu%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE%E9%80%9A%E8%BF%87%E6%9F%90%E7%AB%AF%E5%8F%A3/">打开linux防火墙端口</a>，然后在你的web控制台中，将dj,data,jupyter三个二级域名都绑定到A类型的解析，解析地址为<code>frps</code>运行的服务器地址。</p>
+<h5 id="通过密码保护你的-Web-服务"><a href="#通过密码保护你的-Web-服务" class="headerlink" title="通过密码保护你的 Web 服务"></a>通过密码保护你的 Web 服务</h5><p>由于所有客户端共用一个 <code>FRP</code> 服务端的 <code>HTTP</code> 服务端口，任何知道你的域名和 <code>URL</code> 的人都能访问到你部署在内网的 <code>Web</code> 服务，但是在某些场景下需要确保只有限定的用户才能访问。</p>
+<p><code>FRP</code> 支持通过 HTTP Basic Auth 来保护你的 <code>Web</code> 服务，使用户需要通过用户名和密码才能访问到你的服务。需要实现此功能主要需要在 <code>FRP</code> 客户端的配置文件中添加用户名和密码的设置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line"></span><br><span class="line">[web]</span><br><span class="line">type = http</span><br><span class="line">local_port = 80</span><br><span class="line">custom_domains = mike.hi-linux.com</span><br><span class="line"># 设置认证的用户名</span><br><span class="line">http_user = abc</span><br><span class="line"># 设置认证的密码</span><br><span class="line">http_pwd = abc</span><br></pre></td></tr></table></figure>
+
+<p>这时访问 <code>http://mike.hi-linux.com:8080</code> 这个 URL 时就需要输入配置的用户名和密码才能访问。</p>
+<blockquote>
+<ul>
+<li>该功能目前仅限于 HTTP 类型的代理。</li>
+</ul>
+</blockquote>
+<h5 id="给-Web-服务增加自定义二级域名"><a href="#给-Web-服务增加自定义二级域名" class="headerlink" title="给 Web 服务增加自定义二级域名"></a>给 Web 服务增加自定义二级域名</h5><p>在多人同时使用一个 <code>FRP</code> 服务端实现 <code>Web</code> 服务时，通过自定义二级域名的方式来使用会更加方便。</p>
+<p>通过在 <code>FRP</code> 服务端的配置文件中配置 <code>subdomain_host</code>参数就可以启用该特性。之后在 <code>FRP</code> 客户端的 http、https 类型的代理中可以不配置 <code>custom_domains</code>，而是配置一个 <code>subdomain</code> 参数。</p>
+<p>然后只需要将 <code>*.&#123;subdomain_host&#125;</code> 解析到 <code>FRP</code> 服务端所在服务器。之后用户可以通过 <code>subdomain</code> 自行指定自己的 <code>Web</code> 服务所需要使用的二级域名，并通过 <code>&#123;subdomain&#125;.&#123;subdomain_host&#125;</code> 来访问自己的 <code>Web</code> 服务。</p>
+<p>首先我们在 <code>FRP</code> 服务端配置 <code>subdomain_host</code> 参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vim frps.ini</span><br><span class="line">[common]</span><br><span class="line">subdomain_host = hi-linux.com</span><br></pre></td></tr></table></figure>
+
+<p>其次在 <code>FRP</code> 客户端配置文件配置 <code>subdomain</code> 参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line">[web]</span><br><span class="line">type = http</span><br><span class="line">local_port = 80</span><br><span class="line">subdomain = test</span><br></pre></td></tr></table></figure>
+
+<p>然后将泛域名 *.hi-linux.com 解析到 <code>FRP</code> 服务端所在服务器的公网 <code>IP</code> 地址。FRP 服务端 和 FRP 客户端都启动成功后，通过 <code>test.hi-linux.com</code> 就可以访问到内网的 <code>Web</code> 服务。</p>
+<blockquote>
+<ul>
+<li>同一个 <code>HTTP</code> 或 <code>HTTPS</code> 类型的代理中 <code>custom_domains</code> 和 <code>subdomain</code> 可以同时配置。</li>
+<li>需要注意的是如果 <code>FPR</code> 服务端配置了 <code>subdomain_host</code>，则 <code>custom_domains</code> 中不能是属于 <code>subdomain_host</code> 的子域名或者泛域名。</li>
+</ul>
+</blockquote>
+<h5 id="修改-Host-Header"><a href="#修改-Host-Header" class="headerlink" title="修改 Host Header"></a>修改 Host Header</h5><p>通常情况下 <code>FRP</code> 不会修改转发的任何数据。但有一些后端服务会根据 <code>HTTP</code> 请求 <code>header</code> 中的 host 字段来展现不同的网站，例如 <code>Nginx</code> 的虚拟主机服务，启用 host-header 的修改功能可以动态修改 <code>HTTP</code> 请求中的 host 字段。</p>
+<p>实现此功能只需要在 FRP 客户端配置文件中定义 <code>host_header_rewrite</code> 参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line">[web]</span><br><span class="line">type = http</span><br><span class="line">local_port = 80</span><br><span class="line">custom_domains = test.hi-linux.com</span><br><span class="line">host_header_rewrite = dev.hi-linux.com</span><br></pre></td></tr></table></figure>
+
+<p>原来 <code>HTTP</code> 请求中的 host 字段 <code>test.hi-linux.com</code> 转发到后端服务时会被替换为 <code>dev.hi-linux.com</code>。</p>
+<blockquote>
+<ul>
+<li>该功能仅限于 HTTP 类型的代理。</li>
+</ul>
+</blockquote>
+<h5 id="URL-路由"><a href="#URL-路由" class="headerlink" title="URL 路由"></a>URL 路由</h5><p><code>FRP</code> 支持根据请求的 <code>URL</code> 路径路由转发到不同的后端服务。要实现这个功能可通过 <code>FRP</code> 客户端配置文件中的 <code>locations</code> 字段来指定。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line"></span><br><span class="line">[web01]</span><br><span class="line">type = http</span><br><span class="line">local_port = 80</span><br><span class="line">custom_domains = web.hi-linux.com</span><br><span class="line">locations = /</span><br><span class="line"></span><br><span class="line">[web02]</span><br><span class="line">type = http</span><br><span class="line">local_port = 81</span><br><span class="line">custom_domains = web.hi-linux.com</span><br><span class="line">locations = /news,/about</span><br></pre></td></tr></table></figure>
+
+<p>按照上述的示例配置后，<code>web.hi-linux.com</code> 这个域名下所有以 &#x2F;news 以及 &#x2F;about 作为前缀的 <code>URL</code> 请求都会被转发到后端 web02 所在的后端服务，其余的请求会被转发到 web01 所在的后端服务。</p>
+<blockquote>
+<ul>
+<li>目前仅支持最大前缀匹配，之后会考虑支持正则匹配。</li>
+</ul>
+</blockquote>
+<h4 id="通过-UDP-访问内网机器"><a href="#通过-UDP-访问内网机器" class="headerlink" title="通过 UDP 访问内网机器"></a>通过 UDP 访问内网机器</h4><p><code>DNS</code> 查询请求通常使用 <code>UDP</code> 协议，<code>FRP</code> 支持对内网 <code>UDP</code> 服务的穿透，配置方式和 <code>TCP</code> 基本一致。这里以转发到 Google 的 <code>DNS</code> 查询服务器 8.8.8.8 的 <code>UDP</code> 端口为例。</p>
+<p>首先修改 FRP 客户端配置文件，并增加如下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line">[dns]</span><br><span class="line">type = udp</span><br><span class="line">local_ip = 8.8.8.8</span><br><span class="line">local_port = 53</span><br><span class="line">remote_port = 6001</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>要转发到内网 DNS 服务器只需把 <code>local_ip</code> 改成对应 IP 即可。</li>
+</ul>
+</blockquote>
+<p>其次重新启动 <code>FRP</code> 客户端：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc -c ./frpc.ini</span><br><span class="line">2018/01/25 14:54:17 [I] [proxy_manager.go:284] proxy removed: []</span><br><span class="line">2018/01/25 14:54:17 [I] [proxy_manager.go:294] proxy added: [ssh web dns]</span><br><span class="line">2018/01/25 14:54:17 [I] [proxy_manager.go:317] visitor removed: []</span><br><span class="line">2018/01/25 14:54:17 [I] [proxy_manager.go:326] visitor added: []</span><br><span class="line">2018/01/25 14:54:17 [I] [control.go:240] [33e1de8a771112a6] login to server success, get run id [33e1de8a771112a6], server udp port [0]</span><br><span class="line">2018/01/25 14:54:17 [I] [control.go:165] [33e1de8a771112a6] [ssh] start proxy success</span><br><span class="line">2018/01/25 14:54:17 [I] [control.go:165] [33e1de8a771112a6] [web] start proxy success</span><br><span class="line">2018/01/25 14:54:17 [I] [control.go:165] [33e1de8a771112a6] [dns] start proxy success</span><br></pre></td></tr></table></figure>
+
+<p>最后通过 <code>dig</code> 命令测试 <code>UDP</code> 包转发是否成功，预期会返回 <code>www.google.com</code> 域名的解析结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ dig @4.3.2.1 -p 6001 www.google.com</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">;; QUESTION SECTION:</span><br><span class="line">;www.google.com.			IN	A</span><br><span class="line"></span><br><span class="line">;; ANSWER SECTION:</span><br><span class="line">www.google.com.		79	IN	A	69.63.184.30</span><br><span class="line"></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h4 id="转发-Unix-域套接字"><a href="#转发-Unix-域套接字" class="headerlink" title="转发 Unix 域套接字"></a>转发 Unix 域套接字</h4><p>通过 <code>TCP</code> 端口访问内网的 <code>Unix</code> 域套接字，这里以和本地机器上的 Docker Daemon 通信为例。</p>
+<p>首先修改 <code>FRP</code> 客户端配置文件，并增加如下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line">[unix_domain_socket]</span><br><span class="line">type = tcp</span><br><span class="line">remote_port = 6002</span><br><span class="line">plugin = unix_domain_socket</span><br><span class="line">plugin_unix_path = /var/run/docker.sock</span><br></pre></td></tr></table></figure>
+
+<p>这里主要是使用 <code>plugin</code> 和 <code>plugin_unix_path</code> 两个参数启用了 <code>unix_domain_socket</code> 插件和配置对应的套接字路径。</p>
+<p>其次重新启动 <code>FRP</code> 客户端：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc -c ./frpc.ini</span><br><span class="line"></span><br><span class="line">2018/01/25 15:09:33 [I] [proxy_manager.go:284] proxy removed: []</span><br><span class="line">2018/01/25 15:09:33 [I] [proxy_manager.go:294] proxy added: [ssh web dns unix_domain_socket]</span><br><span class="line">2018/01/25 15:09:33 [I] [proxy_manager.go:317] visitor removed: []</span><br><span class="line">2018/01/25 15:09:33 [I] [proxy_manager.go:326] visitor added: []</span><br><span class="line">2018/01/25 15:09:33 [I] [control.go:240] [f6424f0deb8b6ff7] login to server success, get run id [f6424f0deb8b6ff7], server udp port [0]</span><br><span class="line">2018/01/25 15:09:33 [I] [control.go:165] [f6424f0deb8b6ff7] [ssh] start proxy success</span><br><span class="line">2018/01/25 15:09:33 [I] [control.go:165] [f6424f0deb8b6ff7] [web] start proxy success</span><br><span class="line">2018/01/25 15:09:33 [I] [control.go:165] [f6424f0deb8b6ff7] [dns] start proxy success</span><br><span class="line">2018/01/25 15:09:33 [I] [control.go:165] [f6424f0deb8b6ff7] [unix_domain_socket] start proxy success</span><br></pre></td></tr></table></figure>
+
+<p>最后通过 <code>curl</code> 命令查看 <code>Docker</code> 版本信息进行测试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ curl http://4.3.2.1:6002/version</span><br><span class="line"></span><br><span class="line">&#123;&quot;Platform&quot;:&#123;&quot;Name&quot;:&quot;&quot;&#125;,&quot;Components&quot;:[&#123;&quot;Name&quot;:&quot;Engine&quot;,&quot;Version&quot;:&quot;17.12.0-ce&quot;,&quot;Details&quot;:&#123;&quot;ApiVersion&quot;:&quot;1.35&quot;,&quot;Arch&quot;:&quot;amd64&quot;,&quot;BuildTime&quot;:&quot;2017-12-27T20:12:29.000000000+00:00&quot;,&quot;Experimental&quot;:&quot;true&quot;,&quot;GitCommit&quot;:&quot;c97c6d6&quot;,&quot;GoVersion&quot;:&quot;go1.9.2&quot;,&quot;KernelVersion&quot;:&quot;4.9.60-linuxkit-aufs&quot;,&quot;MinAPIVersion&quot;:&quot;1.12&quot;,&quot;Os&quot;:&quot;linux&quot;&#125;&#125;],&quot;Version&quot;:&quot;17.12.0-ce&quot;,&quot;ApiVersion&quot;:&quot;1.35&quot;,&quot;MinAPIVersion&quot;:&quot;1.12&quot;,&quot;GitCommit&quot;:&quot;c97c6d6&quot;,&quot;GoVersion&quot;:&quot;go1.9.2&quot;,&quot;Os&quot;:&quot;linux&quot;,&quot;Arch&quot;:&quot;amd64&quot;,&quot;KernelVersion&quot;:&quot;4.9.60-linuxkit-aufs&quot;,&quot;Experimental&quot;:true,&quot;BuildTime&quot;:&quot;2017-12-27T20:12:29.000000000+00:00&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><code>FRP</code> 从 1.5 版本开始支持客户端热加载配置文件，并不用每次都重启客户端程序。具体方法在后文 <code>FRP</code> 客户端热加载配置文件部分讲解。</li>
+</ul>
+</blockquote>
+<h3 id="FRP-高级进阶"><a href="#FRP-高级进阶" class="headerlink" title="FRP 高级进阶"></a>FRP 高级进阶</h3><h4 id="给-FRP-服务端增加一个-Dashboard"><a href="#给-FRP-服务端增加一个-Dashboard" class="headerlink" title="给 FRP 服务端增加一个 Dashboard"></a>给 FRP 服务端增加一个 Dashboard</h4><p>通过 <code>Dashboard</code> 可以方便的查看 <code>FRP</code> 的状态以及代理统计信息展示，要使用这个功能首先需要在 <code>FRP</code> 服务端配置文件中指定 <code>Dashboard</code> 服务使用的端口：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ vim frps.ini</span><br><span class="line"></span><br><span class="line">[common]</span><br><span class="line"></span><br><span class="line"># 指定 Dashboard 的监听的 IP 地址</span><br><span class="line">dashboard_addr = 0.0.0.0</span><br><span class="line"></span><br><span class="line"># 指定 Dashboard 的监听的端口</span><br><span class="line">dashboard_port = 7500</span><br><span class="line"></span><br><span class="line"># 指定访问 Dashboard 的用户名</span><br><span class="line">dashboard_user = admin</span><br><span class="line"></span><br><span class="line"># 指定访问 Dashboard 的端口</span><br><span class="line">dashboard_pwd = admin</span><br></pre></td></tr></table></figure>
+
+<p>其次重新启动 FRP 服务端：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ ./frps -c ./frps.ini</span><br><span class="line"></span><br><span class="line">2018/01/25 16:39:29 [I] [service.go:96] frps tcp listen on 0.0.0.0:7000</span><br><span class="line">2018/01/25 16:39:29 [I] [service.go:125] http service listen on 0.0.0.0:8080</span><br><span class="line">2018/01/25 16:39:29 [I] [service.go:164] Dashboard listen on 0.0.0.0:7500</span><br><span class="line">2018/01/25 16:39:29 [I] [main.go:112] Start frps success</span><br><span class="line">2018/01/25 16:39:29 [I] [main.go:114] PrivilegeMode is enabled, you should pay more attention to security issues</span><br></pre></td></tr></table></figure>
+
+<p>最后通过 <code>http://[server_addr]:7500</code> 访问 Dashboard 界面，用户名密码默认都为 admin。</p>
+<p><a href="https://www.hi-linux.com/img/linux/frp1.png"><img src="https://www.hi-linux.com/img/linux/frp1.png" alt="img"></a></p>
+<p><a href="https://www.hi-linux.com/img/linux/frp2.png"><img src="https://www.hi-linux.com/img/linux/frp2.png" alt="img"></a></p>
+<h4 id="给-FRP-服务端加上身份验证"><a href="#给-FRP-服务端加上身份验证" class="headerlink" title="给 FRP 服务端加上身份验证"></a>给 FRP 服务端加上身份验证</h4><p>默认情况下只要知道 <code>FRP</code> 服务端开放的端口，任意 <code>FRP</code> 客户端都可以随意在服务端上注册端口映射，这样对于在公网上的 <code>FRP</code> 服务来说显然不太安全。<code>FRP</code> 提供了身份验证机制来提高 <code>FRP</code> 服务端的安全性。要启用这一特性也很简单，只需在 <code>FRP</code>服务端和 <code>FRP</code> 客户端的 common 配置中启用 <code>privilege_token</code> 参数就行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">privilege_token = 12345678</span><br></pre></td></tr></table></figure>
+
+<p>启用这一特性后，只有 <code>FRP</code> 服务端和 <code>FRP</code> 客户端的 common 配置中的 <code>privilege_token</code> 参数一致身份验证才会通过，<code>FRP</code> 客户端才能成功在 <code>FRP</code> 服务端注册端口映射。否则就会注册失败，出现类似下面的错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">2018/01/25 17:29:27 [I] [proxy_manager.go:284] proxy removed: []</span><br><span class="line">2018/01/25 17:29:27 [I] [proxy_manager.go:294] proxy added: [ssh web dns unix_domain_socket]</span><br><span class="line">2018/01/25 17:29:27 [I] [proxy_manager.go:317] visitor removed: []</span><br><span class="line">2018/01/25 17:29:27 [I] [proxy_manager.go:326] visitor added: []</span><br><span class="line">2018/01/25 17:29:27 [E] [control.go:230] authorization failed</span><br><span class="line">2018/01/25 17:29:27 [W] [control.go:109] login to server failed: authorization failed</span><br><span class="line">authorization failed</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>需要注意的是 <code>FRP</code> 客户端所在机器和 <code>FRP</code> 服务端所在机器的时间相差不能超过 15 分钟，因为时间戳会被用于加密验证中，防止报文被劫持后被其他人利用。这个超时时间可以在配置文件中通过 <code>authentication_timeout</code> 这个参数来修改，单位为秒，默认值为 900，即 15 分钟。如果修改为 0，则 <code>FRP</code> 服务端将不对身份验证报文的时间戳进行超时校验。</p>
+</blockquote>
+<h4 id="FRP-客户端热加载配置文件"><a href="#FRP-客户端热加载配置文件" class="headerlink" title="FRP 客户端热加载配置文件"></a>FRP 客户端热加载配置文件</h4><p>当修改了 <code>FRP</code> 客户端中的配置文件，从 0.15 版本开始可以通过 <code>frpc reload</code> 命令来动态加载配置文件，通常会在 10 秒内完成代理的更新。</p>
+<p>启用此功能需要在 <code>FRP</code> 客户端配置文件中启用 admin 端口，用于提供 <code>API</code> 服务。配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line"></span><br><span class="line">[common]</span><br><span class="line">admin_addr = 127.0.0.1</span><br><span class="line">admin_port = 7400</span><br></pre></td></tr></table></figure>
+
+<p>重启 <code>FRP</code> 客户端，以后就可通过热加载方式进行 <code>FRP</code> 客户端配置变更了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc -c ./frpc.ini</span><br><span class="line">2018/01/25 18:04:25 [I] [proxy_manager.go:326] visitor added: []</span><br><span class="line">2018/01/25 18:04:25 [I] [control.go:240] [3653b9a878f8acc7] login to server success, get run id [3653b9a878f8acc7], server udp port [0]</span><br><span class="line">2018/01/25 18:04:25 [I] [service.go:49] admin server listen on 127.0.0.1:7400</span><br><span class="line">2018/01/25 18:04:25 [I] [control.go:165] [3653b9a878f8acc7] [ssh] start proxy success</span><br><span class="line">2018/01/25 18:04:25 [I] [control.go:165] [3653b9a878f8acc7] [web] start proxy success</span><br><span class="line">2018/01/25 18:04:25 [I] [control.go:165] [3653b9a878f8acc7] [dns] start proxy success</span><br><span class="line">2018/01/25 18:04:25 [I] [control.go:165] [3653b9a878f8acc7] [unix_domain_socket] start proxy success</span><br><span class="line"></span><br><span class="line">$ ./frpc reload -c ./frpc.ini</span><br><span class="line">reload success</span><br></pre></td></tr></table></figure>
+
+<p>等待一段时间后客户端会根据新的配置文件创建、更新、删除代理。</p>
+<blockquote>
+<ul>
+<li>需要注意的是 [common] 中的参数除了 start 外目前无法被修改。</li>
+</ul>
+</blockquote>
+<p>启用 <code>admin_addr</code> 后，还可以通过 <code>frpc status -c ./frpc.ini</code> 命令在 FRP 客户端很方便的查看当前代理状态信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc status -c ./frpc.ini</span><br><span class="line"></span><br><span class="line">Proxy Status...</span><br><span class="line">TCP</span><br><span class="line">Name                Status   LocalAddr     Plugin              RemoteAddr           Error</span><br><span class="line">ssh                 running  127.0.0.1:22                      4.3.2.1:6000</span><br><span class="line">unix_domain_socket  running                unix_domain_socket  4.3.2.1:6002</span><br><span class="line"></span><br><span class="line">UDP</span><br><span class="line">Name  Status   LocalAddr   Plugin  RemoteAddr           Error</span><br><span class="line">dns   running  8.8.8.8:53          4.3.2.1:6001</span><br><span class="line"></span><br><span class="line">HTTP</span><br><span class="line">Name  Status   LocalAddr     Plugin  RemoteAddr              Error</span><br><span class="line">web   running  127.0.0.1:80          mike.hi-linux.com:8080</span><br></pre></td></tr></table></figure>
+
+<h4 id="给-FRP-服务端增加端口白名单"><a href="#给-FRP-服务端增加端口白名单" class="headerlink" title="给 FRP 服务端增加端口白名单"></a>给 FRP 服务端增加端口白名单</h4><p>为了防止 <code>FRP</code> 端口被滥用，<code>FRP</code> 提供了指定允许哪些端口被分配的功能。可通过 <code>FRP</code> 服务端的配置文件中 <code>privilege_allow_ports</code>参数来指定：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ vim frps.ini</span><br><span class="line"></span><br><span class="line">[common]</span><br><span class="line">privilege_allow_ports = 2000-3000,3001,3003,4000-5000</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>privilege_allow_ports</code> 可以配置允许使用的某个指定端口或者是一个范围内的所有端口，以 , 分隔，指定的范围以 - 分隔。</p>
+</blockquote>
+<p>当使用不允许的端口注册时，就会注册失败。出现类似以下错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc status -c ./frpc.ini</span><br><span class="line">Proxy Status...</span><br><span class="line">TCP</span><br><span class="line">Name                Status       LocalAddr     Plugin              RemoteAddr            Error</span><br><span class="line">ssh                 start error  127.0.0.1:22                      4.3.2.1:60000  port not allowed</span><br><span class="line">unix_domain_socket  start error                unix_domain_socket  4.3.2.1:60002  port not allowed</span><br></pre></td></tr></table></figure>
+
+<h4 id="启用-TCP-多路复用"><a href="#启用-TCP-多路复用" class="headerlink" title="启用 TCP 多路复用"></a>启用 TCP 多路复用</h4><p>从 v0.10.0 版本开始，客户端和服务器端之间的连接支持多路复用，不再需要为每一个用户请求创建一个连接，使连接建立的延迟降低，并且避免了大量文件描述符的占用，使 <code>FRP</code> 可以承载更高的并发数。</p>
+<p>该功能默认启用，如需关闭可以在 <code>FRP</code> 服务端配置文件和 <code>FRP</code> 客户端配置文件中配置，该配置项在服务端和客户端必须一致：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># frps.ini 和 frpc.ini 中</span><br><span class="line">[common]</span><br><span class="line">tcp_mux = false</span><br></pre></td></tr></table></figure>
+
+<h4 id="FRP-底层通信启用-KCP-协议"><a href="#FRP-底层通信启用-KCP-协议" class="headerlink" title="FRP 底层通信启用 KCP 协议"></a>FRP 底层通信启用 KCP 协议</h4><p>FRP 从 v0.12.0 版本开始，底层通信协议支持选择 <code>KCP</code> 协议，在弱网络环境下传输效率会提升明显，但是会有一些额外的流量消耗。</p>
+<p>要开启 <code>KCP</code> 协议支持，首先要在 <code>FRP</code> 服务端配置文件中启用 <code>KCP</code> 协议支持：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ vim frps.ini</span><br><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br><span class="line"># 指定一个 UDP 端口用于接收客户端请求 KCP 绑定的是 UDP 端口，可以和 bind_port 一样</span><br><span class="line">kcp_bind_port = 7000</span><br></pre></td></tr></table></figure>
+
+<p>其次是在 <code>FRP</code> 客户端配置文件指定需要使用的协议类型，目前只支持 <code>TCP</code> 和 <code>KCP</code>。其它代理配置不需要变更：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ vim  frpc.ini</span><br><span class="line">[common]</span><br><span class="line">server_addr = 4.3.2.1</span><br><span class="line"># server_port 指定为 FRP 服务端里 kcp_bind_port 指定的端口</span><br><span class="line">server_port = 7000</span><br><span class="line"># 指定需要使用的协议类型，默认类型为 TCP</span><br><span class="line">protocol = kcp</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>需要注意开放相关机器上的 UDP 端口的访问权限。</li>
+</ul>
+</blockquote>
+<h4 id="给-FRP-服务端配置连接池"><a href="#给-FRP-服务端配置连接池" class="headerlink" title="给 FRP 服务端配置连接池"></a>给 FRP 服务端配置连接池</h4><p>默认情况下，当用户请求建立连接后，<code>FRP</code> 服务端才会请求 <code>FRP</code> 客户端主动与后端服务建立一个连接。</p>
+<p>当为指定的 <code>FRP</code> 服务端启用连接池功能后，<code>FRP</code> 会预先和后端服务建立起指定数量的连接，每次接收到用户请求后，会从连接池中取出一个连接和用户连接关联起来，避免了等待与后端服务建立连接以及 <code>FRP</code> 客户端 和 <code>FRP</code> 服务端之间传递控制信息的时间。</p>
+<p>首先需要在 <code>FRP</code> 服务端配置文件中设置每个代理可以创建的连接池上限，避免大量资源占用，客户端设置超过此配置后会被调整到当前值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vim frps.ini</span><br><span class="line">[common]</span><br><span class="line">max_pool_count = 5</span><br></pre></td></tr></table></figure>
+
+<p>其次在 <code>FRP</code> 客户端配置文件中为客户端启用连接池，指定预创建连接的数量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line">[common]</span><br><span class="line">pool_count = 1</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>此功能比较适合有大量短连接请求时开启。</li>
+</ul>
+</blockquote>
+<h4 id="加密与压缩"><a href="#加密与压缩" class="headerlink" title="加密与压缩"></a>加密与压缩</h4><p>如果公司内网防火墙对外网访问进行了流量识别与屏蔽，例如禁止了 <code>SSH</code> 协议等，可通过设置 use_encryption &#x3D; true，将 <code>FRP</code> 客户端 与 <code>FRP</code> 服务端之间的通信内容加密传输，将会有效防止流量被拦截。</p>
+<p>如果传输的报文长度较长，通过设置 use_compression &#x3D; true 对传输内容进行压缩，可以有效减小 <code>FRP</code> 客户端 与 <code>FRP</code> 服务端之间的网络流量，来加快流量转发速度，但是会额外消耗一些 CPU 资源。</p>
+<p>这两个功能默认是不开启的，需要在 <code>FRP</code> 客户端配置文件中通过配置来为指定的代理启用加密与压缩的功能，压缩算法使用的是 snappy。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line"></span><br><span class="line">[ssh]</span><br><span class="line">type = tcp</span><br><span class="line">local_port = 22</span><br><span class="line">remote_port = 6000</span><br><span class="line">use_encryption = true</span><br><span class="line">use_compression = true</span><br></pre></td></tr></table></figure>
+
+<h4 id="通过-FRP-客户端代理其它内网机器访问外网"><a href="#通过-FRP-客户端代理其它内网机器访问外网" class="headerlink" title="通过 FRP 客户端代理其它内网机器访问外网"></a>通过 FRP 客户端代理其它内网机器访问外网</h4><p><code>FRP</code> 客户端内置了 <code>http_proxy</code> 和 <code>socks5</code> 插件，通过这两个插件可以使其它内网机器通过 <code>FPR</code> 客户端的的网络访问互联网。</p>
+<p>要启用此功能，首先需要在 <code>FRP</code> 客户端配置文件中启用相关插件，这里以 <code>http_proxy</code> 插件为例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line"></span><br><span class="line">[common]</span><br><span class="line">server_addr = 4.3.2.1</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line">[http_proxy]</span><br><span class="line">type = tcp</span><br><span class="line">remote_port = 6000</span><br><span class="line">plugin = http_proxy</span><br></pre></td></tr></table></figure>
+
+<p>其次将需要通过这个代理访问外网的内部机器的代理地址设置为 4.3.2.1:6000，这样就可以通过 FRP 客户端机器的网络访问互联网了。</p>
+<blockquote>
+<ul>
+<li><code>http_proxy</code> 插件也支持认证机制，如果需要启用认证可通过配置参数 <code>plugin_http_user</code> 和 <code>plugin_http_passwd</code> 启用。</li>
+<li>如需启用 <code>Socks5</code> 代理，只需将 plugin 的值更换为 socks5 即可。</li>
+</ul>
+</blockquote>
+<h4 id="通过代理连接-FRP-服务端"><a href="#通过代理连接-FRP-服务端" class="headerlink" title="通过代理连接 FRP 服务端"></a>通过代理连接 FRP 服务端</h4><p>在只能通过代理访问外网的环境内，<code>FRP</code> 客户端支持通过 <code>HTTP_PROXY</code> 参数来配置代理和 <code>FRP</code> 服务端进行通信。要使用此功能可以通过设置系统环境变量 <code>HTTP_PROXY</code> 或者通过在 <code>FRP</code> 客户端的配置文件中设置 <code>http_proxy</code> 参数来使用此功能。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line"></span><br><span class="line">[common]</span><br><span class="line">server_addr = 4.3.2.1</span><br><span class="line">server_port = 7000</span><br><span class="line">protocol = tcp</span><br><span class="line">http_proxy = http://user:pwd@4.3.2.2:8080</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>仅在 <code>protocol = tcp</code> 时生效，暂时不支持 kcp 协议。</li>
+</ul>
+</blockquote>
+<h4 id="安全地暴露内网服务"><a href="#安全地暴露内网服务" class="headerlink" title="安全地暴露内网服务"></a>安全地暴露内网服务</h4><p>对于一些比较敏感的服务如果直接暴露于公网上将会存在安全隐患，<code>FRP</code> 也提供了一种安全的转发方式 <code>STCP</code>。使用 <code>STCP</code>(secret tcp) 类型的代理可以避免让任何人都能访问到穿透到公网的内网服务，要使用 <code>STCP</code> 模式访问者需要单独运行另外一个 <code>FRP</code> 客户端。</p>
+<p>下面就以创建一个只有自己能访问到的 <code>SSH</code> 服务代理为例，<code>FRP</code> 服务端和其它的部署步骤相同，主要区别是在 <code>FRP</code> 客户端上。</p>
+<p>首先配置 <code>FRP</code> 客户端，和常规 <code>TCP</code> 转发不同的是这里不需要指定远程端口。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line">[common]</span><br><span class="line">server_addr = 4.3.2.1</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line">[secret_ssh]</span><br><span class="line">type = stcp</span><br><span class="line"># 只有 sk 一致的用户才能访问到此服务</span><br><span class="line">sk = abcdefg</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22</span><br></pre></td></tr></table></figure>
+
+<p>其次在要访问这个服务的机器上启动另外一个 <code>FRP</code> 客户端，配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line">[common]</span><br><span class="line">server_addr = 4.3.2.1</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line">[secret_ssh_visitor]</span><br><span class="line">type = stcp</span><br><span class="line"># STCP 的访问者</span><br><span class="line">role = visitor</span><br><span class="line"># 要访问的 STCP 代理的名字，和前面定义的相同。</span><br><span class="line">server_name = secret_ssh</span><br><span class="line"># 和前面定义的要一致</span><br><span class="line">sk = abcdefg</span><br><span class="line"># 绑定本地端口用于访问 ssh 服务</span><br><span class="line">bind_addr = 127.0.0.1</span><br><span class="line">bind_port = 6005</span><br></pre></td></tr></table></figure>
+
+<p>最后在本机启动一个 <code>FRP</code> 客户端，这样就可以通过本机 6005 端口对内网机器 <code>SSH</code> 服务进行访问，假设用户名为 mike：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc -c ./frpc.ini</span><br><span class="line">2018/01/26 15:03:24 [I] [proxy_manager.go:284] proxy removed: []</span><br><span class="line">2018/01/26 15:03:24 [I] [proxy_manager.go:294] proxy added: []</span><br><span class="line">2018/01/26 15:03:24 [I] [proxy_manager.go:317] visitor removed: []</span><br><span class="line">2018/01/26 15:03:24 [I] [proxy_manager.go:326] visitor added: [secret_ssh_visitor]</span><br><span class="line">2018/01/26 15:03:24 [I] [control.go:240] [60d2af2f68196537] login to server success, get run id [60d2af2f68196537], server udp port [0]</span><br><span class="line">2018/01/26 15:03:24 [I] [proxy_manager.go:235] [60d2af2f68196537] try to start visitor [secret_ssh_visitor]</span><br><span class="line">2018/01/26 15:03:24 [I] [proxy_manager.go:243] [secret_ssh_visitor] start visitor success</span><br><span class="line"></span><br><span class="line">$ ssh -oPort=6005 mike@127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<h4 id="点对点内网穿透"><a href="#点对点内网穿透" class="headerlink" title="点对点内网穿透"></a>点对点内网穿透</h4><p>在传输大量数据时如果都经过服务器中转的话，这样会对服务器端带宽压力比较大。<code>FRP</code> 提供了一种新的代理类型 <code>XTCP</code>来解决这个问题，<code>XTCP</code> 模式下可以在传输大量数据时让流量不经过服务器中转。</p>
+<p>使用方式同 <code>STCP</code> 类似，需要在传输数据的两端都部署上 <code>FRP</code> 客户端上用于建立直接的连接。</p>
+<p>首先在 <code>FRP</code> 服务端配置上增加一个 <code>UDP</code> 端口用于支持该类型的客户端:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ vim frps.ini</span><br><span class="line">bind_udp_port = 7001</span><br></pre></td></tr></table></figure>
+
+<p>其次配置 <code>FRP</code> 客户端，和常规 <code>TCP</code> 转发不同的是这里不需要指定远程端口。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line"></span><br><span class="line">[common]</span><br><span class="line">server_addr = 4.3.2.1</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line">[p2p_ssh]</span><br><span class="line">type = xtcp</span><br><span class="line"># 只有 sk 一致的用户才能访问到此服务</span><br><span class="line">sk = abcdefg</span><br><span class="line">local_ip = 127.0.0.1</span><br><span class="line">local_port = 22</span><br></pre></td></tr></table></figure>
+
+<p>然后在要访问这个服务的机器上启动另外一个 <code>FRP</code> 客户端，配置如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ vim frpc.ini</span><br><span class="line">[common]</span><br><span class="line">server_addr = 4.3.2.1</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line">[p2p_ssh_visitor]</span><br><span class="line">type = xtcp</span><br><span class="line"># XTCP 的访问者</span><br><span class="line">role = visitor</span><br><span class="line"># 要访问的 XTCP 代理的名字</span><br><span class="line">server_name = p2p_ssh</span><br><span class="line">sk = abcdefg</span><br><span class="line"># 绑定本地端口用于访问 ssh 服务</span><br><span class="line">bind_addr = 127.0.0.1</span><br><span class="line">bind_port = 6006</span><br></pre></td></tr></table></figure>
+
+<p>最后在本机启动一个 FRP 客户端，这样就可以通过本机 6006 端口对内网机器 SSH 服务进行访问，假设用户名为 mike：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ ./frpc -c ./frpc.ini</span><br><span class="line"></span><br><span class="line">2018/01/26 16:01:52 [I] [proxy_manager.go:326] visitor added: [p2p_ssh_visitor secret_ssh_visitor]</span><br><span class="line">2018/01/26 16:01:52 [I] [control.go:240] [7c7e06878e11cc3c] login to server success, get run id [7c7e06878e11cc3c], server udp port [7001]</span><br><span class="line">2018/01/26 16:01:52 [I] [proxy_manager.go:235] [7c7e06878e11cc3c] try to start visitor [p2p_ssh_visitor]</span><br><span class="line">2018/01/26 16:01:52 [I] [proxy_manager.go:243] [p2p_ssh_visitor] start visitor success</span><br><span class="line">2018/01/26 16:01:52 [I] [proxy_manager.go:235] [7c7e06878e11cc3c] try to start visitor [secret_ssh_visitor]</span><br><span class="line">2018/01/26 16:01:52 [I] [proxy_manager.go:243] [secret_ssh_visitor] start visitor success</span><br><span class="line"></span><br><span class="line">$ ssh -oPort=6006 mike@127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>目前 <code>XTCP</code> 模式还处于开发的初级阶段，并不能穿透所有类型的 <code>NAT</code> 设备，所以穿透成功率较低。穿透失败时可以尝试 <code>STCP</code> 的方式。</li>
+</ul>
+</blockquote>
+<h3 id="FRP-管理"><a href="#FRP-管理" class="headerlink" title="FRP 管理"></a>FRP 管理</h3><p><code>FRP</code> 的部署安装比较简单，项目官方也没有提供相应的管理脚本。不过好在开源项目总是有网友热心提供部署和管理脚本。如果你觉得手动部署太麻烦，还可以使用下面的一键安装脚本。</p>
+<p>项目地址：<a href="https://github.com/clangcn/onekey-install-shell/">https://github.com/clangcn/onekey-install-shell/</a></p>
+<h4 id="下载一键部署脚本"><a href="#下载一键部署脚本" class="headerlink" title="下载一键部署脚本"></a>下载一键部署脚本</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget --no-check-certificate https://raw.githubusercontent.com/clangcn/onekey-install-shell/master/frps/install-frps.sh -O ./install-frps.sh</span><br><span class="line">$ chmod 700 ./install-frps.sh</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装-FRP-服务端"><a href="#安装-FRP-服务端" class="headerlink" title="安装 FRP 服务端"></a>安装 FRP 服务端</h4><p>这个一键部署脚本比较好用，为了提高国内用户下载安装包速度还提供了阿里云节点的安装源。整个脚本使用起来也比较简单，对一些常用的 <code>FRP</code> 服务端配置参数都做了交互式选择让用户可以方便的根据自己实际情况进行选择。脚本比较贴心的一点是对默认的公网地址进行了检测，省去了手动输入的麻烦。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line">$ ./install-frps.sh install</span><br><span class="line"></span><br><span class="line">Please select frps download url:</span><br><span class="line">[1].aliyun (default)</span><br><span class="line">[2].github</span><br><span class="line">Enter your choice (1, 2 or exit. default [aliyun]):</span><br><span class="line">---------------------------------------</span><br><span class="line">Your select: aliyun</span><br><span class="line">---------------------------------------</span><br><span class="line">Loading network version for frps, please wait...</span><br><span class="line">frps Latest release file frp_0.15.1_linux_amd64.tar.gz</span><br><span class="line">Loading You Server IP, please wait...</span><br><span class="line">You Server IP:12.34.56.78</span><br><span class="line">Please input your server setting:</span><br><span class="line"></span><br><span class="line">Please input frps bind_port [1-65535](Default Server Port: 5443):7000</span><br><span class="line">frps bind_port: 7000</span><br><span class="line"></span><br><span class="line">Please input frps vhost_http_port [1-65535](Default vhost_http_port: 80):8080</span><br><span class="line">frps vhost_http_port: 8080</span><br><span class="line"></span><br><span class="line">Please input frps vhost_https_port [1-65535](Default vhost_https_port: 443):</span><br><span class="line">frps vhost_https_port: 443</span><br><span class="line"></span><br><span class="line">Please input frps dashboard_port [1-65535](Default dashboard_port: 6443):7500</span><br><span class="line">frps dashboard_port: 7500</span><br><span class="line"></span><br><span class="line">Please input dashboard_user (Default: admin):</span><br><span class="line">frps dashboard_user: admin</span><br><span class="line"></span><br><span class="line">Please input dashboard_pwd (Default: IY0p1bOg):admin</span><br><span class="line">frps dashboard_pwd: admin</span><br><span class="line"></span><br><span class="line">Please input privilege_token (Default: 9BqswPpd1R0TfGR5):mike</span><br><span class="line">frps privilege_token: mike</span><br><span class="line"></span><br><span class="line">Please input frps max_pool_count [1-200]</span><br><span class="line">(Default max_pool_count: 50):</span><br><span class="line">frps max_pool_count: 50</span><br><span class="line"></span><br><span class="line">##### Please select log_level #####</span><br><span class="line">1: info (default)</span><br><span class="line">2: warn</span><br><span class="line">3: error</span><br><span class="line">4: debug</span><br><span class="line">#####################################################</span><br><span class="line">Enter your choice (1, 2, 3, 4 or exit. default [1]):</span><br><span class="line">log_level: info</span><br><span class="line"></span><br><span class="line">Please input frps log_max_days [1-30]</span><br><span class="line">(Default log_max_days: 3 day):</span><br><span class="line">frps log_max_days: 3</span><br><span class="line"></span><br><span class="line">##### Please select log_file #####</span><br><span class="line">1: enable (default)</span><br><span class="line">2: disable</span><br><span class="line">#####################################################</span><br><span class="line">Enter your choice (1, 2 or exit. default [1]):</span><br><span class="line">log_file: enable</span><br><span class="line"></span><br><span class="line">##### Please select tcp_mux #####</span><br><span class="line">1: enable (default)</span><br><span class="line">2: disable</span><br><span class="line">#####################################################</span><br><span class="line">Enter your choice (1, 2 or exit. default [1]):</span><br><span class="line">tcp_mux: true</span><br><span class="line"></span><br><span class="line">##### Please select kcp support #####</span><br><span class="line">1: enable (default)</span><br><span class="line">2: disable</span><br><span class="line">#####################################################</span><br><span class="line">Enter your choice (1, 2 or exit. default [1]):</span><br><span class="line">kcp support: true</span><br><span class="line"></span><br><span class="line">============== Check your input ==============</span><br><span class="line">You Server IP      : 12.34.56.78</span><br><span class="line">Bind port          : 7000</span><br><span class="line">kcp support        : true</span><br><span class="line">vhost http port    : 8080</span><br><span class="line">vhost https port   : 443</span><br><span class="line">Dashboard port     : 7500</span><br><span class="line">Dashboard user     : admin</span><br><span class="line">Dashboard password : admin</span><br><span class="line">Privilege token    : mike</span><br><span class="line">tcp_mux            : true</span><br><span class="line">Max Pool count     : 50</span><br><span class="line">Log level          : info</span><br><span class="line">Log max days       : 3</span><br><span class="line">Log file           : enable</span><br><span class="line">==============================================</span><br><span class="line"></span><br><span class="line">Press any key to start...or Press Ctrl+c to cancel</span><br><span class="line"></span><br><span class="line">frps install path:/usr/local/frps</span><br><span class="line">config file for frps ... done</span><br><span class="line">download frps ... done</span><br><span class="line">download /etc/init.d/frps... done</span><br><span class="line">setting frps boot... done</span><br><span class="line"></span><br><span class="line">+--------------------------------------------------+</span><br><span class="line">|        Manager for Frps, Written by Clang        |</span><br><span class="line">+--------------------------------------------------+</span><br><span class="line">| Intro: http://koolshare.cn/thread-65379-1-1.html |</span><br><span class="line">+--------------------------------------------------+</span><br><span class="line"></span><br><span class="line">Starting Frps(0.15.1)... done</span><br><span class="line">Frps (pid 3325)is running.</span><br><span class="line"></span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">|        frps for Linux Server, Written by Clang          |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">|     A tool to auto-compile &amp; install frps on Linux      |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line">|    Intro: http://koolshare.cn/thread-65379-1-1.html     |</span><br><span class="line">+---------------------------------------------------------+</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Congratulations, frps install completed!</span><br><span class="line">==============================================</span><br><span class="line">You Server IP      : 12.34.56.78</span><br><span class="line">Bind port          : 7000</span><br><span class="line">KCP support        : true</span><br><span class="line">vhost http port    : 8080</span><br><span class="line">vhost https port   : 443</span><br><span class="line">Dashboard port     : 7500</span><br><span class="line">Privilege token    : mike</span><br><span class="line">tcp_mux            : true</span><br><span class="line">Max Pool count     : 50</span><br><span class="line">Log level          : info</span><br><span class="line">Log max days       : 3</span><br><span class="line">Log file           : enable</span><br><span class="line">==============================================</span><br><span class="line">frps Dashboard     : http://12.34.56.78:7500/</span><br><span class="line">Dashboard user     : admin</span><br><span class="line">Dashboard password : admin</span><br><span class="line">==============================================</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置-FRP-服务端"><a href="#配置-FRP-服务端" class="headerlink" title="配置 FRP 服务端"></a>配置 FRP 服务端</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./install-frps.sh config</span><br></pre></td></tr></table></figure>
+
+<h4 id="更新-FRP-服务端"><a href="#更新-FRP-服务端" class="headerlink" title="更新 FRP 服务端"></a>更新 FRP 服务端</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./install-frps.sh update</span><br></pre></td></tr></table></figure>
+
+<h4 id="卸载-FRP-服务端"><a href="#卸载-FRP-服务端" class="headerlink" title="卸载 FRP 服务端"></a>卸载 FRP 服务端</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./install-frps.sh uninstall</span><br></pre></td></tr></table></figure>
+
+<h4 id="FRP-服务端日常管理"><a href="#FRP-服务端日常管理" class="headerlink" title="FRP 服务端日常管理"></a>FRP 服务端日常管理</h4><p><code>FRP</code> 服务端安装完成后，一键部署脚本还提供了一个日常管理 <code>FRP</code> 服务端的管理脚本来进行日常的启动、重启、停止等操作，非常的方便。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Usage: /etc/init.d/frps &#123;start|stop|restart|status|config|version&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><p><a href="http://www.google.com/">http://www.google.com</a><br><a href="https://github.com/fatedier/frp">https://github.com/fatedier/frp</a><br><a href="http://koolshare.cn/thread-65379-1-1.html">http://koolshare.cn/thread-65379-1-1.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/27/vscode%E5%89%8D%E7%AB%AF%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE/" rel="next" title="vscode前端插件配置">
+                <i class="fa fa-chevron-left"></i> vscode前端插件配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/05/JS-Promise%E7%94%A8%E6%B3%95/" rel="prev" title="JS Promise用法">
+                JS Promise用法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#FRP-%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">FRP 安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FRP-%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">FRP 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#FRP-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">FRP 服务端配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FRP-%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">FRP 客户端配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FRP-%E4%BD%BF%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">FRP 使用实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-TCP-%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%BA%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text">通过 TCP 访问内网机器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D%E8%AE%BF%E9%97%AE%E9%83%A8%E7%BD%B2%E4%BA%8E%E5%86%85%E7%BD%91%E7%9A%84-Web-%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.2.</span> <span class="nav-text">通过自定义域名访问部署于内网的 Web 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%AF%86%E7%A0%81%E4%BF%9D%E6%8A%A4%E4%BD%A0%E7%9A%84-Web-%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.2.1.</span> <span class="nav-text">通过密码保护你的 Web 服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%99-Web-%E6%9C%8D%E5%8A%A1%E5%A2%9E%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BA%8C%E7%BA%A7%E5%9F%9F%E5%90%8D"><span class="nav-number">3.2.2.</span> <span class="nav-text">给 Web 服务增加自定义二级域名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-Host-Header"><span class="nav-number">3.2.3.</span> <span class="nav-text">修改 Host Header</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#URL-%E8%B7%AF%E7%94%B1"><span class="nav-number">3.2.4.</span> <span class="nav-text">URL 路由</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-UDP-%E8%AE%BF%E9%97%AE%E5%86%85%E7%BD%91%E6%9C%BA%E5%99%A8"><span class="nav-number">3.3.</span> <span class="nav-text">通过 UDP 访问内网机器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AC%E5%8F%91-Unix-%E5%9F%9F%E5%A5%97%E6%8E%A5%E5%AD%97"><span class="nav-number">3.4.</span> <span class="nav-text">转发 Unix 域套接字</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FRP-%E9%AB%98%E7%BA%A7%E8%BF%9B%E9%98%B6"><span class="nav-number">4.</span> <span class="nav-text">FRP 高级进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%99-FRP-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A2%9E%E5%8A%A0%E4%B8%80%E4%B8%AA-Dashboard"><span class="nav-number">4.1.</span> <span class="nav-text">给 FRP 服务端增加一个 Dashboard</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%99-FRP-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%8A%A0%E4%B8%8A%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="nav-number">4.2.</span> <span class="nav-text">给 FRP 服务端加上身份验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FRP-%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%83%AD%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">4.3.</span> <span class="nav-text">FRP 客户端热加载配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%99-FRP-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%A2%9E%E5%8A%A0%E7%AB%AF%E5%8F%A3%E7%99%BD%E5%90%8D%E5%8D%95"><span class="nav-number">4.4.</span> <span class="nav-text">给 FRP 服务端增加端口白名单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E7%94%A8-TCP-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-number">4.5.</span> <span class="nav-text">启用 TCP 多路复用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FRP-%E5%BA%95%E5%B1%82%E9%80%9A%E4%BF%A1%E5%90%AF%E7%94%A8-KCP-%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.6.</span> <span class="nav-text">FRP 底层通信启用 KCP 协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%99-FRP-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%85%8D%E7%BD%AE%E8%BF%9E%E6%8E%A5%E6%B1%A0"><span class="nav-number">4.7.</span> <span class="nav-text">给 FRP 服务端配置连接池</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E4%B8%8E%E5%8E%8B%E7%BC%A9"><span class="nav-number">4.8.</span> <span class="nav-text">加密与压缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-FRP-%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%90%86%E5%85%B6%E5%AE%83%E5%86%85%E7%BD%91%E6%9C%BA%E5%99%A8%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91"><span class="nav-number">4.9.</span> <span class="nav-text">通过 FRP 客户端代理其它内网机器访问外网</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E4%BB%A3%E7%90%86%E8%BF%9E%E6%8E%A5-FRP-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">4.10.</span> <span class="nav-text">通过代理连接 FRP 服务端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E5%9C%B0%E6%9A%B4%E9%9C%B2%E5%86%85%E7%BD%91%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.11.</span> <span class="nav-text">安全地暴露内网服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%82%B9%E5%AF%B9%E7%82%B9%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="nav-number">4.12.</span> <span class="nav-text">点对点内网穿透</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FRP-%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">FRP 管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2%E8%84%9A%E6%9C%AC"><span class="nav-number">5.1.</span> <span class="nav-text">下载一键部署脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-FRP-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">5.2.</span> <span class="nav-text">安装 FRP 服务端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-FRP-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">5.3.</span> <span class="nav-text">配置 FRP 服务端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0-FRP-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">5.4.</span> <span class="nav-text">更新 FRP 服务端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD-FRP-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">5.5.</span> <span class="nav-text">卸载 FRP 服务端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FRP-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%97%A5%E5%B8%B8%E7%AE%A1%E7%90%86"><span class="nav-number">5.6.</span> <span class="nav-text">FRP 服务端日常管理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="nav-number">6.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

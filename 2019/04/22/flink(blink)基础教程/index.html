@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="flink,blink," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="安装: 下载并开始使用FlinkFlink 可以运行在 Linux, Mac OS X和Windows上。为了运行Flink, 唯一的要求是必须在Java 7.x (或者更高版本)上安装。Windows 用户, 请查看 Flink在Windows上的安装指南。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flink(blink)基础教程">
+<meta property="og:url" content="http://drawwon.github.io/2019/04/22/flink(blink)%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="安装: 下载并开始使用FlinkFlink 可以运行在 Linux, Mac OS X和Windows上。为了运行Flink, 唯一的要求是必须在Java 7.x (或者更高版本)上安装。Windows 用户, 请查看 Flink在Windows上的安装指南。">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422204159.png">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190423100503.png">
+<meta property="article:published_time" content="2019-04-22T12:39:10.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.404Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="flink">
+<meta property="article:tag" content="blink">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422204159.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2019/04/22/flink(blink)基础教程/"/>
+
+
+
+
+
+  <title>flink(blink)基础教程 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2019/04/22/flink(blink)%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">flink(blink)基础教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-22T20:39:10+08:00">
+                2019-04-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="安装-下载并开始使用Flink"><a href="#安装-下载并开始使用Flink" class="headerlink" title="安装: 下载并开始使用Flink"></a>安装: 下载并开始使用Flink</h2><p>Flink 可以运行在 Linux, Mac OS X和Windows上。为了运行Flink, 唯一的要求是必须在Java 7.x (或者更高版本)上安装。Windows 用户, 请查看 <a href="https://ci.apache.org/projects/flink/flink-docs-release-1.2/setup/flink_on_windows.html">Flink在Windows</a>上的安装指南。</p>
+<span id="more"></span>
+
+<p>你可以使用以下命令检查Java当前运行的版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure>
+
+<p>如果你有安装Java 8，命令行有如下回显</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">java version &quot;1.8.0_111&quot;</span><br><span class="line"></span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_111-b14)</span><br><span class="line"></span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.111-b14, mixed mode)</span><br></pre></td></tr></table></figure>
+
+<p>**下载和解压 ** </p>
+<ol>
+<li>从<a href="http://flink.apache.org/downloads.html">下载页</a>下载一个二进制的包，你可以选择任何你喜欢的Hadoop&#x2F;Scala组合包。如果你计划使用文件系统，那么可以使用任何Hadoop版本。</li>
+<li>进入下载目录</li>
+<li>解压下载的压缩包</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~/Downloads        # Go to download directory</span><br><span class="line">$ tar xzf flink-*.tgz   # Unpack the downloaded archive</span><br><span class="line">$ cd flink-1.2.0</span><br><span class="line">Start a Local Flink Cluster</span><br></pre></td></tr></table></figure>
+
+<p><strong>MacOS X</strong></p>
+<p>对于 MacOS X 用户, Flink 可以通过Homebrew 进行安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">~~~bash </span><br><span class="line">$ brew install apache-flink … </span><br><span class="line">$ flink –version </span><br><span class="line">Version: 1.2.0, Commit ID: 1c659cf ~~~</span><br></pre></td></tr></table></figure>
+
+<p>使用maven可以直接常见一个flink项目</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ mvn archetype:generate \</span><br><span class="line">    -DarchetypeGroupId=org.apache.flink \</span><br><span class="line">    -DarchetypeArtifactId=flink-quickstart-java \</span><br><span class="line">    -DarchetypeVersion=1.8.0 \</span><br><span class="line">    -DgroupId=wiki-edits \</span><br><span class="line">    -DartifactId=wiki-edits \</span><br><span class="line">    -Dversion=0.1 \</span><br><span class="line">    -Dpackage=wikiedits \</span><br><span class="line">    -DinteractiveMode=<span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>其中的groupId和ArtifactId可以按照自己的需要修改</p>
+<p>建好的工程项目结构如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ tree wiki-edits</span><br><span class="line">wiki-edits/</span><br><span class="line">├── pom.xml</span><br><span class="line">└── src</span><br><span class="line">    └── main</span><br><span class="line">        ├── java</span><br><span class="line">        │   └── wikiedits</span><br><span class="line">        │       ├── BatchJob.java</span><br><span class="line">        │       └── StreamingJob.java</span><br><span class="line">        └── resources</span><br><span class="line">            └── log4j.properties</span><br></pre></td></tr></table></figure>
+
+<p>此时的pom.xml已经包含了flink的依赖，在java文件夹下有几个示例文件，可以将其删除，然后从0开始</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">rm</span> wiki-edits/src/main/java/wikiedits/*.java</span><br></pre></td></tr></table></figure>
+
+<p>最后我们需要在pom.xml中添加对维基百科的连接器，修改后的dependencies如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.flink<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>flink-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;flink.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.flink<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>flink-streaming-java_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;flink.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.flink<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>flink-clients_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;flink.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.flink<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>flink-connector-wikiedits_2.11<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;flink.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用idea创建一个flink项目"><a href="#使用idea创建一个flink项目" class="headerlink" title="使用idea创建一个flink项目"></a>使用idea创建一个flink项目</h2><p>先用idea的maven创建一个scala项目</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422204159.png"></p>
+<p>在pom.xml中加入以下flink相关的依赖，记得保持Scala的版本和flink的版本相同，不然会报错</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Use this dependency if you are using the DataStream API --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.flink<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>flink-streaming-java_2.10<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- Use this dependency if you are using the DataSet API --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.flink<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>flink-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.flink<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>flink-clients_2.10<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果出现无法更新的状况，打开设置，勾选always update snapshots</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190423100503.png"></p>
+<p>出现更新慢的情况，可以将maven的配置加入阿里云镜像</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span>&gt;</span>alimaven<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>aliyun maven<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.aliyun.com/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>同时将sbt加入镜像，新建<code>~/.sbt/repositories</code>，修改其内容为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[repositories]</span><br><span class="line">local</span><br><span class="line">osc: http://maven.aliyun.com/nexus/content/groups/public</span><br><span class="line">typesafe: http://repo.typesafe.com/typesafe/ivy-releases/, [organization]/[module]/(scala_[scalaVersion]/)(sbt_[sbtVersion]/)[revision]/[type]s/[artifact](-[classifier]).[ext], bootOnly</span><br><span class="line">sonatype-oss-releases</span><br><span class="line">maven-central</span><br><span class="line">sonatype-oss-snapshots</span><br></pre></td></tr></table></figure>
+
+<p>再次更新maven依赖即可</p>
+<h2 id="编写一个flink程序"><a href="#编写一个flink程序" class="headerlink" title="编写一个flink程序"></a>编写一个flink程序</h2><p>导入刚才maven建立的项目，新建一个<code>src/main/java/wikiedits/WikipediaAnalysis.java</code>类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> wikiedits;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WikipediaAnalysis</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在程序还很基础，我们将一步一步填充程序内容。最后也将列出完整程序。</p>
+<p>编写flink程序的第一步是要创建一个<code>StreamExecutionEnvironment</code>对象 (如果是批处理的话，建立<code>ExecutionEnvironment</code>对象)，这个对象将被用于设置执行参数，以及创建外部的数据输入源。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">StreamExecutionEnvironment</span> <span class="variable">see</span> <span class="operator">=</span> StreamExecutionEnvironment.getExecutionEnvironment();</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们创建一个源，从维基百科的IRC log读取数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataStream&lt;WikipediaEditEvent&gt; edits = see.addSource(<span class="keyword">new</span> <span class="title class_">WikipediaEditsSource</span>());</span><br></pre></td></tr></table></figure>
+
+<p>至此我们创建了一个包含<code>WikipediaEditEvent</code>的<code>DataStream</code>对象，可以用于之后的处理。本例中，我们最重要挖掘的内容是，每个用户在特定窗口时间内添加或删除的字节数，比如五秒钟。因此，我们首先要将流在用户名上进行统计，也就是说对这个流的处理要讲用户名考虑在内。在这个例子中，特定时间内修改的字节数的和应该是对应到每个独立用户的。为了对某个数据流进行标记，我们要创建一个KeySelector，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">KeyedStream&lt;WikipediaEditEvent, String&gt; keyedEdits = edits</span><br><span class="line">    .keyBy(<span class="keyword">new</span> <span class="title class_">KeySelector</span>&lt;WikipediaEditEvent, String&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">getKey</span><span class="params">(WikipediaEditEvent event)</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> event.getUser();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>上面的操作给我们提供了一个包含string key的WikipediaEditEvent，其key为用户名。</p>
+<p>现在我们可以指定我们想要的windows size，并在这个数据流中计算我们想要的结果。在对无线数据流计算聚合结果的时候，窗口大小是一个必须的参数。在本例中，我们计算窗口大小为5s的聚合结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DataStream&lt;Tuple2&lt;String, Long&gt;&gt; result = keyedEdits</span><br><span class="line">    .timeWindow(Time.seconds(<span class="number">5</span>))</span><br><span class="line">    .fold(<span class="keyword">new</span> <span class="title class_">Tuple2</span>&lt;&gt;(<span class="string">&quot;&quot;</span>, <span class="number">0L</span>), <span class="keyword">new</span> <span class="title class_">FoldFunction</span>&lt;WikipediaEditEvent, Tuple2&lt;String, Long&gt;&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Tuple2&lt;String, Long&gt; <span class="title function_">fold</span><span class="params">(Tuple2&lt;String, Long&gt; acc, WikipediaEditEvent event)</span> &#123;</span><br><span class="line">            acc.f0 = event.getUser();</span><br><span class="line">            acc.f1 += event.getByteDiff();</span><br><span class="line">            <span class="keyword">return</span> acc;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>第一个函数TimeWindow定义了一个大小为5s的，不重叠的时间窗口。第二个函数为每个特定的key，在每个窗口上指定了一个fold transformation。在该例中，初始值为(“”,0L)，并对其加上每个用户在时间窗口内，每次修改的byte difference。结果流Tuple2&lt;String, Long&gt;，包含了每个用户在每个时间窗口内的修改byte数量。</p>
+<p>最后一件事情就是打印结果和开始执行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">result.print();</span><br><span class="line"></span><br><span class="line">see.execute();</span><br></pre></td></tr></table></figure>
+
+<p>完整程序如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> wikiedits;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.flink.api.common.functions.FoldFunction;</span><br><span class="line"><span class="keyword">import</span> org.apache.flink.api.java.functions.KeySelector;</span><br><span class="line"><span class="keyword">import</span> org.apache.flink.api.java.tuple.Tuple2;</span><br><span class="line"><span class="keyword">import</span> org.apache.flink.streaming.api.datastream.DataStream;</span><br><span class="line"><span class="keyword">import</span> org.apache.flink.streaming.api.datastream.KeyedStream;</span><br><span class="line"><span class="keyword">import</span> org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;</span><br><span class="line"><span class="keyword">import</span> org.apache.flink.streaming.api.windowing.time.Time;</span><br><span class="line"><span class="keyword">import</span> org.apache.flink.streaming.connectors.wikiedits.WikipediaEditEvent;</span><br><span class="line"><span class="keyword">import</span> org.apache.flink.streaming.connectors.wikiedits.WikipediaEditsSource;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WikipediaAnalysis</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">    <span class="type">StreamExecutionEnvironment</span> <span class="variable">see</span> <span class="operator">=</span> StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br><span class="line">    DataStream&lt;WikipediaEditEvent&gt; edits = see.addSource(<span class="keyword">new</span> <span class="title class_">WikipediaEditsSource</span>());</span><br><span class="line"></span><br><span class="line">    KeyedStream&lt;WikipediaEditEvent, String&gt; keyedEdits = edits</span><br><span class="line">      .keyBy(<span class="keyword">new</span> <span class="title class_">KeySelector</span>&lt;WikipediaEditEvent, String&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> String <span class="title function_">getKey</span><span class="params">(WikipediaEditEvent event)</span> &#123;</span><br><span class="line">          <span class="keyword">return</span> event.getUser();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">    DataStream&lt;Tuple2&lt;String, Long&gt;&gt; result = keyedEdits</span><br><span class="line">      .timeWindow(Time.seconds(<span class="number">5</span>))</span><br><span class="line">      .fold(<span class="keyword">new</span> <span class="title class_">Tuple2</span>&lt;&gt;(<span class="string">&quot;&quot;</span>, <span class="number">0L</span>), <span class="keyword">new</span> <span class="title class_">FoldFunction</span>&lt;WikipediaEditEvent, Tuple2&lt;String, Long&gt;&gt;() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Tuple2&lt;String, Long&gt; <span class="title function_">fold</span><span class="params">(Tuple2&lt;String, Long&gt; acc, WikipediaEditEvent event)</span> &#123;</span><br><span class="line">          acc.f0 = event.getUser();</span><br><span class="line">          acc.f1 += event.getByteDiff();</span><br><span class="line">          <span class="keyword">return</span> acc;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">    result.print();</span><br><span class="line"></span><br><span class="line">    see.execute();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Flink-API概念"><a href="#Flink-API概念" class="headerlink" title="Flink API概念"></a>Flink API概念</h2><p>Flink程序是实现分布式数据变换的常用程序（例如，filtering, mapping, updating state, joining, grouping, defining windows, aggregating）。 数据从source创建（例如，通过从文件，kafka topics或从本地的内存数据中读取）。结果通过sinks（接收器）返回，结果可以写入（分布式）文件或标准输出（例如，命令行终端）。 Flink程序可以在各种环境中运行，独立运行或嵌入其他程序中。 既可以在本地JVM中执行，也可以在多计算机的集群上执行。</p>
+<p>根据数据源的类型，如有界（bounded）或无界（unbounded）源，您可以编写批处理(batch)程序或流处理(stream)程序，其中DataSet API用于批处理，DataStream API用于流式处理。 本指南将介绍两种API共有的基本概念。流式数据处理教程请参见<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/datastream_api.html">流式数据处理</a>，批处理教程请参加<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/batch/index.html">批处理</a>。</p>
+<h3 id="DataSet和DataStream"><a href="#DataSet和DataStream" class="headerlink" title="DataSet和DataStream"></a>DataSet和DataStream</h3><p>Flink具有特殊类DataSet和DataStream来表示程序中的数据。 您可以将它们视为可以包含重复项的不可变数据集合。 在DataSet的情况下，数据是有限的，而对于DataStream，元素的数量可以是无限的。</p>
+<p>这些集合在某些关键方面与常规Java集合不同。 首先，它们是不可变的，这意味着一旦创建它们就无法添加或删除元素。 你也不能简单地检查里面的元素。</p>
+<p>通过在Flink程序中添加源来创建集合，并通过使用诸如map，filter等API方法对它们进行转换来从这些集合中派生新集合。</p>
+<h3 id="Flink程序的剖析"><a href="#Flink程序的剖析" class="headerlink" title="Flink程序的剖析"></a>Flink程序的剖析</h3><p>Flink程序看起来像是转换数据集合的常规程序。 每个程序包含相同的基本部分：</p>
+<ol>
+<li>获得执行环境，Obtain an execution environment,</li>
+<li>加载&#x2F;创建初始数据，Load&#x2F;create the initial data,</li>
+<li>指定此数据的转换，Specify transformations on this data,</li>
+<li>指定放置计算结果的位置，Specify where to put the results of your computations,</li>
+<li>触发程序执行，Trigger the program execution</li>
+</ol>
+<p>我们现在将概述每个步骤，请参阅相应部分以获取更多详细信息。 请注意，Java DataSet API的所有核心类都可以在<a href="https://github.com/apache/flink/blob/master//flink-java/src/main/java/org/apache/flink/api/java">org.apache.flink.api.java</a>包中找到，而Java DataStream API的类可以在<a href="https://github.com/apache/flink/blob/master//flink-streaming-java/src/main/java/org/apache/flink/streaming/api">org.apache.flink.streaming.api</a>中找到。</p>
+<p>StreamExecutionEnvironment是所有Flink程序的基础。 您可以在StreamExecutionEnvironment上使用这些静态方法获取一个StreamExecutionEnvironment实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">getExecutionEnvironment()</span><br><span class="line"></span><br><span class="line">createLocalEnvironment()</span><br><span class="line"></span><br><span class="line">createRemoteEnvironment(String host, <span class="type">int</span> port, String... jarFiles)</span><br></pre></td></tr></table></figure>
+
+<p>通常，您只需要使用<code>getExecutionEnvironment()</code>，因为这将根据上下文执行正确的操作：如果您在IDE中执行程序或作为常规Java程序执行，它将创建一个本地环境，在你的本地机器执行程序。 如果您从程序中创建了一个JAR文件，并通过命令行调用它，则Flink集群管理器将执行您的main方法，同时<code>getExecutionEnvironment()</code>方法将返回一个执行环境，用于在集群上执行你的程序。</p>
+<p>为了指定数据源，执行环境有几种方法可以从文件中读取数据：你可以逐行读，作为csv文监督，或者完全用一个你自定义的格式读取。为了读取一个text文件为一个序列，你可以用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="type">StreamExecutionEnvironment</span> <span class="variable">env</span> <span class="operator">=</span> StreamExecutionEnvironment.getExecutionEnvironment();</span><br><span class="line"></span><br><span class="line">DataStream&lt;String&gt; text = env.readTextFile(<span class="string">&quot;file:///path/to/file&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这将为为你供一个DataStream，然后你可以对其应用transformation来创建新的派生DataStream。</p>
+<p>您可以通过使用transformation函数，调用DataStream上的方法来应用转换。 例如，map函数转换如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DataStream&lt;String&gt; input = ...;</span><br><span class="line"></span><br><span class="line">DataStream&lt;Integer&gt; parsed = input.map(<span class="keyword">new</span> <span class="title class_">MapFunction</span>&lt;String, Integer&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">map</span><span class="params">(String value)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Integer.parseInt(value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>这将原始集合中的每个String转换为Integer来创建新的DataStream。</p>
+<p>一旦有了包含最终结果的DataStream，就可以通过创建接收器将其写入外部系统。下面是一个接收器sinks的示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">writeAsText(String path)</span><br><span class="line"></span><br><span class="line">print()</span><br></pre></td></tr></table></figure>
+
+<p>一旦指定了完整的程序，就需要通过调用<code>StreamExecutionEnvironment</code>上的<code>execute()</code>来触发程序执行。 根据ExecutionEnvironment的类型，决定在本地计算机上执行或提交程序在集群上执行。</p>
+<p><code>execute()</code>方法返回一个<code>JobExecutionResult</code>，它包含执行次数和累计结果。</p>
+<h3 id="懒惰执行"><a href="#懒惰执行" class="headerlink" title="懒惰执行"></a>懒惰执行</h3><p>所有Flink程序都是懒惰地执行：当执行程序的main方法时，数据加载和转换不会直接发生。 而是创建每个操作并将其添加到程序的计划中。 实际执行操作是在调用环境上的execute()方法后发生的，。 程序是在本地执行还是在集群上执行取决于执行环境的类型</p>
+<p>懒惰的评估可以使构建Flink作为一个整体，添加各个单元以执行复杂的程序。</p>
+<h3 id="指定keys"><a href="#指定keys" class="headerlink" title="指定keys"></a>指定keys</h3><p>某些数据变换（join，coGroup，keyBy，groupBy）要求在元素集合上定义keys。 其他转换（Reduce，GroupReduce，Aggregate，Windows）允许数据根据之前应用的key来分组。</p>
+<p>A DataSet is grouped as：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">DataSet&lt;...&gt; input = <span class="comment">// [...]</span></span><br><span class="line">DataSet&lt;...&gt; reduced = input</span><br><span class="line">  .groupBy(<span class="comment">/*define key here*/</span>)</span><br><span class="line">  .reduceGroup(<span class="comment">/*do something*/</span>);</span><br></pre></td></tr></table></figure>
+
+<p>Flink的数据模型不基于键值对。 因此，您无需将数据集类型物理打包到键和值中。 键是“虚拟的”：它们被定义为实际数据上的函数，以指导分组操作符。</p>
+<p>注意：在下面的讨论中，我们将使用DataStream API和keyBy。 对于DataSet API，您只需要用DataSet和groupBy替换。</p>
+<h3 id="为Tuple定义keys"><a href="#为Tuple定义keys" class="headerlink" title="为Tuple定义keys"></a>为Tuple定义keys</h3><p>最简单的情况是在元组的一个或多个字段上对元组进行分组：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DataStream&lt;Tuple3&lt;Integer,String,Long&gt;&gt; input = <span class="comment">// [...]</span></span><br><span class="line">KeyedStream&lt;Tuple3&lt;Integer,String,Long&gt;,Tuple&gt; keyed = input.keyBy(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>元组在第一个字段（整数类型）上分组。</p>
+<p>在这里，我们将元组分组在由第一个和第二个字段组成的复合键上。</p>
+<p>关于嵌套元组的注释：如果你有一个带有嵌套元组的DataStream，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DataStream&lt;Tuple3&lt;Tuple2&lt;Integer, Float&gt;,String,Long&gt;&gt; ds;</span><br></pre></td></tr></table></figure>
+
+<p>指定<code>keyBy(0)</code>将使系统使用完整的Tuple2作为键（以Integer和Float为键）。 如果要“导航”到嵌套的Tuple2中，则必须使用下面解释的字段表达式键。</p>
+<h3 id="用字段表达式定义keys"><a href="#用字段表达式定义keys" class="headerlink" title="用字段表达式定义keys"></a>用字段表达式定义keys</h3><p>您可以使用基于字符串的字段表达式来引用嵌套字段，并定义用于分组，排序，连接或coGrouping的键。</p>
+<p>字段表达式可以非常轻松地选择（嵌套）复合类型中的字段，例如Tuple和POJO类型。</p>
+<p>在下面的示例中，我们有一个WC POJO，其中包含两个字段“word”和“count”。 要按字段分组，我们只需将其名称传递给<code>keyBy()</code>函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// some ordinary POJO (Plain old Java Object)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WC</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> String word;</span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> count;</span><br><span class="line">&#125;</span><br><span class="line">DataStream&lt;WC&gt; words = <span class="comment">// [...]</span></span><br><span class="line">DataStream&lt;WC&gt; wordCounts = words.keyBy(<span class="string">&quot;word&quot;</span>).window(<span class="comment">/*window specification*/</span>);</span><br></pre></td></tr></table></figure>
+
+<p>字段表达式语法：</p>
+<ul>
+<li>按字段名称选择POJO字段。 例如，“user”指的是POJO类型的“user”字段。</li>
+<li>按字段名称或0偏移字段索引选择元组字段。 例如，“f0”和“5”分别表示Java元组类型的第一和第六字段。</li>
+<li>您可以在POJO和Tuples中选择嵌套字段。 例如，“user.zip”指的是POJO的“zip”字段，其存储在POJO类型的“user”字段中。 支持任意嵌套和混合POJO和元组，例如“f1.user.zip”或“user.f3.1.zip”。</li>
+<li>您可以使用“*”通配符表达式选择完整类型。 这也适用于非Tuple或POJO类型的类型。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">WC</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> ComplexNestedClass complex; <span class="comment">//nested POJO</span></span><br><span class="line">  <span class="keyword">private</span> <span class="type">int</span> count;</span><br><span class="line">  <span class="comment">// getter / setter for private field (count)</span></span><br><span class="line">  <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getCount</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setCount</span><span class="params">(<span class="type">int</span> c)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.count = c;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">ComplexNestedClass</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> Integer someNumber;</span><br><span class="line">  <span class="keyword">public</span> <span class="type">float</span> someFloat;</span><br><span class="line">  <span class="keyword">public</span> Tuple3&lt;Long, Long, String&gt; word;</span><br><span class="line">  <span class="keyword">public</span> IntWritable hadoopCitizen;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面展示了几个上面示例代码的有效字段表达式：</p>
+<ol>
+<li><p>“count”：WC类中的count字段。</p>
+</li>
+<li><p>“complex”：递归选择POJO类型ComplexNestedClass的字段复合体的所有字段。</p>
+</li>
+<li><p>“complex.word.f2”：选择嵌套Tuple3的最后一个字段。</p>
+</li>
+<li><p>“complex.hadoopCitizen”：选择Hadoop IntWritable类型。</p>
+</li>
+</ol>
+<h3 id="用key-selector函数定义keys"><a href="#用key-selector函数定义keys" class="headerlink" title="用key selector函数定义keys"></a>用key selector函数定义keys</h3><p>定义keys的另一种方法是“key selector”函数。 key selector函数将单个元素作为输入，并返回元素的键。 keys可以是任何类型，并且可以从确定性计算中导出。</p>
+<p>以下示例显示了一个key selector函数，它只返回一个对象的字段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// some ordinary POJO</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WC</span> &#123;<span class="keyword">public</span> String word; <span class="keyword">public</span> <span class="type">int</span> count;&#125;</span><br><span class="line">DataStream&lt;WC&gt; words = <span class="comment">// [...]</span></span><br><span class="line">KeyedStream&lt;WC&gt; keyed = words</span><br><span class="line">  .keyBy(<span class="keyword">new</span> <span class="title class_">KeySelector</span>&lt;WC, String&gt;() &#123; <span class="comment">//WC是单个元素，string是返回的键类型</span></span><br><span class="line">     <span class="keyword">public</span> String <span class="title function_">getKey</span><span class="params">(WC wc)</span> &#123; <span class="keyword">return</span> wc.word; &#125;</span><br><span class="line">   &#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="指定transformation函数"><a href="#指定transformation函数" class="headerlink" title="指定transformation函数"></a>指定transformation函数</h3><p>大多数转换都需要用户定义的函数。 本节列出了如何指定它们的不同方法</p>
+<h4 id="实现一个接口"><a href="#实现一个接口" class="headerlink" title="实现一个接口"></a>实现一个接口</h4><p>最基本的方法是实现一个提供的接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyMapFunction</span> <span class="keyword">implements</span> <span class="title class_">MapFunction</span>&lt;String, Integer&gt; &#123;</span><br><span class="line">  <span class="keyword">public</span> Integer <span class="title function_">map</span><span class="params">(String value)</span> &#123; <span class="keyword">return</span> Integer.parseInt(value); &#125;</span><br><span class="line">&#125;;</span><br><span class="line">data.map(<span class="keyword">new</span> <span class="title class_">MyMapFunction</span>());</span><br></pre></td></tr></table></figure>
+
+<h4 id="匿名类"><a href="#匿名类" class="headerlink" title="匿名类"></a>匿名类</h4><p>您可以将函数作为匿名类传递：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data.map(<span class="keyword">new</span> <span class="title class_">MapFunction</span>&lt;String, Integer&gt; () &#123;</span><br><span class="line">  <span class="keyword">public</span> Integer <span class="title function_">map</span><span class="params">(String value)</span> &#123; <span class="keyword">return</span> Integer.parseInt(value); &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Java-8-Lambdas表达式"><a href="#Java-8-Lambdas表达式" class="headerlink" title="Java 8 Lambdas表达式"></a>Java 8 Lambdas表达式</h4><p>Flink还支持Java API中的Java 8 Lambdas：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data.filter(s -&gt; s.startsWith(<span class="string">&quot;http://&quot;</span>));</span><br><span class="line">data.reduce((i1,i2) -&gt; i1 + i2);</span><br></pre></td></tr></table></figure>
+
+<h4 id="富函数-rich-functions"><a href="#富函数-rich-functions" class="headerlink" title="富函数(rich functions)"></a>富函数(rich functions)</h4><p>需要用户定义函数的所有变换，都可以将富函数作为参数。 例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyMapFunction</span> <span class="keyword">implements</span> <span class="title class_">MapFunction</span>&lt;String, Integer&gt; &#123;</span><br><span class="line">  <span class="keyword">public</span> Integer <span class="title function_">map</span><span class="params">(String value)</span> &#123; <span class="keyword">return</span> Integer.parseInt(value); &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>可以改写为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyMapFunction</span> <span class="keyword">extends</span> <span class="title class_">RichMapFunction</span>&lt;String, Integer&gt; &#123;</span><br><span class="line">  <span class="keyword">public</span> Integer <span class="title function_">map</span><span class="params">(String value)</span> &#123; <span class="keyword">return</span> Integer.parseInt(value); &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>再把这个函数传给一个普通的map变换：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.map(<span class="keyword">new</span> <span class="title class_">MyMapFunction</span>());</span><br></pre></td></tr></table></figure>
+
+<p>富函数也可以被定义为匿名类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data.map (<span class="keyword">new</span> <span class="title class_">RichMapFunction</span>&lt;String, Integer&gt;() &#123;</span><br><span class="line">  <span class="keyword">public</span> Integer <span class="title function_">map</span><span class="params">(String value)</span> &#123; <span class="keyword">return</span> Integer.parseInt(value); &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>除了用户定义的函数（map，reduce等）之外，Rich函数还提供了四种方法：open，close，getRuntimeContext和setRuntimeContext。 这些对于将函数参数化有很大的用处（具体参考<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/batch/index.html#passing-parameters-to-functions">为函数传参</a>），创建和完成本地状态，访问<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/batch/index.html#broadcast-variables">广播变量</a>，以及访问运行时信息(比如<a href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/api_concepts.html#accumulators--counters">累计器和计数器</a>)，以及<a href="%5BIterations%5D(https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/batch/iterations.html)">迭代器</a>的信息。</p>
+<h3 id="支持的数据类型"><a href="#支持的数据类型" class="headerlink" title="支持的数据类型"></a>支持的数据类型</h3><p>Flink对DataSet或DataStream中可以包含的元素类型设置了一些限制。 原因是系统需要对类型分析，以确定有效的执行策略。</p>
+<p>flink支持六种不同类别的数据类型：</p>
+<ol>
+<li>Java元组和Scala案例类，Java Tuples and Scala Case Classes</li>
+<li>Java POJOs</li>
+<li>原始类型,Primitive Types</li>
+<li>常规类,Regular Classes</li>
+<li>值,Values</li>
+<li>Hadoop Writables</li>
+<li>特殊类型,Special Types</li>
+</ol>
+<h4 id="Tuples-and-Case-Classes"><a href="#Tuples-and-Case-Classes" class="headerlink" title="Tuples and Case Classes"></a>Tuples and Case Classes</h4><p>元组是包含固定数量的具有各种类型的字段的复合类型。 Java API提供从Tuple1到Tuple25的类。 元组的每个字段都可以是包含更多元组的任意Flink类型，从而产生嵌套元组。 可以使用字段名称tuple.f4直接访问元组的字段，也可以使用通用getter方法tuple.getField（int position）。 字段索引从0开始。请注意，这与Scala元组形成对比，但它与Java的一般索引更为一致。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">DataStream&lt;Tuple2&lt;String, Integer&gt;&gt; wordCounts = env.fromElements(</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">Tuple2</span>&lt;String, Integer&gt;(<span class="string">&quot;hello&quot;</span>, <span class="number">1</span>),</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">Tuple2</span>&lt;String, Integer&gt;(<span class="string">&quot;world&quot;</span>, <span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">wordCounts.map(<span class="keyword">new</span> <span class="title class_">MapFunction</span>&lt;Tuple2&lt;String, Integer&gt;, Integer&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Integer <span class="title function_">map</span><span class="params">(Tuple2&lt;String, Integer&gt; value)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="keyword">return</span> value.f1;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">wordCounts.keyBy(<span class="number">0</span>); <span class="comment">// also valid .keyBy(&quot;f0&quot;)</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="POJOs"><a href="#POJOs" class="headerlink" title="POJOs"></a>POJOs</h4><p>如果满足以下要求，则Flink将Java和Scala类视为特殊的POJO数据类型：</p>
+<ol>
+<li>这个类必须是public的</li>
+<li>它必须有一个没有参数的public构造函数（默认构造函数）。</li>
+<li>所有字段都是public的，或者可以通过getter和setter函数访问。 对于名为foo的字段，getter和setter方法必须命名为<code>getFoo()</code>和<code>setFoo()</code>。</li>
+<li>Flink必须支持字段的类型。 目前，Flink使用Avro序列化任意对象（例如Date）。</li>
+<li>Flink分析POJO类型的结构，即它了解POJO的字段。 因此，POJO类型比一般类型更容易使用。 此外，Flink可以比一般类型更有效地处理POJO。</li>
+</ol>
+<p>以下示例显示了一个包含两个public字段的简单POJO。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WordWithCount</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String word;</span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> count;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">WordWithCount</span><span class="params">()</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">WordWithCount</span><span class="params">(String word, <span class="type">int</span> count)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.word = word;</span><br><span class="line">        <span class="built_in">this</span>.count = count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DataStream&lt;WordWithCount&gt; wordCounts = env.fromElements(</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">WordWithCount</span>(<span class="string">&quot;hello&quot;</span>, <span class="number">1</span>),</span><br><span class="line">    <span class="keyword">new</span> <span class="title class_">WordWithCount</span>(<span class="string">&quot;world&quot;</span>, <span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">wordCounts.keyBy(<span class="string">&quot;word&quot;</span>); <span class="comment">// key by field expression &quot;word&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="原始类型"><a href="#原始类型" class="headerlink" title="原始类型"></a>原始类型</h4><p>Flink支持所有Java和Scala原语类型，如Integer，String和Double。</p>
+<h4 id="常规类"><a href="#常规类" class="headerlink" title="常规类"></a>常规类</h4><p>Flink支持大多数Java和Scala类（API和自定义）。 限制适用于包含无法序列化的字段的类，如文件指针，I&#x2F;O流或其他本机资源。 遵循Java Beans约定的类通常可以很好地工作。</p>
+<p>所有未标识为POJO类型的类（请参阅上面的POJO要求）都由Flink作为常规类类型处理。 Flink将这些数据类型视为黑盒子，并且无法访问其内容（即，用于有效排序）。 使用序列化框架Kryo对常规类型进行反序列化。</p>
+<h4 id="值"><a href="#值" class="headerlink" title="值"></a>值</h4><p>值类型手动描述其序列化和反序列化。它们不通过通用序列化框架进行序列化，而是通过使用读取和写入方法实现org.apache.flinktypes.Value接口来为这些操作提供自定义代码。当通用序列化方法效率非常低时，使用值类型是合理的。一个示例是将元素的稀疏向量实现为数组的数据类型。知道数组大部分为零，可以对非零元素使用特殊编码，而通用序列化只需编写所有数组元素。</p>
+<p>org.apache.flinktypes.CopyableValue接口以类似的方式支持手动内部克隆逻辑。</p>
+<p>Flink带有与基本数据类型对应的预定义值类型。 （ByteValue，ShortValue，IntValue，LongValue，FloatValue，DoubleValue，StringValue，CharValue，BooleanValue）。这些Value类型充当基本数据类型的可变变体：它们的值可以更改，允许程序员重用对象并减轻垃圾收集器的压力。</p>
+<h3 id="类型擦除和类型推断"><a href="#类型擦除和类型推断" class="headerlink" title="类型擦除和类型推断"></a>类型擦除和类型推断</h3><p>注意：本节仅适用于Java。</p>
+<p>Java编译器在编译后抛弃了大部分泛型类型信息。这在Java中称为类型擦除。这意味着在运行时，对象的实例不再知道其泛型类型。例如，<code>DataStream&lt;String&gt;</code>和<code>DataStream&lt;Long&gt;</code>的实例与JVM看起来相同。</p>
+<p>Flink在准备执行程序时（当调用程序的主要方法时）需要类型信息。 Flink Java API尝试重建以各种方式丢弃的类型信息，并将其显式存储在数据集和运算符中。可以通过<code>DataStream.getType()</code>检索类型。该方法返回TypeInformation的一个实例，这是Flink表示类型的内部方式。</p>
+<p>类型推断有其局限性，在某些情况下需要程序员的“合作”。这方面的示例是从集合创建数据集的方法，例如ExecutionEnvironment.fromCollection()，你可以在其中传递描述类型的参数。但是像<code>MapFunction &lt;I,O&gt;</code>这样的通用函数也可能需要额外的类型信息。</p>
+<p>ResultTypeQueryable接口可以通过输入格式和函数实现，以明确告知API其返回类型。调用函数的输入类型通常可以通过先前操作的结果类型来推断。</p>
+<h3 id="累计器和计数器"><a href="#累计器和计数器" class="headerlink" title="累计器和计数器"></a>累计器和计数器</h3><p>累加器是具有添加操作和最终累积结果的简单构造，可在任务结束后使用。</p>
+<p>最直接的累加器是一个计数器：您可以使用Accumulator.add（V值）方法递增它。 在任务结束时，Flink将汇总（合并）所有部分结果并将结果发送给客户。 在调试过程中，或者如果您想快速了解有关数据的更多信息，累加器非常有用。</p>
+<p>Flink目前有以下内置累加器。 它们中的每一个都实现了Accumulator接口。</p>
+<ul>
+<li><a href="https://github.com/apache/flink/blob/master//flink-core/src/main/java/org/apache/flink/api/common/accumulators/IntCounter.java">IntCounter</a>，<a href="https://github.com/apache/flink/blob/master//flink-core/src/main/java/org/apache/flink/api/common/accumulators/LongCounter.java">LongCounter</a>和<a href="https://github.com/apache/flink/blob/master//flink-core/src/main/java/org/apache/flink/api/common/accumulators/DoubleCounter.java">DoubleCounter</a>：请参阅下面的使用计数器的示例。</li>
+<li><a href="https://github.com/apache/flink/blob/master//flink-core/src/main/java/org/apache/flink/api/common/accumulators/Histogram.java">直方图</a>：离散数量的区间的直方图实现。 在内部，它只是一个从Integer到Integer的映射。 您可以使用它来计算值的分布，例如 字数统计程序的每行字数分布。</li>
+</ul>
+<h4 id="如何使用累计器"><a href="#如何使用累计器" class="headerlink" title="如何使用累计器"></a>如何使用累计器</h4><p>首先，您必须在需要使用它的用户定义的转换函数中创建累加器对象（此处为计数器）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="type">IntCounter</span> <span class="variable">numLines</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">IntCounter</span>();</span><br></pre></td></tr></table></figure>
+
+<p>其次，您必须注册累加器对象，通常在富函数的open（）方法中。 在这里您还可以定义名称。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getRuntimeContext().addAccumulator(<span class="string">&quot;num-lines&quot;</span>, <span class="built_in">this</span>.numLines);</span><br></pre></td></tr></table></figure>
+
+<p>您现在可以在运算符函数中的任何位置使用累加器，包括<code>open()</code>和<code>close()</code>方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.numLines.add(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>整个结果将存储在JobExecutionResult对象中，该对象是从执行环境的execute()方法返回的（目前这仅在执行等待任务完成时才有效）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myJobExecutionResult.getAccumulatorResult(<span class="string">&quot;num-lines&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>所有累加器每个作业共享一个命名空间。 因此，您可以在任务的不同操作函数中使用相同的累加器。 Flink将在内部合并所有具有相同名称的累加器。</p>
+<p>关于累加器和迭代的注释：目前累加器的结果仅在整个任务结束后才可用。 flink还计划在下一次迭代中使前一次迭代的结果可用。 您可以使用聚合器来计算每次迭代统计信息，并根据此类统计信息确定迭代的终止。</p>
+<p>####自定义累加器</p>
+<p>要实现自己的累加器，只需编写Accumulator接口的实现即可。 如果您认为您的自定义累加器应与Flink一共同使用，请随意创建pull请求。</p>
+<p>您可以选择实现Accumulator或SimpleAccumulator。</p>
+<p>累加器&lt;V，R&gt;最灵活：它为要添加的值定义类型V，为最终结果定义结果类型R. 例如。 对于直方图，V是数字，R是直方图。 SimpleAccumulator适用于两种类型相同的情况，例如计数器。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/flink/" rel="tag"># flink</a>
+          
+            <a href="/tags/blink/" rel="tag"># blink</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/11/%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94Manacher-s-Algorithm-%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/" rel="next" title="最长回文子串算法——Manacher's Algorithm 马拉车算法">
+                <i class="fa fa-chevron-left"></i> 最长回文子串算法——Manacher's Algorithm 马拉车算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/24/springboot%E7%83%AD%E9%83%A8%E7%BD%B2/" rel="prev" title="springboot热部署">
+                springboot热部署 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-%E4%B8%8B%E8%BD%BD%E5%B9%B6%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8Flink"><span class="nav-number">1.</span> <span class="nav-text">安装: 下载并开始使用Flink</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8idea%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAflink%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.</span> <span class="nav-text">使用idea创建一个flink项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AAflink%E7%A8%8B%E5%BA%8F"><span class="nav-number">3.</span> <span class="nav-text">编写一个flink程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Flink-API%E6%A6%82%E5%BF%B5"><span class="nav-number">4.</span> <span class="nav-text">Flink API概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DataSet%E5%92%8CDataStream"><span class="nav-number">4.1.</span> <span class="nav-text">DataSet和DataStream</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flink%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%89%96%E6%9E%90"><span class="nav-number">4.2.</span> <span class="nav-text">Flink程序的剖析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%87%92%E6%83%B0%E6%89%A7%E8%A1%8C"><span class="nav-number">4.3.</span> <span class="nav-text">懒惰执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E5%AE%9Akeys"><span class="nav-number">4.4.</span> <span class="nav-text">指定keys</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BATuple%E5%AE%9A%E4%B9%89keys"><span class="nav-number">4.5.</span> <span class="nav-text">为Tuple定义keys</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E5%AD%97%E6%AE%B5%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AE%9A%E4%B9%89keys"><span class="nav-number">4.6.</span> <span class="nav-text">用字段表达式定义keys</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8key-selector%E5%87%BD%E6%95%B0%E5%AE%9A%E4%B9%89keys"><span class="nav-number">4.7.</span> <span class="nav-text">用key selector函数定义keys</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E5%AE%9Atransformation%E5%87%BD%E6%95%B0"><span class="nav-number">4.8.</span> <span class="nav-text">指定transformation函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%8E%A5%E5%8F%A3"><span class="nav-number">4.8.1.</span> <span class="nav-text">实现一个接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%BF%E5%90%8D%E7%B1%BB"><span class="nav-number">4.8.2.</span> <span class="nav-text">匿名类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-8-Lambdas%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">4.8.3.</span> <span class="nav-text">Java 8 Lambdas表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%8C%E5%87%BD%E6%95%B0-rich-functions"><span class="nav-number">4.8.4.</span> <span class="nav-text">富函数(rich functions)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.9.</span> <span class="nav-text">支持的数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Tuples-and-Case-Classes"><span class="nav-number">4.9.1.</span> <span class="nav-text">Tuples and Case Classes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#POJOs"><span class="nav-number">4.9.2.</span> <span class="nav-text">POJOs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%A7%8B%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.9.3.</span> <span class="nav-text">原始类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E7%B1%BB"><span class="nav-number">4.9.4.</span> <span class="nav-text">常规类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%80%BC"><span class="nav-number">4.9.5.</span> <span class="nav-text">值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E6%93%A6%E9%99%A4%E5%92%8C%E7%B1%BB%E5%9E%8B%E6%8E%A8%E6%96%AD"><span class="nav-number">4.10.</span> <span class="nav-text">类型擦除和类型推断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%AF%E8%AE%A1%E5%99%A8%E5%92%8C%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">4.11.</span> <span class="nav-text">累计器和计数器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E7%B4%AF%E8%AE%A1%E5%99%A8"><span class="nav-number">4.11.1.</span> <span class="nav-text">如何使用累计器</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

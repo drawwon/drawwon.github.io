@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="deeplearning,机器学习,深度学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="这篇博文主要讲的是关于deeplearning.ai的第二门课程的内容，《Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization》">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coursera-deeplearning-ai-（二）">
+<meta property="og:url" content="http://drawwon.github.io/2018/04/11/Coursera-deeplearning-ai-%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="这篇博文主要讲的是关于deeplearning.ai的第二门课程的内容，《Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization》">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/88387245.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/22424626.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/29396365.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/27719103.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/82915442.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/98592108.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/41548130.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/1978794.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-12/9225476.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190225112424.png">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-12/31073973.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-28/23613139.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-28/12421014.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-30/72186468.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-1/63473191.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-2/83045151.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-2/7255551.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-2/48630632.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-2/46166279.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-2/70350494.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/80735041.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/20607262.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/36826086.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/5744779.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/5343372.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/57297767.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/89577231.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/60312042.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/75203372.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/83926609.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-4/69914394.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-4/92497288.jpg">
+<meta property="article:published_time" content="2018-04-11T02:03:47.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.389Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="deeplearning">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/88387245.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2018/04/11/Coursera-deeplearning-ai-（二）/"/>
+
+
+
+
+
+  <title>Coursera-deeplearning-ai-（二） | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2018/04/11/Coursera-deeplearning-ai-%EF%BC%88%E4%BA%8C%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Coursera-deeplearning-ai-（二）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-11T10:03:47+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这篇博文主要讲的是关于deeplearning.ai的第二门课程的内容，《Improving Deep Neural Networks: Hyperparameter tuning, Regularization and Optimization》</p>
+<span id="more"></span>
+
+<h2 id="Week-one"><a href="#Week-one" class="headerlink" title="Week one"></a>Week one</h2><h3 id="设置训练，验证，测试集"><a href="#设置训练，验证，测试集" class="headerlink" title="设置训练，验证，测试集"></a>设置训练，验证，测试集</h3><p>设置神经网络时，有很多的值需要你自己设置，比如隐藏层的数量，隐藏点的个数，学习率，激活函数的类型等等……</p>
+<p>数据通常被分为三部分：训练集，hold-out交叉验证集（或者成为开发集dev），测试集。分布如下图所示：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/88387245.jpg"></p>
+<p>多年前，数据较少：70%的训练数据和30%的测试数据，或者60%训练数据，验证集和测试集各占20%</p>
+<p>但现在数据越来越多，100w的总数据，验证集和测试集可能都只需要1w个就行了，剩下的98w数据都可以用于训练，比例为98&#x2F;1&#x2F;1</p>
+<p>数据更多的时候，可能开发集和测试集所占的比例更小</p>
+<h4 id="数据不平衡"><a href="#数据不平衡" class="headerlink" title="数据不平衡"></a>数据不平衡</h4><p>训练集，开发集，测试集的数据分布不同，比如图片识别中，两边的数据来源不同（一边是高清图片，一边是模糊图片），这时候只需要保证<strong>开发集和测试集在同一个分布</strong>即可。</p>
+<h3 id="偏差方差"><a href="#偏差方差" class="headerlink" title="偏差方差"></a>偏差方差</h3><p>深度学习中有一个问题叫做“偏差-方差困境”，要在偏差和方差之间权衡</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/22424626.jpg"></p>
+<h4 id="如何判断是高方差还是高偏差"><a href="#如何判断是高方差还是高偏差" class="headerlink" title="如何判断是高方差还是高偏差"></a>如何判断是高方差还是高偏差</h4><p>往往通过训练集误差和开发集误差的对比来进行判断：</p>
+<ul>
+<li>训练集误差小，开发集误差大，证明过拟合了，高方差</li>
+<li>训练集误差大，开发集误差约等于训练集误差，证明欠拟合，高偏差</li>
+<li>训练集误差大，开发集误差远大于训练集，证明高偏差且高方差，这是因为在某些数据上过拟合，而在大部分数据上欠拟合</li>
+<li>训练集误差小，开发集误差也很小，这就是最理想的状态</li>
+</ul>
+<p>下面这个分类猫的例子比较直观解释了上面四种情况，注意，此时所谓的大小是因为我们设置的贝叶斯先验错误为0%，所以认为1%小，15%大。如果贝叶斯先验概率不是0%而是15%，那么15%的错误率也是很小的了。并且此时要求训练集和开发集的数据分布是相同的（如果一个是高质量数据，一个是低质量数据，那么两个本来错误率就不一样）。</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/29396365.jpg"></p>
+<h3 id="机器学习的基本准则"><a href="#机器学习的基本准则" class="headerlink" title="机器学习的基本准则"></a>机器学习的基本准则</h3><p>训练好模型之后：</p>
+<ul>
+<li>首先询问，是否存在<strong>高偏差</strong>（在训练集上面的表现），如果存在，那么你可以尝试使用<strong>更大的网络</strong>（更多层和更多隐藏点），或者尝试训练<strong>更多的迭代次数</strong>。尝试多种方法，直到将偏差减小到一个可以接受的范围。</li>
+<li>再看看是否有较高的<strong>方差</strong>（在开发集上面的表现），如果存在，那么比较好的办法就是<strong>增加训练数据</strong>，或者是<strong>正则化</strong></li>
+</ul>
+<h3 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h3><p>如果发现<strong>过拟合</strong>，那么就是方差过大，首先应该尝试的方法就是正则化</p>
+<p>以逻辑回归为例，为了最小化代价函数$J(W,b)&#x3D;\frac{1}{m}\sum_{i&#x3D;1}^{m}L(\hat{y}^{(i)},y^{(i)})$，我们在后面加上一个W的范数，常用的范数为二范数，代价函数变为：</p>
+<p>$J(W,b)&#x3D;\frac{1}{m}\sum_{i&#x3D;1}^{m}L(\hat{y}^{(i)},y^{(i)})+\frac{\lambda}{2m}||w||^{2}_{2}$</p>
+<p>其中的$\lambda$是正则化参数，$||w||^{2}<em>{2}$称为w的二范数，$||w||^{2}</em>{2}&#x3D;\sum_{j&#x3D;1}^{n_{x}}w_j^2&#x3D;w^Tw$</p>
+<p>为什么只对w正则化而忽略b呢，这是因为在过拟合的情况下，w的维度非常大，而b只有一个参数，影响相对于w来说可以忽略</p>
+<p>偶尔也用一范数，但很少用，具体的逻辑回归的正则化方法如下</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/27719103.jpg"></p>
+<h4 id="神经网络的正则化"><a href="#神经网络的正则化" class="headerlink" title="神经网络的正则化"></a>神经网络的正则化</h4><p>神经网路的正则化的方法和逻辑回归基本一样，只是w的二范数成了w矩阵的元素平方和，这个值被称为Frobenius norm（弗罗贝尼乌斯范数）</p>
+<p>在反向传播的时候，反向传播的$dw^{[l]}$就成了原本的反向传播的值（下图中间绿色方框行，由代价函数J求导得到），加上$\frac{\lambda}{m}w^{[l]}$，w的更新公式就成了这样:</p>
+<p>$w^{[l]}&#x3D;(1-\frac{\alpha\lambda}{m})w^{[l]}-\alpha(原本的反向传播值)$</p>
+<p>所以正则化之后，每次更新相当于只是在原本的w前面乘以一个略小于1的值$1-\frac{\alpha\lambda}{m}$，再减去原本的反向传播的值，因此神经网络的正则化又被称之为权重衰减</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/82915442.jpg"></p>
+<h3 id="为什么正则化可以消除过拟合"><a href="#为什么正则化可以消除过拟合" class="headerlink" title="为什么正则化可以消除过拟合"></a>为什么正则化可以消除过拟合</h3><p>如图，如果过拟合，我们在加入正则化之后，如果把$\lambda$设置的非常大，那么为了是代价函数最小，w必须非常小，那么w的很多值就为0了，多层神经网络看上去就像是一个简单神经网路一样</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/98592108.jpg"></p>
+<p>另一个直观解释是当你使用tanh之类的激活函数的时候，当$\lambda$非常大的时候，那么w非常小，因此z也非常小，经过激活函数变化之后的a也非常小，因此a值只能在0附近变化，这一段tanh函数基本相当于一个线性函数，也就是多层神经网络变化之后基本相当于在做线性变换，就变成一个接近线性变化的值</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/41548130.jpg"></p>
+<h3 id="dropout-正则化"><a href="#dropout-正则化" class="headerlink" title="dropout 正则化"></a>dropout 正则化</h3><p>dropout正则化，也就是丢弃法正则化，也成为随机失活正则化。</p>
+<p>对每个点进行抛硬币，50%的概率丢弃该点，得到一个丢弃一部分的神经网络，这个方法虽然听上去不可靠，但是实际表现却不错</p>
+<p>随机失活正则化的实现方法：</p>
+<p>假设有一个L&#x3D;3的神经网络，先设置一个保留率keep-prob，随机产生一个3*n的矩阵，与keep-prob比较之后产生d3，让原本的w乘以这个d3，再除以一个keep-prob以消除引入随机失活的影响（因为你引入随机失活，相当于对某层的a乘以一个keep-prob，那么我要结果一样，就要除以一个keep-prob）</p>
+<p>举个例子为什么要除以keep-prob，比如我们现在第三层有50个点，如果keep-prob为0.8的话，那么这层大概平均来说有10个点要失效，$z^{[4]}&#x3D;w^{[4]}a^{[3]}+b^{[4]}$，那么此时的$a^{[3]}$的期望就变成了原来的80%，为了使得$z^{[4]}$的期望不变，我们就需要将$a^{[3]}$除以一个keep-prob来确保$z^{[4]}$期望不变。</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-11/1978794.jpg"></p>
+<h3 id="随机失活正则化的理解"><a href="#随机失活正则化的理解" class="headerlink" title="随机失活正则化的理解"></a>随机失活正则化的理解</h3><p>直观解释：因为你不知道哪一个神经元可能被丢弃，所以你不能过分依赖某个神经元，因此权重就不得不分散</p>
+<p>在真正使用的时候，如果你担心某层容易过拟合，那么就把这一层的留存率设置的低一些；如果确认不会过拟合，那就把留存率设置接近1，比如在输入层这里留存率就应该是1</p>
+<h3 id="其它正则化方法"><a href="#其它正则化方法" class="headerlink" title="其它正则化方法"></a>其它正则化方法</h3><p>在图片处理的时候，如果你没有更多的数据，比如处理猫之类的：你可以将图片进行水平翻转，或者放大旋转之类的，处理数字的时候：可以扭曲加旋转</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-12/9225476.jpg"></p>
+<p>另一种方法叫做<strong>早终止方法</strong>（early stopping）</p>
+<p>画出训练集的代价函数和开发集的代价函数，选择两者都还比较小的值</p>
+<h3 id="归一化（normalization）"><a href="#归一化（normalization）" class="headerlink" title="归一化（normalization）"></a>归一化（normalization）</h3><p>归一化可以加速训练过程</p>
+<p>归一化的过程：<strong>减去均值（$x-\mu$），将方差归一化$(x-\mu)&#x2F;\sigma$</strong></p>
+<p>归一化过程中一定要注意，对训练集和测试集都需要归一化</p>
+<h3 id="梯度消失和梯度爆炸"><a href="#梯度消失和梯度爆炸" class="headerlink" title="梯度消失和梯度爆炸"></a>梯度消失和梯度爆炸</h3><p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190225112424.png"></p>
+<p>由于：</p>
+<p>$$a^{[l]}&#x3D;\sigma(w^{[l]}a^{[l-1]}+b^{[l]}) \tag{1}$$</p>
+<p>$$a^{[l-1]}&#x3D;\sigma(w^{[l-1]}a^{[l-2]}+b^{[l-1]}) \tag{2}$$</p>
+<p>$$a^{[l-2]}&#x3D;\sigma(w^{[l-2]}a^{[l-3]}+b^{[l-2]}) \tag{3}$$</p>
+<p>求导可得</p>
+<p>$dz^{[l]}&#x3D;da^{[l]} * {g^{[l]}}’(z^{[l]}) \tag{4}​$</p>
+<p>$dw^{[l]}&#x3D;dz^{[l]}*a^{[l-1]}\tag{5} $</p>
+<p>$db^{[l]}&#x3D;dz^{[l]}\tag{6}​$</p>
+<p>接着求前一层：</p>
+<p>由上面公式(1)可以得到：</p>
+<p>$da^{[l-1]}&#x3D;dz^{[l]}*w^{[l]}\tag{7}​$</p>
+<p>由公式(2)得到：</p>
+<p>$dz^{[l-1]}&#x3D;da^{[l-1]} * {g^{[l-1]}}’(z^{[l-1]}) \tag{8}​$</p>
+<p>$dw^{[l-1]}&#x3D;dz^{[l-1]}*a^{[l-2]} \tag{9}​$</p>
+<p>结合(7),(8),(9)得到：</p>
+<p>$dw^{[l-1]}&#x3D;dz^{[l]}<em>w^{[l]}</em> {g^{[l-1]}}’(z^{[l-1]}) \tag{10}$</p>
+<p>继续对(3)进行求导：</p>
+<p>$dz^{[l-2]}&#x3D;da^{[l-2]} * {g^{[l-2]}}’(z^{[l-2]}) \tag{11}​$</p>
+<p>$dw^{[l-2]}&#x3D;dz^{[l-2]}*a^{[l-3]} \tag{12}$</p>
+<p>由公式(2)得到：</p>
+<p>$da^{[l-2]}&#x3D;dz^{[l-1]}*w^{[l-1]}\tag{13}​$</p>
+<p>结合(11),(12),(13)得到：</p>
+<p>$dw^{[l-2]}&#x3D;dz^{[l-1]}<em>w^{[l-1]}</em>{g^{[l-2]}}’(z^{[l-2]})*a^{[l-3]}​$</p>
+<p>再结合(4),(7),(8)可得</p>
+<p>$dw^{[l-2]}&#x3D;da^{[l]}<em>w^{[l]}<em>w^{[l-1]}</em>{g^{[l]}}’(z^{[l]})</em>{g^{[l-1]}}’(z^{[l-1]}) *{g^{[l-2]}}’(z^{[l-2]})*a^{[l-3]}$</p>
+<p>比如你的激活函数是g(z)&#x3D;z，损失函数是交叉熵函数，$da&#x3D;a-y​$然后$dw^{[1]}&#x3D;w^{[l]}\times w^{[l-1]}\times…\times w^{[2]}\times w^{[1]}\times X​$，只要所有w都是对角矩阵，他的某一项大于1，则出现梯度爆炸，求出的梯度非常大，或者是梯度消失，求出的梯度基本为0</p>
+<h3 id="权重初始化和深度网络"><a href="#权重初始化和深度网络" class="headerlink" title="权重初始化和深度网络"></a>权重初始化和深度网络</h3><p>特殊地初始化可以部分解决梯度爆炸和梯度消失的问题</p>
+<p>在使用Relu激活函数的时候：</p>
+<p>$W^{[L]}&#x3D;np.random.randn(shape) * np.sqrt(1&#x2F;n)​$</p>
+<h3 id="梯度检验"><a href="#梯度检验" class="headerlink" title="梯度检验"></a>梯度检验</h3><p>根据导数的定义，对代价函数进行求导：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-12/31073973.jpg"></p>
+<p>检查：两个导数之间的欧式距离&#x2F;两个导数的2范数之和，如果基本等于$\epsilon$的话，那就说明正确了，如果大于$\epsilon$很多的话，就说明错了</p>
+<h3 id="梯度下降的实现"><a href="#梯度下降的实现" class="headerlink" title="梯度下降的实现"></a>梯度下降的实现</h3><ul>
+<li>只在调试的时候用提督检验，在训练的时候不要用</li>
+<li>如果算法梯度检验失败，检查每一个dw，db来找到程序的bug</li>
+<li>记得正则化</li>
+<li>在没有dropout的时候先进行梯度检验，发现算法没有问题再使用dropout</li>
+<li>随机初始化可以先运行一下梯度检验</li>
+</ul>
+<h3 id="合适的初始化方法"><a href="#合适的初始化方法" class="headerlink" title="合适的初始化方法"></a>合适的初始化方法</h3><p>He初始化方法（<a href="https://arxiv.org/abs/1502.01852">He et al., 2015</a>），在激活函数是Relu的时候非常有效，具体做法是$W^{[l]}&#x3D;\rm{np.random.randn}(layer_dimension[l],layer_dimension[l-1])*\rm{np.sqrt}(2.&#x2F;layer_dimension[l-1])$</p>
+<h2 id="第二周"><a href="#第二周" class="headerlink" title="第二周"></a>第二周</h2><h3 id="优化算法"><a href="#优化算法" class="headerlink" title="优化算法"></a>优化算法</h3><p>向量化可以高效计算m个example，但是当example非常多的时候，计算起来也是非常的慢的，比如你现在有500w个example，拿计算起来就是非常慢的</p>
+<p>为了加快计算的速度，提出了mini-batch gradient descent，也就是批量梯度下降，将数据分成一个个的小batch，然后进行前向传播，反向传播，参数更新等步骤，这样计算速度会快上很多</p>
+<p>比如现在有500w条数据，将每1000条数据凑成一个batch，用<code>&#123;&#125;</code>来表示第多少个batch，现在分成了$X^1$到$X^5000$共5000个batch，每个batch的维度是$(n_x,1000)$</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-28/23613139.jpg"></p>
+<p>Y以同样的方法被分成5000份，每个$Y^$的维度是(1，1000)</p>
+<p>到目前为止，我们一共用过三种括号，分别是小括号，中括号，和大括号</p>
+<ul>
+<li>小括号：$x^{(i)}$，表示第i个训练实例</li>
+<li>中括号：$Z^{[L]}$表示第L层</li>
+<li>大括号：$X^$,$Y^$表示第t个batch</li>
+</ul>
+<p>分成batch之后的步骤和之前的神经网络的构建步骤一样，只是多了一重循环batch的for</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-28/12421014.jpg"></p>
+<h3 id="理解mini-batch梯度下降"><a href="#理解mini-batch梯度下降" class="headerlink" title="理解mini-batch梯度下降"></a>理解mini-batch梯度下降</h3><p>批量梯度下降的损失函数往往一直下降，但是mini-batch梯度下降存在噪声，但是整体趋势是下降的</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-30/72186468.jpg"></p>
+<p>两种极端情况：</p>
+<ol>
+<li>如果mini-batch的size&#x3D;m，那么这就是梯度下降，梯度下降的好处是每一步迭代都是往最优值的方向去靠近，但是数据量很大的时候，批量梯度下降就会非常的慢，这种情况又被称为批梯度下降</li>
+<li>如果mini-batch的size&#x3D;1，那么这种情况就是每次输入一个example，这样每次迭代的方向可能是乱的，最终的结果可能在最优值附近徘徊，这种情况又被称为随机梯度下降</li>
+<li>只有mini-batch值合适的时候，才能既用到向量化的加速运算，又能得到一个最优值</li>
+</ol>
+<p>一般认为：</p>
+<p>在m&lt;&#x3D;2000时，认为数据量足够下，可以使用批量梯度下降</p>
+<p>在m&gt;2000时，通常使用的mini-batch的size为64, 128, 256, 512，用2的倍数是因为内存读取的方式是通过2的倍数来读取的，这样能够加快运算</p>
+<h3 id="指数加权平均"><a href="#指数加权平均" class="headerlink" title="指数加权平均"></a>指数加权平均</h3><p>如图，是一大堆温度数据，我们为了对温度数据做个平均，用v0&#x3D;0,$v_1&#x3D;0.9v_0+0.1\theta_1$，一直到$v_t&#x3D;0.9v_{t-1}+0.1\theta_t$进行指数加权平均</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-1/63473191.jpg"></p>
+<p>这种指数加权平均的效果的$v_{t}$就大致等同于对$\frac{1}{1-\beta}$天的数据进行平均，其中$\beta$是$v_t&#x3D;\beta v_{t-1}+(1-\beta)\theta_t$这个公式中的系数</p>
+<p>比如，当$\beta&#x3D;0.9$时，这就相当于对前10天的数据进行平均；当的$\beta&#x3D;0.98$时，这就相当于对前50天的数据进行平均；当的$\beta&#x3D;0.5$时，这就相当于对前2天的数据进行平均</p>
+<p>更大的$\beta$意味着更平滑的曲线，但是对数据的延迟性也更大</p>
+<h3 id="指数加权平均的理解"><a href="#指数加权平均的理解" class="headerlink" title="指数加权平均的理解"></a>指数加权平均的理解</h3><p>通用的迭代公式：$v_t&#x3D;\beta v_{t-1}+(1-\beta)\theta_t $</p>
+<p>我们来举个例子，假如$\beta&#x3D;0.9$</p>
+<p>那么</p>
+<p>$v_{100}&#x3D;0.9 v_{99}+0.1\theta_{100}$</p>
+<p>$v_{99}&#x3D;0.9 v_{98}+0.1\theta_{99}$</p>
+<p>$v_{98}&#x3D;0.9 v_{97}+0.1\theta_{98}$</p>
+<p>将$v_{100}&#x3D;0.9 v_{99}+0.1\theta_{100}$展开可以得到</p>
+<p>$v_{100}&#x3D;0.9 v_{99}+0.1\theta_{100}&#x3D;0.1\theta_{100}+0.9(0.1\theta_{99}+0.9 v_{98})&#x3D;0.1\theta_{100}+0.9*0.1\theta_{99}+0.9^2(0.9 v_{97}+0.1\theta_{98})…$ </p>
+<p>这个过程与我们平时的平均数有类似的地方，因为我们平时求解的平均数是在每个$\theta$前面的系数相等，都是1&#x2F;n，在指数加权平均的时候，将靠的近的系数放大，靠的远的系数变小，以指数形式衰减</p>
+<p>这样下去，要使得v的加和的那一项足够小， 也就是$0.1*0.9^{t}$足够小的情况下，$0.9^{10}&#x3D;1&#x2F;e$，就认为是10天的平均</p>
+<p><strong>指数加权平均的好处：</strong> </p>
+<p>我们可以看到指数加权平均的求解过程实际上是一个递推的过程，那么这样就会有一个非常大的好处，每当我要求从0到某一时刻（n）的平均值的时候，我并不需要像普通求解平均值的作为，保留所有的时刻值，类和然后除以n。</p>
+<p>而是只需要保留0-(n-1)时刻的平均值和n时刻的温度值即可。也就是每次只需要保留常数值，然后进行运算即可，这对于深度学习中的海量数据来说，是一个很好的减少内存和空间的做法。</p>
+<h3 id="偏差修正"><a href="#偏差修正" class="headerlink" title="偏差修正"></a>偏差修正</h3><p>因为$v_0&#x3D;0$，而$v_1&#x3D;0.98v_0+0.02\theta_1$，因为$v_0&#x3D;0$，所以$v_1&#x3D;0.02\theta_1$；$v_2&#x3D;0.98v_1+0.02\theta_2$，$v_2&#x3D;0.0196\theta_1+0.02\theta_2$</p>
+<p>由于上面两个等式展现的原因，这些v的值在初始阶段都很小，为了使这些初始阶段的值可以作为平均，我们用$v_t&#x3D;\frac{v_t}{1-\beta^t}$来进行偏差修正，如下图</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-2/83045151.jpg"></p>
+<h3 id="动量-Momentum-梯度下降"><a href="#动量-Momentum-梯度下降" class="headerlink" title="动量(Momentum)梯度下降"></a>动量(Momentum)梯度下降</h3><p>动量梯度下降比普通的梯度下降更快，其主要思想是：计算梯度的指数加权平均，使用这个梯度来更新权重</p>
+<p>实现的方式如下，$\beta$参数最常用的值就是0.9：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-2/7255551.jpg"></p>
+<p>进行动量梯度下降之后，纵轴上的偏差被减小了，得到如下图红线的效果</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-2/48630632.jpg"></p>
+<h3 id="RMSprop-Root-Mean-Square-prop-算法"><a href="#RMSprop-Root-Mean-Square-prop-算法" class="headerlink" title="RMSprop(Root Mean Square prop)算法"></a>RMSprop(Root Mean Square prop)算法</h3><p>实现的方法和momentum类似，但是公式变成了</p>
+<p>$S_{dw}&#x3D;\beta_2S_{dw}+(1-\beta_2)dw^{2}$</p>
+<p>$S_{db}&#x3D;\beta_2S_{db}+(1-\beta_2)db^{2}$</p>
+<p>而迭代公式变成了</p>
+<p>$w:&#x3D;w-\alpha\frac{dw}{\sqrt{S_{dw}}+\epsilon}$</p>
+<p>$b:&#x3D;b-\alpha\frac{dw}{\sqrt{S_{db}}+\epsilon}$</p>
+<p>加一个$\epsilon$是为了不出现除以0的情况</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-2/46166279.jpg"></p>
+<h3 id="Adam-Adaptive-moment-estimation-优化算法"><a href="#Adam-Adaptive-moment-estimation-优化算法" class="headerlink" title="Adam(Adaptive moment estimation) 优化算法"></a>Adam(Adaptive moment estimation) 优化算法</h3><p>Adam(Adaptive moment estimation)的意思是：适应性矩优化，这里的矩指的是一阶矩，二阶矩那个矩。</p>
+<p>Adam就是将momentum和RMSprop结合起来</p>
+<p>实现方法如下图，注意这里的参数都需要修正偏差：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-2/70350494.jpg"></p>
+<p>里面的超参，一般来说momentum的超参$\beta_1&#x3D;0.9$，RMSprop的超参$\beta_2&#x3D;0.999$，$\epsilon&#x3D;10^{-8}$，学习率$\alpha$ 是需要去调整的参数，Adam的公式如下，将w换成b则得到b的更新公式</p>
+<p>$$<br>\begin{cases}<br>v_{dW^{[l]}} &#x3D; \beta_1 v_{dW^{[l]}} + (1 - \beta_1) \frac{\partial \mathcal{J} }{ \partial W^{[l]} } \</p>
+<p>v^{corrected}<em>{dW^{[l]}} &#x3D; \frac{v</em>{dW^{[l]}}}{1 - (\beta_1)^t} \<br>s_{dW^{[l]}} &#x3D; \beta_2 s_{dW^{[l]}} + (1 - \beta_2) (\frac{\partial \mathcal{J} }{\partial W^{[l]} })^2 \<br>s^{corrected}<em>{dW^{[l]}} &#x3D; \frac{s</em>{dW^{[l]}}}{1 - (\beta_2)^t} \<br>W^{[l]} &#x3D; W^{[l]} - \alpha \frac{v^{corrected}<em>{dW^{[l]}}}{\sqrt{s^{corrected}</em>{dW^{[l]}}} + \varepsilon}<br>\end{cases}<br>$$</p>
+<h3 id="学习率衰减"><a href="#学习率衰减" class="headerlink" title="学习率衰减"></a>学习率衰减</h3><p>我们用下面的公式来衰减学习率$\alpha$：</p>
+<p>$\alpha&#x3D;\frac{1}{1+decay_rate\times epoch_num}\alpha_0$</p>
+<p>decay_rate是这里的下降率，epoch_num是迭代的次数</p>
+<h3 id="局部最优解"><a href="#局部最优解" class="headerlink" title="局部最优解"></a>局部最优解</h3><p>在二维图像中，很容易产生局部最优解，但是在高维的时候，你要找到一个这个点在所有维度上梯度都为0，这是非常困难的，我们称这种有部分维度梯度为0的点为鞍点，因为图形的形状就好像马鞍一样</p>
+<h3 id="Week-3"><a href="#Week-3" class="headerlink" title="Week 3"></a>Week 3</h3><h2 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h2><h3 id="调参过程"><a href="#调参过程" class="headerlink" title="调参过程"></a>调参过程</h3><p>神经网络有很多的超参，调整超参有利于改进神经网络的性能</p>
+<p>参数有很多，包括：学习率$\alpha$，momentum当中的$\beta$，Adam优化中的$\beta_1,\beta_2,\epsilon$，网络层数，隐藏单元，学习率衰减方式，mini-batch的size</p>
+<p>一般来说需要调整的重要程度排序为：</p>
+<p>$\alpha&gt;\rm{momentum当中的}\beta&#x3D;mini-batch\ size&#x3D;隐藏单元数量&gt;网络层数&gt;学习率衰减参数&gt;&gt;Adam（Adam一般不调参，用默认参数\beta_1&#x3D;0.9,\beta_2&#x3D;0.999,\epsilon&#x3D;10^{-8}）$</p>
+<p>但这并不是一个死板的规定，可能有其他的规则</p>
+<p>早期调参的时候，通常是启发式搜索，然后给定最优的参数；参数很多的时候，建议随机选择点，进行尝试，如下图右边</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/80735041.jpg"></p>
+<p>当你能确定更小的范围的时候，就可以在这个范围内进行更加密集的搜索，直到找到你能接受的最优参数</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/20607262.jpg"></p>
+<h3 id="选择合适尺度去选取超参数"><a href="#选择合适尺度去选取超参数" class="headerlink" title="选择合适尺度去选取超参数"></a>选择合适尺度去选取超参数</h3><p>很多超参数是不能在某个范围内均匀取样的，比如考虑学习率$\alpha$，让$\alpha$从0.0001到1取值，肯定要求在0.0001到0.001之前取多点，而0.1-1之间要比较少，所以我们此时用到对数的取法，也就是从10e-4取到10e0，那我们就只需要去一个-4到0的随机数，用a &#x3D; -4 * np.random.randn(), alpha&#x3D;10**a</p>
+<p>还有比如momentum当中的$\beta$参数，如果让$\beta$从0.9取到0.999，在靠近0.999的时候，稍微改变一点点都会让平均值的范围变化很大，因此在后面我们要取的密集一些，我们考虑$1-\beta$，$\beta$从0.9到0.999，那么$1-\beta$就从0.1到0.001，取一个从-3到-1的随机数，再用10的指数来代替$1-\beta$，那么$\beta&#x3D;1-10^t$</p>
+<h3 id="熊猫模型和鱼子酱模型"><a href="#熊猫模型和鱼子酱模型" class="headerlink" title="熊猫模型和鱼子酱模型"></a>熊猫模型和鱼子酱模型</h3><p>熊猫模型：关注你的模型，就如同熊猫产子一般，一次调整一点</p>
+<p>鱼子酱模型：一次同时开始多个模型的训练，如同鱼类产子一般</p>
+<p>计算资源足够的时候，就用鱼子酱模型，否则用熊猫模型</p>
+<p>这两个名称只是为了好记忆，并没有特别的意思</p>
+<h3 id="批量归一化"><a href="#批量归一化" class="headerlink" title="批量归一化"></a>批量归一化</h3><p>在之前的归一化当中，我们只是对第一步的输入进行了归一化，但是其实每一层神经网络的输入应该都有归一化，在归一化z和a这两种选择中，业界都默认归一化z</p>
+<p>对z的归一化过程如下：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/36826086.jpg"></p>
+<p>红框部分就是归一化的过程，对于每一个z(i)，计算均值$\mu$，方差$\sigma^2$，然后用$z^{(i)}<em>{norm}&#x3D;\frac{z^{(i)}-\mu}{\sqrt{\sigma^2+\epsilon}}$，这里加一个$\epsilon$的原因是为了避免除以0的情况发生，然后用$\tilde{z}^{(i)}&#x3D;\gamma z^{(i)}</em>{norm}+\beta$，这个$\gamma$和$\beta$是可以从模型当中学习出来的参数。</p>
+<p>为什么要用$\gamma$和$\beta$这两个参数呢，是因为比如你中间某一层的激活函数是sigmoid函数，如果你让你的z均值为0，方差为1，那么z的变化范围就很靠近0，这是sigmoid函数基本就成了线性函数，为了利用好sigmoid的非线性，所以对中间的z的归一化稍有不同</p>
+<h3 id="将batch-norm运用到神经网络中"><a href="#将batch-norm运用到神经网络中" class="headerlink" title="将batch-norm运用到神经网络中"></a>将batch-norm运用到神经网络中</h3><p>假设我们有一个如下图所示的三层神经网络，那么我们将x输入，通过w[1]和b[1]，得到z[1]，对z1进行batch-norm，通过$\gamma^{[1]}$和$\beta^{[1]}$得到$\tilde{z}^{[1]}$，然后将$\tilde{z}^{[1]}$通过g[1]得到a[1]，同理得到z[2]，$\tilde{z}^{[2]}$，a[2]</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/5744779.jpg"></p>
+<p>此时的参数就有了w[1],b[1],w[2],b[2]，$\gamma^{[1]}$,$\beta^{[1]}$,$\gamma^{[2]}$,$\beta^{[2]}$,在TensorFlow中我们可以直接一行语句实现batch-normalization,<code>tf.nn.batch-normalization</code></p>
+<p>那如何将batch-normalization用到mini-batch-normalization中呢</p>
+<p>如下图，每次用一个mini-batch，对其进行batch-normalization。</p>
+<p>值得注意的是，因为$z^{[l]}&#x3D;w^{[l]}a^{[l-1]}+b^{[l]}$，而$z_{norm}&#x3D;\frac{z-\mu}{\sqrt{\sigma^2+\epsilon}}$，每次归一化的时候减去了均值，所以加的$b^{[l]}$会被减掉，因此b这个参数在mini-batch-normalization时可以忽略</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/5343372.jpg"></p>
+<p>实现的具体方法，对于每一次mini-batch t，计算对于$X^{[t]}$的前向传播，对每个隐藏层使用BN（batch-normalization）方法，然后反向传播去更新W,$\beta$,$\gamma$三个参数（b被减掉因此忽略），当然这里更新的方式可以是momentum，RMSprop或者Adam</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/57297767.jpg"></p>
+<h3 id="为什么batch-normalization会有效"><a href="#为什么batch-normalization会有效" class="headerlink" title="为什么batch-normalization会有效"></a>为什么batch-normalization会有效</h3><p>首先，normalization会使得所有的x的值在同一个量级上面，这样能够加速迭代</p>
+<p>协变量转换（covariate shift）是指在数据x变化之后，原来的网络不适用于分类新的数据的情况，如果我们使用了batch-normalization方法，前面层的变化对后面层的影响就降低了，因为被平均了，所以BN会使得系统优化的结果更好</p>
+<p>同时，这还起到了一点点正则化的作用，因为每个mini-batch在计算的时候都被平均了，所以整个网络对于数据的适应性就没有那么强了</p>
+<h3 id="对测试数据的batch-norm"><a href="#对测试数据的batch-norm" class="headerlink" title="对测试数据的batch norm"></a>对测试数据的batch norm</h3><p>在训练阶段，我们每次可以用一次批量的值计算均值和方差，但是在测试阶段，我们每次输入的只有一个值，这时候我们进行batch norm的均值和方差从哪里来呢？</p>
+<p>解决办法就是，记录下训练数据的均值和方差，然后对各个mini-batch norm的均值和方差做指数权重平均，在测试阶段使用</p>
+<h2 id="多分类"><a href="#多分类" class="headerlink" title="多分类"></a>多分类</h2><h3 id="softmax-Regression"><a href="#softmax-Regression" class="headerlink" title="softmax Regression"></a>softmax Regression</h3><p>我们之前接触的问题都是二分类，当我们要进行多分类的时候，就要用到一个特殊的激活函数，叫做softmax</p>
+<p>假设我们要分类的类别数C&#x3D;4，标签为0,1,2,3，那么在最后一层，我们要输出一个4*1的输出层，每一个输出点代表分到该类的概率</p>
+<p>举个例子，我们得到了最后一层的输入为z[L] &#x3D; [5,2,-1,3]，我们用指数函数对其变换，$t &#x3D; [e^5,e^2,e^{-1},e^3]$，计算比例得到$a^{[L]}$，如下图所示</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/89577231.jpg"></p>
+<h3 id="对softmax的理解"><a href="#对softmax的理解" class="headerlink" title="对softmax的理解"></a>对softmax的理解</h3><p>softmax是一个$\frac{e^{z_j}}{\sum_ke^{z_k}}$形式的激活函数，当分类的类别C&#x3D;2的时候，softmax就是logistics函数</p>
+<p>softmax的loss一般取为：$L(\hat{y},y)&#x3D;-\sum_{j&#x3D;1}^Cy_j\log \hat{y}_j$</p>
+<p>真实的y和$\hat y$的形式如下：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/60312042.jpg"></p>
+<p>真实值只有真的那个地方为1，别的地方为0，$\hat y$是C个概率，代表分到每一类的概率</p>
+<p>因为y一般有很多个需要分类的样本，所以真实的y和$\hat y$如下，其中的4是此时分为4类</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/75203372.jpg"></p>
+<p>反向传播中，softmax的导数的求法稍微复杂一点，过程如下：</p>
+<p>首先求$\partial J&#x2F;\partial a$，虽然这里有个累加，但是其实只有真实的那类$y_j&#x3D;1$，别的都是0，所以求和号可以去掉，变成$J&#x3D;y_j\log \hat{y}_j$，对$\hat y$求偏导可以得到，$\partial J&#x2F;\partial a&#x3D;-1&#x2F;\hat{y}_j$</p>
+<p>接下来求softmax的导数，也就是$\hat{y}_j$对所有的$z_i$求导数，分为i&#x3D;j和i!&#x3D;j的情况来求</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-3/83926609.jpg"></p>
+<p>这样，$\partial J&#x2F;\partial z$的值就可以通过链式法则得到</p>
+<p>当i&#x3D;j时，$\partial J&#x2F;\partial z&#x3D;a_j-1$</p>
+<p>当i!&#x3D;j时，$\partial J&#x2F;\partial z&#x3D;-a_i$</p>
+<p>在使用深度学习框架的时候，比如TensorFlow和caffe，我们只需要规划好前向传播的过程，反向传播的过程框架会自动帮你完成</p>
+<h2 id="深度学习框架的介绍"><a href="#深度学习框架的介绍" class="headerlink" title="深度学习框架的介绍"></a>深度学习框架的介绍</h2><p>目前主流的深度学习框架和选择标准如下：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-4/69914394.jpg"></p>
+<h3 id="TensorFlow简介"><a href="#TensorFlow简介" class="headerlink" title="TensorFlow简介"></a>TensorFlow简介</h3><p>引入TensorFlow，通过<code>import tensorflow as tf</code></p>
+<p>w设置为tf当中的变量，用<code>tf.Variable(initial_value=0,dtype=tf.float32)</code>表示</p>
+<p>x是输入值，一开始不知道是多少，只表示dtype和shape，用<code>tf.placeholder(dtype=tf.float32,shape=[3,1])</code>表示</p>
+<p>表示cost函数，因为tf已经重载了加减乘除的形式，所以可以直接用加减乘除表示，也可以用<code>tf.add</code>之类的表示，矩阵乘法的表示是<code>tf.matmul()</code></p>
+<p>之后表示train的方法和目标：我们这里用梯度下降，最小化cost<code>train = tf.train.GradientDescentOptimizer(0.01).minimize(cost)</code>，如果要用别的优化方法，只需要将<code>GradientDescentOptimizer</code>替换为别的函数就好了，括号里面的参数是learning-rate</p>
+<p>然后初始化变量值，<code>init = tf.global_variables_initializer()</code></p>
+<p>定义一个session，用session来run一下init，再run一下w，看看w的值，最后迭代run(train)</p>
+<p>也可以用如下形式定义session</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> session:</span><br><span class="line">	session.run(init)</span><br><span class="line">    session.run(w)</span><br></pre></td></tr></table></figure>
+
+<p>placeholder的值可以用feed_dict传入</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sess = tf.Session()</span><br><span class="line">x = tf.placeholder(tf.int64, name = <span class="string">&#x27;x&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(sess.run(<span class="number">2</span> * x, feed_dict = &#123;x: <span class="number">3</span>&#125;))</span><br><span class="line">sess.close()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-5-4/92497288.jpg"></p>
+<p>写TensorFlow的代码过程大致如下：</p>
+<ol>
+<li>建立未执行的tensor变量</li>
+<li>写tensor之间的运算</li>
+<li>初始化tensor</li>
+<li>建立session</li>
+<li>运行session，将会运行你简历里的运算</li>
+</ol>
+<p>所有的运算都要run之后才能执行，如果你直接print运算的话，只会得到一个tensor，也就是计算图</p>
+<p>因此，请注意初始化变量，建立session并run operation</p>
+<h4 id="损失计算"><a href="#损失计算" class="headerlink" title="损失计算"></a>损失计算</h4><p>计算形如：</p>
+<p>$$ J &#x3D; - \frac{1}{m}  \sum_{i &#x3D; 1}^m  \large ( \small y^{(i)} \log a^{ [2] (i)} + (1-y^{(i)})\log (1-a^{ [2] (i)} )\large )\small$$</p>
+<p>这样的损失的时候，可以使用tf内置的<code>tf.nn.sigmoid_cross_entropy_with_logits</code>函数实现</p>
+<h4 id="one-hot-encoding"><a href="#one-hot-encoding" class="headerlink" title="one_hot encoding"></a>one_hot encoding</h4><p>one_hot：只有一个值为1，别的值都为0的vector，用<code>tf.one_hot</code>实现，参数<code>indices</code>表示需要转换的向量, <code>depth</code>表示一共多少个类， <code>on_value=None</code>表示符合类的值为多少, <code>off_value=None</code>表示不符合类的值是多少, <code>axis</code>为0表示每个indices放一行，-1表示每个indices放一列</p>
+<h4 id="实现TensorFlow-model的步骤"><a href="#实现TensorFlow-model的步骤" class="headerlink" title="实现TensorFlow model的步骤"></a>实现TensorFlow model的步骤</h4><ol>
+<li>建立一个计算图</li>
+<li>run这个计算图</li>
+</ol>
+<h3 id="初始化参数的方法"><a href="#初始化参数的方法" class="headerlink" title="初始化参数的方法"></a>初始化参数的方法</h3><p>W用Xavier初始化，b用zero初始化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">W1 = tf.get_variable(<span class="string">&quot;W1&quot;</span>, [<span class="number">25</span>,<span class="number">12288</span>], initializer = tf.contrib.layers.xavier_initializer()）</span><br><span class="line">b1 = tf.get_variable(<span class="string">&quot;b1&quot;</span>, [<span class="number">25</span>,<span class="number">1</span>], initializer = tf.zeros_initializer())</span><br></pre></td></tr></table></figure>
+
+<h3 id="反向传播的方法"><a href="#反向传播的方法" class="headerlink" title="反向传播的方法"></a>反向传播的方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#For instance, for gradient descent the optimizer would be:</span></span><br><span class="line">optimizer = tf.train.GradientDescentOptimizer(learning_rate = learning_rate).minimize(cost)</span><br><span class="line"><span class="comment">#To make the optimization you would do:</span></span><br><span class="line">_ , c = sess.run([optimizer, cost], feed_dict=&#123;X: minibatch_X, Y: minibatch_Y&#125;)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/deeplearning/" rel="tag"># deeplearning</a>
+          
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/10/c++%20primer-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" rel="next" title="c++ primer 基础语法">
+                <i class="fa fa-chevron-left"></i> c++ primer 基础语法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/16/selenium-%E7%88%AC%E5%8F%96ajax%E5%8A%A8%E6%80%81%E7%BD%91%E9%A1%B5/" rel="prev" title="selenium 爬取ajax动态网页">
+                selenium 爬取ajax动态网页 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Week-one"><span class="nav-number">1.</span> <span class="nav-text">Week one</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%AE%AD%E7%BB%83%EF%BC%8C%E9%AA%8C%E8%AF%81%EF%BC%8C%E6%B5%8B%E8%AF%95%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text">设置训练，验证，测试集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%8D%E5%B9%B3%E8%A1%A1"><span class="nav-number">1.1.1.</span> <span class="nav-text">数据不平衡</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%8F%E5%B7%AE%E6%96%B9%E5%B7%AE"><span class="nav-number">1.2.</span> <span class="nav-text">偏差方差</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E6%98%AF%E9%AB%98%E6%96%B9%E5%B7%AE%E8%BF%98%E6%98%AF%E9%AB%98%E5%81%8F%E5%B7%AE"><span class="nav-number">1.2.1.</span> <span class="nav-text">如何判断是高方差还是高偏差</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%87%86%E5%88%99"><span class="nav-number">1.3.</span> <span class="nav-text">机器学习的基本准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96"><span class="nav-number">1.4.</span> <span class="nav-text">正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E6%AD%A3%E5%88%99%E5%8C%96"><span class="nav-number">1.4.1.</span> <span class="nav-text">神经网络的正则化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AD%A3%E5%88%99%E5%8C%96%E5%8F%AF%E4%BB%A5%E6%B6%88%E9%99%A4%E8%BF%87%E6%8B%9F%E5%90%88"><span class="nav-number">1.5.</span> <span class="nav-text">为什么正则化可以消除过拟合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dropout-%E6%AD%A3%E5%88%99%E5%8C%96"><span class="nav-number">1.6.</span> <span class="nav-text">dropout 正则化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E5%A4%B1%E6%B4%BB%E6%AD%A3%E5%88%99%E5%8C%96%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.7.</span> <span class="nav-text">随机失活正则化的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E5%AE%83%E6%AD%A3%E5%88%99%E5%8C%96%E6%96%B9%E6%B3%95"><span class="nav-number">1.8.</span> <span class="nav-text">其它正则化方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%EF%BC%88normalization%EF%BC%89"><span class="nav-number">1.9.</span> <span class="nav-text">归一化（normalization）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8"><span class="nav-number">1.10.</span> <span class="nav-text">梯度消失和梯度爆炸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%83%E9%87%8D%E5%88%9D%E5%A7%8B%E5%8C%96%E5%92%8C%E6%B7%B1%E5%BA%A6%E7%BD%91%E7%BB%9C"><span class="nav-number">1.11.</span> <span class="nav-text">权重初始化和深度网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E6%A3%80%E9%AA%8C"><span class="nav-number">1.12.</span> <span class="nav-text">梯度检验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.13.</span> <span class="nav-text">梯度下降的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%88%E9%80%82%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95"><span class="nav-number">1.14.</span> <span class="nav-text">合适的初始化方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E5%91%A8"><span class="nav-number">2.</span> <span class="nav-text">第二周</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">优化算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%90%86%E8%A7%A3mini-batch%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D"><span class="nav-number">2.2.</span> <span class="nav-text">理解mini-batch梯度下降</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E5%8A%A0%E6%9D%83%E5%B9%B3%E5%9D%87"><span class="nav-number">2.3.</span> <span class="nav-text">指数加权平均</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E5%8A%A0%E6%9D%83%E5%B9%B3%E5%9D%87%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">2.4.</span> <span class="nav-text">指数加权平均的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%8F%E5%B7%AE%E4%BF%AE%E6%AD%A3"><span class="nav-number">2.5.</span> <span class="nav-text">偏差修正</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E9%87%8F-Momentum-%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D"><span class="nav-number">2.6.</span> <span class="nav-text">动量(Momentum)梯度下降</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RMSprop-Root-Mean-Square-prop-%E7%AE%97%E6%B3%95"><span class="nav-number">2.7.</span> <span class="nav-text">RMSprop(Root Mean Square prop)算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Adam-Adaptive-moment-estimation-%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95"><span class="nav-number">2.8.</span> <span class="nav-text">Adam(Adaptive moment estimation) 优化算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%8E%87%E8%A1%B0%E5%87%8F"><span class="nav-number">2.9.</span> <span class="nav-text">学习率衰减</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%80%E9%83%A8%E6%9C%80%E4%BC%98%E8%A7%A3"><span class="nav-number">2.10.</span> <span class="nav-text">局部最优解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Week-3"><span class="nav-number">2.11.</span> <span class="nav-text">Week 3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Batch-Normalization"><span class="nav-number">3.</span> <span class="nav-text">Batch Normalization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E5%8F%82%E8%BF%87%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text">调参过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%90%88%E9%80%82%E5%B0%BA%E5%BA%A6%E5%8E%BB%E9%80%89%E5%8F%96%E8%B6%85%E5%8F%82%E6%95%B0"><span class="nav-number">3.2.</span> <span class="nav-text">选择合适尺度去选取超参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%86%8A%E7%8C%AB%E6%A8%A1%E5%9E%8B%E5%92%8C%E9%B1%BC%E5%AD%90%E9%85%B1%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.3.</span> <span class="nav-text">熊猫模型和鱼子酱模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E5%BD%92%E4%B8%80%E5%8C%96"><span class="nav-number">3.4.</span> <span class="nav-text">批量归一化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86batch-norm%E8%BF%90%E7%94%A8%E5%88%B0%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD"><span class="nav-number">3.5.</span> <span class="nav-text">将batch-norm运用到神经网络中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88batch-normalization%E4%BC%9A%E6%9C%89%E6%95%88"><span class="nav-number">3.6.</span> <span class="nav-text">为什么batch-normalization会有效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%E7%9A%84batch-norm"><span class="nav-number">3.7.</span> <span class="nav-text">对测试数据的batch norm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E5%88%86%E7%B1%BB"><span class="nav-number">4.</span> <span class="nav-text">多分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#softmax-Regression"><span class="nav-number">4.1.</span> <span class="nav-text">softmax Regression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9softmax%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">4.2.</span> <span class="nav-text">对softmax的理解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.</span> <span class="nav-text">深度学习框架的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TensorFlow%E7%AE%80%E4%BB%8B"><span class="nav-number">5.1.</span> <span class="nav-text">TensorFlow简介</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8D%9F%E5%A4%B1%E8%AE%A1%E7%AE%97"><span class="nav-number">5.1.1.</span> <span class="nav-text">损失计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#one-hot-encoding"><span class="nav-number">5.1.2.</span> <span class="nav-text">one_hot encoding</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0TensorFlow-model%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-number">5.1.3.</span> <span class="nav-text">实现TensorFlow model的步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%8F%82%E6%95%B0%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">5.2.</span> <span class="nav-text">初始化参数的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">5.3.</span> <span class="nav-text">反向传播的方法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

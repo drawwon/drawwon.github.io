@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Django,网页," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文主要来自于mooc公开课Django课程 首先创建一个Django的虚拟环境：pip install virtualenv，然后使用virtualenv 虚拟环境名建立一个虚拟环境，在windows下面的激活方法是 1234cd django_virtualcd Scriptactivate  在linux下只需要将最后一步换位source activate">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django项目学习">
+<meta property="og:url" content="http://drawwon.github.io/2017/12/13/Django%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="本文主要来自于mooc公开课Django课程 首先创建一个Django的虚拟环境：pip install virtualenv，然后使用virtualenv 虚拟环境名建立一个虚拟环境，在windows下面的激活方法是 1234cd django_virtualcd Scriptactivate  在linux下只需要将最后一步换位source activate">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-13/70910990.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-13/88013332.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-14/11540528.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-14/89792661.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-1-21/6996332.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-1-23/18897780.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-1-23/87606606.jpg">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1343961/201803/1343961-20180307112659303-1858050305.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1343961/201803/1343961-20180307140134115-22522149.png">
+<meta property="article:published_time" content="2017-12-13T11:32:03.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.399Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="Django">
+<meta property="article:tag" content="网页">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-13/70910990.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2017/12/13/Django项目学习/"/>
+
+
+
+
+
+  <title>Django项目学习 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2017/12/13/Django%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Django项目学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-13T19:32:03+08:00">
+                2017-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/%E7%BD%91%E9%A1%B5%E5%88%B6%E4%BD%9C/" itemprop="url" rel="index">
+                    <span itemprop="name">网页制作</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文主要来自于mooc公开课Django课程</p>
+<h3 id="首先创建一个Django的虚拟环境："><a href="#首先创建一个Django的虚拟环境：" class="headerlink" title="首先创建一个Django的虚拟环境："></a>首先创建一个Django的虚拟环境：</h3><p><code>pip install virtualenv</code>，然后使用<code>virtualenv 虚拟环境名</code>建立一个虚拟环境，在windows下面的激活方法是</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd django_virtual</span><br><span class="line">cd Script</span><br><span class="line">activate</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在linux下只需要将最后一步换位source activate</p>
+<span id="more"></span>
+
+<h3 id="建立Django项目"><a href="#建立Django项目" class="headerlink" title="建立Django项目"></a>建立Django项目</h3><p>在PyCharm建立程序时，直接选择Django程序，选择解释器为virtualenv建立的django环境，即可建立django项目</p>
+<p>项目建立之后，我们得到了如下的目录结构，紫色的被标记为了templet目录，这样就能智能提示，如果你想要在import的时候不需要加入绝对路径，那么就可以<code>mark as source root</code></p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-13/70910990.jpg" alt="img"></p>
+<p>接下来我们先尝试运行该项目，点击run，运行这个Django项目，可以看到运行在了本机的8000端口，点击该地址即可访问：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-13/88013332.jpg" alt="img"></p>
+<p>如果要配置监听所有ip，那么我们需要通过<code>run-Edit configurations</code>，将监听端口改为0.0.0.0</p>
+<h3 id="Navicat使用"><a href="#Navicat使用" class="headerlink" title="Navicat使用"></a>Navicat使用</h3><p>安装好Navicat之后，打开软件，建立连接，之后建立表，设计表的字段，设计完之后按<code>ctrl+s</code>保存，之后就可以插入数据条目，这就是简单的使用方法，具体使用会在之后用到的时候详细介绍。<a href="%5Bhttp://pan.baidu.com/s/1pLNJOBD">下载地址请点击</a></p>
+<h3 id="Django目录结构"><a href="#Django目录结构" class="headerlink" title="Django目录结构"></a>Django目录结构</h3><p>首先看看之前提到的建立django之后的目录结构，windows使用<code>tree \F .</code>得到如下结构，linux中使用<code>apt-get install tree</code>，然后<code>tree .即可得到</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">├mooc_web</span><br><span class="line">  │  manage.py</span><br><span class="line">  ├─mooc_web</span><br><span class="line">  │  │  settings.py</span><br><span class="line">  │  │  urls.py</span><br><span class="line">  │  │  wsgi.py</span><br><span class="line">  │  │  __init__.py</span><br><span class="line">  └─templates</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>templetes文件夹主要放html文件</li>
+<li><a href="http://主文件夹下面有settings.py/">主文件夹下面有settings.py</a>，<a href="http://以及manage.py/">以及manage.py</a></li>
+<li>我们需要建立static文件夹，用于存放css和js文件，以及主要的图片文件</li>
+<li>建立log文件夹，用于存放日志</li>
+<li>建立media文件夹，用于存放用户上传的文件</li>
+<li>建立apps文件夹，用于存放各个app</li>
+</ul>
+<h3 id="建立app"><a href="#建立app" class="headerlink" title="建立app"></a>建立app</h3><p>通过pycharm当中的<code>tools-run manage.py task</code>，此时可以在shell中执行Django命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">startapp message</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>此时就有了一个名为message的文件夹，将其拖入apps文件夹，自动生成了一个<code>__init__.py</code>文件，这样就让apps变成一个可以导入的包，为了方便导入，那么我们需要将apps文件夹remark成source root，这样每次引用的时候就不需要import apps.message.view 而是可以直接 import message.view</p>
+<p>这样在pycharm中引用变得方便了，但是在使用命令行运行的时候就会出错，此时我们需要在settings.py中将apps加入到<strong>根搜索路径</strong>（BASE_DIR）中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">├── apps</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   └── message</span><br><span class="line">│       ├── admin.py</span><br><span class="line">│       ├── apps.py</span><br><span class="line">│       ├── __init__.py</span><br><span class="line">│       ├── migrations</span><br><span class="line">│       │   └── __init__.py</span><br><span class="line">│       ├── models.py</span><br><span class="line">│       ├── tests.py</span><br><span class="line">│       └── views.py</span><br><span class="line">├── db.sqlite3</span><br><span class="line">├── log</span><br><span class="line">├── manage.py</span><br><span class="line">├── media</span><br><span class="line">├── mooc_web</span><br><span class="line">│   ├── __init__.py</span><br><span class="line">│   ├── settings.py</span><br><span class="line">│   ├── urls.py</span><br><span class="line">│   └── wsgi.py</span><br><span class="line">├── static</span><br><span class="line">└── templates</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>建立log文件夹用于存放日志，media用于存放用户的上传文件，建立static存放静态css和js文件</p>
+<p>当app比较多的时候，就建立一个apps文件夹，将新建立的app拖进去</p>
+<h3 id="使用模板"><a href="#使用模板" class="headerlink" title="使用模板"></a>使用模板</h3><p>将html模板放入template文件夹，在static文件夹中建立css文件夹，并放入style.css文件</p>
+<h3 id="settings配置"><a href="#settings配置" class="headerlink" title="settings配置"></a>settings配置</h3><h4 id="更改数据库配置"><a href="#更改数据库配置" class="headerlink" title="更改数据库配置"></a>更改数据库配置</h4><p>因为Django默认用的是sqlite数据库，我们要改成mysql数据库，<a href="http://打开项目的settings.py/">打开项目的settings.py</a>，找到DATABASES，将其中的：</p>
+<ul>
+<li>ENGINE改为<code>django.db.backends.mysql</code></li>
+<li>NAME改为Navicat中看到的<code>testDjango</code></li>
+<li>USER改为数据库的user名，我这里是root</li>
+<li>PASSWORD改为数据库的password，我这里也是root</li>
+<li>HOST改为localhost，也就是127.0.0.1</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    &#x27;default&#x27;: &#123;</span><br><span class="line">        &#x27;ENGINE&#x27;: &#x27;django.db.backends.mysql&#x27;,</span><br><span class="line">        &#x27;NAME&#x27;: &#x27;testDjango&#x27;,</span><br><span class="line">        &#x27;USER&#x27;: &#x27;root&#x27;,</span><br><span class="line">        &#x27;PASSWORD&#x27;: &#x27;root&#x27;,</span><br><span class="line">        &#x27;HOST&#x27;: &#x27;127.0.0.1&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>####migration生成数据表 通过<code>tools-Run manage.py Task</code>来连接数据库，首先需要安装mysqlclient，用<code>pip install mysqlclient</code>安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; makemigrations   # 用于生成一个基于你对模型改变的迁移，在这里就是数据库类型从sqlite迁移到mysql</span><br><span class="line">&gt; migrate		  # 用于应用改变	</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>此时Django自动生成了一大堆数据库表，在Navicat中可以看到表的名称：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-14/11540528.jpg" alt="img"></p>
+<p>此时可以点击run运行整个系统，可以在127.0.0.1:8000上访问该网址</p>
+<h4 id="配置static文件夹地址"><a href="#配置static文件夹地址" class="headerlink" title="配置static文件夹地址"></a>配置static文件夹地址</h4><p>但是此时的style.css无法被找到，我们要在settings.py中配置一下static文件夹的地址，因为<code>STATICFILES_DIRS</code> 可能不止一个，所以用list的形式进行赋值，其中BASE_DIR是项目文件的根目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">STATICFILES_DIRS = [</span><br><span class="line">    os.path.join(BASE_DIR,&#x27;static&#x27;)</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="urls-py配置和views-py函数"><a href="#urls-py配置和views-py函数" class="headerlink" title="urls.py配置和views.py函数"></a>urls.py配置和views.py函数</h3><p>在urls.py中添加新的页面，页面的处理函数要在<code>apps-message-views.py</code> 中新增，首先我们在<code>view.py</code> 中构造如下函数，直接return render的模板，其中request参数是Django的请求，每个views函数都得有：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def getform(request):</span><br><span class="line">    return render(request, template_name=&#x27;course-comment.html&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="项目配置流程"><a href="#项目配置流程" class="headerlink" title="项目配置流程"></a>项目配置流程</h3><p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-12-14/89792661.jpg" alt="img"></p>
+<p>整体来说，先设置数据库和STATICFILES_DIRS，之后这一块不再动，主要就是views.py写后端逻辑，urls.py写页面地址url配置</p>
+<h3 id="Django-orm-模型设计"><a href="#Django-orm-模型设计" class="headerlink" title="Django orm 模型设计"></a>Django orm 模型设计</h3><p>普通的数据库调用方法，连接（connect），生成cursor，excute sql语句，cursor.fetchall( )</p>
+<p>orm就是把一个表映射成一个类，比如要找出name只需要调用<code>book.name</code></p>
+<p>下面我们开始使用orm进行设计数据库：</p>
+<p>找到message下面的models.py文件，在其中定义一个UserMessage类，用于存放我们需要的数据，所有model都要继承models.Model类：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class UserMessage(models.Model):</span><br><span class="line">    name = models.CharField(max_length=20, verbose_name=&#x27;用户名&#x27;)</span><br><span class="line">    email = models.EmailField(verbose_name=&#x27;邮箱&#x27;)</span><br><span class="line">    address = models.CharField(max_length=100, verbose_name=&#x27;地址&#x27;)</span><br><span class="line">    message = models.CharField(max_length=500, verbose_name=&#x27;留言信箱&#x27;)</span><br><span class="line"></span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;用户留言信息&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line">        ordering = &#x27;-id&#x27;  # 排序方式为反向的id</span><br><span class="line">        db_table = &#x27;my_table&#x27;  #设置table的名字</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>其中每一个字段都定义一个类型，常用的有CharField，EmailField，DateTimeField, IntergerField, ForeignKey, IPAddressField, FileField, ImageField</p>
+<p>其中max_length表示最大长度，verbose_name表示别名.</p>
+<p>自己定义的model还有一个内部类Meta，用于存放所有不是Field的字段，比如排序的顺序，数据表的名称等等</p>
+<h4 id="应用模型的改变"><a href="#应用模型的改变" class="headerlink" title="应用模型的改变"></a>应用模型的改变</h4><p>点击<code>Tools-Run manage.py</code>，执行命令，发现找不到message这个model，所有我们要去settings.py中<code>INSTALLED_APPS</code>加入’app.message’</p>
+<p>再次执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; makemigrations message</span><br><span class="line">&gt; migragate message</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="对数据表进行增删改查"><a href="#对数据表进行增删改查" class="headerlink" title="对数据表进行增删改查"></a>对数据表进行增删改查</h4><h5 id="查找数据"><a href="#查找数据" class="headerlink" title="查找数据"></a>查找数据</h5><p>先引入model对象，<code>from apps.message.models import UserMessage</code> ，，利用model对象的objects方法，对数据进行操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">all_message = UserMessage.objects.all()  #这个是可以循环的</span><br><span class="line">for message in all_messages:</span><br><span class="line">	print(message.name)</span><br><span class="line"></span><br><span class="line">filterd_data = UserMessage.objects.filter(name=&#x27;jeffrey&#x27;,address=&#x27;beijing&#x27;)  #filter方法可以对数据进行过滤，中间的逗号表示多个条件，这里是取出的name为jeffrey，address为北京的值</span><br><span class="line">for message in filterd_data:</span><br><span class="line">	print(message.name)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这里的all就是取出所有值，filter就是取出特定条件的值</p>
+<h5 id="增加数据"><a href="#增加数据" class="headerlink" title="增加数据"></a>增加数据</h5><p>定义一个新的对象，并对其各个field赋值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">user_message = UserMessage()</span><br><span class="line">user_message.name = &#x27;a&#x27;</span><br><span class="line">user_message.message = &#x27;a@a.com&#x27;</span><br><span class="line">user_message.message = &#x27;aaaaa&#x27;</span><br><span class="line">user_message.save()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这样每次访问form页面的时候都可以存入一条记录</p>
+<p>在html文件中需要进行如下更改：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;/form/&quot; method=&quot;post&quot; class=&quot;smart-green&quot;&gt;</span><br><span class="line">在action中填入网页地址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>需要加入CSRF安全机制，</p>
+<p>还可以通过页面的表单提交增加新的数据，request的POST属性中，以字典的形式存储了表单中提交的值，可以用python的get方法获取这些值，get的第二个参数为获取不到时候的默认值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">if request.method == &#x27;POST&#x27;:</span><br><span class="line">    name = request.POST.get(&#x27;name&#x27;,&#x27;&#x27;)</span><br><span class="line">    email = request.POST.get(&#x27;email&#x27;, &#x27;&#x27;)</span><br><span class="line">    message = request.POST.get(&#x27;message&#x27;, &#x27;&#x27;)</span><br><span class="line">    </span><br><span class="line">    user_message = UserMessage()</span><br><span class="line">    user_message.name = &#x27;a&#x27;</span><br><span class="line">    user_message.email = &#x27;a@a.com&#x27;</span><br><span class="line">    user_message.message = &#x27;aaaaa&#x27;</span><br><span class="line">    user_message.save()</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h5><p>直接先查找到对象，然后用delete方法就可以删除对象</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">all_message = UserMessage.objects.fileter(name=&#x27;bob&#x27;)</span><br><span class="line">all_message.delete()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="显示数据库中的数据到页面"><a href="#显示数据库中的数据到页面" class="headerlink" title="显示数据库中的数据到页面"></a>显示数据库中的数据到页面</h3><p>在view.py中，我们可以先取出数据，然后在render的时候，把需要传入的参数以一个dict的形式，传递给context，这样我们就可以在html文件中进行调用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def getform(request):</span><br><span class="line">    message = None</span><br><span class="line">    all_message = UserMessage.objects.filter(name=&#x27;boobytest&#x27;)</span><br><span class="line">    if all_message:</span><br><span class="line">    	message = all_message[0]</span><br><span class="line">    return render(request, template_name=&#x27;course-comment.html&#x27;,context=&#123;&#x27;message&#x27;:message,&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在HTML文件中调用参数的方法是两个大括号，input就输入在value里面，textarea就输入在两个标签之间：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;input id=&quot;email&quot; type=&quot;email&quot; value=&#123;　&#123; message.email &#125;　&#125; name=&quot;email&quot; placeholder=&quot;请输入邮箱地址&quot;/&gt;</span><br><span class="line">&lt;textarea id=&quot;message&quot; name=&quot;message&quot;  placeholder=&quot;请输入你的建议&quot;&gt;&#123;　&#123; message.message &#125;　&#125;&lt;/textarea&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="在HTML文件中使用python逻辑"><a href="#在HTML文件中使用python逻辑" class="headerlink" title="在HTML文件中使用python逻辑"></a>在HTML文件中使用python逻辑</h3><p>在HTML文件中，使用python逻辑的方法是大括号加百分号，<code>&#123;　% python expression %　&#125;</code></p>
+<p>if和end if成对出现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;input id=&quot;name&quot; type=&quot;text&quot; value=&quot;&#123; % if not message.name == &#x27;boobytest&#x27; % &#125;</span><br><span class="line">boobyhastest&#123; % else % &#125;booby no test</span><br><span class="line">&#123; % endif % &#125;&quot; name=&quot;name&quot; class=&quot;error&quot; placeholder=&quot;请输入您的姓名&quot;/&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>比如在HTML中使用if和else的方法如上，当然if a&#x3D;&#x3D;b 也可以使用 ifequal a b代替，取前五位也可以使用<code>message.name|split:&#39;5&#39;</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123; % ifequal a b% &#125;  &#123; % endif % &#125;#用于表示等于</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Django提供了很多内置的方法，具体可以查看<a href="https://docs.djangoproject.com/en/2.0/ref/templates/builtins/">Django template built-in tags</a></p>
+<h3 id="使用别名关联url和HTML"><a href="#使用别名关联url和HTML" class="headerlink" title="使用别名关联url和HTML"></a>使用别名关联url和HTML</h3><p>url在配置过程中可能会改变，因此我们需要为url设置一个不变的名字供HTML调用</p>
+<p>在url.py中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url(r&#x27;^form/$&#x27;, getform,name=&#x27;form&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在comment.html中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;&#123; % url &#x27;form&#x27; % &#125;&quot; method=&quot;post&quot; class=&quot;smart-green&quot;&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注意，在url配置中一定要加上<code>/$</code> 表示以<code>/</code>结尾，不然再进行正则匹配的时候可能会匹配到别的网页</p>
+<h3 id="url匹配"><a href="#url匹配" class="headerlink" title="url匹配"></a>url匹配</h3><p>必须在url前面加上<code>^</code>，后面加上<code>/$</code>，这样不会匹配出错</p>
+<h2 id="mooc开发实战"><a href="#mooc开发实战" class="headerlink" title="mooc开发实战"></a>mooc开发实战</h2><h3 id="app设计"><a href="#app设计" class="headerlink" title="app设计"></a>app设计</h3><p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-1-21/6996332.jpg" alt="img"></p>
+<h3 id="新建虚拟环境"><a href="#新建虚拟环境" class="headerlink" title="新建虚拟环境"></a>新建虚拟环境</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkvirtualenv mooc</span><br><span class="line">cd mooc/Script</span><br><span class="line">activate</span><br><span class="line">pip install Django mysqlclient</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="新建Django项目"><a href="#新建Django项目" class="headerlink" title="新建Django项目"></a>新建Django项目</h3><p>通过pycharm建立Django项目，名字为MxOnline，首先在settings.py中更改数据库引擎</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    &#x27;default&#x27;: &#123;</span><br><span class="line">        &#x27;ENGINE&#x27;: &#x27;django.db.backends.mysql&#x27;,</span><br><span class="line">        &#x27;NAME&#x27;: &#x27;mxonline&#x27;,</span><br><span class="line">        &#x27;USER&#x27;: &#x27;root&#x27;,</span><br><span class="line">        &#x27;PASSWORD&#x27;: &#x27;root&#x27;,</span><br><span class="line">        &#x27;HOST&#x27;: &#x27;127.0.0.1&#x27;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过<code>Tools-run manage.py task</code>来生成数据库的表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">makemigrations</span><br><span class="line">migragate</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="扩展user表"><a href="#扩展user表" class="headerlink" title="扩展user表"></a>扩展user表</h3><p>首先<code>startapp users</code>，在models当中，新建一个<code>UserProfile</code>，继承<code>django.contrib.auth.models.AbstractUser</code>，加入你需要的自定义字段，并定义好meta信息中的<code>verbose_name</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from django.db import models</span><br><span class="line">from django.contrib.auth.models import AbstractUser</span><br><span class="line"></span><br><span class="line"># Create your models here.</span><br><span class="line">class UserProfile(AbstractUser):</span><br><span class="line">    nick_name = models.CharField(max_length=50,verbose_name=&#x27;昵称&#x27;,default=&#x27;&#x27;)</span><br><span class="line">    birthday = models.DateField(verbose_name=&#x27;生日&#x27;,null=True,blank=True)</span><br><span class="line">    gender = models.CharField(max_length=5,choices=((&#x27;male&#x27;,&#x27;男&#x27;),(&#x27;female&#x27;,&#x27;女&#x27;)),default=&#x27;&#x27;)</span><br><span class="line">    address = models.CharField(max_length=100,default=&#x27;&#x27;)</span><br><span class="line">    mobile = models.CharField(max_length=11, null=True, blank=True)</span><br><span class="line">    image = models.ImageField(upload_to=&#x27;image/%Y/%m&#x27;,default=&#x27;image/default.png&#x27;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;用户信息&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后run <a href="http://manage.py/">manage.py</a>，通过<code>makemigrations users</code>和<code>migragate users</code>生成新的user表，可能会报错，报错时只需要将之前生成的所有表删除后重新生成即可</p>
+<h3 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h3><p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-1-23/18897780.jpg" alt="img"></p>
+<p>避免交叉引用，不然会出错，使用上层app引用下层app</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-1-23/87606606.jpg" alt="img"></p>
+<h3 id="加入邮件验证码和轮播图"><a href="#加入邮件验证码和轮播图" class="headerlink" title="加入邮件验证码和轮播图"></a>加入邮件验证码和轮播图</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class EmailVerifyRecord(models.Model):</span><br><span class="line">    code = models.CharField(max_length=20, verbose_name=&#x27;验证码&#x27;)</span><br><span class="line">    email = models.EmailField(max_length=50, verbose_name= &#x27;邮箱&#x27;)</span><br><span class="line">    send_type = models.CharField(choices=((&#x27;register&#x27;,&#x27;注册&#x27;),(&#x27;forget&#x27;,&#x27;找回密码&#x27;)),max_length=10)</span><br><span class="line">    send_time = models.DateTimeField(default=datetime.now) #记得去掉datetime.now的括号，不然只会记录class生成的时间</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;邮箱验证码&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br><span class="line">class Banner(models.Model):</span><br><span class="line">    title = models.CharField(max_length=100, verbose_name=&#x27;标题&#x27;)</span><br><span class="line">    image = models.ImageField(upload_to=&#x27;banner/%Y/%m&#x27;, verbose_name=&#x27;轮播图&#x27;)</span><br><span class="line">    url = models.URLField(max_length=500, verbose_name=&#x27;访问地址&#x27;)</span><br><span class="line">    index = models.IntegerField(default=100, verbose_name=&#x27;顺序&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(default=datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;轮播图&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="课程model设计"><a href="#课程model设计" class="headerlink" title="课程model设计"></a>课程model设计</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Course -- 课程基本信息</span><br><span class="line">Lesson -- 章节信息</span><br><span class="line">Video -- 视频</span><br><span class="line">CourseResource -- 课程资源</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>一共有上述四张表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">from django.db import models</span><br><span class="line">from datetime import datetime</span><br><span class="line"></span><br><span class="line"># Create your models here.</span><br><span class="line">class Course(models.Model):</span><br><span class="line">    name = models.CharField(max_length=50, verbose_name=&#x27;课程名称&#x27;)</span><br><span class="line">    desc = models.CharField(max_length=300, verbose_name=&#x27;课程描述&#x27;)</span><br><span class="line">    detail = models.TextField(verbose_name=&#x27;课程详情&#x27;)</span><br><span class="line">    degree = models.CharField(choices=((&#x27;cj&#x27;,&#x27;初级&#x27;),(&#x27;zj&#x27;,&#x27;中级&#x27;),(&#x27;gj&#x27;,&#x27;高级&#x27;)),verbose_name=&#x27;课程难度&#x27;,max_length=2)</span><br><span class="line">    learn_time = models.IntegerField(default=0, verbose_name=&#x27;学习时长(分钟数)&#x27;)</span><br><span class="line">    students = models.IntegerField(default=0, verbose_name=&#x27;学习人数&#x27;)</span><br><span class="line">    fav = models.IntegerField(default=0, verbose_name=&#x27;收藏人数&#x27;)</span><br><span class="line">    image = models.ImageField(upload_to=&#x27;courses/%Y/%m&#x27;, verbose_name=&#x27;封面图&#x27;, max_length=100)</span><br><span class="line">    click_num = models.IntegerField(default=0, verbose_name=&#x27;点击数&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(default=datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name=&#x27;课程&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br><span class="line">class Lesson(models.Model):</span><br><span class="line">    course = models.ForeignKey(Course, verbose_name=&#x27;课程&#x27;)</span><br><span class="line">    name = models.CharField(max_length=100, verbose_name=&#x27;章节名&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(default=datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;章节&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br><span class="line">class Video(models.Model):</span><br><span class="line">    lesson = models.ForeignKey(Lesson, verbose_name=&#x27;章节&#x27;)</span><br><span class="line">    name = models.CharField(max_length=100, verbose_name=&#x27;视频名&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(default=datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;视频&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br><span class="line">class CourseResource(models.Model):</span><br><span class="line">    course = models.ForeignKey(Course, verbose_name=&#x27;课程&#x27;)</span><br><span class="line">    download = models.FileField(upload_to=&#x27;courses/resource/%Y/%m&#x27;,max_length=100)</span><br><span class="line">    name = models.CharField(max_length=100, verbose_name=&#x27;资源名称&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(default=datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;课程资源&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="添加organization的model"><a href="#添加organization的model" class="headerlink" title="添加organization的model"></a>添加organization的model</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CourseOrg -- 课程机构基本信息</span><br><span class="line">Teacher -- 教师基本信息</span><br><span class="line">CityDict -- 城市信息</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>添加如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">from django.db import models</span><br><span class="line">from datetime import datetime</span><br><span class="line"></span><br><span class="line"># Create your models here.</span><br><span class="line"></span><br><span class="line">class CourseOrg(models.Model):</span><br><span class="line">    city = models.ForeignKey(CityDict,verbose_name=&#x27;所在城市&#x27;)</span><br><span class="line">    name = models.CharField(max_length=50,verbose_name=&#x27;机构名称&#x27;)</span><br><span class="line">    desc = models.TextField(verbose_name=&#x27;机构描述&#x27;)</span><br><span class="line">    click_nums = models.IntegerField(default=0, verbose_name=&#x27;点击数&#x27;)</span><br><span class="line">    fav_nums =  models.IntegerField(default=0, verbose_name=&#x27;收藏数&#x27;)</span><br><span class="line">    image = models.ImageField(upload_to=&#x27;org/%Y/%m&#x27;,verbose_name=&#x27;封面图&#x27;)</span><br><span class="line">    address = models.CharField(max_length=150,verbose_name=&#x27;地址&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;课程机构&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br><span class="line">class CityDict(models.Model):</span><br><span class="line">    name = models.CharField(max_length=20,verbose_name=&#x27;城市&#x27;)</span><br><span class="line">    desc = models.CharField(max_length=200, verbose_name=&#x27;描述&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;城市&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br><span class="line">class Teacher(models.Model):</span><br><span class="line">    org = models.ForeignKey(CourseOrg, verbose_name=&#x27;所属机构&#x27;)</span><br><span class="line">    name = models.CharField(max_length=20,verbose_name=&#x27;教师名&#x27;)</span><br><span class="line">    work_years = models.IntegerField(default=0, verbose_name=&#x27;工作年限&#x27;)</span><br><span class="line">    work_company = models.CharField(max_length=50,verbose_name=&#x27;就职公司&#x27;)</span><br><span class="line">    work_position = models.CharField(max_length=50,verbose_name=&#x27;公司职位&#x27;)</span><br><span class="line">    points = models.CharField(max_length=50, verbose_name=&#x27;教学特点&#x27;)</span><br><span class="line">    click_nums = models.IntegerField(default=0, verbose_name=&#x27;点击数&#x27;)</span><br><span class="line">    fav_nums =  models.IntegerField(default=0, verbose_name=&#x27;收藏数&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;教师&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="添加operation的model"><a href="#添加operation的model" class="headerlink" title="添加operation的model"></a>添加operation的model</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">UserAsk -- 用户咨询</span><br><span class="line">CourseComments -- 用户评论</span><br><span class="line">UserFavorite -- 用户收藏</span><br><span class="line">UserMessage -- 用户消息</span><br><span class="line">UserCourse -- 用户学习的课程</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>添加如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">from django.db import models</span><br><span class="line">from datetime import datetime</span><br><span class="line">from users.models import UserProfile</span><br><span class="line">from courses.models import Course</span><br><span class="line">from organization.models import CourseOrg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Create your models here.</span><br><span class="line">class UserAsk(models.Model):</span><br><span class="line">    name = models.CharField(max_length=20,verbose_name=&#x27;姓名&#x27;)</span><br><span class="line">    mobile = models.CharField(max_length=11, verbose_name=&#x27;手机&#x27;)</span><br><span class="line">    course_name = models.CharField(max_length=50,verbose_name=&#x27;课程名称&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;用户咨询&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br><span class="line">class CourseComments(models.Model):</span><br><span class="line">    user = models.ForeignKey(UserProfile, verbose_name=&#x27;用户&#x27;)</span><br><span class="line">    course = models.ForeignKey(Course, verbose_name=&#x27;课程&#x27;)</span><br><span class="line">    comments = models.CharField(max_length=500,verbose_name=&#x27;评论&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;课程评论&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br><span class="line">class UserFavorite(models.Model):</span><br><span class="line">    user = models.ForeignKey(UserProfile, verbose_name=&#x27;用户&#x27;)</span><br><span class="line">    fav_id = models.IntegerField(default=0, verbose_name=&#x27;数据id&#x27;)</span><br><span class="line">    fav_type = models.IntegerField(choices=((1,&#x27;课程&#x27;),(2,&#x27;课程机构&#x27;),(3,&#x27;讲师&#x27;)),default=1,verbose_name=&#x27;收藏类型&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;用户收藏&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br><span class="line">class UserMessage(models.Model):</span><br><span class="line">    user = models.IntegerField(default=0,verbose_name=&#x27;接收用户&#x27;)# 不用外键，因为有可能是发给所有人的消息，用0表示发送给所有人的消息,用int表示用户的id</span><br><span class="line">    message = models.CharField(max_length=500, verbose_name=&#x27;消息内容&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    has_read = models.BooleanField(default=False,verbose_name=&#x27;是否已读&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;用户消息&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br><span class="line">class UserCourse(models.Model):</span><br><span class="line">    user = models.ForeignKey(UserProfile, verbose_name=&#x27;用户&#x27;)</span><br><span class="line">    course = models.ForeignKey(Course, verbose_name=&#x27;课程&#x27;)</span><br><span class="line">    add_time = models.DateTimeField(datetime.now, verbose_name=&#x27;添加时间&#x27;)</span><br><span class="line">    class Meta:</span><br><span class="line">        verbose_name = &#x27;用户课程&#x27;</span><br><span class="line">        verbose_name_plural = verbose_name</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="将所有app放到同一个文件夹下面"><a href="#将所有app放到同一个文件夹下面" class="headerlink" title="将所有app放到同一个文件夹下面"></a>将所有app放到同一个文件夹下面</h3><p>建立new python package， 把所有的app放到apps这个包下面，注意选择不改相对引用，并mark apps为source root</p>
+<p>将apps这个文件夹加入到settings当中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line">sys.path.insert(0, os.path.join(BASE_DIR,&#x27;apps&#x27;))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="建立后台管理系统"><a href="#建立后台管理系统" class="headerlink" title="建立后台管理系统"></a>建立后台管理系统</h3><p>直接在run <a href="http://manage.py/">manage.py</a> task中输入<code>createsuperuser</code>，输入用户名，邮箱和密码就可以登录</p>
+<p>更改语言和时区：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">LANGUAGE_CODE = &#x27;zh-hans&#x27;  #将语言改为中文</span><br><span class="line">TIME_ZONE = &#x27;Asia/Shanghai&#x27; #将时区改为上海</span><br><span class="line">USE_TZ = False # 系统使用本地时间而不是utc时间</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>因为我们更改了admin的auth.user的model，因此需要注册user的model，在<code>users</code>库中的admin.py文件中注册：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from users.models import UserProfile</span><br><span class="line"># Register your models here.</span><br><span class="line"></span><br><span class="line">class UserProfileAdmin(admin.ModelAdmin):  #userprofile的管理器</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">admin.site.register(UserProfile,UserProfileAdmin) #admin和model的关联注册</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>登录<code>http://127.0.0.1:8000/admin</code>就可以对用户进行修改</p>
+<ul>
+<li>pycharm全局搜索的快捷键是<code>ctrl+shift+f</code></li>
+</ul>
+<h3 id="使用xadmin"><a href="#使用xadmin" class="headerlink" title="使用xadmin"></a>使用xadmin</h3><p>使用xadmin，因为我安装的Django 2.0.1版本，所以需要安装专门的xadmin for Django2.0</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install git+git://github.com/sshwsfc/xadmin.git@django2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在url.py中引入xadmin</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import xadmin</span><br><span class="line">urlpatterns = [url(r&#x27;^xadmin/&#x27;, xadmin.site.urls),]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在settings.py中注册xadmin和crispy_forms:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = [</span><br><span class="line">    &#x27;django.contrib.admin&#x27;,</span><br><span class="line">.......</span><br><span class="line">    &#x27;xadmin&#x27;,</span><br><span class="line">    &#x27;crispy_forms&#x27;,</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接下来同步xadmin的表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; makemigrations</span><br><span class="line">&gt; migragate</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>再打开<a href="http://127.0.0.1:8000/xadmin%E5%B0%B1%E5%8F%AF%E4%BB%A5%E8%AE%BF%E9%97%AExadmin%E7%9A%84%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E4%BA%86">http://127.0.0.1:8000/xadmin就可以访问xadmin的后台管理了</a></p>
+<p>在管理用户信息的时候，会出现错误，这是由于我们用的Django是2.0.1版本，而教程中用到的是1.0+，根据pycharm报错的最后一条，打开widget.py文件，在74行修改如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">input_html = [ht for ht in super(AdminSplitDateTime, self).render(name, value, attrs).split(&#x27;/&gt;&lt;&#x27;) if ht != &#x27;&#x27;]</span><br><span class="line">if (len(input_html) &gt; 1):</span><br><span class="line">	input_html[0] = input_html[0] + &quot;/&gt;&quot;</span><br><span class="line">	input_html[1] = &quot;&lt;&quot; + input_html[1]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="通过源码安装xadmin"><a href="#通过源码安装xadmin" class="headerlink" title="通过源码安装xadmin"></a>通过源码安装xadmin</h4><p>在mxonline下建立一个python package文件夹extra_apps，下载xadmin并解压，拷贝其中的xadmin文件夹到其中，并把extra_apps mark as source root，这样引入xadmin的时候就会从相对文件引入</p>
+<p>同时在settings.py中把xadmin文件夹加入根搜索路径</p>
+<h4 id="注册邮箱验证码model"><a href="#注册邮箱验证码model" class="headerlink" title="注册邮箱验证码model"></a>注册邮箱验证码model</h4><p>注册方法类似于admin的注册方式，只不过不是在admin.py中注册，<a href="http://而是要新建adminx.py/">而是要新建adminx.py</a>，并且admin继承的是object</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import xadmin</span><br><span class="line">from users.models import EmailVerifyRecord</span><br><span class="line"></span><br><span class="line">class EmailVerifyRecordAdmin(object):</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">xadmin.site.register(EmailVerifyRecord, EmailVerifyRecordAdmin)  # 注册方法</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改显示的邮件验证码存储记录的str名称：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class EmailVerifyRecord(models.Model):</span><br><span class="line">    code = models.CharField(max_length=20, verbose_name=&#x27;验证码&#x27;)</span><br><span class="line">    email = models.EmailField(max_length=50, verbose_name= &#x27;邮箱&#x27;)</span><br><span class="line">.......</span><br><span class="line">    def __str__(self):</span><br><span class="line">        return &#x27;&#123;0&#125;(&#123;1&#125;)&#x27;.format(self.code,self.email)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意：所有注册的Model名字都应该为<code>class Model名+Admin</code></li>
+</ul>
+<h4 id="添加搜索和显示列"><a href="#添加搜索和显示列" class="headerlink" title="添加搜索和显示列"></a>添加搜索和显示列</h4><p>在其中加入list_display（显示列）, search_fields（搜索域）, list_filter（过滤器）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class LessonAdmin(object):</span><br><span class="line">    list_display = [&#x27;course&#x27;,&#x27;name&#x27;,&#x27;add_time&#x27;]</span><br><span class="line">    search_fields = [&#x27;course&#x27;,&#x27;name&#x27;,&#x27;add_time&#x27;]</span><br><span class="line">    list_filter = [&#x27;course&#x27;,&#x27;name&#x27;,&#x27;add_time&#x27;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果要使用外键进行搜索，可以用两个下划线表示</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">class LessonAdmin(object):</span><br><span class="line">    list_filter = [&#x27;course__name&#x27;,&#x27;name&#x27;,&#x27;add_time&#x27;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="xadmin全局配置"><a href="#xadmin全局配置" class="headerlink" title="xadmin全局配置"></a>xadmin全局配置</h3><p>将全站的配置放在user app的admix.py中，新建一个class BaseSetting，用于配置主题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from xadmin import views</span><br><span class="line"></span><br><span class="line">class BaseSettings:</span><br><span class="line">    enable_themes = True   #允许使用主题</span><br><span class="line">    use_bootswatch = True	#允许多主题</span><br><span class="line">xadmin.site.register(views.BaseAdminView,BaseSettings)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>建立一个class GlobalSettings配置标题名称和footer名称</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">class GlobalSettings:</span><br><span class="line">    site_title = &#x27;慕学后台管理系统&#x27;</span><br><span class="line">    site_footer = &#x27;慕学在线网&#x27;</span><br><span class="line">    menu_style = &#x27;accordion&#x27; #折叠model</span><br><span class="line">xadmin.site.register(views.CommAdminView,GlobalSettings)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="更改model名称"><a href="#更改model名称" class="headerlink" title="更改model名称"></a>更改model名称</h4><p>在每个model文件夹中的apps.py文件中加入verbose_name</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from django.apps import AppConfig</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class CoursesConfig(AppConfig):</span><br><span class="line">    name = &#x27;courses&#x27;</span><br><span class="line">    verbose_name = &#x27;课程&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后在<code>__init__.py</code> 中加入default_app_config</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">default_app_config = &#x27;courses.apps.CoursesConfig&#x27;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="完成用户的登录功能"><a href="#完成用户的登录功能" class="headerlink" title="完成用户的登录功能"></a>完成用户的登录功能</h3><p>首先将前端给的Index.html（首页）文件和login.html（登录页）文件放入templates文件夹中</p>
+<p>在根目录下建立static文件夹，存放css，images，js，media文件，并在settings.py中声明<code>STATICFILES_DIRS=[os.path.join(BASE_DIR,&#39;static&#39;)]</code>，注意：这里的STATICFILES_DIRS必须设置为list或者tuple形式，否则会报错</p>
+<p>此时，将html文件中的所有css，js的文件路径修改为<code>/static/css</code>和<code>/static/js</code></p>
+<p>接下来配置url，在url.py中引入TemplateView</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from django.views.generic import TemplateView</span><br><span class="line">urlpatterns = [</span><br><span class="line">    url(r&#x27;^xadmin/&#x27;, xadmin.site.urls),</span><br><span class="line">    url(r&#x27;^$&#x27;,TemplateView.as_view(template_name=&#x27;index.html&#x27;),name=&#x27;index&#x27;),</span><br><span class="line">    url(r&#x27;^login/&#x27;, TemplateView.as_view(template_name=&#x27;login.html&#x27;), name=&#x27;login&#x27;)</span><br><span class="line"></span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这样就完成了页面配置，重启项目后就可以访问首页和登录页面</p>
+<h4 id="实现使用用户名或者邮箱都可以登录"><a href="#实现使用用户名或者邮箱都可以登录" class="headerlink" title="实现使用用户名或者邮箱都可以登录"></a>实现使用用户名或者邮箱都可以登录</h4><p>现在users模块中新建CustomBackend类，继承ModelBackend，重写其中的authenticate函数，用Q函数实现或操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from django.contrib.auth.backends import ModelBackend</span><br><span class="line">from django.db.models import Q</span><br><span class="line">class CustomBackend(ModelBackend):</span><br><span class="line">    def authenticate(self, request, username=None, password=None, **kwargs):</span><br><span class="line">        try:</span><br><span class="line">            user = UserProfile.objects.get(Q(username=username)|Q(email=username))</span><br><span class="line">            if user.check_password(password):</span><br><span class="line">                return user</span><br><span class="line">        except Exception as e:</span><br><span class="line">            return None</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>写自己的login函数login，并将其写到urls.py中</p>
+<p><a href="http://views.py/">views.py</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def my_login(request):</span><br><span class="line">    if request.method == &#x27;POST&#x27;:</span><br><span class="line">        user_name = request.POST.get(&#x27;username&#x27;,&#x27;&#x27;)</span><br><span class="line">        pass_word = request.POST.get(&#x27;password&#x27;,&#x27;&#x27;)</span><br><span class="line">        user = authenticate(username=user_name,password=pass_word)</span><br><span class="line">        if user:</span><br><span class="line">            login(request, user)</span><br><span class="line">            return render(request, &#x27;index.html&#x27;,&#123;&#x27;userprofile&#x27;:user&#125;)</span><br><span class="line">        else:</span><br><span class="line">            return render(request,&#x27;login.html&#x27;,&#123;&#x27;msg&#x27;:&#x27;用户名或密码错误&#x27;&#125;)</span><br><span class="line">    elif request.method == &#x27;GET&#x27;:</span><br><span class="line">        return render(request, &#x27;login.html&#x27;, &#123;&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><a href="http://urls.py/">urls.py</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url(r&#x27;^login/&#x27;, my_login, name=&#x27;login&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在settings.py中加入<code>AUTHENTICATION_BACKENDS=（&#39;users.views.CustomBackend&#39;,）</code>，将认证后台改为自己写的后台</p>
+<p>在点击登陆后，我们需要跳转回首页或者是报告密码错误，此时request被传递到网页中，可以在跳转后显示自己的用户名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;dd&gt;&#123; &#123; request.POST.username &#125; &#125;&lt;img class=&quot;down fr&quot; src=&quot;/static/images/top_down.png&quot;/&gt;&lt;/dd&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="将用户登录改成类的方法"><a href="#将用户登录改成类的方法" class="headerlink" title="将用户登录改成类的方法"></a>将用户登录改成类的方法</h4><p>views.py中加入自己的类：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">from django.views.generic import View</span><br><span class="line">class LoginView(View):</span><br><span class="line">    def get(self, request):</span><br><span class="line">        return render(request, &#x27;login.html&#x27;, &#123;&#125;)</span><br><span class="line">    def post(self, request):</span><br><span class="line">        user_name = request.POST.get(&#x27;username&#x27;,&#x27;&#x27;)</span><br><span class="line">        pass_word = request.POST.get(&#x27;password&#x27;,&#x27;&#x27;)</span><br><span class="line">        user = authenticate(username=user_name,password=pass_word)</span><br><span class="line">        if user:</span><br><span class="line">            login(request, user)</span><br><span class="line">            return render(request, &#x27;index.html&#x27;,&#123;&#x27;userprofile&#x27;:user&#125;)</span><br><span class="line">        else:</span><br><span class="line">            return render(request,&#x27;login.html&#x27;,&#123;&#x27;msg&#x27;:&#x27;用户名或密码错误&#x27;&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在urls.py中将loginview注册：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url(r&#x27;^login/&#x27;, LoginView.as_view(), name=&#x27;login&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="实现用户名和密码的长度和空检验"><a href="#实现用户名和密码的长度和空检验" class="headerlink" title="实现用户名和密码的长度和空检验"></a>实现用户名和密码的长度和空检验</h4><p>在users模块汇总建立forms.py用于检验表单</p>
+<p><a href="http://forms.py/">forms.py</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from django import forms</span><br><span class="line"></span><br><span class="line">class LoginForm(forms.Form):</span><br><span class="line">    username = forms.CharField(required=True)</span><br><span class="line">    password = forms.CharField(required=True, min_length=5)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在views.py中加入loginform的验证，逻辑是如果有效，则提取表单中的username和password，验证成功后，用login函数登录，返回index页面；如果验证失败，返回登录页显示用户或密码错误；如果检测到form有错误，返回登录页，显示错误类型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class LoginView(View):</span><br><span class="line">    def get(self, request):</span><br><span class="line">        return render(request, &#x27;login.html&#x27;, &#123;&#125;)</span><br><span class="line">    def post(self, request):</span><br><span class="line">        login_form = LoginForm(request.POST)    #实例化一个login_form，传入参数为request.POST,自动验证其中的username和password，注意这里名字必须和login.html的form当中的name相同</span><br><span class="line">        if login_form.is_valid():  #这一步之后可以看到login_form的error类型，存为一个dict类型</span><br><span class="line">            user_name = request.POST.get(&#x27;username&#x27;,&#x27;&#x27;)</span><br><span class="line">            pass_word = request.POST.get(&#x27;password&#x27;,&#x27;&#x27;)</span><br><span class="line">            user = authenticate(username=user_name,password=pass_word)</span><br><span class="line">            if user:</span><br><span class="line">                login(request, user)</span><br><span class="line">                return render(request, &#x27;index.html&#x27;,&#123;&#x27;userprofile&#x27;:user&#125;)</span><br><span class="line">            else:</span><br><span class="line">                return render(request,&#x27;login.html&#x27;,&#123;&#x27;msg&#x27;:&#x27;用户名或密码错误&#x27;&#125;)</span><br><span class="line">        else:</span><br><span class="line">            return render(request,&#x27;login.html&#x27;,&#123;&#x27;login_form&#x27;:login_form&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在login.html中显示错误类型：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;error btns login-form-tips&quot; id=&quot;jsLoginTips&quot;&gt;&#123; % for key, error in login_form.errors.items % &#125;</span><br><span class="line">&#123; &#123; error &#125; &#125;&#123; % endfor % &#125;&#123; &#123; msg &#125; &#125;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用cookies进行登录"><a href="#使用cookies进行登录" class="headerlink" title="使用cookies进行登录"></a>使用cookies进行登录</h2><p>http本身是一种无状态协议，每次发送请求，服务器返回请求的数据，如果要记住登录状态就需要cookies <img src="https://images2018.cnblogs.com/blog/1343961/201803/1343961-20180307112659303-1858050305.png" alt="img"> django的cookie由session_key和session_data以及expire_data组成，实现是通过setings.py中的’django.contrib.sessions’, 每个域名之下的cookies是不能互相访问的 <img src="https://images2018.cnblogs.com/blog/1343961/201803/1343961-20180307140134115-22522149.png" alt="img"></p>
+<h3 id="实现user的注册功能"><a href="#实现user的注册功能" class="headerlink" title="实现user的注册功能"></a>实现user的注册功能</h3><p>先拷贝register.html到template中，配置url，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url(r&#x27;^register/&#x27;,RegisterView.as_view,name=&#x27;register&#x27;),</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后在<code>views.py</code>中加入RegisterView类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class RegisterView(View):</span><br><span class="line">    def get(self, request):</span><br><span class="line">        return render(request, &#x27;register.html&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在HTML代码中修改指向</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;a style=&quot;color:white&quot; class=&quot;fr registerbtn&quot; href=&quot;&#123; % url &#x27;register&#x27; % &#125;&quot;&gt;注册&lt;/a&gt;</span><br><span class="line">&lt;a style=&quot;color:white&quot; class=&quot;fr loginbtn&quot; href=&quot;&#123; % url &#x27;login&#x27; % &#125;&quot;&gt;登录&lt;/a&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改其css和js文件的地址，这里介绍第二种修改的方法 首先在html文件中输入<code>&#123; %load staticfiles% &#125;</code> 然后在需要修改地址的地方输入<code>&#123; %static &#39;/css/reset.css&#39;% &#125;</code></p>
+<h3 id="加入验证码功能"><a href="#加入验证码功能" class="headerlink" title="加入验证码功能"></a>加入验证码功能</h3><ul>
+<li>先安装django-simple-captcha模块</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install  django-simple-captcha</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>根据官方文档的提示添加captcha到settings.py当中的INSTALLED_APPS</li>
+<li>运行makemigrations,migrate</li>
+<li>添加实例到urls.py中</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">urlpatterns += [</span><br><span class="line">    url(r&#x27;^captcha/&#x27;, include(&#x27;captcha.urls&#x27;)),</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后在forms.py中加入一个新的register_form，在其中加入captchafiled</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from django import forms</span><br><span class="line">from captcha.fields import CaptchaField</span><br><span class="line"></span><br><span class="line">class RegisterForm(forms.Form):</span><br><span class="line">    email = forms.EmailField(required=True,error_messages=&#123;&#x27;invalid&#x27;:&#x27;请输入一个有效的邮箱地址&#x27;&#125;)</span><br><span class="line">    password = forms.CharField(required=True,min_length=5,error_messages=&#123;&#x27;invalid&#x27;:&#x27;密码至少6个字符&#x27;,&#x27;required&#x27;:&#x27;请输入密码&#x27;&#125;)</span><br><span class="line">    captcha = CaptchaField(error_messages=&#123;&#x27;required&#x27;: &#x27;验证码错误&#x27;&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在<code>view.py</code>中加入registerview</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class RegisterView(View):</span><br><span class="line">#get方法，先实例化一个RegisterForm，将register_form返回到html中用于获取验证码</span><br><span class="line">    def get(self, request): </span><br><span class="line">        register_form = RegisterForm()</span><br><span class="line">        return render(request, &#x27;register.html&#x27;,&#123;&#x27;register_form&#x27;:register_form&#125;)</span><br><span class="line"></span><br><span class="line">    def post(self, request):</span><br><span class="line">        register_form = RegisterForm(request.POST)</span><br><span class="line">        if register_form.is_valid():</span><br><span class="line">            user_name = request.POST.get(&#x27;email&#x27;, &#x27;&#x27;)</span><br><span class="line">            pass_word = request.POST.get(&#x27;password&#x27;, &#x27;&#x27;)</span><br><span class="line">            is_used = UserProfile.objects.filter(username=user_name)</span><br><span class="line">            if not is_used:</span><br><span class="line">                user = UserProfile()</span><br><span class="line">                user.username = user_name</span><br><span class="line">                user.email = user_name</span><br><span class="line">                user.password = make_password(pass_word)</span><br><span class="line">                user.save()</span><br><span class="line">                send_register_email(user_name)</span><br><span class="line">                return render(request, &#x27;login.html&#x27;,&#123;&#125;)</span><br><span class="line">            else:</span><br><span class="line">                return render(request, &#x27;register.html&#x27;, &#123;&#x27;msg&#x27;:&#x27;该用户名已经被占用&#x27;,&#x27;register_form&#x27;:register_form&#125;)</span><br><span class="line">        else:</span><br><span class="line">            return render(request, &#x27;register.html&#x27;,&#123;&#x27;register_form&#x27;:register_form&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改<code>register.html</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;tab-form&quot;&gt;</span><br><span class="line">&lt;!--其中的action用于指定提交到哪个页面--&gt;</span><br><span class="line">    &lt;form id=&quot;email_register_form&quot; method=&quot;post&quot; action=&quot;&#123; % url &#x27;register&#x27; % &#125;&quot; autocomplete=&quot;off&quot;&gt;</span><br><span class="line">        &lt;input type=&#x27;hidden&#x27; name=&#x27;csrfmiddlewaretoken&#x27; value=&#x27;gTZljXgnpvxn0fKZ1XkWrM1PrCGSjiCZ&#x27;/&gt;</span><br><span class="line">&lt;!--在class里面加入&#123; %if register_form.email.errors % &#125;errorput用于出错时高亮--&gt;</span><br><span class="line">        &lt;div class=&quot;form-group marb20 &#123; % if register_form.email.errors % &#125;errorput&#123; % endif % &#125;&quot;&gt;</span><br><span class="line">            &lt;label&gt;邮&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;箱&lt;/label&gt;</span><br><span class="line">&lt;!--将value填为上次填写的value，这样出错时不用用户每次手动填写value--&gt;</span><br><span class="line">            &lt;input type=&quot;text&quot; id=&quot;id_email&quot; name=&quot;email&quot; value=&quot;&#123; &#123; register_form.email.value &#125; &#125;&quot;</span><br><span class="line">                   placeholder=&quot;请输入您的邮箱地址&quot;/&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;form-group marb8 &#123; % if register_form.errors.password % &#125;errorput&#123; % endif % &#125;&quot;&gt;</span><br><span class="line">            &lt;label&gt;密&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;码&lt;/label&gt;</span><br><span class="line">            &lt;input type=&quot;password&quot; id=&quot;id_password&quot; name=&quot;password&quot;</span><br><span class="line">                   value=&quot;&#123; &#123; register_form.password.value &#125; &#125;&quot;</span><br><span class="line">                   placeholder=&quot;请输入6-20位非中文字符密码&quot;/&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;form-group marb8 captcha1 &#123; % if register_form.errors.password % &#125;errorput&#123; % endif % &#125;&quot;&gt;</span><br><span class="line">            &lt;label&gt;验&amp;nbsp;证&amp;nbsp;码&lt;/label&gt;</span><br><span class="line">            &#123; &#123; register_form.captcha &#125; &#125;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;error btns&quot; id=&quot;jsEmailTips&quot;&gt;</span><br><span class="line">        &lt;!--用循环的方式将错误显示出来--&gt;</span><br><span class="line">            &#123; % for key,value in register_form.errors.items % &#125;</span><br><span class="line">                &#123; &#123; value &#125; &#125;</span><br><span class="line">            &#123; % endfor % &#125;</span><br><span class="line">            &#123; &#123; msg &#125; &#125;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class=&quot;auto-box marb8&quot;&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;input class=&quot;btn btn-green&quot; id=&quot;jsEmailRegBtn&quot; type=&quot;submit&quot; value=&quot;注册并登录&quot;/&gt;</span><br><span class="line">        &#123;#                        &lt;input type=&#x27;hidden&#x27; name=&#x27;csrfmiddlewaretoken&#x27; value=&#x27;5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy&#x27;/&gt;#&#125;</span><br><span class="line">        &#123; % csrf_token % &#125;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="处理用户激活"><a href="#处理用户激活" class="headerlink" title="处理用户激活"></a>处理用户激活</h2><p>在urls.py中插入需要激活的页面，用<code>(?P&lt;active_code&gt;.*?)/$</code>，<code>?P</code>是表示parameter的意思，active_code表示你需要提取的变量，后面的<code>.*?</code>表示正则表达式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url(r&#x27;^active/(?P&lt;active_code&gt;.*?)/$&#x27;,ActiveUserView.as_view()),</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在view中加入新的ActiveUserView,在get中可以拿到刚才在urls.py中定义的active_code参数，先判断这个值在我的数据库中是否存在</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class ActiveUserView(View):</span><br><span class="line">    def get(self, request, active_code):</span><br><span class="line">    #判断这个值在我的数据库中是否存在</span><br><span class="line">        all_records = EmailVerifyRecord.objects.filter(code=active_code)</span><br><span class="line">        #如果存在，通过active_code对应的email找到用户，并将其is_active改为True</span><br><span class="line">        if all_records:</span><br><span class="line">            for record in all_records:</span><br><span class="line">                email = record.email</span><br><span class="line">                user = UserProfile.objects.get(email=email)</span><br><span class="line">                user.is_active = True</span><br><span class="line">                user.save()</span><br><span class="line">            return render(request, &#x27;login.html&#x27;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在LoginView中加入是否激活的判断</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">def post(self, request):</span><br><span class="line">    login_form = LoginForm(request.POST)</span><br><span class="line">    if login_form.is_valid():</span><br><span class="line">        user_name = request.POST.get(&#x27;username&#x27;,&#x27;&#x27;)</span><br><span class="line">        pass_word = request.POST.get(&#x27;password&#x27;,&#x27;&#x27;)</span><br><span class="line">        user = authenticate(username=user_name,password=pass_word)</span><br><span class="line">        if user:</span><br><span class="line">        #</span><br><span class="line">            if user.is_active:</span><br><span class="line">                login(request, user)</span><br><span class="line">                return render(request, &#x27;index.html&#x27;,&#123;&#x27;userprofile&#x27;:user&#125;)</span><br><span class="line">            else:</span><br><span class="line">                return render(request, &#x27;login.html&#x27;, &#123;&#x27;msg&#x27;: &#x27;用户未激活&#x27;&#125;)</span><br><span class="line">        else:</span><br><span class="line">            return render(request,&#x27;login.html&#x27;,&#123;&#x27;msg&#x27;:&#x27;用户名或密码错误&#x27;&#125;)</span><br><span class="line">    else:</span><br><span class="line">        return render(request,&#x27;login.html&#x27;,&#123;&#x27;login_form&#x27;:login_form&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="处理忘记密码"><a href="#处理忘记密码" class="headerlink" title="处理忘记密码"></a>处理忘记密码</h2><p>在urls.py中加入新的页面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">url(r&#x27;^reset/(?P&lt;reset_code&gt;.*?)/$&#x27;, ResetView.as_view(), name=&#x27;reset_pwd&#x27;),</span><br><span class="line">url(r&#x27;^modify_pwd/&#x27;, ModifyPwdView.as_view(), name=&#x27;modifypwd&#x27;),</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在views.py中加入新的view</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">class ResetView(View):</span><br><span class="line">    def get(self, request, reset_code):</span><br><span class="line">        all_records = EmailVerifyRecord.objects.filter(code=reset_code)</span><br><span class="line">        if all_records:</span><br><span class="line">            for record in all_records:</span><br><span class="line">                email = record.email</span><br><span class="line">                user = UserProfile.objects.get(email=email)</span><br><span class="line">                return render(request, &#x27;password_reset.html&#x27;,&#123;&#x27;email&#x27;:email&#125;)</span><br><span class="line">        else:</span><br><span class="line">            return render(request, &#x27;active_fail.html&#x27;)</span><br><span class="line"></span><br><span class="line">class ModifyPwdView(View):</span><br><span class="line">    def post(self, request):</span><br><span class="line">        reset_form = ResetPwdForm(request.POST)</span><br><span class="line">        if reset_form.is_valid():</span><br><span class="line">            pw1 = request.POST.get(&#x27;password1&#x27;,&#x27;&#x27;)</span><br><span class="line">            pw2 = request.POST.get(&#x27;password2&#x27;,&#x27;&#x27;)</span><br><span class="line">            email = request.POST.get(&#x27;email&#x27;, &#x27;&#x27;)</span><br><span class="line">            if pw1 != pw2:</span><br><span class="line">                return render(request,&#x27;password_reset.html&#x27;,&#123;&#x27;msg&#x27;:&quot;两次密码不一致&quot;&#125;)</span><br><span class="line">            else:</span><br><span class="line">                user = UserProfile.objects.get(email=request.POST.email)</span><br><span class="line">                user.password = make_password(pw1)</span><br><span class="line">                user.save()</span><br><span class="line">                return render(request, &#x27;login.html&#x27;)</span><br><span class="line">        else:</span><br><span class="line">            return render(request, &#x27;password_reset.html&#x27;, &#123;&#x27;reset_form&#x27;:reset_form,&#x27;email&#x27;:request.POST.email&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在forms.py中加入<code>ResetPwdForm</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class ResetPwdForm(forms.Form):</span><br><span class="line">    password1 = forms.CharField(required=True)</span><br><span class="line">    password2 = forms.CharField(required=True)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在template中加入<code>password_reset.html</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--修改action为modifypwd--&gt;</span><br><span class="line">&lt;form id=&quot;reset_password_form&quot; action=&quot;&#123; % url &#x27;modifypwd&#x27; % &#125;&quot; method=&quot;post&quot;&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">        &lt;li&gt;</span><br><span class="line">&lt;!--两次密码的name分别为password1和password2--&gt;</span><br><span class="line">            &lt;span class=&quot;&quot;&gt;新 密 码 ：&lt;/span&gt;</span><br><span class="line">            &lt;input type=&quot;password&quot; name=&quot;password1&quot; id=&quot;pwd&quot; placeholder=&quot;6-20位非中文字符&quot;&gt;</span><br><span class="line">            &lt;i&gt;&lt;/i&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">&lt;!--加入一个隐藏层用于传输email--&gt;</span><br><span class="line">        &lt;input type=&quot;hidden&quot; value=&quot;&#123; &#123; email &#125; &#125;&quot; name=&quot;&#x27;email&quot;&gt;</span><br><span class="line">        &lt;li&gt;</span><br><span class="line">            &lt;span class=&quot;&quot;&gt;确定密码：&lt;/span&gt;</span><br><span class="line">            &lt;input type=&quot;password&quot; name=&quot;password2&quot; id=&quot;repwd&quot; placeholder=&quot;6-20位非中文字符&quot;&gt;</span><br><span class="line">            &lt;i&gt;&lt;/i&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">        &lt;li class=&quot;button&quot;&gt;</span><br><span class="line">            &lt;input type=&quot;button&quot; value=&quot;提交&quot; onclick=&quot;reset_password_form_submit()&quot;&gt;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">    &#123; % csrf_token % &#125;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Django/" rel="tag"># Django</a>
+          
+            <a href="/tags/%E7%BD%91%E9%A1%B5/" rel="tag"># 网页</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/05/ubuntu%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E7%BD%AE%E9%80%9A%E8%BF%87%E6%9F%90%E7%AB%AF%E5%8F%A3/" rel="next" title="ubuntu防火墙设置通过某端口">
+                <i class="fa fa-chevron-left"></i> ubuntu防火墙设置通过某端口
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/18/WinEdt%E4%B8%AD%E8%8B%B1%E6%96%87%E5%AD%97%E4%BD%93%E8%B0%83%E8%8A%82/" rel="prev" title="WinEdt中英文字体调节">
+                WinEdt中英文字体调节 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AADjango%E7%9A%84%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">首先创建一个Django的虚拟环境：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8BDjango%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.</span> <span class="nav-text">建立Django项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Navicat%E4%BD%BF%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">Navicat使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Django%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">Django目录结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8Bapp"><span class="nav-number">5.</span> <span class="nav-text">建立app</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%A8%A1%E6%9D%BF"><span class="nav-number">6.</span> <span class="nav-text">使用模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#settings%E9%85%8D%E7%BD%AE"><span class="nav-number">7.</span> <span class="nav-text">settings配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E7%BD%AE"><span class="nav-number">7.1.</span> <span class="nav-text">更改数据库配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEstatic%E6%96%87%E4%BB%B6%E5%A4%B9%E5%9C%B0%E5%9D%80"><span class="nav-number">7.2.</span> <span class="nav-text">配置static文件夹地址</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#urls-py%E9%85%8D%E7%BD%AE%E5%92%8Cviews-py%E5%87%BD%E6%95%B0"><span class="nav-number">8.</span> <span class="nav-text">urls.py配置和views.py函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE%E6%B5%81%E7%A8%8B"><span class="nav-number">9.</span> <span class="nav-text">项目配置流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Django-orm-%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1"><span class="nav-number">10.</span> <span class="nav-text">Django orm 模型设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%94%B9%E5%8F%98"><span class="nav-number">10.1.</span> <span class="nav-text">应用模型的改变</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E6%95%B0%E6%8D%AE%E8%A1%A8%E8%BF%9B%E8%A1%8C%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5"><span class="nav-number">10.2.</span> <span class="nav-text">对数据表进行增删改查</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E6%95%B0%E6%8D%AE"><span class="nav-number">10.2.1.</span> <span class="nav-text">查找数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A2%9E%E5%8A%A0%E6%95%B0%E6%8D%AE"><span class="nav-number">10.2.2.</span> <span class="nav-text">增加数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="nav-number">10.2.3.</span> <span class="nav-text">删除数据</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%88%B0%E9%A1%B5%E9%9D%A2"><span class="nav-number">11.</span> <span class="nav-text">显示数据库中的数据到页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8HTML%E6%96%87%E4%BB%B6%E4%B8%AD%E4%BD%BF%E7%94%A8python%E9%80%BB%E8%BE%91"><span class="nav-number">12.</span> <span class="nav-text">在HTML文件中使用python逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%88%AB%E5%90%8D%E5%85%B3%E8%81%94url%E5%92%8CHTML"><span class="nav-number">13.</span> <span class="nav-text">使用别名关联url和HTML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#url%E5%8C%B9%E9%85%8D"><span class="nav-number">14.</span> <span class="nav-text">url匹配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mooc%E5%BC%80%E5%8F%91%E5%AE%9E%E6%88%98"><span class="nav-number"></span> <span class="nav-text">mooc开发实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#app%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.</span> <span class="nav-text">app设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">新建虚拟环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BADjango%E9%A1%B9%E7%9B%AE"><span class="nav-number">3.</span> <span class="nav-text">新建Django项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95user%E8%A1%A8"><span class="nav-number">4.</span> <span class="nav-text">扩展user表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">循环引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E9%82%AE%E4%BB%B6%E9%AA%8C%E8%AF%81%E7%A0%81%E5%92%8C%E8%BD%AE%E6%92%AD%E5%9B%BE"><span class="nav-number">6.</span> <span class="nav-text">加入邮件验证码和轮播图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E7%A8%8Bmodel%E8%AE%BE%E8%AE%A1"><span class="nav-number">7.</span> <span class="nav-text">课程model设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0organization%E7%9A%84model"><span class="nav-number">8.</span> <span class="nav-text">添加organization的model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0operation%E7%9A%84model"><span class="nav-number">9.</span> <span class="nav-text">添加operation的model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E6%89%80%E6%9C%89app%E6%94%BE%E5%88%B0%E5%90%8C%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B%E9%9D%A2"><span class="nav-number">10.</span> <span class="nav-text">将所有app放到同一个文件夹下面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">11.</span> <span class="nav-text">建立后台管理系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8xadmin"><span class="nav-number">12.</span> <span class="nav-text">使用xadmin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85xadmin"><span class="nav-number">12.1.</span> <span class="nav-text">通过源码安装xadmin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E9%82%AE%E7%AE%B1%E9%AA%8C%E8%AF%81%E7%A0%81model"><span class="nav-number">12.2.</span> <span class="nav-text">注册邮箱验证码model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%90%9C%E7%B4%A2%E5%92%8C%E6%98%BE%E7%A4%BA%E5%88%97"><span class="nav-number">12.3.</span> <span class="nav-text">添加搜索和显示列</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xadmin%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE"><span class="nav-number">13.</span> <span class="nav-text">xadmin全局配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9model%E5%90%8D%E7%A7%B0"><span class="nav-number">13.1.</span> <span class="nav-text">更改model名称</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%88%90%E7%94%A8%E6%88%B7%E7%9A%84%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD"><span class="nav-number">14.</span> <span class="nav-text">完成用户的登录功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%BD%BF%E7%94%A8%E7%94%A8%E6%88%B7%E5%90%8D%E6%88%96%E8%80%85%E9%82%AE%E7%AE%B1%E9%83%BD%E5%8F%AF%E4%BB%A5%E7%99%BB%E5%BD%95"><span class="nav-number">14.1.</span> <span class="nav-text">实现使用用户名或者邮箱都可以登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%86%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%94%B9%E6%88%90%E7%B1%BB%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">14.2.</span> <span class="nav-text">将用户登录改成类的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81%E7%9A%84%E9%95%BF%E5%BA%A6%E5%92%8C%E7%A9%BA%E6%A3%80%E9%AA%8C"><span class="nav-number">14.3.</span> <span class="nav-text">实现用户名和密码的长度和空检验</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8cookies%E8%BF%9B%E8%A1%8C%E7%99%BB%E5%BD%95"><span class="nav-number"></span> <span class="nav-text">使用cookies进行登录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0user%E7%9A%84%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD"><span class="nav-number">1.</span> <span class="nav-text">实现user的注册功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%85%A5%E9%AA%8C%E8%AF%81%E7%A0%81%E5%8A%9F%E8%83%BD"><span class="nav-number">2.</span> <span class="nav-text">加入验证码功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E7%94%A8%E6%88%B7%E6%BF%80%E6%B4%BB"><span class="nav-number"></span> <span class="nav-text">处理用户激活</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%BF%98%E8%AE%B0%E5%AF%86%E7%A0%81"><span class="nav-number"></span> <span class="nav-text">处理忘记密码</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

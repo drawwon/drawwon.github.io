@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="kaggle,数据分析," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="具体来说可以分为五个部分:  问题理解 单变量分析 多变量分析 基本的数据清理 假设测验">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python数据分析过程--kaggle房价预测">
+<meta property="og:url" content="http://drawwon.github.io/2018/03/11/python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E8%BF%87%E7%A8%8B-kaggle%E6%88%BF%E4%BB%B7%E9%A2%84%E6%B5%8B/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="具体来说可以分为五个部分:  问题理解 单变量分析 多变量分析 基本的数据清理 假设测验">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/82259654.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/48112617.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/6978903.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/83913021.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/38930281.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/97679736.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/60100096.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-12/40765273.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-12/35746800.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-12/86254176.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/17899296.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/319136.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/40543531.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/27227032.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/85975518.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/6789786.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/68294229.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/30007186.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/52896292.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/19573516.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/60859543.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/50279551.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/76915160.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/11730894.jpg">
+<meta property="article:published_time" content="2018-03-11T09:14:36.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.408Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="kaggle">
+<meta property="article:tag" content="数据分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/82259654.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2018/03/11/python数据分析过程-kaggle房价预测/"/>
+
+
+
+
+
+  <title>python数据分析过程--kaggle房价预测 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2018/03/11/python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E8%BF%87%E7%A8%8B-kaggle%E6%88%BF%E4%BB%B7%E9%A2%84%E6%B5%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python数据分析过程--kaggle房价预测</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-11T17:14:36+08:00">
+                2018-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/%E7%BC%96%E7%A8%8B%E7%BB%83%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程练习</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/%E7%BC%96%E7%A8%8B%E7%BB%83%E4%B9%A0/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" itemprop="url" rel="index">
+                    <span itemprop="name">数据分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>具体来说可以分为五个部分:</p>
+<ol>
+<li>问题理解</li>
+<li>单变量分析</li>
+<li>多变量分析</li>
+<li>基本的数据清理</li>
+<li>假设测验</li>
+</ol>
+<span id="more"></span>
+
+<p>首先导入过程中需要用到的python库</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> norm</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> stats</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">&#x27;ignore&#x27;</span>)</span><br><span class="line">%matplotlib inline</span><br></pre></td></tr></table></figure>
+<p>接下来读入数据:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_train = pd.read_csv(<span class="string">&#x27;../input/train.csv&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>看一下每列都是些什么值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_train.columns</span><br></pre></td></tr></table></figure>
+<p>得到如下的结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Index([<span class="string">&#x27;Id&#x27;</span>, <span class="string">&#x27;MSSubClass&#x27;</span>, <span class="string">&#x27;MSZoning&#x27;</span>, <span class="string">&#x27;LotFrontage&#x27;</span>, <span class="string">&#x27;LotArea&#x27;</span>, <span class="string">&#x27;Street&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;Alley&#x27;</span>, <span class="string">&#x27;LotShape&#x27;</span>, <span class="string">&#x27;LandContour&#x27;</span>, <span class="string">&#x27;Utilities&#x27;</span>, <span class="string">&#x27;LotConfig&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;LandSlope&#x27;</span>, <span class="string">&#x27;Neighborhood&#x27;</span>, <span class="string">&#x27;Condition1&#x27;</span>, <span class="string">&#x27;Condition2&#x27;</span>, <span class="string">&#x27;BldgType&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;HouseStyle&#x27;</span>, <span class="string">&#x27;OverallQual&#x27;</span>, <span class="string">&#x27;OverallCond&#x27;</span>, <span class="string">&#x27;YearBuilt&#x27;</span>, <span class="string">&#x27;YearRemodAdd&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;RoofStyle&#x27;</span>, <span class="string">&#x27;RoofMatl&#x27;</span>, <span class="string">&#x27;Exterior1st&#x27;</span>, <span class="string">&#x27;Exterior2nd&#x27;</span>, <span class="string">&#x27;MasVnrType&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;MasVnrArea&#x27;</span>, <span class="string">&#x27;ExterQual&#x27;</span>, <span class="string">&#x27;ExterCond&#x27;</span>, <span class="string">&#x27;Foundation&#x27;</span>, <span class="string">&#x27;BsmtQual&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;BsmtCond&#x27;</span>, <span class="string">&#x27;BsmtExposure&#x27;</span>, <span class="string">&#x27;BsmtFinType1&#x27;</span>, <span class="string">&#x27;BsmtFinSF1&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;BsmtFinType2&#x27;</span>, <span class="string">&#x27;BsmtFinSF2&#x27;</span>, <span class="string">&#x27;BsmtUnfSF&#x27;</span>, <span class="string">&#x27;TotalBsmtSF&#x27;</span>, <span class="string">&#x27;Heating&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;HeatingQC&#x27;</span>, <span class="string">&#x27;CentralAir&#x27;</span>, <span class="string">&#x27;Electrical&#x27;</span>, <span class="string">&#x27;1stFlrSF&#x27;</span>, <span class="string">&#x27;2ndFlrSF&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;LowQualFinSF&#x27;</span>, <span class="string">&#x27;GrLivArea&#x27;</span>, <span class="string">&#x27;BsmtFullBath&#x27;</span>, <span class="string">&#x27;BsmtHalfBath&#x27;</span>, <span class="string">&#x27;FullBath&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;HalfBath&#x27;</span>, <span class="string">&#x27;BedroomAbvGr&#x27;</span>, <span class="string">&#x27;KitchenAbvGr&#x27;</span>, <span class="string">&#x27;KitchenQual&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;TotRmsAbvGrd&#x27;</span>, <span class="string">&#x27;Functional&#x27;</span>, <span class="string">&#x27;Fireplaces&#x27;</span>, <span class="string">&#x27;FireplaceQu&#x27;</span>, <span class="string">&#x27;GarageType&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;GarageYrBlt&#x27;</span>, <span class="string">&#x27;GarageFinish&#x27;</span>, <span class="string">&#x27;GarageCars&#x27;</span>, <span class="string">&#x27;GarageArea&#x27;</span>, <span class="string">&#x27;GarageQual&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;GarageCond&#x27;</span>, <span class="string">&#x27;PavedDrive&#x27;</span>, <span class="string">&#x27;WoodDeckSF&#x27;</span>, <span class="string">&#x27;OpenPorchSF&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;EnclosedPorch&#x27;</span>, <span class="string">&#x27;3SsnPorch&#x27;</span>, <span class="string">&#x27;ScreenPorch&#x27;</span>, <span class="string">&#x27;PoolArea&#x27;</span>, <span class="string">&#x27;PoolQC&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;Fence&#x27;</span>, <span class="string">&#x27;MiscFeature&#x27;</span>, <span class="string">&#x27;MiscVal&#x27;</span>, <span class="string">&#x27;MoSold&#x27;</span>, <span class="string">&#x27;YrSold&#x27;</span>, <span class="string">&#x27;SaleType&#x27;</span>,</span><br><span class="line">       <span class="string">&#x27;SaleCondition&#x27;</span>, <span class="string">&#x27;SalePrice&#x27;</span>],</span><br><span class="line">      dtype=<span class="string">&#x27;object&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="接下来我们需要做些什么"><a href="#接下来我们需要做些什么" class="headerlink" title="接下来我们需要做些什么"></a>接下来我们需要做些什么</h2><p>为了理解数据，我推荐用excel做一个如下的表格，每一列数据变成一类，包含6部分内容：</p>
+<ol>
+<li>变量名；</li>
+<li>变量类型：有两种可能的值在这个域中，“数值型”或者是“分类型”，数值型意味着数据都是数值，而“分类型”意味着变量值是类别；</li>
+<li>变量分割：根据大类对变量分段。比如在房价问题中，可以大致分为3大类：“建筑本身”，“空间大小”，“位置”，当我们说建筑本身的时候，我们意味着建筑的物理特征；说空间大小的时候，指的是空间特征，比如有几个卫生间之类的；说位置的时候，指的是地理位置相关的特征，比如街区之类的；</li>
+<li>期望：我们自认为的哪些因素对最终分析目标的影响，可以分为高中低三类。</li>
+<li>结论：我们认为这个变量重要性的结论，可以跟期望一样分为几类</li>
+<li>补充评论：任何我们能想到的一般性评论</li>
+</ol>
+<p>最后，我们结合自身实际，看看哪些因素是真的重要的，比如买房子的时候，房子外观重要吗？<br>再看看哪些因素可能重复了，地势等高线之后就不需要地势斜度了</p>
+<p>在房价预测这个问题中，我们总结了四个最重要的影响因素：</p>
+<ol>
+<li>OverallQual ：整体质量，虽然不知道怎么算出来的，但是很有可能是通过其余所有变量综合计算得到的；</li>
+<li>YearBuilt：建筑年份</li>
+<li>TotalBsmtSF：总地下室面积</li>
+<li>GrLivArea：总的非地下室面积</li>
+</ol>
+<p>在这个问题中，我们最终是以2个“建筑本身”变量（整体质量和建筑年份），和2个“空间大小”变量（地下室面积和非地下室面积）结束。</p>
+<h2 id="先说最重要的：分析房价"><a href="#先说最重要的：分析房价" class="headerlink" title="先说最重要的：分析房价"></a>先说最重要的：分析房价</h2><p>房价是我们这个问题探索的目标，首先看看数据描述</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#获得数据的整体性描述</span></span><br><span class="line">df_train[<span class="string">&#x27;SalePrice&#x27;</span>].describe()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">count      <span class="number">1460.000000</span></span><br><span class="line">mean     <span class="number">180921.195890</span></span><br><span class="line">std       <span class="number">79442.502883</span></span><br><span class="line"><span class="built_in">min</span>       <span class="number">34900.000000</span></span><br><span class="line"><span class="number">25</span>%      <span class="number">129975.000000</span></span><br><span class="line"><span class="number">50</span>%      <span class="number">163000.000000</span></span><br><span class="line"><span class="number">75</span>%      <span class="number">214000.000000</span></span><br><span class="line"><span class="built_in">max</span>      <span class="number">755000.000000</span></span><br><span class="line">Name: SalePrice, dtype: float64</span><br></pre></td></tr></table></figure>
+<p>非常好，至少最低的房价是大于0的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#画个直方图来看看数据分布</span></span><br><span class="line">sns.distplot(df_train[<span class="string">&#x27;SalePrice&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/82259654.jpg"></p>
+<p>看上去似乎是一个变形的正态分布图片，我们来计算机下他的偏度和峰度：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#skewness and kurtosis</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Skewness: %f&quot;</span> % df_train[<span class="string">&#x27;SalePrice&#x27;</span>].skew())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Kurtosis: %f&quot;</span> % df_train[<span class="string">&#x27;SalePrice&#x27;</span>].kurt())</span><br></pre></td></tr></table></figure>
+
+<p>得到结果如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Skewness: <span class="number">1.882876</span></span><br><span class="line">Kurtosis: <span class="number">6.536282</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>其中峰度和偏度的解释如下：</p>
+<ol>
+<li>峰度（skewness）：峰度衡量数据分布的平坦度（flatness）。尾部大的数据分布，其峰度值较大。正态分布的峰度值为3<img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/48112617.jpg"><br>如图，黑线的峰度值大于3，红线峰度值等于3</li>
+<li>偏态（Skewness）：偏态量度对称性。0说明是最完美的对称性，正态分布的偏态就是0。如图所示，右偏态为正，表明平均值大于中位数。反之为左偏态，为负。</li>
+</ol>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/6978903.jpg"></p>
+<h2 id="数值类型因素之间的关系"><a href="#数值类型因素之间的关系" class="headerlink" title="数值类型因素之间的关系"></a>数值类型因素之间的关系</h2><p>先来画一画grlivarea&#x2F;saleprice两者之间的散点图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#scatter plot grlivarea/saleprice</span></span><br><span class="line">var = <span class="string">&#x27;GrLivArea&#x27;</span></span><br><span class="line">data = pd.concat([df_train[<span class="string">&#x27;SalePrice&#x27;</span>], df_train[var]], axis=<span class="number">1</span>)</span><br><span class="line">data.plot.scatter(x=var, y=<span class="string">&#x27;SalePrice&#x27;</span>, ylim=(<span class="number">0</span>,<span class="number">800000</span>));</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/83913021.jpg"></p>
+<p>可以看到两者几乎呈现正相关，也就是非地下室面积和售价呈现正相关</p>
+<p>我们再来画一下totalbsmtsf和售价的关系</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#scatter plot totalbsmtsf/saleprice</span><br><span class="line">var = &#x27;TotalBsmtSF&#x27;</span><br><span class="line">data = pd.concat([df_train[&#x27;SalePrice&#x27;], df_train[var]], axis=1)</span><br><span class="line">data.plot.scatter(x=var, y=&#x27;SalePrice&#x27;, ylim=(0,800000));</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/38930281.jpg"></p>
+<p>可以看到两者同样几乎呈现正相关，关系似乎是指数关系</p>
+<h2 id="分类类型变量的关系"><a href="#分类类型变量的关系" class="headerlink" title="分类类型变量的关系"></a>分类类型变量的关系</h2><p>画一个box图（箱形图），看看整体质量和售价之间的关系</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var = <span class="string">&#x27;OverallQual&#x27;</span></span><br><span class="line">data = pd.concat([train[<span class="string">&#x27;SalePrice&#x27;</span>], train[var]], axis=<span class="number">1</span>)</span><br><span class="line">sns.boxplot(x=var,y=<span class="string">&#x27;SalePrice&#x27;</span>,data=data)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/97679736.jpg"></p>
+<ul>
+<li>箱形图的解释：又称为<strong>盒须图</strong>、<strong>盒式图</strong>、<strong>盒状图</strong>或<strong>箱线图</strong>，是一种用作显示一组数据分散情况资料的<a href="https://zh.wikipedia.org/wiki/%E7%BB%9F%E8%AE%A1%E5%9B%BE">统计图</a>。因型状如箱子而得名。在各种领域也经常被使用，常见于品质管理。不过作法相对较繁琐。它能显示出一组数据的<a href="https://zh.wikipedia.org/wiki/%E6%9C%80%E5%A4%A7%E5%80%BC">最大值</a>、<a href="https://zh.wikipedia.org/wiki/%E6%9C%80%E5%B0%8F%E5%80%BC">最小值</a>、<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E4%BD%8D%E6%95%B8">中位数</a>、及<a href="https://zh.wikipedia.org/wiki/%E5%9B%9B%E5%88%86%E4%BD%8D%E6%95%B0">上下四分位数</a>。</li>
+<li>上四分位数Q3-下四分位数Q1 &#x3D; 四分位间距$\Delta{Q}$</li>
+<li>在区间$Q3+1.5\Delta{Q}$和区间$Q1-1.5\Delta{Q}$之外的值应该被忽视，被称为异常值，异常值被画在图上</li>
+</ul>
+<p>再看看建造年份和售价的关系</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var = <span class="string">&#x27;YearBuilt&#x27;</span></span><br><span class="line">data = pd.concat([train[<span class="string">&#x27;SalePrice&#x27;</span>], train[var]], axis=<span class="number">1</span>)</span><br><span class="line">fig = sns.boxplot(x=var,y=<span class="string">&#x27;SalePrice&#x27;</span>,data=data)</span><br><span class="line"><span class="comment"># 将x轴坐标旋转90度</span></span><br><span class="line">plt.xticks(rotation=<span class="number">90</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-11/60100096.jpg"></p>
+<p>看上去似乎并没有什么强烈的关系</p>
+<h2 id="关系总结"><a href="#关系总结" class="headerlink" title="关系总结"></a>关系总结</h2><ul>
+<li>地上面积和总的地下面积看上去和房价线性相关，两者的关系都是正向的；并且在总地下面积的关系中可以看到，其与售价面积相关性的斜度非常大</li>
+<li>总体质量和建筑年代似乎与售价也有一定关系，其中总体质量关系比较大，箱形图显示出房价随着整体质量的上升而上涨</li>
+</ul>
+<h2 id="试验性分析"><a href="#试验性分析" class="headerlink" title="试验性分析"></a>试验性分析</h2><p>为了更加理性的对房价数据进行分析，我们先用一下几个办法来进行分析：</p>
+<ul>
+<li>相关矩阵（热力图heatmap）</li>
+<li>房价的相关矩阵（缩放热力图）</li>
+<li>大多数相关变量之间的散点图</li>
+</ul>
+<h3 id="相关矩阵"><a href="#相关矩阵" class="headerlink" title="相关矩阵"></a>相关矩阵</h3><p>画个热力图看看相关系数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cormat = train.corr()</span><br><span class="line">f, ax = plt.subplots(figsize=(<span class="number">12</span>, <span class="number">9</span>))</span><br><span class="line">sns.heatmap(cormat,vmax=<span class="number">.8</span>,square=<span class="literal">True</span>)</span><br><span class="line">plt.xticks(rotation=<span class="number">90</span>)</span><br><span class="line">plt.yticks(rotation=<span class="number">360</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-12/40765273.jpg"></p>
+<p>在我看来，热力图的确是一个最好的看一个大致影响程度的方法。</p>
+<p>可以看到，总地下室面积和一楼面积很大程度上影响了房价，还有关于车库的好几个因素都很大程度上影响了房价。这让我们感觉到heatmap非常适合做特征选择。</p>
+<h3 id="售价相关矩阵"><a href="#售价相关矩阵" class="headerlink" title="售价相关矩阵"></a>售价相关矩阵</h3><p>看完了上面的heatmap的最后一行，我们只是从颜色上看出了各个因素与售价的关系，接下来我们画一个缩放的heatmap来具体看看每个因素的影响有多大</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">cormat = train.corr()</span><br><span class="line">k = <span class="number">10</span></span><br><span class="line">cols = cormat.nlargest(<span class="number">10</span>, <span class="string">&#x27;SalePrice&#x27;</span>)[<span class="string">&#x27;SalePrice&#x27;</span>].index</span><br><span class="line">cm = train[cols].corr()<span class="comment">#np.corrcoef(train[cols].values.T)</span></span><br><span class="line"><span class="built_in">print</span>(train[cols].values)</span><br><span class="line">sns.<span class="built_in">set</span>(font_scale=<span class="number">1.25</span>)</span><br><span class="line">hm = sns.heatmap(cm, cbar=<span class="literal">True</span>, annot= <span class="literal">True</span>, fmt=<span class="string">&#x27;.2f&#x27;</span>, annot_kws=&#123;<span class="string">&#x27;size&#x27;</span>:<span class="number">10</span>&#125;, yticklabels=cols.values, xticklabels=cols.values)</span><br><span class="line">plt.xticks(rotation=<span class="number">90</span>)</span><br><span class="line">plt.yticks(rotation=<span class="number">360</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-12/35746800.jpg"></p>
+<p>可以看到这些变量是影响房价最大的10个因素，从图中的数值可以看出来，OverallQual和GrLiveArea以及GarageCars和GarageArea是影响房价最大的几个因素。</p>
+<ul>
+<li>然而我们可以看到，GarageArea和GarageCars是有因果关系的，车库面积决定了可以停多少车，所以我们最终选择影响更大的GarageCars这个因素</li>
+<li>总地下室面积（<strong>TotalBsmtSF</strong>）和一楼面积<strong>1stFlrSF</strong>似乎也有强烈相关性，我们选择地下室面积作为因素</li>
+<li>地上房间数目（<strong>TotRmsAbvGrd</strong>）和地上居住面积（<strong>GrLivArea</strong>）也有相当大关系，所以选其中一个</li>
+</ul>
+<h3 id="售价和相关变量之间的散点图"><a href="#售价和相关变量之间的散点图" class="headerlink" title="售价和相关变量之间的散点图"></a>售价和相关变量之间的散点图</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#画出所有与售价相关的10个因素之间的关系图pairplot</span></span><br><span class="line">k = <span class="number">10</span></span><br><span class="line">cols = train.corr().nlargest(<span class="number">10</span>, <span class="string">&#x27;SalePrice&#x27;</span>).index.values</span><br><span class="line">sns.pairplot(train[cols],size=<span class="number">2.5</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-12/86254176.jpg"></p>
+<p>大量的散点图给了我们一个变量之间关系的合理解释</p>
+<h2 id="缺失数据的处理"><a href="#缺失数据的处理" class="headerlink" title="缺失数据的处理"></a>缺失数据的处理</h2><p>在处理缺失数据之前不妨问一下以下两个问题：</p>
+<ul>
+<li>缺失数据的比例有多大</li>
+<li>缺失数据是随机的吗还是说缺失数据有一定的模式</li>
+</ul>
+<p>这两个问题非常重要，因为缺失数据可能就意味着训练数据的减少，对我们的分析不利。</p>
+<p>先来找到缺失的数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#isnumll()函数将返回与原dataframe同样形状的dataframe，不过原来为空的地方标为1，原来不为空的地方标0</span></span><br><span class="line">total = train.isnull().<span class="built_in">sum</span>().sort_values(ascending=<span class="literal">False</span>)</span><br><span class="line">miss_percent = (train.isnull().<span class="built_in">sum</span>()/train.isnull().count()).sort_values(ascending=<span class="literal">False</span>)</span><br><span class="line">miss_data = pd.concat([total,miss_percent],axis=<span class="number">1</span>,keys=[<span class="string">&#x27;total&#x27;</span>,<span class="string">&#x27;percent&#x27;</span>])</span><br><span class="line"><span class="built_in">print</span>(miss_data.head())  </span><br></pre></td></tr></table></figure>
+
+
+<p>得到如下的结果</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>total</th>
+<th>percent</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PoolQC</td>
+<td>1453</td>
+<td>0.995205</td>
+</tr>
+<tr>
+<td>MiscFeature</td>
+<td>1406</td>
+<td>0.963014</td>
+</tr>
+<tr>
+<td>Alley</td>
+<td>1369</td>
+<td>0.937671</td>
+</tr>
+<tr>
+<td>Fence</td>
+<td>1179</td>
+<td>0.807534</td>
+</tr>
+<tr>
+<td>FireplaceQu</td>
+<td>690</td>
+<td>0.472603</td>
+</tr>
+<tr>
+<td>LotFrontage</td>
+<td>259</td>
+<td>0.177397</td>
+</tr>
+<tr>
+<td>GarageCond</td>
+<td>81</td>
+<td>0.055479</td>
+</tr>
+<tr>
+<td>GarageType</td>
+<td>81</td>
+<td>0.055479</td>
+</tr>
+<tr>
+<td>GarageYrBlt</td>
+<td>81</td>
+<td>0.055479</td>
+</tr>
+<tr>
+<td>GarageFinish</td>
+<td>81</td>
+<td>0.055479</td>
+</tr>
+<tr>
+<td>GarageQual</td>
+<td>81</td>
+<td>0.055479</td>
+</tr>
+<tr>
+<td>BsmtExposure</td>
+<td>38</td>
+<td>0.026027</td>
+</tr>
+<tr>
+<td>BsmtFinType2</td>
+<td>38</td>
+<td>0.026027</td>
+</tr>
+<tr>
+<td>BsmtFinType1</td>
+<td>37</td>
+<td>0.025342</td>
+</tr>
+<tr>
+<td>BsmtCond</td>
+<td>37</td>
+<td>0.025342</td>
+</tr>
+<tr>
+<td>BsmtQual</td>
+<td>37</td>
+<td>0.025342</td>
+</tr>
+<tr>
+<td>MasVnrArea</td>
+<td>8</td>
+<td>0.005479</td>
+</tr>
+<tr>
+<td>MasVnrType</td>
+<td>8</td>
+<td>0.005479</td>
+</tr>
+<tr>
+<td>Electrical</td>
+<td>1</td>
+<td>0.000685</td>
+</tr>
+<tr>
+<td>Utilities</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>看一看到缺失最多的达到了99.5%，我们现在制定一个原则，当数据缺失超过15%的时候，我们就把这个变量删掉</p>
+<p>同样，虽然Garage相关的数据只缺失5%，但是“GarageCars”已经可以表示车库相关的问题，我们把garage相关的信息删掉，同样BsmtX相关的变量也删掉</p>
+<p>最后，我们的删除方案是，除了只有一个缺失值的Electrical列删除缺失值所在行，别的都删除所在列</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">train = train.drop((miss_data[miss_data[<span class="string">&#x27;total&#x27;</span>] &gt; <span class="number">1</span>]).index,<span class="number">1</span>)</span><br><span class="line">train = train.drop(train.loc[train[<span class="string">&#x27;Electrical&#x27;</span>].isnull()].index,<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(train.isnull().<span class="built_in">sum</span>().<span class="built_in">max</span>())</span><br></pre></td></tr></table></figure>
+
+<h2 id="异常值处理"><a href="#异常值处理" class="headerlink" title="异常值处理"></a>异常值处理</h2><p>异常值会对模型产生很大的影响，因此需要格外注意</p>
+<h3 id="单变量分析"><a href="#单变量分析" class="headerlink" title="单变量分析"></a>单变量分析</h3><p>这里最主要的问题就是建立一个阈值去筛选出异常值，因此我们需要对数据进行标准化。意味着将数据值变化到均值为0，标准差为1的数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 标准化数据</span></span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">saleprice_scaled = StandardScaler().fit_transform(train[<span class="string">&#x27;SalePrice&#x27;</span>].values)</span><br></pre></td></tr></table></figure>
+
+<p>找到标准化之后数据的最大最小的10个值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lowrange = np.sort(saleprice_scaled)[:<span class="number">10</span>]</span><br><span class="line">highrange = np.sort(saleprice_scaled)[-<span class="number">10</span>:]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;lowrange 10 values&#x27;</span>,lowrange)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;highrange 10 values&#x27;</span>,highrange)</span><br></pre></td></tr></table></figure>
+
+<p>得到结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[-<span class="number">1.83820775</span> -<span class="number">1.83303414</span> -<span class="number">1.80044422</span> -<span class="number">1.78282123</span> -<span class="number">1.77400974</span> -<span class="number">1.62295562</span></span><br><span class="line"> -<span class="number">1.6166617</span>  -<span class="number">1.58519209</span> -<span class="number">1.58519209</span> -<span class="number">1.57269236</span>]</span><br><span class="line">[ <span class="number">3.82758058</span>  <span class="number">4.0395221</span>   <span class="number">4.49473628</span>  <span class="number">4.70872962</span>  <span class="number">4.728631</span>    <span class="number">5.06034585</span></span><br><span class="line">  <span class="number">5.42191907</span>  <span class="number">5.58987866</span>  <span class="number">7.10041987</span>  <span class="number">7.22629831</span>]</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，最小值都比较相近且接近0，最大值相差比较大，且远离0，特别是有几个7点几的几乎可以肯定是异常值</p>
+<h2 id="二元变量分析"><a href="#二元变量分析" class="headerlink" title="二元变量分析"></a>二元变量分析</h2><p>我们画出地面居住面积和房价的散点图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 二元分析房价与地上居住面积</span></span><br><span class="line">var = <span class="string">&#x27;GrLivArea&#x27;</span></span><br><span class="line">data = pd.concat([df_train[<span class="string">&#x27;SalePrice&#x27;</span>], df_train[var]], axis=<span class="number">1</span>)</span><br><span class="line">data.plot.scatter(x=var, y=<span class="string">&#x27;SalePrice&#x27;</span>, ylim=(<span class="number">0</span>,<span class="number">800000</span>));</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/17899296.jpg"></p>
+<ul>
+<li>有两个面积很大但是价格很低的点，我们可以推断他们对我们的分析意义不大，可能是偏远农村的房子。我们认为这两个点是异常值并删除他们。</li>
+<li>最高处的两个点，应该就是我们在标准化数据的时候得到的7点几的两个点，然而他们两个点好像符合这个线性关系，我们暂时决定保留他们。</li>
+</ul>
+<p>我们先删除两个异常值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除异常值</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;删除之前的矩阵：&#x27;</span>,train.shape)</span><br><span class="line">train = train.drop(train[(train[<span class="string">&#x27;SalePrice&#x27;</span>]&lt;<span class="number">300000</span>) &amp; (train[<span class="string">&#x27;GrLivArea&#x27;</span>]&gt;<span class="number">4000</span>)].index)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;删除之后的矩阵：&#x27;</span>,train.shape)</span><br></pre></td></tr></table></figure>
+
+<p>得到：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">删除之前的矩阵：(1459, 63)</span><br><span class="line">删除之后的矩阵：(1457, 63)</span><br></pre></td></tr></table></figure>
+
+<p>接下来进行售价和总地下室面积的二元分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var = <span class="string">&#x27;TotalBsmtSF&#x27;</span></span><br><span class="line">data = pd.concat([train[<span class="string">&#x27;SalePrice&#x27;</span>],train[var]],<span class="number">1</span>)</span><br><span class="line">data.plot.scatter(x=var,y=<span class="string">&#x27;SalePrice&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/319136.jpg"></p>
+<p>我们可能很想要删除那几个居住面积大于3000的值，但是在这里我们先保留他们</p>
+<h2 id="得到模型"><a href="#得到模型" class="headerlink" title="得到模型"></a>得到模型</h2><p>我们已经完成了数据清理，现在需要对售价的模型提出假设：</p>
+<p>根据论文Hair et al. (2013)中提到，我们需要对数据进行四类假设：</p>
+<ul>
+<li>正态性：说到正态性就是说数据长得比较像正态分布，这非常重要，因为好几种统计测试方法都依赖于这个（比如t-statistics)。在这个问题中我们只是检查售价这个单变量的正态性，记住：单变量的正态性并不意味着多变量的正态性，还有，在样本超过200的时候，正态性并不是个问题。如果我们解决了正态性，那么就避免了很多别的问题，比如heteroscedacity（异方差），这个就是我们为什么要做这个分析的原因，</li>
+<li>同方差性：所有自变量的方差相同</li>
+<li>线性：最好的检查现行的方法就是画散点图，看看上面有没有直线。</li>
+<li>相关误差的缺乏：相关误差是在一个误差发生的时候，与其相关联的值也会发生误差。</li>
+</ul>
+<h3 id="寻找正态性"><a href="#寻找正态性" class="headerlink" title="寻找正态性"></a>寻找正态性</h3><p>我们之前已经看了房屋售价的histgram的图，找到了峰度和偏态。</p>
+<p>那么我们再画一个正态概率图，用来找到我们的histgram和正态分布的区别</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sns.distplot(train.loc[:,<span class="string">&#x27;SalePrice&#x27;</span>], fit=norm)</span><br><span class="line">fig = plt.figure()</span><br><span class="line">res = stats.probplot(train[<span class="string">&#x27;SalePrice&#x27;</span>], plot=plt)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>得到下面两张图</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/40543531.jpg"></p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/27227032.jpg"></p>
+<p>显然，售价并不是正态分布，他有一个尖峰，并且正的偏度。然而我们可以通过一个简单的变换把这些数据变成正态的，在统计学中可以知道，当数据分布是有正的偏度的时候，log变换非常有效。</p>
+<p>进行log变换</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">&#x27;SalePrice&#x27;</span>] = np.log(train[<span class="string">&#x27;SalePrice&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<p>变换之后的数据</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/85975518.jpg"></p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/6789786.jpg"></p>
+<p>同样，我们对GrLivArea进行一个log变换</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">&#x27;GrLivArea&#x27;</span>] = np.log(train[<span class="string">&#x27;GrLivArea&#x27;</span>])</span><br><span class="line"><span class="comment">#正态概率图</span></span><br><span class="line">sns.distplot(train.loc[:,<span class="string">&#x27;GrLivArea&#x27;</span>], fit=norm)</span><br><span class="line">fig = plt.figure()</span><br><span class="line">res = stats.probplot(train[<span class="string">&#x27;GrLivArea&#x27;</span>], plot=plt)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>得到变换之后的图形如下：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/68294229.jpg"></p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/30007186.jpg"></p>
+<p>我们再来看看TotalBsmtSF本来的数据长什么样子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sns.distplot(train[<span class="string">&#x27;TotalBsmtSF&#x27;</span>], fit=norm)</span><br><span class="line">fig = plt.figure()</span><br><span class="line">res = stats.probplot(train[<span class="string">&#x27;TotalBsmtSF&#x27;</span>], plot=plt)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/52896292.jpg"></p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/19573516.jpg"></p>
+<ul>
+<li>我们可以看到好多值都是0，这样我们就不能用log变换了</li>
+<li>我们在做log变换之前需要把所有为0的值变为1，这样变换之后，值还是0</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;等于0平的地下室&#x27;</span>,train[train[<span class="string">&#x27;TotalBsmtSF&#x27;</span>] == <span class="number">0</span>][<span class="string">&#x27;TotalBsmtSF&#x27;</span>].shape)</span><br><span class="line"><span class="built_in">print</span>(train.loc[train[<span class="string">&#x27;TotalBsmtSF&#x27;</span>]&gt;<span class="number">0</span>,<span class="string">&#x27;TotalBsmtSF&#x27;</span>].shape)</span><br><span class="line">train.loc[train[<span class="string">&#x27;TotalBsmtSF&#x27;</span>]&gt;<span class="number">0</span>,<span class="string">&#x27;TotalBsmtSF&#x27;</span>] = np.log(train.loc[train[<span class="string">&#x27;TotalBsmtSF&#x27;</span>]&gt;<span class="number">0</span>,<span class="string">&#x27;TotalBsmtSF&#x27;</span>])</span><br><span class="line"><span class="built_in">print</span>(train[<span class="string">&#x27;TotalBsmtSF&#x27;</span>].head())</span><br><span class="line"><span class="comment">#正态概率图</span></span><br><span class="line">sns.distplot(train[train[<span class="string">&#x27;TotalBsmtSF&#x27;</span>]&gt;<span class="number">0</span>][<span class="string">&#x27;TotalBsmtSF&#x27;</span>], fit=norm)</span><br><span class="line">fig = plt.figure()</span><br><span class="line">res = stats.probplot(train[train[<span class="string">&#x27;TotalBsmtSF&#x27;</span>]&gt;<span class="number">0</span>][<span class="string">&#x27;TotalBsmtSF&#x27;</span>], plot=plt)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>我们只画出为正的那部分的地下室的变化之后的分布，也服从正态分布</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/60859543.jpg"></p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/50279551.jpg"></p>
+<h3 id="验证同方差性"><a href="#验证同方差性" class="headerlink" title="验证同方差性"></a>验证同方差性</h3><p>最好的验证同方差性的办法就是图形。</p>
+<p>先看看‘SalePrice’ and ‘GrLivArea’的分布</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(df_train[<span class="string">&#x27;GrLivArea&#x27;</span>], df_train[<span class="string">&#x27;SalePrice&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/76915160.jpg"></p>
+<p>对比log变化之前的图形，可以看到这个图没有之前那种锥形的样子了，这就是正态性的效果，确保了正态性往往就确保了同方差性</p>
+<p>再看看’SalePrice’ with ‘TotalBsmtSF’.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(train[train[<span class="string">&#x27;TotalBsmtSF&#x27;</span>]&gt;<span class="number">0</span>][<span class="string">&#x27;TotalBsmtSF&#x27;</span>], train[train[<span class="string">&#x27;TotalBsmtSF&#x27;</span>]&gt;<span class="number">0</span>][<span class="string">&#x27;SalePrice&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-13/11730894.jpg"></p>
+<h2 id="哑变量"><a href="#哑变量" class="headerlink" title="哑变量"></a>哑变量</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df_train = pd.get_dummies(df_train)</span><br></pre></td></tr></table></figure>
+
+<p>一句话就可以推出哑变量</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/kaggle/" rel="tag"># kaggle</a>
+          
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag"># 数据分析</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/09/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/" rel="next" title="操作系统知识点总结">
+                <i class="fa fa-chevron-left"></i> 操作系统知识点总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/14/%E7%94%B1kaggle%E6%88%BF%E4%BB%B7%E6%A8%A1%E5%9E%8B%E5%BE%97%E5%88%B0stacking-model%E6%96%B9%E6%B3%95/" rel="prev" title="由kaggle房价模型得到stacking model方法">
+                由kaggle房价模型得到stacking model方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E4%B8%8B%E6%9D%A5%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E5%81%9A%E4%BA%9B%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">接下来我们需要做些什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E8%AF%B4%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%EF%BC%9A%E5%88%86%E6%9E%90%E6%88%BF%E4%BB%B7"><span class="nav-number">2.</span> <span class="nav-text">先说最重要的：分析房价</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E5%9B%A0%E7%B4%A0%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">3.</span> <span class="nav-text">数值类型因素之间的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E7%B1%BB%E5%9E%8B%E5%8F%98%E9%87%8F%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">4.</span> <span class="nav-text">分类类型变量的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">关系总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%95%E9%AA%8C%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">6.</span> <span class="nav-text">试验性分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E7%9F%A9%E9%98%B5"><span class="nav-number">6.1.</span> <span class="nav-text">相关矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%94%AE%E4%BB%B7%E7%9B%B8%E5%85%B3%E7%9F%A9%E9%98%B5"><span class="nav-number">6.2.</span> <span class="nav-text">售价相关矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%94%AE%E4%BB%B7%E5%92%8C%E7%9B%B8%E5%85%B3%E5%8F%98%E9%87%8F%E4%B9%8B%E9%97%B4%E7%9A%84%E6%95%A3%E7%82%B9%E5%9B%BE"><span class="nav-number">6.3.</span> <span class="nav-text">售价和相关变量之间的散点图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%BA%E5%A4%B1%E6%95%B0%E6%8D%AE%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">7.</span> <span class="nav-text">缺失数据的处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E5%80%BC%E5%A4%84%E7%90%86"><span class="nav-number">8.</span> <span class="nav-text">异常值处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E5%8F%98%E9%87%8F%E5%88%86%E6%9E%90"><span class="nav-number">8.1.</span> <span class="nav-text">单变量分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%85%83%E5%8F%98%E9%87%8F%E5%88%86%E6%9E%90"><span class="nav-number">9.</span> <span class="nav-text">二元变量分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%97%E5%88%B0%E6%A8%A1%E5%9E%8B"><span class="nav-number">10.</span> <span class="nav-text">得到模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BB%E6%89%BE%E6%AD%A3%E6%80%81%E6%80%A7"><span class="nav-number">10.1.</span> <span class="nav-text">寻找正态性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E5%90%8C%E6%96%B9%E5%B7%AE%E6%80%A7"><span class="nav-number">10.2.</span> <span class="nav-text">验证同方差性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%91%E5%8F%98%E9%87%8F"><span class="nav-number">11.</span> <span class="nav-text">哑变量</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

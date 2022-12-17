@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="flask," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Flask是一个开源的易配置的web框架，基于Python进行书写">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flask快速入门">
+<meta property="og:url" content="http://drawwon.github.io/2017/07/15/flask%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="Flask是一个开源的易配置的web框架，基于Python进行书写">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/17988963.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/7561754.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/10893416.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/36787268.jpg">
+<meta property="article:published_time" content="2017-07-15T13:54:48.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.403Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="flask">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/17988963.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2017/07/15/flask快速入门/"/>
+
+
+
+
+
+  <title>flask快速入门 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2017/07/15/flask%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">flask快速入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-15T21:54:48+08:00">
+                2017-07-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Flask是一个开源的易配置的web框架，基于Python进行书写</p>
+<span id="more"></span>
+
+<p>在<a href="http://docs.jinkan.org/docs/flask/quickstart.html#a-minimal-application">flask 快速入门中</a>，我们参照实例中的代码进行书写</p>
+<ol>
+<li><p><strong>首先我们建立一个app对象</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line">app = Flask(__name__)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后我们就可以使用<code>app.route(&quot;/route&quot;)</code>这个装饰器书写每个页面的函数，如果需要在路由路径中使用变量，可以用<code>&lt;converter:parameter&gt;</code>的形式，用尖括号把变量扩起来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">root</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;root page&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/hello&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello_world</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;hello world page&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/user/&lt;username&gt;&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">user_name_page</span>(<span class="params">username</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;user name is %s&quot;</span>%username</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/user/&lt;int:user_id&gt;&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">user_id_page</span>(<span class="params">user_id</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;user %d&quot;</span> % user_id</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>url重定向问题</strong><br>当访问一个地址<code>@app.route(&quot;/projects/&quot;)</code>的时候，当我们输入的地址<strong>没有斜杠时</strong>，浏览器会<strong>自动补全斜线</strong><br>当访问一个地址<code>@app.route(&quot;/project&quot;)</code>的时候，当我们输入的地址没有斜杠时可以正确到达要访问的地址，当输入的地址有斜杠时，会发生一个404 not found的错误</p>
+</li>
+<li><p><strong>构造URL</strong><br>既然我们可以自定义网页的路由地址，那么我们能否使用某个函数来自动生成一个复杂的地址呢？答案是肯定的，使用**<code>url_for()</code>**函数就可以构造复杂的路由地址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;flasker&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/login&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>():</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/hello&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;hello world&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/user/&lt;username&gt;&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">profile</span>(<span class="params">username</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;user name is %s&quot;</span>%username</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> app.test_request_context():</span><br><span class="line">    <span class="built_in">print</span> url_for(<span class="string">&#x27;index&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span> url_for(<span class="string">&#x27;login&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span> url_for(<span class="string">&#x27;login&#x27;</span>, <span class="built_in">next</span>=<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span> url_for(<span class="string">&#x27;profile&#x27;</span>,username=<span class="string">&#x27;John Doe&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这里用到了<code>app.test_request_context()</code>方法，主要是用于在python shell中对flask代码进行调试，也就是不出现如下的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">* Debugger <span class="keyword">is</span> active!</span><br><span class="line">* Debugger pin code: <span class="number">197</span>-<span class="number">159</span>-<span class="number">436</span></span><br><span class="line">* Running on http://<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">5000</span>/ (Press CTRL+C to quit)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>HTTP方法</strong><br>   HTTP有多种访问url的方法，使用route装饰器传入methods参数可以改变访问方式</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/login&#x27;</span>,methods=[<span class="string">&#x27;GET&#x27;</span>,<span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>():</span><br><span class="line">    <span class="keyword">if</span> request.method = <span class="string">&#x27;post&#x27;</span>:</span><br><span class="line">        do_the_login()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        show_the_login_form()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>下面简单介绍一下http方法：</p>
+<ul>
+<li>GET：浏览器告知服务器：获取页面上的信息并发给我</li>
+<li>HEAD：获取页面的HEAD信息并发给我</li>
+<li>POST：浏览器告知服务项，想在url上面发布新信息。服务器保证数据已存储且只存储了一次，是html发送数据到服务器的方法</li>
+<li>PUT：类似于post，但是存储过程触发了多次。这种请求允许浏览器与服务器之间的系统可以安全的第二次接受请求，而不破坏其他东西</li>
+<li>DELETE：删除给定位置的信息</li>
+<li>OPTIONS：给客户端提供一个迅速的方法弄清楚这个URL支持哪些http方法</li>
+</ul>
+</blockquote>
+</li>
+<li><p><strong>静态文件</strong><br>   即使是动态web也需要静态文件，通常是CSS和JavaScript文件。flask可以通过在包所在目录中新建一个名为<code>static</code>的文件夹，在应用中通过<code>/static</code>即可访问<br>   可以通过如下方法给静态文件生成URL，使用特殊的<code>static</code>端点名</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url_for(<span class="string">&#x27;static&#x27;</span>,filename=<span class="string">&#x27;style.css&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>   这个文件应该存储在文件系统中的<code>static/style.css</code> </p>
+</li>
+<li><p><strong>模板渲染</strong></p>
+<p>   python配备了一个<code>jinja2</code>模块用于生成html文件<br>   可以使用flask包中的<code>render_template()</code>方法来渲染模板，方法如下：</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> render_template</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/hello/&#x27;</span></span>)</span></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/hello/&lt;username&gt;&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello</span>(<span class="params">name=<span class="literal">None</span></span>):</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&#x27;hello.html&#x27;</span>,name=name)</span><br></pre></td></tr></table></figure>
+<p>   此时flask会在templates文件夹下面查找<code>hello.html</code>文件</p>
+</li>
+<li><p><strong>请求对象</strong></p>
+<p>   要获取http的访问方法，要用到flask里面的request库中的method方法</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line">    </span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/login&#x27;</span>,methods=[<span class="string">&#x27;POST&#x27;</span>,<span class="string">&#x27;PUT&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>():</span><br><span class="line">	error = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">    	<span class="keyword">if</span> valid_login(request.form[<span class="string">&#x27;username&#x27;</span>],reuqest.form[<span class="string">&#x27;password&#x27;</span>]):</span><br><span class="line">        	<span class="keyword">return</span> log_the_user_in(request.form[<span class="string">&#x27;username&#x27;</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">    	error = <span class="string">&#x27;invalid username/password&#x27;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>文件上传</strong></p>
+<p>用flask上传文件，只需要在HTML表单中设置<code>enctype=&quot;mutipart/form-data&quot;</code>属性</p>
+<p>已上传文件放在临时文件夹或者内存中，当然也可以通过<code>save（）</code>方法对其进行访问：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/upload&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>,<span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload_file</span>():</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">        f = request.files[<span class="string">&#x27;the_file&#x27;</span>]</span><br><span class="line">        f.save(<span class="string">&#x27;/var/www/uploads/uploaded_file.txt&#x27;</span>)</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<p>如果你想知道文件上传之前的文件名是什么，你可以使用<code>filename</code>属性，不过这个属性可以伪造，因此并不值得信任，<code>secure_filename()</code>是值得信任的文件名获取函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> werkzeug <span class="keyword">import</span> secure_filename</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/upload&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>,<span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">upload_file</span>():</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">		f = request.files[<span class="string">&#x27;the_file&#x27;</span>]</span><br><span class="line">        f.save(<span class="string">&#x27;/var/www/uploads&#x27;</span> + secure_filename(f.filename))</span><br></pre></td></tr></table></figure>
+
+<ol start="10">
+<li><strong>Cookies</strong></li>
+</ol>
+<p>  如果在想访问网页中的cookies，可以使用<code>cookies</code>属性：</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    username = request.cookies.get(<span class="string">&#x27;username&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>  如果想要设置网页中的cookies，可以使用<code>set_cookie</code>对cookies进行存储</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> make_response</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    resp = make_response(render_template(...))</span><br><span class="line">    resp.set_cookie(<span class="string">&#x27;username&#x27;</span>, <span class="string">&#x27;the username&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> resp</span><br></pre></td></tr></table></figure>
+
+<ol start="11">
+<li><p><strong>重定向和错误</strong></p>
+<p>可以使用<code>redirect</code>函数把用户重定向到另一个地方，用<code>abort</code>函数来放弃请求并返回错误代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> abort, redirect, url_for</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">return</span> redirect(url_for(<span class="string">&#x27;login&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/login&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>():</span><br><span class="line">    abort(<span class="number">401</span>)</span><br><span class="line">    this_is never_executed()</span><br></pre></td></tr></table></figure>
+
+<p>这个例子展现了从主页重定向到一个401页面的过程</p>
+</li>
+<li><p><strong>响应</strong><br>返回值应该是一个状态码，假如有如下视图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.errorhandler(<span class="params"><span class="number">404</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">not_found</span>(<span class="params">error</span>):</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">&#x27;error.html&#x27;</span>),<span class="number">404</span></span><br></pre></td></tr></table></figure>
+
+<p>只需要把值传递给<code>make_response()</code>，获取结果对象并修改，然后再返回：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.errorhandler(<span class="params"><span class="number">404</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">not_found</span>(<span class="params">error</span>):</span><br><span class="line">	resp = make_response(render_template(<span class="string">&#x27;error.html&#x27;</span>),<span class="number">404</span>)</span><br><span class="line">    resp.headers[<span class="string">&#x27;x-something&#x27;</span>] = <span class="string">&#x27;a value&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> resp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>会话</p>
+<p>除了请求对象以为，还有一个<code>session</code>对象，允许在不同请求间存储特定用户的信息。是基于cookies实现的，不过在cookies上面进行了密钥签证，用户可以查看你的cookies，但是如果不知道密钥的话是无法修改的</p>
+<p>要使用<code>session</code>对象，需要设置一个密钥，方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, request, session, redirect, url_for, flash, escape</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;username&#x27;</span> <span class="keyword">in</span> session:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;log in as %s&#x27;</span> % escape(session[<span class="string">&#x27;username&#x27;</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;you are not logged in&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/login&#x27;</span>,methods=[<span class="string">&#x27;POST&#x27;</span>,<span class="string">&#x27;GET&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>():</span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;POST&#x27;</span>:</span><br><span class="line">        session[<span class="string">&#x27;username&#x27;</span>] = request.form[<span class="string">&#x27;username&#x27;</span>]</span><br><span class="line">        <span class="keyword">return</span> redirect(url_for(<span class="string">&#x27;index&#x27;</span>))</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#x27;&#x27;&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;</span></span><br><span class="line"><span class="string">              &lt;p&gt;&lt;input type=text name=username&gt;</span></span><br><span class="line"><span class="string">              &lt;p&gt;&lt;input type=submit value=login&gt;</span></span><br><span class="line"><span class="string">              &lt;/form&gt;</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/logout&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">logout</span>():</span><br><span class="line">    session.pop(<span class="string">&#x27;username&#x27;</span>,<span class="literal">None</span>)</span><br><span class="line">    <span class="keyword">return</span> redirect(url_for(<span class="string">&#x27;index&#x27;</span>))</span><br><span class="line"></span><br><span class="line">app.secret_key = os.urandom(<span class="number">24</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>消息闪现</strong><br>使用<code>flash()</code>可以闪现一条消息，要操作消息本身请使用<code>get_flashed_messages()</code></p>
+</li>
+<li><p><strong>日志记录</strong><br>flask有自带的日志记录系统，使用方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.logger.debug(<span class="string">&#x27;a value for debuging&#x27;</span>)</span><br><span class="line">app.logger.warning(<span class="string">&#x27;warning occurred&#x27;</span>,<span class="number">42</span>)</span><br><span class="line">app.logger.error(<span class="string">&#x27;an error occured&#x27;</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>整合wsgi中间件</strong><br>wsgi是指网络服务器网关接口，主要用于描述一个网页服务器如何与网页应用交互，使用方法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> werkzeug.contrib.fixers <span class="keyword">import</span> LighttpdCGIRootFix</span><br><span class="line">app.wsgi_app = LighttpdCGIRootFix(app.wsgi_app)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在自己主机上托管网页</strong><br>17.1 <strong>安装Apache</strong><br>首先安装apache（阿帕奇），这个软件主要是用于部署网页，下载方法如下：<br>①登录<a href="http://httpd.apache.org/download.cgi">apache下载网站</a>，找到如下的for windows的软件<img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/17988963.jpg"></p>
+<p>②选择下图中的任意一个第三方平台进行下载，会得到一个压缩包<img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/7561754.jpg"></p>
+</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/10893416.jpg"></p>
+<p>​	解压压缩包得到名为apache的文件夹，首先要修改<code>/Apache24/conf/htttpd.conf</code>，将其中<code>Define SRVROOT &quot;/Apache24&quot;</code>改为其现在的路径<code>Define SRVROOT &quot;D:/program files/Apache24&quot;</code>，</p>
+<p>再把<code>Listen 80</code>改为<code>Listen 88</code>（因为80端口可能已经被占用）；</p>
+<p><strong>然后</strong>，我们需要修改<code>/Apache24/conf/extra/thhpd-ssl.conf</code>以及<code>/Apache24/conf/extra/thhpd-ssl.conf</code>文件中的<code>Listen 443</code>改成<code>Listen 444</code>（因为443端口路被cmd占用）</p>
+<p>​	通过cmd进入<code>Apache24/bin</code>，输入<code>httpd.exe -k install -n apache</code>，这条指令的意思就是安装httpd.exe程序为Windows服务，名称为apache，之后你就可以通过<code>ApacheMonitor.exe</code>直接打开或者关闭Apache。</p>
+<p>​	③为了验证Apache是否安装成功，我们需要在打开Apache服务的时候，访问127.0.0.1，如果看到如下界面，表示安装成功：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-7-23/36787268.jpg"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/flask/" rel="tag"># flask</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/09/jQuery%E6%95%99%E7%A8%8B/" rel="next" title="jQuery教程">
+                <i class="fa fa-chevron-left"></i> jQuery教程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/02/%E5%B0%86flask%E9%A1%B9%E7%9B%AE%E9%80%9A%E8%BF%87centos%E9%83%A8%E7%BD%B2%E5%88%B0%E5%85%AC%E7%BD%91/" rel="prev" title="将flask项目通过centos部署到公网">
+                将flask项目通过centos部署到公网 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

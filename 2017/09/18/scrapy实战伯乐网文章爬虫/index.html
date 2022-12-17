@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,爬虫," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="scrapy实战伯乐网爬虫因为我们要对scrapy进行调试，所以我们建立一个main函数来达到调试的目的，以后每次调试只要debug这个main文件就行了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="scrapy实战伯乐网文章爬虫">
+<meta property="og:url" content="http://drawwon.github.io/2017/09/18/scrapy%E5%AE%9E%E6%88%98%E4%BC%AF%E4%B9%90%E7%BD%91%E6%96%87%E7%AB%A0%E7%88%AC%E8%99%AB/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="scrapy实战伯乐网爬虫因为我们要对scrapy进行调试，所以我们建立一个main函数来达到调试的目的，以后每次调试只要debug这个main文件就行了">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-10/51186543.jpg">
+<meta property="article:published_time" content="2017-09-18T00:54:43.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.409Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="爬虫">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-10/51186543.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2017/09/18/scrapy实战伯乐网文章爬虫/"/>
+
+
+
+
+
+  <title>scrapy实战伯乐网文章爬虫 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2017/09/18/scrapy%E5%AE%9E%E6%88%98%E4%BC%AF%E4%B9%90%E7%BD%91%E6%96%87%E7%AB%A0%E7%88%AC%E8%99%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">scrapy实战伯乐网文章爬虫</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-18T08:54:43+08:00">
+                2017-09-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E7%BB%83%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程练习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="scrapy实战伯乐网爬虫"><a href="#scrapy实战伯乐网爬虫" class="headerlink" title="scrapy实战伯乐网爬虫"></a>scrapy实战伯乐网爬虫</h1><p>因为我们要对scrapy进行调试，所以我们建立一个main函数来达到调试的目的，以后每次调试只要debug这个main文件就行了</p>
+<span id="more"></span>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.cmdline <span class="keyword">import</span> execute</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">sys.path.append(os.path.dirname(os.path.abspath(__file__)))</span><br><span class="line"></span><br><span class="line">execute([<span class="string">&quot;scrapy&quot;</span>, <span class="string">&#x27;crawl&#x27;</span>, <span class="string">&#x27;jobbole&#x27;</span>])</span><br></pre></td></tr></table></figure>
+
+<p>在spider文件夹中初始化爬虫之后，可以看到一个parse函数，这个是用来处理具体的网页内容的，可以用Xpath对网页源码进行解析，其中的<code>response</code>参数表示scrapy返回的网页</p>
+<p>我们要爬取所有的文章，就要先找到所有文章的存放地点，我们将<code>class JobboleSpider</code>里面的<code>start_urls</code>改为<code>http://blog.jobbole.com/all-posts/</code>，这个页面存放了所有的posts内容</p>
+<p>从第一页开始，每次爬取该页所有posts的链接，进入每一个链接进行处理，要处理一个链接，就是将这个链接<code>yield</code>出来，首先我们先编写在每一页中提取出所有posts的方法，在parse函数中，先找到所有存放posts文件的地方：通过chrome的元素选择快捷键（如下图所示），找到所有的存放posts文件的链接</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">response_nodes = response.css(<span class="string">&#x27;#archive .floated-thumb .post-thumb a&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-9-10/51186543.jpg"></p>
+<p>然后我们在找到的response_nodes中进行循环，并找到其中的首页图片地址和post地址，并将posts地址yield出去，交给<code>scrapy.http.Request</code>处理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> response_node <span class="keyword">in</span> response_nodes:</span><br><span class="line">    post_url = response_node.css(<span class="string">&#x27;::attr(href)&#x27;</span>).extract_first(default=<span class="string">&quot;&quot;</span>)</span><br><span class="line">    image_url = response_node.css(<span class="string">&#x27;img::attr(src)&#x27;</span>).extract_first(default=<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">yield</span> Request(url=post_url, meta=&#123;<span class="string">&#x27;front_image_url&#x27;</span>:image_url&#125;,</span><br><span class="line">                  callback=self.parse_detail)</span><br></pre></td></tr></table></figure>
+
+<p>其中的回调函数是用于具体处理网页内容的函数，meta用于传送首页的图片地址，传送的形式是字典的形式</p>
+<p>接下来编写解析下一页的方法：</p>
+<p>通过找到下一页这个标签的地址，来进行下一页的访问，首先我们通过css选择器选择出下一页的标签，如果存在下一页，那么我们就将下一页<code>yield</code>到Request来处理，回调函数就是这个函数本身：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#jobbole.py  parse</span></span><br><span class="line">next_page_url = response.css(<span class="string">&#x27;a[class=&quot;next page numbers&quot;]::attr(href)&#x27;</span>).extract_first(default=<span class="string">&quot;&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> next_page_url:</span><br><span class="line">            <span class="keyword">yield</span> Request(url=next_page_url, callback=self.parse)</span><br></pre></td></tr></table></figure>
+
+<p>接下来完成具体的parse_detail函数，用于具体解析每一页的posts内容的函数：</p>
+<p>首先拿出来meta里面的内容，为了防止意外报错，我们使用字典的get函数，并将默认值设置为空</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">front_image_url = response.meta.get(<span class="string">&#x27;front_image_url&#x27;</span>,<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后通过css或者是xpath解析器依次解析自己需要的内容</p>
+<p>接下来需要通过<code>items.py</code>建立自己的item，这个item就是你最后想要保存下来的数据：</p>
+<p>默认系统会自动帮你建立一个跟工程名字一样的类，继承的是<code>scrapy.Item</code>，如果你自己需要一个新的item的话，只需要按照相同的方法，在<code>item.py</code>中新建一个类，继承<code>scrapy.Item</code>，然后把你需要的字段一个个定义出来，定义的方法是<code>字段名 = scrapy.Field()</code>，具体代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#items.py</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">JobBoleArticleItem</span>(scrapy.Item):</span><br><span class="line">    head = scrapy.Field()</span><br><span class="line">    post_time = scrapy.Field()</span><br><span class="line">    url = scrapy.Field()</span><br><span class="line">    url_id = scrapy.Field()</span><br><span class="line">    front_image_url = scrapy.Field()</span><br><span class="line">    front_image_path = scrapy.Field()</span><br><span class="line">    vote_num = scrapy.Field()</span><br><span class="line">    comment_num = scrapy.Field()</span><br><span class="line">    collection_num = scrapy.Field()</span><br><span class="line">    tags = scrapy.Field()</span><br><span class="line">    content = scrapy.Field()</span><br></pre></td></tr></table></figure>
+
+<p>然后我们需要在爬虫文件中引入定义的item，在<code>parse_detail</code>中实例化item类，并将每一个字段都赋上从网页上解析出来的值，赋值方法是类似于字典的赋值方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#jobbole.py</span></span><br><span class="line"><span class="keyword">from</span> ..items <span class="keyword">import</span> JobBoleArticleItem</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">parse_detail</span>():</span><br><span class="line">  article_item = JobBoleArticleItem()</span><br><span class="line">  article_item[<span class="string">&#x27;url&#x27;</span>] = response.url</span><br><span class="line">  article_item[<span class="string">&#x27;head&#x27;</span>] = head</span><br><span class="line">  <span class="keyword">yield</span> article_item</span><br></pre></td></tr></table></figure>
+
+<p>剩余字段的赋值方法跟上面这两个是一样的，最后把item实例yield出来，交给<code>pipelines</code>处理，我们定义了一个专门用于处理图片的pipeline，继承的是<code>scrapy.pipelines.images.ImagesPipeline</code>，重构其中的<code>item_completed</code>函数，参数<code>results</code>中的value表示的是在<code>settings.py</code>中设置的跟<code>image</code>相关的参数，取出其中的<code>path</code>，赋值给<code>item[&#39;front_image_path&#39;]</code>，最后<code>return item</code>即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#pipelines.py</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">articleImagePipeline</span>(<span class="title class_ inherited__">ImagesPipeline</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">item_completed</span>(<span class="params">self, results, item, info</span>):</span><br><span class="line">        <span class="keyword">for</span> ok,value <span class="keyword">in</span> results:</span><br><span class="line">            image_file_path = value[<span class="string">&#x27;path&#x27;</span>]</span><br><span class="line">            item[<span class="string">&#x27;front_image_path&#x27;</span>] = os.path.abspath(image_file_path)</span><br><span class="line">        <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
+
+<p>在<code>settings.py</code>中取消掉<code>ITEM_PIPELINES</code>的注释，并增加新的自己定义的<code>articleImagePipeline</code>，后面的数字表示进入pipelines的顺序，数字越小，越早进入。</p>
+<p>此时设置好<code>IMAGES_URLS_FIELD</code>，<code>IMAGES_STORE</code>，这样就可以开始下载图片</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#settings.py</span></span><br><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">   <span class="string">&#x27;bole.pipelines.BolePipeline&#x27;</span>: <span class="number">300</span>,</span><br><span class="line">    <span class="comment"># &#x27;scrapy.pipelines.images.ImagesPipeline&#x27;: 1,</span></span><br><span class="line">    <span class="string">&#x27;bole.pipelines.articleImagePipeline&#x27;</span>: <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line">IMAGES_URLS_FIELD = <span class="string">&#x27;front_image_url&#x27;</span></span><br><span class="line">IMAGES_STORE = <span class="string">&#x27;../IMAGES&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后还有把url进行hash成固定长度的过程，建立一个python包叫做<code>utils</code>，里面建立一个<code>common.py</code>，在其中建立<code>get_md5</code>函数，其中的url要以utf8传入，所以一开始要检测其是不是unicode，python3里面的str就是unicode：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#common.py</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_md5</span>(<span class="params">url</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">isinstance</span>(url, <span class="built_in">str</span>):</span><br><span class="line">        url = url.encode(<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line">    m = hashlib.md5()</span><br><span class="line">    m.update(url)</span><br><span class="line">    <span class="keyword">return</span> m.hexdigest()</span><br></pre></td></tr></table></figure>
+
+
+
+<p>接下来解决数据保存的问题，在这里我们使用两种方式，分别是：json文件和mysql数据库保存</p>
+<p>I. json的保存</p>
+<p>json保存有两种方式，一种是自己写json，一种是利用<code>scrapy.exporter</code>提供的<code>JsonItemExporter</code>类</p>
+<p>①自定义<code>json</code>文件，先用codecs打开json文件（这样打开不会有编码错误问题），然后重写<code>process_item</code>方法，将item先dumps为json，其中设置<code>ensure_ascii=False</code>以支持中文，最后写一个close_spider方法，关闭文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> codecs, json</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyjsonPipelines</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="comment">#自定义的json导出</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">      <span class="comment">#打开文件</span></span><br><span class="line">        self.file = codecs.<span class="built_in">open</span>(<span class="string">&#x27;myarticle.json&#x27;</span>, mode=<span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_item</span>(<span class="params">self, item, spider</span>):</span><br><span class="line">      <span class="comment">#写入数据</span></span><br><span class="line">        line = json.dumps(<span class="built_in">dict</span>(item),ensure_ascii=<span class="literal">False</span>)</span><br><span class="line">        self.file.write(line)</span><br><span class="line">        <span class="keyword">return</span> item</span><br><span class="line">      </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">spider_close</span>(<span class="params">self,spider</span>):</span><br><span class="line">      <span class="comment">#关闭文件</span></span><br><span class="line">        self.file.close()</span><br></pre></td></tr></table></figure>
+
+<p>②利用scrapy提供的<code>JsonItemExporter</code>，先定义打开的文件以及exporter，重写处理数据的方法process_item，最后关闭spider</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.exporters <span class="keyword">import</span> JsonItemExporter</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">jsonPipelines</span>(<span class="title class_ inherited__">JsonItemExporter</span>):</span><br><span class="line">    <span class="comment">#调用scrapy提供的json exporter来导出json文件</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.file = <span class="built_in">open</span>(<span class="string">&#x27;article.json&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">        self.exporter = JsonItemExporter(self.file, encoding=<span class="string">&#x27;utf8&#x27;</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line">        self.exporter.start_exporting()</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">close_spider</span>(<span class="params">self</span>):</span><br><span class="line">        self.exporter.finish_exporting()</span><br><span class="line">        self.file.close()</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_item</span>(<span class="params">self, item, spider</span>):</span><br><span class="line">        self.exporter.export_item(item)</span><br><span class="line">        <span class="keyword">return</span> item</span><br></pre></td></tr></table></figure>
+
+
+
+<p>II. 写入mysql</p>
+<p>写入MySQL同样有两种方法，第一种是自己写函数同步写入，第二种是利用<code>twisted.enterprise</code>框架提供的<code>adbapi</code>异步写入，第二种写入的方法更快，但也更复杂</p>
+<p>①利用MySQLdb，建立连接，数据库部分可以参考之前写的<a href="http://drawon.site/2017/05/11/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B/">数据库基础教程</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> MySQLdb</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MysqlPipeline</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">      <span class="comment">#建立连接和cursor</span></span><br><span class="line">        self.conn = MySQLdb.connect(host=<span class="string">&#x27;127.0.0.1&#x27;</span>, user=<span class="string">&#x27;root&#x27;</span>, password=<span class="string">&#x27;123456&#x27;</span>,</span><br><span class="line">                                    database=<span class="string">&#x27;scrapy&#x27;</span>, 			</span><br><span class="line">                                    port=<span class="number">3306</span>,charset=<span class="string">&#x27;utf8&#x27;</span>,use_unicode=<span class="literal">True</span>)</span><br><span class="line">        self.cursor = self.conn.cursor()</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_item</span>(<span class="params">self, item, spider</span>):</span><br><span class="line">      <span class="comment">#数据插入的sql语句并执行和提交(excecute &amp; commit)</span></span><br><span class="line">        insert_sql = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">            INSERT INTO article (head, post_time, url, url_id) VALUES (%s,%s,%s,%s)</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        self.cursor.execute(insert_sql,(item[<span class="string">&#x27;head&#x27;</span>],item[<span class="string">&#x27;post_time&#x27;</span>],item[<span class="string">&#x27;url&#x27;</span>],item[<span class="string">&#x27;url_id&#x27;</span>]))</span><br><span class="line">        self.conn.commit()</span><br></pre></td></tr></table></figure>
+
+<p>②利用<code>twisted.enterprise</code>提供的<code>adbapi</code>插入数据到mysql，这里用到了一个<code>@classmethod</code>的方法，主要是用于初始化类之前，先进行一个操作的函数，比如在这里我们在初始化<code>twisted_mysql_pipelines</code>之前，先连接了数据库，我们将连接数据库的参数都放在了<code>settings.py</code>里面，要将其取出来要用到<code>def from_settings(cls, settings)</code>，第二个参数是一个字典类型，取值可以通过字典的方法来取。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> twisted.enterprise <span class="keyword">import</span> adbapi</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">twisted_mysql_pipelines</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, dbpool</span>):</span><br><span class="line">        self.dbpool = dbpool</span><br><span class="line"></span><br><span class="line"><span class="meta">    @classmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">from_settings</span>(<span class="params">cls, settings</span>):</span><br><span class="line">      <span class="comment">#连接数据库，返回dbpool</span></span><br><span class="line">        dbparm = <span class="built_in">dict</span>(host=settings[<span class="string">&#x27;MYSQL_HOST&#x27;</span>],</span><br><span class="line">                      user=settings[<span class="string">&#x27;MYSQL_USER&#x27;</span>],</span><br><span class="line">                      password=settings[<span class="string">&#x27;MYSQL_PASSWORD&#x27;</span>],</span><br><span class="line">                      database=settings[<span class="string">&#x27;MYSQL_DBNAME&#x27;</span>],</span><br><span class="line">                      cursorclass = MySQLdb.cursors.DictCursor,</span><br><span class="line">                      charset=<span class="string">&#x27;utf8&#x27;</span>,</span><br><span class="line">                      use_unicode=<span class="literal">True</span>)</span><br><span class="line">        dbpool = adbapi.ConnectionPool(<span class="string">&#x27;MySQLdb&#x27;</span>, **dbparm)<span class="comment">#建立连接池</span></span><br><span class="line">        <span class="keyword">return</span> cls(dbpool)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">process_item</span>(<span class="params">self, item, spider</span>):</span><br><span class="line">        query = self.dbpool.runInteraction(self.do_insert, item)<span class="comment">#开始异步插入数据</span></span><br><span class="line">        query.addErrback(self.error_handler)<span class="comment">#处理异常</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">error_handler</span>(<span class="params">self, error</span>):</span><br><span class="line">      <span class="comment">#异常处理函数</span></span><br><span class="line">        <span class="built_in">print</span>(error)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">do_insert</span>(<span class="params">self, cursor, item</span>):</span><br><span class="line">      <span class="comment">#插入数据的sql语句</span></span><br><span class="line">        insert_sql = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">                    INSERT INTO article (head, post_time, url, url_id) VALUES (%s,%s,%s,%s)</span></span><br><span class="line"><span class="string">                &quot;&quot;&quot;</span></span><br><span class="line">        cursor.execute(insert_sql, (item[<span class="string">&#x27;head&#x27;</span>], item[<span class="string">&#x27;post_time&#x27;</span>], item[<span class="string">&#x27;url&#x27;</span>], item[<span class="string">&#x27;url_id&#x27;</span>]))</span><br></pre></td></tr></table></figure>
+
+<h4 id="itemloader"><a href="#itemloader" class="headerlink" title="itemloader"></a>itemloader</h4><p>之前的item是直接用字典的形式进行赋值的，如果使用itemloader会使得整个css查询过程看起来更加简洁清晰，具体使用方法如下：</p>
+<p>①先在<code>item.py</code>中新建一个<code>myItemLoader</code>类，继承<code>scrapy.loader.ItemLoader</code>，修改其默认的输出处理函数为<code>TakeFirst()</code>(因为默认输出时一个列表，所以我们需要从里面取第一个)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">item.py</span><br><span class="line">from scrapy.loader import ItemLoader</span><br><span class="line">from scrapy.loader.processors import TakeFirst</span><br><span class="line">class myItemLoader(ItemLoader):</span><br><span class="line">    default_output_processor = TakeFirst()</span><br></pre></td></tr></table></figure>
+
+<p>②在<code>jobbole.py</code>中的<code>parse_detail</code>函数中实例化item_loader，并使用<code>add_css</code>和<code>add_value</code>方法，分别直接添加值或者是通过css寻找值，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">jobbole.py</span><br><span class="line">from ..items import myItemLoader</span><br><span class="line">from ..items import JobBoleArticleItem</span><br><span class="line">def parse_detail(self,response):</span><br><span class="line">    item_loader = myItemLoader(item=JobBoleArticleItem(),response=response)</span><br><span class="line">    item_loader.add_css(&#x27;head&#x27;, &#x27;.entry-header h1::text&#x27;)</span><br><span class="line">    item_loader.add_value(&#x27;url&#x27;, response.url)</span><br><span class="line">    item_loader.add_value(&#x27;url_id&#x27;, get_md5(response.url))</span><br><span class="line">    item_loader.add_css(&#x27;post_time&#x27;,&#x27;.entry-meta-hide-on-mobile::text&#x27;)</span><br><span class="line">    item_loader.add_css(&#x27;comment_num&#x27;,&#x27;a[href=&quot;#article-comment&quot;] span::text&#x27;)</span><br><span class="line">    item_loader.add_css(&#x27;vote_num&#x27;,&#x27;.vote-post-up h10::text&#x27;)</span><br><span class="line">    item_loader.add_css(&#x27;collection_num&#x27;,&#x27;span.bookmark-btn::text&#x27;)</span><br><span class="line">    item_loader.add_css(&#x27;tags&#x27;,&#x27;p.entry-meta-hide-on-mobile a::text&#x27;)</span><br><span class="line">    front_image_url = response.meta.get(&#x27;front_image_url&#x27;,&#x27;&#x27;)</span><br><span class="line">    item_loader.add_value(&#x27;front_image_url&#x27;,front_image_url)</span><br><span class="line">    article_item = item_loader.load_item()</span><br></pre></td></tr></table></figure>
+
+<p>③此时通过css找出来的是原始的数据，需要在<code>item.py</code>中写处理方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">item.py</span><br><span class="line"><span class="keyword">from</span> scrapy.loader.processors <span class="keyword">import</span> MapCompose,TakeFirst,Join</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">post_time_handle</span>(<span class="params">value</span>):</span><br><span class="line">    time_pattern = re.<span class="built_in">compile</span>(<span class="string">r&#x27;\d&#123;4&#125;/\d&#123;2&#125;/\d&#123;2&#125;&#x27;</span>)</span><br><span class="line">    <span class="keyword">match</span> = re.findall(time_pattern, value.strip())</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">match</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="keyword">match</span>)</span><br><span class="line">        post_time = <span class="keyword">match</span>[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">return</span> post_time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_nums</span>(<span class="params">value</span>):</span><br><span class="line">    match_re = re.<span class="keyword">match</span>(<span class="string">&quot;.*?(\d+).*&quot;</span>, value)</span><br><span class="line">    <span class="keyword">if</span> match_re:</span><br><span class="line">        nums = <span class="built_in">int</span>(match_re.group(<span class="number">1</span>))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        nums = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> nums</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">remove_comment_tags</span>(<span class="params">value</span>):</span><br><span class="line">    <span class="comment">#去掉tag中提取的评论</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;评论&quot;</span> <span class="keyword">in</span> value:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> value</span><br></pre></td></tr></table></figure>
+
+<p>④修改<code>item.py</code>中<code>JobBoleArticleItem</code>类的<code>input_processor</code>，使其等于<code>MapCompose(function)</code>，其中tags用到的<code>output_processor</code>是<code>scrapy.loader.processors.Join</code>，将各个值用逗号连接起来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">JobBoleArticleItem</span>(scrapy.Item):</span><br><span class="line">    head = scrapy.Field(input_processor = MapCompose(<span class="keyword">lambda</span> x:x+<span class="string">&#x27;jobbole&#x27;</span>))</span><br><span class="line">    post_time = scrapy.Field(input_processor=MapCompose(post_time_handle))</span><br><span class="line">    url = scrapy.Field()</span><br><span class="line">    url_id = scrapy.Field()</span><br><span class="line">    front_image_url = scrapy.Field()</span><br><span class="line">    front_image_path = scrapy.Field()</span><br><span class="line">    vote_num = scrapy.Field(input_processor=MapCompose(get_nums))</span><br><span class="line">    comment_num = scrapy.Field(input_processor=MapCompose(get_nums))</span><br><span class="line">    collection_num = scrapy.Field(input_processor=MapCompose(get_nums))</span><br><span class="line">    tags = scrapy.Field(input_processor=MapCompose(remove_comment_tags),</span><br><span class="line">                        output_processor=Join(<span class="string">&#x27;,&#x27;</span>))</span><br><span class="line">    content = scrapy.Field()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h2 id="Xpath语法"><a href="#Xpath语法" class="headerlink" title="Xpath语法"></a>Xpath语法</h2><ul>
+<li><code>article</code>:选取所有article元素的所有子节点</li>
+<li><code>/article</code>：选取根元素article</li>
+<li><code>article/a</code>：选取属于article的子元素（只能是子节点，不能是后辈节点）的a元素</li>
+<li><code>//div</code>：选取所有div子元素（不论出现在文档任何地方）</li>
+<li><code>article//div</code>：选取所有属于article元素后代的div元素</li>
+<li><code>//@class</code>：选取所有名为class的属性</li>
+<li><code>/article/div[1]</code>：选取属于article子元素的第一个div元素</li>
+<li><code>/article/div[last()]</code>：属于article的最后一个div</li>
+<li><code>/article/div[last()-1]</code>：倒数第二个</li>
+<li><code>//div[@lang]</code>：拥有lang属性的div元素</li>
+<li><code>//div[@lang=&#39;eng&#39;]</code>：选取所有lang属性为eng的div元素</li>
+<li><code>/div/*</code>：div元素的所有子节点</li>
+<li><code>//*</code>：选取所有元素</li>
+<li><code>//div[@*]</code>：所有带有属性的div元素</li>
+<li><code>/div/a | //div/p</code>：所有div元素的a或p元素</li>
+<li><code>//sapn | //ul</code>：所有文档中的span和ul元素</li>
+<li><code>article/div/p | //span</code>：所有属于article元素的div元素的p元素以及文档中所有span元素</li>
+</ul>
+<p>用xpath进行提取的方法类似于beautifulsoup，但是xpath的提取速度更快，提取的例子如下：</p>
+<p>1、我要提取页面中的title信息，通过F12打开网页控制，点击选择元素，点中需要爬取的部分，可以找到他的源码，右键复制xpath或者是自己写xpath进行爬取(要爬取内容的话在xpath后面要加上&#x2F;xpath)，之后通过extract()提取为列表，选择第[0]个元素，但是此时有可能列表为空，<strong>所以使用<code>extract_first(default=0)</code>，表示提取第一个元素如果为空则返回0</strong>，写法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">head_selector = response.xpath(<span class="string">&#x27;//*[@class=&quot;entry-header&quot;]/h1/text()&#x27;</span>)</span><br><span class="line">head = head_selector.extract()[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">post_time_selector = response.xpath(<span class="string">&#x27;//p[@class=&quot;entry-meta-hide-on-mobile&quot;]/text()&#x27;</span>)</span><br><span class="line">time_pattern = re.<span class="built_in">compile</span>(<span class="string">r&#x27;\d&#123;4&#125;/\d&#123;2&#125;/\d&#123;2&#125;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>&#x2F;&#x2F;*：表示选取所有的任意元素</p>
+<p>&#x2F;&#x2F;p：选取所有的p元素</p>
+<p>&#x2F;&#x2F;p[@class&#x3D;”dd”]：表示选取所有类为dd的p标签</p>
+<p>&#x2F;&#x2F;p[contains(@class,”dd”)]：选取类名包含dd的p元素</p>
+<h3 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h3><ul>
+<li><code>*</code>：选择所有节点</li>
+<li><code>#container</code>：选择id为container的节点</li>
+<li><code>.container</code>：选取所有class中包含container的节点 </li>
+<li><code>li a</code>：选取所有li下面的所有a节点</li>
+<li><code>ul + p</code>：选取ul后面的第一个p元素</li>
+<li><code>div#container &gt; ul </code>：选取id为container的div的第一个ul子元素 </li>
+<li><code>ul ~ p</code>：选取与ul相邻的所有p元素</li>
+<li><code>a[title]</code>：选择所有有title属性的a元素</li>
+<li><code>a[href=&quot;http://jobbole.com&quot;]</code>：选取所有href属性为<code>http://jobbole.com</code>的a元素</li>
+<li><code>a[href*=&quot;jobbole&quot;]</code>：选取所有href属性包含jobbole的a元素</li>
+<li><code>a[href^=&quot;http&quot;]</code>：选取所有href以http开头的a元素</li>
+<li><code>a[href$=&quot;.jpg&quot;]</code>：选取所有href以.jpg结尾的a元素</li>
+<li><code>input[type=radio]:checked</code>：选择选中的radio元素</li>
+<li><code>div:not(#container)</code>：选择id不是container的div属性</li>
+<li><code>li:nth-child(3)</code>：选取第三个li元素</li>
+<li><code>tr:nth-child(2n)</code>：选择第偶数个tr</li>
+</ul>
+<p>pycharm单步调试的快捷键是<code>F8</code></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/%E7%88%AC%E8%99%AB/" rel="tag"># 爬虫</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/06/pip%E6%8D%A2%E6%BA%90/" rel="next" title="pip换源">
+                <i class="fa fa-chevron-left"></i> pip换源
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/18/scrapy%E7%88%AC%E5%8F%96%E7%9F%A5%E4%B9%8E%E9%97%AE%E9%A2%98%E5%AE%9E%E6%88%98/" rel="prev" title="scrapy爬取知乎问题实战">
+                scrapy爬取知乎问题实战 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#scrapy%E5%AE%9E%E6%88%98%E4%BC%AF%E4%B9%90%E7%BD%91%E7%88%AC%E8%99%AB"><span class="nav-number">1.</span> <span class="nav-text">scrapy实战伯乐网爬虫</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#itemloader"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">itemloader</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Xpath%E8%AF%AD%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">Xpath语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">1.1.1.</span> <span class="nav-text">CSS选择器</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="latex," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近几天改论文，因为information science 只提供latex模板，所以突击学习了一下latex latex的编辑软件主要用到的是ctxt，安装地址">
+<meta property="og:type" content="article">
+<meta property="og:title" content="latex入门教程">
+<meta property="og:url" content="http://drawwon.github.io/2017/08/08/latex%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="最近几天改论文，因为information science 只提供latex模板，所以突击学习了一下latex latex的编辑软件主要用到的是ctxt，安装地址">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/8740980.jpg">
+<meta property="article:published_time" content="2017-08-08T14:32:14.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.406Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="latex">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/8740980.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2017/08/08/latex入门教程/"/>
+
+
+
+
+
+  <title>latex入门教程 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2017/08/08/latex%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">latex入门教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-08T22:32:14+08:00">
+                2017-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BA%E6%96%87/" itemprop="url" rel="index">
+                    <span itemprop="name">论文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近几天改论文，因为information science 只提供latex模板，所以突击学习了一下latex</p>
+<p>latex的编辑软件主要用到的是ctxt，安装地址</p>
+<span id="more"></span>
+
+<p>链接：<a href="http://pan.baidu.com/s/1o8BNpHK">http://pan.baidu.com/s/1o8BNpHK</a> 密码：vv9y</p>
+<p>一路点击下一步就可以了</p>
+<p>然后安装插文献的软件jabref，安装地址</p>
+<p>链接：<a href="http://pan.baidu.com/s/1c2mzkWw">http://pan.baidu.com/s/1c2mzkWw</a> 密码：2q7p</p>
+<p>打开Elsevier提供的latex模板文件<code>elsarticle-template-num.tex</code>就可以开始编辑了、</p>
+<p>首先确认你要用的模板类型及版面大小，Elsevier一共提供了2种文件类型，一种是preprint就是默认提交给elsevier的格式，review是增加了行间距的格式，有3种版面大小设置，1p，3p和5p，通过<code>\documentclass[preview,3p,12pt]&#123;elsarticle&#125;</code>进行设置</p>
+<p>接下来设置需要的参考文献的格式类型，我们在文中用到的是[1-4]这种压缩的格式，用的是数字，所以设置成</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\biboptions</span>&#123;numbers,sort<span class="built_in">&amp;</span>compress&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>接下来开始写文章</p>
+<p>整体来说，latex有点类似于html的语法，文章从<code>\begin&#123;document&#125;</code>开始，到<code>\end&#123;document&#125;</code>结束</p>
+<p>我们按照提示填入<code>\title&#123;&#125;</code>，<code>\author[1]&#123;chao shen&#125;</code>,<code>\author[2]&#123;zhao wang&#125;</code>,<code>\address[1]&#123;xi&#39;an jiaotong university&#125;</code></p>
+<p>然后填入摘要，关键字等等<code>\begin&#123;abstract&#125;…………\end&#123;abstract&#125;</code>,<code>\begin&#123;keyword&#125;…………\end&#123;keyword&#125;</code></p>
+<p>下面就开始写正式章节了</p>
+<p>一级标题应该用 <code>\section&#123;Introduction&#125;</code>这样的形式</p>
+<p>二级标题用<code>\subsection&#123;xxx&#125;</code></p>
+<p>三级标题用<code>\subsubsection&#123;xxx&#125;</code></p>
+<p>四级标题没有定义，应该用<code>\paragraph&#123;(1)Detection Performance Comparison&#125;</code></p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>参考文献直接用jabref插入，在jabref中选好文件之后，点击右上角的推送到winedt，winedt的路径要先选一下，在首选项，外部程序里面找到<code>D:\program files\CTEX\WinEdt\WinEdt.exe</code>，选择之后确认。</p>
+<p>建立bib文件，每一条搜索之后铜鼓google导出bib，复制粘贴就加入了一条记录，记得要把库文件保存到个tex文件同一个文件夹，然后在tex文件中指定参考文件<code>\bibliographystyle&#123;elsarticle-num&#125;</code>，<code>\bibliography&#123;ref&#125;</code></p>
+<p>在推送之前，一定要先编译纯粹的latex，然后编译bib，再编译latex，再编译bib之后才能推送，不然文献会是<code>？</code> </p>
+<p>编译无法通过的时候可以加入<code>\usepackage&#123;epstopdf&#125;</code></p>
+<p>然后每次选中几条，鼠标放到tex文件中需要插入的地方，直接点击推送到winedt就行了</p>
+<p>插入url时要用到如下包<code>\usepackage&#123;url&#125;</code></p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/8740980.jpg"></p>
+<h2 id="插入图片"><a href="#插入图片" class="headerlink" title="插入图片"></a>插入图片</h2><p>我们要插入的方式是一行插入多张图片，使用下述的程序段</p>
+<p>使用前要先声明用了如下包：<code>\usepackage&#123;subfigure&#125;</code></p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;figure&#125;[t]</span><br><span class="line"><span class="keyword">\noindent</span></span><br><span class="line"><span class="keyword">\centering</span></span><br><span class="line"><span class="keyword">\subfigure</span>[]&#123;</span><br><span class="line"><span class="keyword">\includegraphics</span>[width=.3<span class="keyword">\textwidth</span>]&#123;6-1.eps&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\subfigure</span>[]&#123;</span><br><span class="line"><span class="keyword">\includegraphics</span>[width=.3<span class="keyword">\textwidth</span>]&#123;6-2.eps&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\subfigure</span>[]&#123;</span><br><span class="line"><span class="keyword">\includegraphics</span>[width=.3<span class="keyword">\textwidth</span>]&#123;6-3.eps&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\caption</span>&#123;EER curves against different user sizes:(a) nearest neighbor (Mahalanobis), (b) One-class support vector machine, (c) Mahalanobis (normed).&#125;</span><br><span class="line"><span class="keyword">\label</span>&#123;Figure 6&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;figure&#125;</span><br><span class="line"><span class="comment">%</span></span><br></pre></td></tr></table></figure>
+
+<p>放一张图时用如下程序</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\begin</span>&#123;figure&#125;[t]</span><br><span class="line">  <span class="keyword">\centering</span></span><br><span class="line">  <span class="comment">% Requires \usepackage&#123;graphicx&#125;</span></span><br><span class="line">  <span class="keyword">\includegraphics</span>[width=0.5<span class="keyword">\textwidth</span>]&#123;2.eps&#125;<span class="keyword">\\</span></span><br><span class="line">  <span class="keyword">\caption</span>&#123;EER curves at varying operating length using the three detectors. X-axis represents the number of touch operations to verify a user&#x27;s identity&#125;</span><br><span class="line">  <span class="keyword">\label</span>&#123;Figure 2&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;figure&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="插入表格"><a href="#插入表格" class="headerlink" title="插入表格"></a>插入表格</h2><p>latex绘制表格比较麻烦，因此我们用网站进行绘制：<a href="http://www.tablesgenerator.com/latex_tables">table generator</a></p>
+<p>在网站上绘制好之后，我们使用<code>compress whitespace</code>然后点击<code>scale</code>缩放到跟纸张一样大</p>
+<p>之后直接粘贴到我们的文件中就行了，要声明用到如下包：</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\usepackage</span>&#123;multirow&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;booktabs,graphicx&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果某条线要加粗，需要把<code>hline</code>替换为<code>\Xhline&#123;1.2pt&#125;</code></p>
+<p>插入的时候可以在<code>\begin&#123;table&#125;</code>后面加上选择放置的位置,[t]代表top，[h]表示hear，[b]表示bottom</p>
+<p>在表格中要加入空格的时候可以用这个命令<code>\hspace*&#123;75pt&#125;</code></p>
+<p>如果要改变表格与文字之间的距离，使用<code>\setlength&#123;\textfloatsep&#125;&#123;10pt plus 1.0pt minus 2.0pt&#125;</code></p>
+<p>其中后面这个<code>\textfloatsep</code>分类如下所示：</p>
+<p>Change one or more of the following lengths:</p>
+<ul>
+<li><code>\textfloatsep</code> — distance between floats on the top or the bottom and the text;</li>
+<li>\floatsep — distance between two floats;</li>
+<li>\intextsep — distance between floats inserted inside the page text (using h) and the text proper.</li>
+</ul>
+<h2 id="参考文献-1"><a href="#参考文献-1" class="headerlink" title="参考文献"></a>参考文献</h2><p>参考文献的插入主要有两种方式,</p>
+<ol>
+<li><p>第一种是通过JabRef, 在google上下载bibtxt文件, 保存到jabref的库中, 保存为bib文件,通过jabref菜单中的插入winedit进行插入, 在tex文件中写入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">\bibliographystyle&#123;elsarticle-num&#125;</span><br><span class="line">\bibliography&#123;ref&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第二种是直接将参考文献放入tex文件中：</p>
+<figure class="highlight latex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\bibliographystyle</span>&#123;named&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;thebibliography&#125;&#123;&#125;</span><br><span class="line"><span class="keyword">\bibitem</span>&#123;Password1&#125;</span><br><span class="line">Klein D V. Foiling the cracker: A survey of, and improvements to, password security[C]//Proceedings of the 2nd USENIX Security Workshop. 1990: 5-14.</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/latex/" rel="tag"># latex</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/03/%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C/" rel="next" title="鸟哥的Linux私房菜">
+                <i class="fa fa-chevron-left"></i> 鸟哥的Linux私房菜
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/10/%E7%94%A8python%E6%8E%A7%E5%88%B6%E5%90%8C%E6%AD%A5hexo%E8%84%9A%E6%9C%AC/" rel="prev" title="用python控制同步hexo脚本">
+                用python控制同步hexo脚本 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.</span> <span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87"><span class="nav-number">2.</span> <span class="nav-text">插入图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E8%A1%A8%E6%A0%BC"><span class="nav-number">3.</span> <span class="nav-text">插入表格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE-1"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

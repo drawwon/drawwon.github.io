@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,request," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="request库，主要用于网络爬虫 首先通过pip install request安装request库 写一个简单的入门程序，访问以下百度首页：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="requests库详解">
+<meta property="og:url" content="http://drawwon.github.io/2017/08/12/requests%E5%BA%93%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="request库，主要用于网络爬虫 首先通过pip install request安装request库 写一个简单的入门程序，访问以下百度首页：">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-12/96633935.jpg">
+<meta property="article:published_time" content="2017-08-12T08:32:29.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.409Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="request">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-12/96633935.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2017/08/12/requests库详解/"/>
+
+
+
+
+
+  <title>requests库详解 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2017/08/12/requests%E5%BA%93%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">requests库详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-12T16:32:29+08:00">
+                2017-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>request库，主要用于网络爬虫</p>
+<p>首先通过<code>pip install request</code>安装request库</p>
+<p>写一个简单的入门程序，访问以下百度首页：</p>
+<span id="more"></span>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">r = requets.get(<span class="string">&#x27;http:://www.baidu.com&#x27;</span>)</span><br><span class="line">r.encoding = <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line"><span class="built_in">print</span> r.text</span><br><span class="line"><span class="built_in">print</span> r.statuscode</span><br></pre></td></tr></table></figure>
+
+<p>request库一共有7个主要方法</p>
+<ul>
+<li>requests.request()：构造一个请求</li>
+<li>requests.get()：获取网页</li>
+<li>requests.head()：获取网页头信息</li>
+<li>requests.post()：向网页提交post方法</li>
+<li>requests.put()：向网页提交put方法</li>
+<li>requests.patch()：向网页提交局部修改请求</li>
+<li>requests.delete()：向网页提交删除请求</li>
+</ul>
+<p>最常见的五个网页response属性：</p>
+<ul>
+<li>status_code：200表示成功</li>
+<li>text：http响应内容的字符串形式</li>
+<li>encoding：从http header中猜测的响应内容编码方式</li>
+<li>apparent_encoding：从内容解析出的响应内容编码方式（备选编码方式）</li>
+<li>r.content：响应内容的二进制形式</li>
+</ul>
+<p>一般是先判断status_code，如果是200再进行找text和content</p>
+<p>requests库可以看做只有一个函数，那就是requests.request（）方法，只是第一个参数分别换为’GET’,’POST’等等。</p>
+<p>request参数一共有如下13个字段：</p>
+<ol>
+<li>params：获取网页的方法</li>
+<li>data：字典，字节序列或文件</li>
+<li>json</li>
+<li>headers参数可以模拟浏览器，</li>
+<li>cookies可以从http协议中解析cookie，</li>
+<li>auth：提供http认证</li>
+<li>timeout指设置的超时时间，proxies设置代理服务器（字典类型）</li>
+<li>allow_redirects：是否允许重定向</li>
+<li>stream：内容立即下载开关</li>
+<li>verify：认证ssl开关</li>
+<li>cert：本地存放正数地址</li>
+</ol>
+<p>基础的网页爬取代码框架：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  r = requests.get(url, timeout=<span class="number">30</span>)</span><br><span class="line">  r.raise_for_status()</span><br><span class="line">  r.encoding = r.apparent_encoding</span><br><span class="line">  <span class="keyword">return</span> r.text</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">  <span class="keyword">return</span> <span class="string">u&#x27;产生异常&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>首先用request.get获取网页内容，同时设置timeout为30，r.raise_for_status()表示如果状态码不为200则报异常，设置encoding方式为apparent_encoding，最后返回r.text</p>
+<p>一定要在try，except里面进行，网页访问是常常出错的</p>
+<h2 id="使用Beautifulsopu解析网页"><a href="#使用Beautifulsopu解析网页" class="headerlink" title="使用Beautifulsopu解析网页"></a>使用Beautifulsopu解析网页</h2><p>主要是用于网页代码解析，第一个参数指定网页代码，第二个参数指定使用的解析器</p>
+<p>一共有4类常用的解析器：分别是’html.parser’，<code>&#39;lxml&#39;</code>要先安装lxml, <code>&#39;xml&#39;</code>要先安装lxml,<code>&#39;html5lib&#39;</code>要先安装html5lib</p>
+<p>用法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Beautifulsoup(r.text,<span class="string">&#x27;html.parser&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>Beautifulsoup的基本元素</p>
+<ul>
+<li>tag：标签<code>&lt;&gt;&lt;/&gt;</code></li>
+<li>name:标签的名字</li>
+<li>Attribute：标签的属性，字典形式，格式<code>&lt;tag&gt;.attrs</code></li>
+<li>NavigableString：标签内分数性字符串<code>&lt;tag&gt;.attrs</code></li>
+<li>Comment：标签内字符串的注释部分</li>
+</ul>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-12/96633935.jpg"></p>
+<p>一共有3种遍历方式，上行，下行，平行遍历</p>
+<ol>
+<li><p>下行遍历有3种</p>
+<ul>
+<li>.contents:子节点的列表，将所有儿子节点存入列表</li>
+<li>children：子节点的迭代类型，与.contents类似，用于循环遍历儿子节点</li>
+<li>.descendants：子孙节点的迭代烈性，包含所有子孙节点，用于循环遍历</li>
+</ul>
+</li>
+<li><p>上行遍历有2种</p>
+<ul>
+<li>.parent：节点的父亲标签</li>
+<li>.parents：节点先辈标签的迭代类型，用于循环遍历先辈节点</li>
+</ul>
+<p>上行遍历的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">soup = BeautifulSoup(demo, <span class="string">&#x27;html.parser&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> parent <span class="keyword">in</span> soup.a.parents:</span><br><span class="line">  <span class="keyword">if</span> parent <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">    <span class="built_in">print</span>(parent)</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(parent.name)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>平行遍历有4种</p>
+<ul>
+<li>.next_sibling：返回按照HTML文本书序的下一个平行节点标签</li>
+<li>.previous_sibling：上一个平行节点标签</li>
+<li>next_siblings：迭代类型，返回后续所有平行节点标签</li>
+<li>previous_siblings：迭代类型，返回前续所有平行节点标签</li>
+</ul>
+</li>
+</ol>
+<p>prettyfy方法用于更好地打印标签</p>
+<h2 id="数据标记"><a href="#数据标记" class="headerlink" title="数据标记"></a>数据标记</h2><ol>
+<li><p>xml：类似于HTML格式</p>
+</li>
+<li><p>json：JavaScript object notation，用键值对的形式记录数据，比如</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;name&quot; : &quot;xi&#x27;an jiaotong&quot;</span><br><span class="line">&quot;address&quot;: &quot;xi&#x27;an&quot;</span><br><span class="line"># 用大括号表示嵌套的键值对</span><br><span class="line">&quot;university&#123;</span><br><span class="line">   &quot;name&quot;: &quot;jiaotong&quot;,</span><br><span class="line">   &quot;address&quot;:&quot;xi&#x27;an&quot;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>   json的键值对都是有类型的</p>
+</li>
+<li><p>yaml格式是无类型的，用缩进进行所属，用法：</p>
+</li>
+</ol>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">uninversity:</span><br><span class="line">name: xi&#x27;an</span><br><span class="line">address: beijing</span><br><span class="line">#用 | 表示整块数据</span><br><span class="line">text: |</span><br><span class="line">这是一大段话xxxxxxxxxxxxxxxxxxxxxxx</span><br><span class="line">xxxxxxxxxxxx</span><br><span class="line">xxxxxxxxx</span><br><span class="line"># 用-表示并列所属关系</span><br><span class="line">name：</span><br><span class="line">-交通大学</span><br><span class="line">-先交大</span><br></pre></td></tr></table></figure>
+
+<h2 id="通过BeautifulSoup数据获取"><a href="#通过BeautifulSoup数据获取" class="headerlink" title="通过BeautifulSoup数据获取"></a>通过BeautifulSoup数据获取</h2><p>   通过find_all函数找到所有的标签，通过.get获得某个具体的属性</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">soup = BeautifulSoup(r.text,<span class="string">&#x27;html.parser&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> link <span class="keyword">in</span> soup.find_all(<span class="string">&#x27;a&#x27;</span>):</span><br><span class="line">    <span class="built_in">print</span>(link.get(<span class="string">&#x27;href&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<p>   如果查找多个标签，可以把标签部分用列表放入<code>soup.find_all([&#39;a&#39;,&#39;b&#39;])</code></p>
+<p>   第二个参数可以放属性，比如id&#x3D;link1</p>
+<p>   第三个参数是recursive：表示是否对子孙节点进行检索，默认为是</p>
+<p>   第四个参数是string，查找某个string，结合正则表达式可以进行搜索</p>
+<p>   同样，find_all也有find，find_parent,find_next_sibling之类的方法</p>
+<p>   ​</p>
+<p>   格式化输出时如果遇到中文不对齐的情况：用chr(12288)作为填充:</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;&#123;0:^10&#125; \t &#123;1:&#123;3&#125;^10&#125; \t &#123;2:&#123;3&#125;^10&#125;&quot;</span>.<span class="built_in">format</span>(<span class="string">&#x27;排名&#x27;</span>,<span class="string">&#x27;学校名称&#x27;</span>,<span class="string">&#x27;省市&#x27;</span>,<span class="built_in">chr</span>(<span class="number">12288</span>)))</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/request/" rel="tag"># request</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/10/%E7%94%A8python%E6%8E%A7%E5%88%B6%E5%90%8C%E6%AD%A5hexo%E8%84%9A%E6%9C%AC/" rel="next" title="用python控制同步hexo脚本">
+                <i class="fa fa-chevron-left"></i> 用python控制同步hexo脚本
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/13/scrapy%E5%BA%93%E8%AF%A6%E8%A7%A3/" rel="prev" title="scrapy库详解">
+                scrapy库详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Beautifulsopu%E8%A7%A3%E6%9E%90%E7%BD%91%E9%A1%B5"><span class="nav-number">1.</span> <span class="nav-text">使用Beautifulsopu解析网页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%87%E8%AE%B0"><span class="nav-number">2.</span> <span class="nav-text">数据标记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87BeautifulSoup%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96"><span class="nav-number">3.</span> <span class="nav-text">通过BeautifulSoup数据获取</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据分析," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="使用jupyter notebook 分析数据之前导入的包12345678910111213import numpy as np # linear algebraimport pandas as pd # data processing, CSV file I&#x2F;O (e.g. pd.read_csv)%matplotlib inlineimport matplotlib.pyplot as plt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="numpy教程">
+<meta property="og:url" content="http://drawwon.github.io/2017/10/22/numpy%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="使用jupyter notebook 分析数据之前导入的包12345678910111213import numpy as np # linear algebraimport pandas as pd # data processing, CSV file I&#x2F;O (e.g. pd.read_csv)%matplotlib inlineimport matplotlib.pyplot as plt">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-10-22T13:17:06.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.407Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="数据分析">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2017/10/22/numpy教程/"/>
+
+
+
+
+
+  <title>numpy教程 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2017/10/22/numpy%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">numpy教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-22T21:17:06+08:00">
+                2017-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="使用jupyter-notebook-分析数据之前导入的包"><a href="#使用jupyter-notebook-分析数据之前导入的包" class="headerlink" title="使用jupyter notebook 分析数据之前导入的包"></a>使用jupyter notebook 分析数据之前导入的包</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np # linear algebra</span><br><span class="line">import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)</span><br><span class="line"></span><br><span class="line">%matplotlib inline</span><br><span class="line">import matplotlib.pyplot as plt  # Matlab-style plotting</span><br><span class="line">import seaborn as sns</span><br><span class="line">color = sns.color_palette()</span><br><span class="line">sns.set_style(&#x27;darkgrid&#x27;)</span><br><span class="line"></span><br><span class="line">import warnings</span><br><span class="line">def ignore_warn(*args, **kwargs):</span><br><span class="line">    pass</span><br><span class="line">warnings.warn = ignore_warn #ignore annoying warning (from sklearn and seaborn)</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<p>在<code>numpy</code>的使用过程中，最重要的概念就是<code>ndarray</code>，实质上就是数组，在<code>numpy</code>中的所有对象都是<code>ndarray</code> </p>
+<p>每一个ndarray对象都有一个shape和dtype属性，用于存储<strong>数组的形状</strong>和<strong>数据类型</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">array</td>
+<td align="left">将输入的数据转换为ndarray</td>
+</tr>
+<tr>
+<td align="left">asarray</td>
+<td align="left">将输入转换为ndarray</td>
+</tr>
+<tr>
+<td align="left">arange</td>
+<td align="left">range的数组版本</td>
+</tr>
+<tr>
+<td align="left">ones、ones_like</td>
+<td align="left">根据指定的形状创建一个全1的数组，ones_like以另一个数组为参数，创建一个与该数组大小相同的全为1的数组</td>
+</tr>
+<tr>
+<td align="left">zero、zeros_like</td>
+<td align="left">与ones和ones_like类似</td>
+</tr>
+<tr>
+<td align="left">empty、empty_like</td>
+<td align="left">创建一个没有赋予初始值的数组，用法与ones和ones_like类似</td>
+</tr>
+<tr>
+<td align="left">eye，identity</td>
+<td align="left">创建一个单位矩阵</td>
+</tr>
+</tbody></table>
+<p>可以通过ndarray的astype方法将数组的数据类型转换为其他类型</p>
+<h3 id="乘法"><a href="#乘法" class="headerlink" title="乘法"></a>乘法</h3><p>*：直接用乘号或者除号，表示数组<strong>元素之间直接相乘</strong>，这个操作称之为广播（不同大小数组之间的运算）</p>
+<p><strong>np.dot(x,y)或x.dot(y)：用于矩阵乘积</strong></p>
+<h3 id="索引和复制"><a href="#索引和复制" class="headerlink" title="索引和复制"></a>索引和复制</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">1</span>]: arr = np.arange(<span class="number">10</span>)</span><br><span class="line">In [<span class="number">2</span>]: arr</span><br><span class="line">Out[<span class="number">2</span>]: array([<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>])</span><br><span class="line">In [<span class="number">3</span>]: arr[<span class="number">5</span>:<span class="number">8</span>] = <span class="number">12</span></span><br><span class="line">In [<span class="number">4</span>]: arr</span><br><span class="line">Out[<span class="number">4</span>]: array([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>, <span class="number">12</span>, <span class="number">12</span>, <span class="number">12</span>,  <span class="number">8</span>,  <span class="number">9</span>])</span><br><span class="line">In [<span class="number">5</span>]: arr_slice = arr[<span class="number">5</span>:<span class="number">8</span>]</span><br><span class="line">In [<span class="number">6</span>]: arr_slice[<span class="number">1</span>] = <span class="number">12345</span></span><br><span class="line">In [<span class="number">7</span>]: arr</span><br><span class="line">Out[<span class="number">7</span>]: array([    <span class="number">0</span>,     <span class="number">1</span>,     <span class="number">2</span>,     <span class="number">3</span>,     <span class="number">4</span>,    <span class="number">12</span>, <span class="number">12345</span>,    <span class="number">12</span>,     <span class="number">8</span>,     <span class="number">9</span>])</span><br></pre></td></tr></table></figure>
+
+<p>numpy当中所有数据切片赋值时都是没有进行复制的，视图上的任何修改都会直接反映到原数组上，因为numpy一般处理非常大的数据集，如果numpy每次进行操作的话就是复制非常多的数据。</p>
+<h3 id="花式索引（fancy-indexing）"><a href="#花式索引（fancy-indexing）" class="headerlink" title="花式索引（fancy indexing）"></a>花式索引（fancy indexing）</h3> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">In [1]: arr = np.arange(32).reshape((8,4))</span><br><span class="line"></span><br><span class="line">In [2]: arr</span><br><span class="line">Out[2]:</span><br><span class="line">array([[ 0,  1,  2,  3],</span><br><span class="line">       [ 4,  5,  6,  7],</span><br><span class="line">       [ 8,  9, 10, 11],</span><br><span class="line">       [12, 13, 14, 15],</span><br><span class="line">       [16, 17, 18, 19],</span><br><span class="line">       [20, 21, 22, 23],</span><br><span class="line">       [24, 25, 26, 27],</span><br><span class="line">       [28, 29, 30, 31]])</span><br><span class="line"></span><br><span class="line">In [3]: arr[[-1,1,3]]</span><br><span class="line">Out[3]:</span><br><span class="line">array([[28, 29, 30, 31],</span><br><span class="line">       [ 4,  5,  6,  7],</span><br><span class="line">       [12, 13, 14, 15]])</span><br><span class="line">In [4]: arr[[1,2,3,-1],[3,2,1,0]]</span><br><span class="line">Out[4]: array([ 7, 10, 13, 28])</span><br></pre></td></tr></table></figure>
+
+<p>同时传入多个索引，一次索引出多个值</p>
+<h3 id="转置"><a href="#转置" class="headerlink" title="转置"></a>转置</h3><p>arr.T表示arr的转置，或者transpose方法表示转置</p>
+<p>tanspose有一个换维度的操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">In [4]: arr = np.arange(16).reshape((2,2,4))</span><br><span class="line"></span><br><span class="line">In [5]: arr</span><br><span class="line">Out[5]:</span><br><span class="line">array([[[ 0,  1,  2,  3],</span><br><span class="line">        [ 4,  5,  6,  7]],</span><br><span class="line"></span><br><span class="line">       [[ 8,  9, 10, 11],</span><br><span class="line">        [12, 13, 14, 15]]])</span><br><span class="line"></span><br><span class="line">In [6]: arr.transpose((1,0,2))</span><br><span class="line">Out[6]:</span><br><span class="line">array([[[ 0,  1,  2,  3],</span><br><span class="line">        [ 8,  9, 10, 11]],</span><br><span class="line"></span><br><span class="line">       [[ 4,  5,  6,  7],</span><br><span class="line">        [12, 13, 14, 15]]])</span><br><span class="line">简而言之就是将原来的0，1，2轴变成现在的1，0，2，转换后的0轴是原来的1轴，转换后的1轴是原来的0轴，2轴未变。</span><br><span class="line">换种解释：比如说8元素的索引是[1,0,0]，0，1轴变换后是[0,1,0]。</span><br></pre></td></tr></table></figure>
+
+<h3 id="通用函数"><a href="#通用函数" class="headerlink" title="通用函数"></a>通用函数</h3><p>（ufunc）：快速的元素级数组函数</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>abs,fabs</td>
+<td>计算绝对值，对于非复数，可以使用更快的fabs</td>
+</tr>
+<tr>
+<td>sqrt</td>
+<td>计算元素的平方根，相当于arr**0.5</td>
+</tr>
+<tr>
+<td>square</td>
+<td>计算各元素平，相当于arr**2</td>
+</tr>
+<tr>
+<td>log，log10，log2，log1p</td>
+<td>计算自然对数，以10位底的对数，底数为2的对数，以及log（1+x）</td>
+</tr>
+<tr>
+<td>sign</td>
+<td>取元素的符号，1正，0零，-1负</td>
+</tr>
+<tr>
+<td>ceil</td>
+<td>向上取整</td>
+</tr>
+<tr>
+<td></td>
+<td>向下取整</td>
+</tr>
+<tr>
+<td></td>
+<td>四舍五入取整</td>
+</tr>
+<tr>
+<td></td>
+<td>将数组的小数和整数部分分别用两个数组返回</td>
+</tr>
+<tr>
+<td>isfinite,isinf</td>
+<td>返回哪些元素是有穷的，哪些元素是无穷的布尔型数组</td>
+</tr>
+<tr>
+<td>cos,cosh,sin,sinh,tan,tanh</td>
+<td>三角函数</td>
+</tr>
+<tr>
+<td>logical_not</td>
+<td>计算各元素not x的真值，相当于-arr</td>
+</tr>
+</tbody></table>
+<p>二元ufunc</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>add</td>
+<td>将数组对应元素相加</td>
+</tr>
+<tr>
+<td>subtract</td>
+<td>对应元素相减</td>
+</tr>
+<tr>
+<td>multiply</td>
+<td>对应元素相乘</td>
+</tr>
+<tr>
+<td>divide，floor_divide</td>
+<td>除法或丢掉余数的整除法</td>
+</tr>
+<tr>
+<td>pow</td>
+<td>计算$A^B$</td>
+</tr>
+<tr>
+<td>maximum, fmax</td>
+<td>元素级的最大值计算，fmax忽略nana</td>
+</tr>
+<tr>
+<td>minimum,fmin</td>
+<td>最小值计算</td>
+</tr>
+<tr>
+<td>mod</td>
+<td>求模运算</td>
+</tr>
+<tr>
+<td>copysign</td>
+<td>将B数组的符号复制给第一个数组</td>
+</tr>
+<tr>
+<td>greater，greater_equal，less，less_equal,equal, not_equal</td>
+<td>元素比较</td>
+</tr>
+<tr>
+<td>logical_and, logical_or，logical_xor</td>
+<td>元素级别真值逻辑运算</td>
+</tr>
+</tbody></table>
+<h3 id="meshgrid函数"><a href="#meshgrid函数" class="headerlink" title="meshgrid函数"></a>meshgrid函数</h3><p><code>X,Y = np.meshgrid(a,b)</code> 得到X为a作为行向量，扩展b.shape那么多行，Y是以b为列向量，扩展a.shape那么多列</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">In [67]: xnums</span><br><span class="line">Out[67]: array([0,1, 2, 3])</span><br><span class="line"> </span><br><span class="line">In [68]: ynums</span><br><span class="line">Out[68]: array([0,1, 2, 3, 4])</span><br><span class="line"> </span><br><span class="line">In [69]: data_list= np.meshgrid(xnums,ynums)</span><br><span class="line"> </span><br><span class="line">In [70]: data_list</span><br><span class="line">Out[70]:</span><br><span class="line">[array([[0, 1, 2,3],</span><br><span class="line">        [0, 1, 2, 3],</span><br><span class="line">        [0, 1, 2, 3],</span><br><span class="line">        [0, 1, 2, 3],</span><br><span class="line">        [0, 1, 2, 3]]), array([[0, 0, 0, 0],</span><br><span class="line">        [1, 1, 1, 1],</span><br><span class="line">        [2, 2, 2, 2],</span><br><span class="line">        [3, 3, 3, 3],</span><br><span class="line">        [4, 4, 4, 4]])]</span><br></pre></td></tr></table></figure>
+
+<h3 id="np-where（）"><a href="#np-where（）" class="headerlink" title="np.where（）"></a>np.where（）</h3><p>np.where可以进行<code>x if condition else y</code>的快捷形式</p>
+<p>比如我们在下面的例子中，将所有正数替换为2，负数替换为1</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">In [7]: arr = np.random.randn(4,4)</span><br><span class="line"></span><br><span class="line">In [8]: arr</span><br><span class="line">Out[8]:</span><br><span class="line">array([[ 0.67616266, -0.05338506,  1.24429511, -0.01608611],</span><br><span class="line">       [ 1.19887484, -0.26227917, -1.06689128,  1.6256341 ],</span><br><span class="line">       [ 1.33528028, -0.56730727,  0.00761954,  0.15508178],</span><br><span class="line">       [-1.4552253 ,  0.12884633,  0.63242436, -0.62763473]])</span><br><span class="line"></span><br><span class="line">In [9]: np.where(arr&gt;0, 2, 1)</span><br><span class="line">Out[9]:</span><br><span class="line">array([[2, 1, 2, 1],</span><br><span class="line">       [2, 1, 1, 2],</span><br><span class="line">       [2, 1, 2, 2],</span><br><span class="line">       [1, 2, 2, 1]])</span><br></pre></td></tr></table></figure>
+
+<h3 id="基本统计方法"><a href="#基本统计方法" class="headerlink" title="基本统计方法"></a>基本统计方法</h3><p>sum求和，mean均值，std标准差，var方差，min，max最小最大值</p>
+<p><strong>argmin，argmax最小最大值的索引</strong></p>
+<p><strong>cumsum：所有元素的累积和</strong>，和search_sorted方法配合可以算出分位数所在的位置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">In [10]: arr = np.random.randn(1000)</span><br><span class="line"></span><br><span class="line">In [11]: arr.sort()</span><br><span class="line"></span><br><span class="line">In [12]: arr.searchsorted(int(0.05*(max(arr)-min(arr))))</span><br><span class="line">Out[12]: 458</span><br></pre></td></tr></table></figure>
+
+<p><strong>cumprod：所有元素的累积积</strong></p>
+<h3 id="唯一化及逻辑运算"><a href="#唯一化及逻辑运算" class="headerlink" title="唯一化及逻辑运算"></a>唯一化及逻辑运算</h3><p><code>np.unique</code>效果与python中的set对于list的效果一样，只保留不相同的值</p>
+<p><code>np.in1d</code>用于测试参数是否在数组中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">In [13]: arr = np.arange(6)</span><br><span class="line"></span><br><span class="line">In [14]: arr</span><br><span class="line">Out[14]: array([0, 1, 2, 3, 4, 5])</span><br><span class="line"></span><br><span class="line">In [15]: np.in1d(arr,[0,3,4])</span><br><span class="line">Out[15]: array([ True, False, False,  True,  True, False], dtype=bool)</span><br></pre></td></tr></table></figure>
+
+<h3 id="集合运算的函数"><a href="#集合运算的函数" class="headerlink" title="集合运算的函数"></a>集合运算的函数</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>unique</td>
+<td>返回唯一元素的有序结果</td>
+</tr>
+<tr>
+<td>intersect1d(x,y)</td>
+<td>交集（计算xy的公共元素并返回有序结果）</td>
+</tr>
+<tr>
+<td>union</td>
+<td>并集</td>
+</tr>
+<tr>
+<td>in1d（x,y）</td>
+<td>y是否存在于x中的布尔数组</td>
+</tr>
+<tr>
+<td>setdiff1d</td>
+<td>差集</td>
+</tr>
+<tr>
+<td>setxor1d</td>
+<td>对称差，存在于一个数组中但不同时存在于两个书注重的元素</td>
+</tr>
+</tbody></table>
+<h3 id="元素保存"><a href="#元素保存" class="headerlink" title="元素保存"></a>元素保存</h3><p><code>np.save(&#39;filename&#39;, arr)</code>:如果没有加后缀会自动加上.npy，然后可以使用np.load读取这个array</p>
+<p><code>np.savez(&#39;filename&#39;, a=arr1, b=arr2)</code>:存储到压缩文件，后缀为.npz，读取时用load，然后通过字典key，value的索引方式分别取出a和b</p>
+<p><code>np.loadtxt(&#39;array.txt&#39;,delimiter=&#39;,&#39;)</code>：读取txt文件，指定分隔符号为delimiter</p>
+<p><code>np.savetxt(&#39;filename&#39;, arr)</code>：保存为txt文件</p>
+<h3 id="线性代数运算"><a href="#线性代数运算" class="headerlink" title="线性代数运算"></a>线性代数运算</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>diag</td>
+<td>返回方阵的对角线元素，或者把一维数组转化为方阵</td>
+</tr>
+<tr>
+<td>dot</td>
+<td>矩阵乘法</td>
+</tr>
+<tr>
+<td>trace</td>
+<td>对角线元素和</td>
+</tr>
+<tr>
+<td>det</td>
+<td>矩阵行列式</td>
+</tr>
+<tr>
+<td>eig</td>
+<td>计算方阵的特征值和特征向量</td>
+</tr>
+<tr>
+<td>inv</td>
+<td>求方阵的逆</td>
+</tr>
+<tr>
+<td>pinv</td>
+<td>伪逆</td>
+</tr>
+<tr>
+<td></td>
+<td>计算QR分解值</td>
+</tr>
+<tr>
+<td>svd</td>
+<td>奇异值分解</td>
+</tr>
+<tr>
+<td></td>
+<td>解线性方程Ax&#x3D;b，其中A是一个矩阵</td>
+</tr>
+<tr>
+<td></td>
+<td>计算Ax&#x3D;b的最小二乘解</td>
+</tr>
+</tbody></table>
+<h3 id="随机数生成"><a href="#随机数生成" class="headerlink" title="随机数生成"></a>随机数生成</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>seed</td>
+<td>确定随机数生成器的种子</td>
+</tr>
+<tr>
+<td>permutation</td>
+<td>返回一个序列的随机排列或者一个随机排列的范围</td>
+</tr>
+<tr>
+<td><strong>shuffle</strong></td>
+<td><strong>随机打乱一个序列</strong></td>
+</tr>
+<tr>
+<td><strong>rand</strong></td>
+<td>产生均匀随机分布的样本值</td>
+</tr>
+<tr>
+<td><strong>randint</strong></td>
+<td><strong>从给定的上下范围内随机选取整数</strong></td>
+</tr>
+<tr>
+<td>randn</td>
+<td>产生正态分布（平均值为0，标准差为1）的样本值</td>
+</tr>
+<tr>
+<td></td>
+<td>产生二项分布的样本值</td>
+</tr>
+<tr>
+<td></td>
+<td>产生正态分布的样本值</td>
+</tr>
+<tr>
+<td></td>
+<td>产生beta分布的样本值</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" rel="tag"># 数据分析</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/13/TensorFlow%E5%85%A5%E9%97%A8/" rel="next" title="TensorFlow入门">
+                <i class="fa fa-chevron-left"></i> TensorFlow入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/20/%E5%89%91%E6%8C%87offer%E7%AC%94%E8%AE%B0/" rel="prev" title="剑指offer笔记">
+                剑指offer笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8jupyter-notebook-%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE%E4%B9%8B%E5%89%8D%E5%AF%BC%E5%85%A5%E7%9A%84%E5%8C%85"><span class="nav-number">1.</span> <span class="nav-text">使用jupyter notebook 分析数据之前导入的包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%98%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">乘法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%92%8C%E5%A4%8D%E5%88%B6"><span class="nav-number">1.2.</span> <span class="nav-text">索引和复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%B1%E5%BC%8F%E7%B4%A2%E5%BC%95%EF%BC%88fancy-indexing%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">花式索引（fancy indexing）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E7%BD%AE"><span class="nav-number">1.4.</span> <span class="nav-text">转置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E5%87%BD%E6%95%B0"><span class="nav-number">1.5.</span> <span class="nav-text">通用函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#meshgrid%E5%87%BD%E6%95%B0"><span class="nav-number">1.6.</span> <span class="nav-text">meshgrid函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#np-where%EF%BC%88%EF%BC%89"><span class="nav-number">1.7.</span> <span class="nav-text">np.where（）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%BB%9F%E8%AE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">1.8.</span> <span class="nav-text">基本统计方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%94%AF%E4%B8%80%E5%8C%96%E5%8F%8A%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97"><span class="nav-number">1.9.</span> <span class="nav-text">唯一化及逻辑运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E8%BF%90%E7%AE%97%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.10.</span> <span class="nav-text">集合运算的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E7%B4%A0%E4%BF%9D%E5%AD%98"><span class="nav-number">1.11.</span> <span class="nav-text">元素保存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E8%BF%90%E7%AE%97"><span class="nav-number">1.12.</span> <span class="nav-text">线性代数运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%94%9F%E6%88%90"><span class="nav-number">1.13.</span> <span class="nav-text">随机数生成</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

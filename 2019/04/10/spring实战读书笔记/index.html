@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="spring," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="曾经流行的框架名称是SSH，由Spring，spring MVC，hibernate组成 后来逐渐切换到SSM，由Spring，Spring MVC，MyBatis组成 再到现在流行的框架已经变成SpringBoot和MyBatis组成了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring实战读书笔记">
+<meta property="og:url" content="http://drawwon.github.io/2019/04/10/spring%E5%AE%9E%E6%88%98%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="曾经流行的框架名称是SSH，由Spring，spring MVC，hibernate组成 后来逐渐切换到SSM，由Spring，Spring MVC，MyBatis组成 再到现在流行的框架已经变成SpringBoot和MyBatis组成了">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422105019.png">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422110224.png">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422111002.png">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422111020.png">
+<meta property="article:published_time" content="2019-04-10T13:20:38.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.410Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="spring">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422105019.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2019/04/10/spring实战读书笔记/"/>
+
+
+
+
+
+  <title>Spring实战读书笔记 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2019/04/10/spring%E5%AE%9E%E6%88%98%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring实战读书笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-10T21:20:38+08:00">
+                2019-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>曾经流行的框架名称是<code>SSH</code>，由Spring，spring MVC，hibernate组成</p>
+<p>后来逐渐切换到<code>SSM</code>，由Spring，Spring MVC，MyBatis组成</p>
+<p>再到现在流行的框架已经变成SpringBoot和MyBatis组成了</p>
+<span id="more"></span>
+
+<h2 id="Maven"><a href="#Maven" class="headerlink" title="Maven"></a>Maven</h2><p>Maven是一个构建项目的工具，他的主要思想是通过配置一个pom.xml文件（project object model），一键式迁移java环境，不管在哪个环境中，只要拿到这个pom.xml，相关依赖就可以一键下载部署。</p>
+<p>因为之前对spring了解不多，先看看《spring 实战》这本书</p>
+<h3 id="spring基本概念"><a href="#spring基本概念" class="headerlink" title="spring基本概念"></a>spring基本概念</h3><p>bean是spring的基本应用组件，spring最核心的内容就是IOC（DI）与AOP</p>
+<p>我们考虑一下DI是怎么实现的。先看一个例子DamselRescuingKnight，实现的Knight接口，有个私有变量quest表示他能干的事情，比如拯救女子，或者是屠杀恶龙，如果你将quest写死为RescueDamselQuest，那么DamselRescuingKnight和RescueDamselQuest的耦合程度就太大了，这样不利于代码的修改和复用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.knights;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">DamselRescuingKnight</span> <span class="keyword">implements</span> <span class="title class_">Knight</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> RescueDamselQuest quest;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">DamselRescuingKnight</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.quest = <span class="keyword">new</span> <span class="title class_">RescueDamselQuest</span>(); <span class="comment">//与RescueDamselQuest紧耦合</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">embarkOnQuest</span><span class="params">()</span> &#123;</span><br><span class="line">        quest.emark();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所谓的耦合就是互相依赖，如果一个类里面完全依赖另外一个类，需要改动的时候，那么要改动的地方可能就很多，所以spring的第一个好处是依赖注入，减少代码耦合。</p>
+<p>第一个注入方式，是通过构造器注入，就是在构造器中传入参数，那么这个quest就可以是任何类型的quest了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.knights;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BraveKnight</span> <span class="keyword">implements</span> <span class="title class_">Knight</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Quest quest;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BraveKnight</span><span class="params">(Quest quest)</span> &#123; <span class="comment">// Quest实例被注入</span></span><br><span class="line">        <span class="built_in">this</span>.quest = quest;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">embarkOnQuest</span><span class="params">()</span> &#123;</span><br><span class="line">        quest.emark();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二个注入方式就是Spring当中常用的，叫做装配(创建应用组件之间写作的行为称为装配)，就是用xml的方式来配置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.knights;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.PrintStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SlayDragonQuest</span> <span class="keyword">implements</span> <span class="title class_">Quest</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> PrintStream stream;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">SlayDragonQuest</span><span class="params">(PrintStream stream)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.stream = stream;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">emark</span><span class="params">()</span> &#123;</span><br><span class="line">        stream.println(<span class="string">&quot;Embarking on quest to slay the dragon!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>装配的xml文件如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;knight&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.spring.sample.knights.BraveKnight&quot;</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">ref</span>=<span class="string">&quot;quest&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;quest&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.spring.sample.knights.SlayDragonQuest&quot;</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;#&#123;T(System).out&#125;&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Spring 3.0引入了JavaConfig，这种写法比xml文件的好处是具备类型安全检查，例如，上面XML配置文件可以这么写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.knights.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.spring.sample.knights.BraveKnight;</span><br><span class="line"><span class="keyword">import</span> com.spring.sample.knights.Knight;</span><br><span class="line"><span class="keyword">import</span> com.spring.sample.knights.Quest;</span><br><span class="line"><span class="keyword">import</span> com.spring.sample.knights.SlayDragonQuest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">KnightConfig</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Knight <span class="title function_">knight</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">BraveKnight</span>(quest());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Quest <span class="title function_">quest</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SlayDragonQuest</span>(System.out);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>不论是基于XML的配置还是基于Java文件的配置，都由Spring框架负责管理beans之间的依赖关系。</p>
+<h4 id="启动依赖注入"><a href="#启动依赖注入" class="headerlink" title="启动依赖注入"></a>启动依赖注入</h4><p>在Spring应用中，由<em>application context</em>负责加载beans，并将这些beans根据配置文件编织在一起。Spring框架提供了几种application context的实现：</p>
+<ol>
+<li>如果使用XML格式的配置文件，则使用<code>ClassPathXmlApplicationContext</code>；</li>
+<li>如果使用Java文件形式的配置文件，则使用<code>AnnotationConfigApplicationContext</code>。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.knights;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.spring.sample.knights.config.KnightConfig;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.AnnotationConfigApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">KnightMain</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"><span class="comment">//        ClassPathXmlApplicationContext context =</span></span><br><span class="line"><span class="comment">//                new ClassPathXmlApplicationContext(&quot;classpath:/knight.xml&quot;);</span></span><br><span class="line">        <span class="type">AnnotationConfigApplicationContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(KnightConfig.class);</span><br><span class="line">        <span class="type">Knight</span> <span class="variable">knight</span> <span class="operator">=</span> context.getBean(Knight.class);</span><br><span class="line">        knight.embarkOnQuest();</span><br><span class="line">        context.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上述代码中，根据<code>KnightConfig.java</code>文件创建Spring应用上下文，可以把该应用上下文看成对象工厂，来获取idknight的bean。</p>
+<h4 id="1-1-3-切面编程"><a href="#1-1-3-切面编程" class="headerlink" title="1.1.3 切面编程"></a>1.1.3 切面编程</h4><p>依赖注入（DI）实现了模块之间的松耦合，而利用面向切面编程（AOP）可以将涉及整个应用的基础功能（安全、日志）放在一个可复用的模块中。</p>
+<p>AOP是一种在软件系统中实现关注点分离的技术。软件系统由几个模块构成，每个模块负责一种功能，不过在系统中有些需求需要涉及到所有的模块，例如日志、事务管理和安全等。如果将这些需求相关的代码都分散在各个模块中，一方面是不方便维护、另一方面是与原来每个模块的业务逻辑代码混淆在一起，不符合单一职责原则。</p>
+<ul>
+<li>实现系统级别处理的代码分散在多个子模块中，这意味着如果要修改这些处理代码，则要在每个模块中都进行修改。即使将这些代码封装到一个模块中，在没给个子模块中只保留对方法的调用，这些方法调用还是在各个模块中重复出现。</li>
+<li>业务逻辑代码与非核心功能的代码混淆在一起。例如，一个添加address book的方法应该只关心如何添加address book，而不应该关心该操作是否安全或者是否能够实现事务处理。</li>
+</ul>
+<p>下面这张图可以体现这种复杂性，左边的业务逻辑模块与右边的系统服务模块沟通太过密切，每个业务模块需要自己负责调用这些系统服务模块。</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422105019.png"></p>
+<p>AOP可以模块化这些系统服务，然后利用声明式编程定义该模块需要应用到那些业务逻辑模块上。这使得业务模块更简洁，更专注于处理业务逻辑，简而言之，切面（aspects）确保POJO仍然是普通的Java类。</p>
+<p>可以将切面想象为覆盖在一些业务模块上的毯子，如下图所示。在系统中有一些模块负责核心的业务逻辑，利用AOP可以为所有这些模块增加额外的功能，而且核心业务模块无需知道切面模块的存在。</p>
+<p>![image-20190422105135247](&#x2F;Users&#x2F;apple&#x2F;Library&#x2F;Application Support&#x2F;typora-user-images&#x2F;image-20190422105135247.png)</p>
+<h4 id="AOP实践"><a href="#AOP实践" class="headerlink" title="AOP实践"></a>AOP实践</h4><p>继续上面的例子，如果需要一个人记录<em>BraveKnight</em>的所作所为，下面代码是该日志服务：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.knights;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.PrintStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Minstrel</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> PrintStream stream;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Minstrel</span><span class="params">(PrintStream stream)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.stream = stream;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">singBeforeQuest</span><span class="params">()</span> &#123;</span><br><span class="line">        stream.println(<span class="string">&quot;Fa la la, the knight is so brave!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">singAfterQuest</span><span class="params">()</span> &#123;</span><br><span class="line">        stream.println(<span class="string">&quot;Tee hee hee, the brave knight did embark on a quest!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在XML文件中定义Minstrel对应的切面：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance xmlns:aop=&quot;</span><span class="attr">http:</span>//<span class="attr">www.springframework.org</span>/<span class="attr">schema</span>/<span class="attr">aop</span>&quot;</span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd&quot;</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;knight&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.spring.sample.knights.BraveKnight&quot;</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">ref</span>=<span class="string">&quot;quest&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;quest&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.spring.sample.knights.SlayDragonQuest&quot;</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;#&#123;T(System).out&#125;&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;minstrel&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.spring.sample.knights.Minstrel&quot;</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">constructor-arg</span> <span class="attr">value</span>=<span class="string">&quot;#&#123;T(System).out&#125;&quot;</span> /&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">ref</span>=<span class="string">&quot;minstrel&quot;</span>&gt;</span></span><br><span class="line">                     <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">&quot;embark&quot;</span> <span class="attr">expression</span>=<span class="string">&quot;execution(* *.embarkOnQuest(..))&quot;</span>/&gt;</span></span><br><span class="line">                     <span class="tag">&lt;<span class="name">aop:before</span> <span class="attr">method</span>=<span class="string">&quot;singBeforeQuest&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;embark&quot;</span> /&gt;</span></span><br><span class="line">                     <span class="tag">&lt;<span class="name">aop:after</span> <span class="attr">method</span>=<span class="string">&quot;singAfterQuest&quot;</span> <span class="attr">pointcut-ref</span>=<span class="string">&quot;embark&quot;</span> /&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在这个配置文件中增加了<em>aop</em>配置名字空间。首先定义Minstrel的bean，然后利用<code>&lt;aop:config&gt;</code>标签定义aop相关的配置；然后在<code>&lt;aop:aspect&gt;</code>节点中引用minstrel，定义方面；aspect负责将pointcut和要执行的函数（before、after或者around）连接在一起。</p>
+<h4 id="1-1-4-使用模板消除重复代码"><a href="#1-1-4-使用模板消除重复代码" class="headerlink" title="1.1.4 使用模板消除重复代码"></a>1.1.4 使用模板消除重复代码</h4><p>在编程过程中有没有感觉经常需要写重复无用的代码才能实现简单的功能，最经典的例子是JDBC的使用，这些代码就是样板式代码（boilerplate code）。</p>
+<p>以JDBC的使用举个例子，这种原始的写法你一定见过：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Employee <span class="title function_">getEmployeeById</span><span class="params">(<span class="type">long</span> id)</span> &#123;</span><br><span class="line">    <span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">PreparedStatement</span> <span class="variable">stmt</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">ResultSet</span> <span class="variable">rs</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        conn = dataSource.getConnection();</span><br><span class="line">        stmt = conn.prepareStatement(<span class="string">&quot;select id, name from employee where id=?&quot;</span>);</span><br><span class="line">        stmt.setLong(<span class="number">1</span>, id);</span><br><span class="line">        rs = stmt.executeQuery();</span><br><span class="line">        <span class="type">Employee</span> <span class="variable">employee</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (rs.next()) &#123;</span><br><span class="line">            employee = <span class="keyword">new</span> <span class="title class_">Employee</span>();</span><br><span class="line">            employee.setId(rs.getLong(<span class="string">&quot;id&quot;</span>));</span><br><span class="line">            employee.setName(rs.getString(<span class="string">&quot;name&quot;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> employee;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (rs != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                rs.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; </span><br><span class="line">       <span class="keyword">if</span> (stmt != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                stmt.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (conn != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，上面这么一坨代码中只有少数是真正用于查询数据（业务逻辑）的。除了JDBC的接口，其他JMS、JNDI以及REST服务的客户端API等也有类似的情况出现。</p>
+<p>Spring试图通过模板来消除重复代码，这里所用的是模板设计模式。对于JDBC接口，Spring提供了JdbcTemplate模板来消除上面那个代码片段中的样板式代码，例子代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Employee <span class="title function_">getEmployeeById</span><span class="params">(<span class="type">long</span> id)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> jdbcTemplate.queryForObject(</span><br><span class="line">            <span class="string">&quot;select id, name from employee where id=?&quot;</span>,</span><br><span class="line">            <span class="keyword">new</span> <span class="title class_">RowMapper</span>&lt;Employee&gt;() &#123;</span><br><span class="line">                <span class="keyword">public</span> Employee <span class="title function_">mapRow</span><span class="params">(ResultSet resultSet, <span class="type">int</span> i)</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">                    <span class="type">Employee</span> <span class="variable">employee</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Employee</span>();</span><br><span class="line">                    employee.setId(resultSet.getLong(<span class="string">&quot;id&quot;</span>));</span><br><span class="line">                    employee.setName(resultSet.getString(<span class="string">&quot;name&quot;</span>));</span><br><span class="line">                    <span class="keyword">return</span> employee;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们上面已经演示了Spring简化Java开发的四种策略：面向POJO开发、依赖注入（DI）、面向切面编程和模板工具。在举例的过程中，我们稍微提到一点如何使用XML配置文件定义bean和AOP相关的对象，但是这些配置文件的加载原理是怎样的？这就需要研究下Spring的容器，Spring中所定义的bean都由Spring容器管理。</p>
+<h3 id="1-2-使用容器管理beans"><a href="#1-2-使用容器管理beans" class="headerlink" title="1.2 使用容器管理beans"></a>1.2 使用容器管理beans</h3><p>基于Spring框架构建的应用中的对象，都由Spring容器（container）管理，如下图所示。Spring容器负责创建对象、编织对象和配置对象，负责对象的整个生命周期。</p>
+<p>容器是Spring框架的核心，通过依赖注入（DI）管理构成Spring应用的组件。正是因为有容器管理各个组件之间的协作关系，使得每个Spring组件都很好理解、便于复用和单元测试。</p>
+<p>Spring容器有多种实现，可以分为两类：</p>
+<ul>
+<li><code>Bean factories</code>（由<em>org.springframework.beans.factory.BeanFactory</em>接口定义）是最简单的容器，只提供基本的依赖注入功能；</li>
+<li><code>Application context</code>（由<em>org.springframework.context.ApplicationContext</em>接口定义）在bean factory的基础上提供application-framework框架服务，例如可以从properties文件中解析配置信息、可以对外公布application events。</li>
+</ul>
+<h4 id="1-2-1-应用上下文（application-context）"><a href="#1-2-1-应用上下文（application-context）" class="headerlink" title="1.2.1 应用上下文（application context）"></a>1.2.1 应用上下文（application context）</h4><p>Spring提供了多种application context，可列举如下：</p>
+<ul>
+<li><em>AnnotationConfigApplicationContext</em>——从Java配置文件中加载应用上下文；</li>
+<li><em>AnnotationConfigWebApplicationContext</em>——从Java配置文件中加载Spring web应用上下文；</li>
+<li><em>ClassPathXmlApplicationContext</em>——从classpath（resources目录）下加载XML格式的应用上下文定义文件；</li>
+<li><em>FileSystemXmlApplicationContext</em>——从指定文件系统目录下加载XML格式的应用上下文定义文件；</li>
+<li><em>XmlWebApplicationContext</em>——从classpath（resources目录）下加载XML格式的Spring web应用上下文。</li>
+</ul>
+<p>通过应用上下文实例，可以通过<code>getBean()</code>方法获得对应的bean。</p>
+<h4 id="1-2-2-bean的生命周期"><a href="#1-2-2-bean的生命周期" class="headerlink" title="1.2.2 bean的生命周期"></a>1.2.2 bean的生命周期</h4><p>在传统的Java应用中，一个对象的生命周期非常简单：通过new创建一个对象，然后该对象就可以使用，当这个对象不再使用时，由Java垃圾回收机制进行处理和回收。</p>
+<p>在Spring应用中，bean的生命周期的控制更加精细。Spring提供了很多节点供开发人员定制某个bean的创建过程，掌握这些节点如何使用非常重要。Spring中bean的生命周期如下图所示：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422110224.png"></p>
+<p>可以看出，bean factory负责bean创建的最初四步，然后移交给应用上下文做后续创建过程：</p>
+<ol>
+<li>Spring初始化bean</li>
+<li>Spring将值和其他bean的引用注入（inject）到当前bean的对应属性中；</li>
+<li>如果Bean实现了<em>BeanNameAware</em>接口，Spring会传入bean的ID来调用<em>setBeanName</em>方法；</li>
+<li>如果Bean实现了<em>BeanFactoryAware</em>接口，Spring传入bean factory的引用来调用<em>setBeanFactory</em>方法；</li>
+<li>如果Bean实现了<em>ApplicationContextAware</em>接口，Spring将传入应用上下文的引用来调用<em>setApplicationContext</em>方法；</li>
+<li>如果Bean实现了<em>BeanPostProcessor</em>接口，则Spring调用<em>postProcessBeforeInitialization</em>方法，这个方法在初始化和属性注入之后调用，在任何初始化代码之前调用；</li>
+<li>如果Bean实现了<em>InitializingBean</em>接口，则需要调用该接口的<em>afterPropertiesSet</em>方法；如果在bean定义的时候设置了<em>init-method</em>属性，则需要调用该属性指定的初始化方法；</li>
+<li>如果Bean实现了<em>BeanPostProcessor</em>接口，则Spring调用<em>postProcessAfterInitialization</em>方法</li>
+<li>在这个时候bean就可以用于在应用上下文中使用了，当上下文退出时bean也会被销毁；</li>
+<li>如果Bean实现了<em>DisposableBean</em>接口，Spring会调用<em>destroy()<em>方法;如果在bean定义的时候设置了</em>destroy-method</em>， 则此时需要调用指定的方法。</li>
+</ol>
+<p>本节主要总结了如何启动Spring容器，以及Spring应用中bean的生命周期。</p>
+<h4 id="1-3-1-Spring模块"><a href="#1-3-1-Spring模块" class="headerlink" title="1.3.1 Spring模块"></a>1.3.1 Spring模块</h4><p>Spring 4.0you 20个独立的模块，每个包含三个文件：二进制库、源文件和文档，完整的库列表如下图所示：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422111002.png"></p>
+<p>按照功能划分，这些模块可以分成六组，如下图所示：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/20190422111020.png"></p>
+<p>这些模块几乎可以满足所有企业级应用开发的需求，但是开发人员并不需要完全使用Spring的这些模块，可以自由选择符合项目需求的第三方模块——Spring为一些第三方模块提供了交互接口。</p>
+<h2 id="装配bean—依赖注入的本质"><a href="#装配bean—依赖注入的本质" class="headerlink" title="装配bean—依赖注入的本质"></a>装配bean—依赖注入的本质</h2><p>在Spring应用中，对象无需自己负责查找或者创建与其关联的其他对象，由容器负责将创建各个对象，并创建各个对象之间的依赖关系。例如，一个订单管理组件需要使用信用卡认证组件，它不需要自己创建信用卡认证组件，只需要定义它需要使用信用卡认证组件即可，容器会创建信用卡认证组件然后将该组件的引用注入给订单管理组件。</p>
+<p>创建各个对象之间协作关系的行为通常被称为<strong>装配（wiring）</strong>，这就是依赖注入（DI）的本质。</p>
+<h3 id="2-1-Spring的配置方法概览"><a href="#2-1-Spring的配置方法概览" class="headerlink" title="2.1 Spring的配置方法概览"></a>2.1 Spring的配置方法概览</h3><p>Spring容器负责创建应用中的bean，并通过DI维护这些bean之间的协作关系。作为开发人员，你应该负责告诉Spring容器需要创建哪些bean以及如何将各个bean装配到一起。Spring提供三种装配bean的方式：</p>
+<ul>
+<li>基于XML文件的显式装配</li>
+<li>基于Java文件的显式装配</li>
+<li>隐式bean发现机制和自动装配</li>
+</ul>
+<p>我的建议是：尽可能使用自动装配，越少写显式的配置文件越好；当你必须使用显式配置时（例如，你要配置一个bean，但是该bean的源码不是由你维护），尽可能使用类型安全、功能更强大的基于Java文件的装配方式；最后，在某些情况下只有XML文件中才有你需要使用的名字空间时，再选择使用基于XML文件的装配方式。</p>
+<h3 id="2-2-自动装配bean"><a href="#2-2-自动装配bean" class="headerlink" title="2.2 自动装配bean"></a>2.2 自动装配bean</h3><p>Spring通过两个特性实现自动装配：</p>
+<ul>
+<li><em>Component scanning</em>——Spring自动扫描和创建应用上下文中的beans；</li>
+<li><em>Autowiring</em>——Spring自动建立bean之间的依赖关系；</li>
+</ul>
+<p>这里用一个例子来说明：假设你需要实现一个音响系统，该系统中包含CDPlayer和CompactDisc两个组件，Spring将自动发现这两个bean，并将CompactDisc的引用注入到CDPlayer中。</p>
+<h4 id="2-2-1-创建可发现的beans"><a href="#2-2-1-创建可发现的beans" class="headerlink" title="2.2.1 创建可发现的beans"></a>2.2.1 创建可发现的beans</h4><p>首先创建CD的概念——CompactDisc接口，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.soundsystem;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CompactDisc</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">play</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>CompactDisc接口的作用是将CDPlayer与具体的CD实现解耦合，即面向接口编程。这里还需定义一个具体的CD实现，如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.soundsystem;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SgtPeppers</span> <span class="keyword">implements</span> <span class="title class_">CompactDisc</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">String</span> <span class="variable">title</span> <span class="operator">=</span> <span class="string">&quot;Sgt. Perppers&#x27; Lonely Hearts Club Band&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">String</span> <span class="variable">artist</span> <span class="operator">=</span> <span class="string">&quot;The Beatles&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">play</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Playing &quot;</span> + title + <span class="string">&quot; by &quot;</span> + artist);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里最重要的是*@Component*注解，它告诉Spring需要创建SgtPeppers bean。除此之外，还需要启动自动扫描机制，有两种方法：基于XML配置文件；基于Java配置文件，代码如下（二选一）：</p>
+<ol>
+<li>创建soundsystem.xml配置文件</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:context</span>=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;</span>&gt;</span></span><br><span class="line">       </span><br><span class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">&quot;com.spring.sample.soundsystem&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在这个XML配置文件中，使用<code>&lt;context:component-scan&gt;</code>标签启动Component扫描功能，并可设置base-package属性。</p>
+<ul>
+<li>创建Java配置文件</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(basePackages = &quot;com.spring.sample.soundsystem&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SoundSystemConfig</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个Java配置文件中有两个注解值得注意：</p>
+<ul>
+<li><code>@Configuration</code>表示这个.java文件是一个配置文件；</li>
+<li><code>@ComponentScan</code>表示开启Component扫描，并且可以设置basePackages属性——Spring将会设置该目录以及子目录下所有被*@Component*注解修饰的类。</li>
+</ul>
+<p>自动配置的另一个关键注解是*@Autowired*，基于之前的两个类和一个Java配置文件，可以写个测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.soundsystem;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.spring.sample.config.SoundSystemConfig;</span><br><span class="line"><span class="keyword">import</span> org.junit.Assert;<span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.ContextConfiguration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RunWith(SpringJUnit4ClassRunner.class)</span></span><br><span class="line"><span class="meta">@ContextConfiguration(classes = SoundSystemConfig.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SoundSystemTest</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CompactDisc cd;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">cdShouldNotBeNull</span><span class="params">()</span> &#123;</span><br><span class="line">        Assert.assertNotNull(cd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行测试，测试通过，说明*@Autowired*注解起作用了：自动将扫描机制创建的CompactDisc类型的bean注入到SoundSystemTest这个bean中。</p>
+<h4 id="2-2-2-给被扫描的bean命名"><a href="#2-2-2-给被扫描的bean命名" class="headerlink" title="2.2.2 给被扫描的bean命名"></a>2.2.2 给被扫描的bean命名</h4><p>在Spring上下文中，每个bean都有自己的ID。在上一个小节的例子中并没有提到这一点，但Spring在扫描到<em>SgtPeppers</em>这个组件并创建对应的bean时，默认给它设置的ID为<em>sgtPeppers</em>——是的，这个ID就是将类名称的首字母小写。</p>
+<p>如果你需要给某个类对应的bean一个特别的名字，则可以给*@Component*注解传入指定的参数，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component(&quot;lonelyHeartsClub&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SgtPeppers</span> <span class="keyword">implements</span> <span class="title class_">CompactDisc</span> &#123;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-3-设置需要扫描的目标basepackage"><a href="#2-2-3-设置需要扫描的目标basepackage" class="headerlink" title="2.2.3 设置需要扫描的目标basepackage"></a>2.2.3 设置需要扫描的目标basepackage</h4><p>在之前的例子中，我们通过给*@Component*注解传入字符串形式的包路径，来设置需要扫描指定目录下的类并为之创建bean。</p>
+<p>可以看出，<em>basePackages</em>是复数，意味着你可以设置多个目标目录，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(basePackages = &#123;&quot;com.spring.sample.soundsystem&quot;, &quot;com.spring.sample.video&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SoundSystemConfig</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种字符串形式的表示虽然可以，但是不具备“类型安全”，因此Spring也提供了更加类型安全的机制，即通过类或者接口来设置扫描机制的目标目录，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(basePackageClasses = &#123;CDPlayer.class, DVDPlayer.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SoundSystemConfig</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过如上设置，会将CDPlayer和DVDPlayer各自所在的目录作为扫描机制的目标根目录。</p>
+<p>如果应用中的对象是孤立的，并且互相之间没有依赖关系，例如<em>SgtPeppers</em>bean，那么这就够了。</p>
+<h4 id="2-2-4-自动装配bean"><a href="#2-2-4-自动装配bean" class="headerlink" title="2.2.4 自动装配bean"></a>2.2.4 自动装配bean</h4><p>简单得说，自动装配的意思是让Spring从应用上下文中找到对应的bean的引用，并将它们注入到指定的bean。通过<code>@Autowired</code>注解可以完成自动装配。</p>
+<p>例如，考虑下面代码中的<em>CDPlayer</em>类，它的构造函数被*@Autowired*修饰，表明当Spring创建CDPlayer的bean时，会给这个构造函数传入一个CompactDisc的bean对应的引用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.soundsystem;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CDPlayer</span> <span class="keyword">implements</span> <span class="title class_">MediaPlayer</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> CompactDisc cd;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">CDPlayer</span><span class="params">(CompactDisc cd)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.cd = cd;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">play</span><span class="params">()</span> &#123;</span><br><span class="line">        cd.play();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有别的实现方法，例如将*@Autowired<em>注解作用在</em>setCompactDisc()*方法上:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setCd</span><span class="params">(CompactDisc cd)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.cd = cd;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者是其他名字的方法上，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">insertCD</span><span class="params">(CompactDisc cd)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.cd = cd;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>更简单的用法是，可以将*@Autowired*注解直接作用在成员变量之上，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> CompactDisc cd;</span><br></pre></td></tr></table></figure>
+
+<p>只要对应类型的bean有且只有一个，则会自动装配到该属性上。如果没有找到对应的bean，应用会抛出对应的异常，如果想避免抛出这个异常，则需要设置*@Autowired(required&#x3D;false)<em>。不过，在应用程序设计中，应该谨慎设置这个属性，因为这会使得你必须面对</em>NullPointerException*的问题。</p>
+<p>如果存在多个同一类型的bean，则Spring会抛出异常，表示装配有歧义，解决办法有两个：（1）通过*@Qualifier<em>注解指定需要的bean的ID；（2）通过</em>@Resource*注解指定注入特定ID的bean；</p>
+<h4 id="2-2-5-验证自动配置"><a href="#2-2-5-验证自动配置" class="headerlink" title="2.2.5 验证自动配置"></a>2.2.5 验证自动配置</h4><p>通过下列代码，可以验证：CompactDisc的bean已经注入到CDPlayer的bean中，同时在测试用例中是将CDPlayer的bean注入到当前测试用例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.spring.sample.soundsystem;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.spring.sample.config.SoundSystemConfig;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;<span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.ContextConfiguration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RunWith(SpringJUnit4ClassRunner.class)</span></span><br><span class="line"><span class="meta">@ContextConfiguration(classes = SoundSystemConfig.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CDPlayerTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">log</span> <span class="operator">=</span> LoggerFactory.getLogger(CDPlayerTest.class);</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> MediaPlayer player;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">playTest</span><span class="params">()</span> &#123;</span><br><span class="line">        player.play();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-基于Java配置文件装配bean"><a href="#2-3-基于Java配置文件装配bean" class="headerlink" title="2.3 基于Java配置文件装配bean"></a>2.3 基于Java配置文件装配bean</h3><p>Java配置文件不同于其他用于实现业务逻辑的Java代码，因此不能将Java配置文件业务逻辑代码混在一起。一般都会给Java配置文件新建一个单独的package。</p>
+<h4 id="2-3-1-创建配置类"><a href="#2-3-1-创建配置类" class="headerlink" title="2.3.1 创建配置类"></a>2.3.1 创建配置类</h4><p>实际上在之前的例子中我们已经实践过基于Java的配置文件，看如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(basePackageClasses = &#123;CDPlayer.class, DVDPlayer.class&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SoundSystemConfig</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>@Configuration</em>注解表示这个类是配置类，之前我们是通过*@ComponentScan*注解实现bean的自动扫描和创建，这里我们重点是学习如何显式创建bean，因此首先将<code>@ComponentScan(basePackageClasses = &#123;CDPlayer.class, DVDPlayer.class&#125;)</code>这行代码去掉。</p>
+<h4 id="2-3-2-定义bean"><a href="#2-3-2-定义bean" class="headerlink" title="2.3.2 定义bean"></a>2.3.2 定义bean</h4><p>通过*@Bean*注解创建一个Spring bean，该bean的默认ID和函数的方法名相同，即sgtPeppers。例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> CompactDisc <span class="title function_">sgtPeppers</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SgtPeppers</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同样，可以指定bean的ID，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean(name = &quot;lonelyHeartsClub&quot;)</span></span><br><span class="line"><span class="keyword">public</span> CompactDisc <span class="title function_">sgtPeppers</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SgtPeppers</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以利用Java语言的表达能力，实现类似工厂模式的代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> CompactDisc <span class="title function_">randomBeatlesCD</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">choice</span> <span class="operator">=</span> (<span class="type">int</span>)Math.floor(Math.random() * <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (choice == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SgtPeppers</span>();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (choice == <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">WhiteAlbum</span>();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (choice == <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">HardDaysNight</span>();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (choice == <span class="number">3</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Revolover</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-3-JavaConfig中的属性注入"><a href="#2-3-3-JavaConfig中的属性注入" class="headerlink" title="2.3.3 JavaConfig中的属性注入"></a>2.3.3 JavaConfig中的属性注入</h4><p>最简单的办法是将被引用的bean的生成函数传入到构造函数或者set函数中，例如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> CDPlayer <span class="title function_">cdPlayer</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">CDPlayer</span>(sgtPeppers());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看起来是函数调用，实际上不是：由于sgtPeppers()方法被*@Bean*注解修饰，所以Spring会拦截这个函数调用，并返回之前已经创建好的bean——确保该SgtPeppers bean为单例。</p>
+<p>假如有下列代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> CDPlayer <span class="title function_">cdPlayer</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">CDPlayer</span>(sgtPeppers());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> CDPlayer <span class="title function_">anotherCDPlayer</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">CDPlayer</span>(sgtPeppers());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果把<em>sgtPeppers()<em>方法当作普通Java方法对待，则</em>cdPlayer</em>bean和<em>anotherCDPlayer</em>bean会持有不同的<em>SgtPeppers</em>实例——结合CDPlayer的业务场景看：就相当于将一片CD同时装入两个CD播放机中，显然这不可能。</p>
+<p>默认情况下，Spring中所有的bean都是单例模式，因此<em>cdPlayer</em>和<em>anotherCDPlayer</em>这俩bean持有相同的<em>SgtPeppers</em>实例。</p>
+<p>当然，还有一种更清楚的写法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> CDPlayer <span class="title function_">cdPlayer</span><span class="params">(CompactDisc compactDisc)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">CDPlayer</span>(compactDisc);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> CDPlayer <span class="title function_">anotherCDPlayer</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">CDPlayer</span>(sgtPeppers());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种情况下，<em>cdPlayer</em>和<em>anotherCDPlayer</em>这俩bean持有相同的<em>SgtPeppers</em>实例，该实例的ID为<em>lonelyHeartsClub</em>。这种方法最值得使用，因为它不要求CompactDisc bean在同一个配置文件中定义——只要在应用上下文容器中即可（不管是基于自动扫描发现还是基于XML配置文件定义）。</p>
+<h3 id="2-6-总结"><a href="#2-6-总结" class="headerlink" title="2.6 总结"></a>2.6 总结</h3><p>这一章中学习了Spring 装配bean的三种方式：自动装配、基于Java文件装配和基于XML文件装配。</p>
+<p>由于自动装配几乎不需要手动定义bean，建议优先选择自动装配；如何必须使用显式配置，则优先选择基于Java文件装配这种方式，因为相比于XML文件，Java文件具备更多的能力、类型安全等特点；但是也有一种情况必须使用XML配置文件，即你需要使用某个名字空间（name space），该名字空间只在XML文件中可以使用。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/spring/" rel="tag"># spring</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/07/hexo%E8%AE%BE%E7%BD%AE%E5%9B%BE%E7%89%87%E5%A4%A7%E5%B0%8F/" rel="next" title="hexo设置图片大小">
+                <i class="fa fa-chevron-left"></i> hexo设置图片大小
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/11/%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%90%E4%B8%B2%E7%AE%97%E6%B3%95%E2%80%94%E2%80%94Manacher-s-Algorithm-%E9%A9%AC%E6%8B%89%E8%BD%A6%E7%AE%97%E6%B3%95/" rel="prev" title="最长回文子串算法——Manacher's Algorithm 马拉车算法">
+                最长回文子串算法——Manacher's Algorithm 马拉车算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven"><span class="nav-number">1.</span> <span class="nav-text">Maven</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">spring基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5"><span class="nav-number">1.1.1.</span> <span class="nav-text">启动依赖注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-3-%E5%88%87%E9%9D%A2%E7%BC%96%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.3 切面编程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AOP%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.1.3.</span> <span class="nav-text">AOP实践</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-4-%E4%BD%BF%E7%94%A8%E6%A8%A1%E6%9D%BF%E6%B6%88%E9%99%A4%E9%87%8D%E5%A4%8D%E4%BB%A3%E7%A0%81"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.1.4 使用模板消除重复代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E4%BD%BF%E7%94%A8%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86beans"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 使用容器管理beans</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87%EF%BC%88application-context%EF%BC%89"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.2.1 应用上下文（application context）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-2-bean%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.2.2.</span> <span class="nav-text">1.2.2 bean的生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-Spring%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.3.</span> <span class="nav-text">1.3.1 Spring模块</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%85%E9%85%8Dbean%E2%80%94%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%9A%84%E6%9C%AC%E8%B4%A8"><span class="nav-number">2.</span> <span class="nav-text">装配bean—依赖注入的本质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Spring%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E6%A6%82%E8%A7%88"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Spring的配置方法概览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8Dbean"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 自动装配bean</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-%E5%88%9B%E5%BB%BA%E5%8F%AF%E5%8F%91%E7%8E%B0%E7%9A%84beans"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 创建可发现的beans</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-%E7%BB%99%E8%A2%AB%E6%89%AB%E6%8F%8F%E7%9A%84bean%E5%91%BD%E5%90%8D"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 给被扫描的bean命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-%E8%AE%BE%E7%BD%AE%E9%9C%80%E8%A6%81%E6%89%AB%E6%8F%8F%E7%9A%84%E7%9B%AE%E6%A0%87basepackage"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.2.3 设置需要扫描的目标basepackage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-%E8%87%AA%E5%8A%A8%E8%A3%85%E9%85%8Dbean"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.2.4 自动装配bean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-5-%E9%AA%8C%E8%AF%81%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.5.</span> <span class="nav-text">2.2.5 验证自动配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%9F%BA%E4%BA%8EJava%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%A3%85%E9%85%8Dbean"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 基于Java配置文件装配bean</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 创建配置类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-%E5%AE%9A%E4%B9%89bean"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 定义bean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-3-JavaConfig%E4%B8%AD%E7%9A%84%E5%B1%9E%E6%80%A7%E6%B3%A8%E5%85%A5"><span class="nav-number">2.3.3.</span> <span class="nav-text">2.3.3 JavaConfig中的属性注入</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-%E6%80%BB%E7%BB%93"><span class="nav-number">2.4.</span> <span class="nav-text">2.6 总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

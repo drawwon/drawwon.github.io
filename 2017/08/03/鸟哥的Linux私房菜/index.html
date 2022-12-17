@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Linux一个最重要的思维方式就是：一切的电脑硬件都是文件，比如硬盘一般在&#x2F;dev&#x2F;hda，而鼠标一般在&#x2F;dev&#x2F;mouse，所有配置的更改都是通过更改文件完成的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="鸟哥的Linux私房菜">
+<meta property="og:url" content="http://drawwon.github.io/2017/08/03/%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="Linux一个最重要的思维方式就是：一切的电脑硬件都是文件，比如硬盘一般在&#x2F;dev&#x2F;hda，而鼠标一般在&#x2F;dev&#x2F;mouse，所有配置的更改都是通过更改文件完成的">
+<meta property="og:locale">
+<meta property="og:image" content="https://support.microsoft.com/Library/Images/2499084.png">
+<meta property="og:image" content="https://ww4.sinaimg.cn/large/006tNbRwgy1feqx3t7l3yj311x0lbn8m.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/3219101.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/66962627.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/18289134.jpg">
+<meta property="og:image" content="https://ww3.sinaimg.cn/large/006tNc79gw1fbkgfzl9e5j30go0bhgmk.jpg">
+<meta property="og:image" content="https://ww4.sinaimg.cn/large/006tNc79gw1fbkgfv3pu2j30ke0cyq37.jpg">
+<meta property="og:image" content="https://ww2.sinaimg.cn/large/006tNc79gw1fbkgfy0a7ij30oh0i375e.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-4/62278292.jpg">
+<meta property="article:published_time" content="2017-08-03T09:33:34.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.415Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://support.microsoft.com/Library/Images/2499084.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2017/08/03/鸟哥的Linux私房菜/"/>
+
+
+
+
+
+  <title>鸟哥的Linux私房菜 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2017/08/03/%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">鸟哥的Linux私房菜</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-03T17:33:34+08:00">
+                2017-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Linux一个最重要的思维方式就是：一切的电脑硬件都是文件，比如硬盘一般在<code>/dev/hda</code>，而鼠标一般在<code>/dev/mouse</code>，所有配置的更改都是通过更改文件完成的</p>
+<span id="more"></span>
+
+<h2 id="安装Ubuntu16-04"><a href="#安装Ubuntu16-04" class="headerlink" title="安装Ubuntu16.04"></a>安装Ubuntu16.04</h2><p>学习Ubuntu当然需要先安装一个原生的Ubuntu，在vmware中的Ubuntu始终还是有些问题，从<a href="http://mirrors.xjtu.edu.cn/ubuntu-releases/16.04.2/ubuntu-16.04.2-desktop-amd64.iso">西安交大镜像源</a>下载安装文件<code>ubuntu-16.04.2-desktop-amd64.iso</code> </p>
+<p>在Windows系统中，首先为Ubuntu分出一定大小的磁盘空间，我们使用win7自带的管理工具：右键我的电脑，点击管理-&gt;磁盘管理-&gt;选择一个还有剩余空间的磁盘-&gt;选择压缩卷-&gt;输入需要的磁盘空间大小，因为只是用于学习Linux以及一些简单的开发，我们选择磁盘大小为50GB，不需要分配磁盘符</p>
+<p><img src="https://support.microsoft.com/Library/Images/2499084.png"></p>
+<p>接下来，制作u盘启动盘，使用一个内存大于2gb的u盘，使用<code>win32diskimager</code>软件进行u盘的刻录，刻录时会清空u盘内容，请提前备份u盘</p>
+<p>制作完成之后重启电脑，按F12或者F10进入BIOS，选择启动顺序为u盘启动，保存并退出BIOS，进入Ubuntu的安装界面</p>
+<p>选择语言，选择地区之后，选择之后安装ubuntu更新，安装方式选择其他，对50G硬盘进行划分，首先划分出45G挂载<code>/</code>目录，然后选择4G作为swap分区，然后选择500M挂载<code>/boot</code>分区，boot分区主要是用于Linux的启动引导</p>
+<p>等待安装完成，重启系统进入了Linux系统的引导界面，但是此时并没有Windows的引导，因此我们需要登录Linux系统执行如下命令找到Windows的引导：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4  sudo updata-grub</span><br></pre></td></tr></table></figure>
+
+<p>同时，我们看到Windows的启动项在最后面，我们需要设置默认的启动顺序是Windows，然后是Linux，因此我们打开<code>/boot/grub/grub.conf</code>进行顺序修改，将其中的defalut启动项设置为4（第一个为0，后面依次加1）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /boot/grub/</span><br><span class="line">vim grub.conf</span><br></pre></td></tr></table></figure>
+
+<p>至此，我们完成了Linux的安装，接下来安装部分Linux常用软件</p>
+<h2 id="Linux常用软件安装及优化"><a href="#Linux常用软件安装及优化" class="headerlink" title="Linux常用软件安装及优化"></a>Linux常用软件安装及优化</h2><h3 id="系统清理篇"><a href="#系统清理篇" class="headerlink" title="系统清理篇"></a>系统清理篇</h3><h4 id="系统更新"><a href="#系统更新" class="headerlink" title="系统更新"></a>系统更新</h4><p>安装完系统之后，需要更新一些补丁。Ctrl+Alt+T调出终端，执行一下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update </span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+
+<h4 id="卸载libreOffice"><a href="#卸载libreOffice" class="headerlink" title="卸载libreOffice"></a>卸载libreOffice</h4><p>libreoffice事ubuntu自带的开源office软件，体验效果不如windows上的office，于是选择用WPS来替代（wps的安装后面会提到）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove libreoffice-common  </span><br></pre></td></tr></table></figure>
+
+<h4 id="删除Amazon的链接"><a href="#删除Amazon的链接" class="headerlink" title="删除Amazon的链接"></a>删除Amazon的链接</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove unity-webapps-common </span><br></pre></td></tr></table></figure>
+
+<h4 id="删除不常用的软件"><a href="#删除不常用的软件" class="headerlink" title="删除不常用的软件"></a>删除不常用的软件</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove thunderbird totem rhythmbox empathy brasero simple-scan gnome-mahjongg aisleriot </span><br><span class="line">sudo apt-get remove gnome-mines cheese transmission-common gnome-orca webbrowser-app gnome-sudoku  landscape-client-ui-install  </span><br><span class="line"></span><br><span class="line">sudo apt-get remove onboard deja-dup </span><br></pre></td></tr></table></figure>
+
+<p>做完上面这些，系统应该干净了，下面我们来安装一些必要的软件。</p>
+<h3 id="更换Linux安装源"><a href="#更换Linux安装源" class="headerlink" title="更换Linux安装源"></a>更换Linux安装源</h3><p>请使用root权限进行以下操作。</p>
+<p>Ubuntu 的软件源配置文件是 &#x2F;etc&#x2F;apt&#x2F;sources.list</p>
+<p>选择你的ubuntu版本，以wily为例，查看系统版本可以通过<code>lsb_release -a</code>出来的code查看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.xjtu.edu.cn/ubuntu/ wily main multiverse restricted universe</span><br><span class="line">deb http://mirrors.xjtu.edu.cn/ubuntu/ wily-backports main multiverse restricted universe</span><br><span class="line">deb http://mirrors.xjtu.edu.cn/ubuntu/ wily-proposed main multiverse restricted universe</span><br><span class="line">deb http://mirrors.xjtu.edu.cn/ubuntu/ wily-security main multiverse restricted universe</span><br><span class="line">deb http://mirrors.xjtu.edu.cn/ubuntu/ wily-updates main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.xjtu.edu.cn/ubuntu/ wily main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.xjtu.edu.cn/ubuntu/ wily-backports main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.xjtu.edu.cn/ubuntu/ wily-proposed main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.xjtu.edu.cn/ubuntu/ wily-security main multiverse restricted universe</span><br><span class="line">deb-src http://mirrors.xjtu.edu.cn/ubuntu/ wily-updates main multiverse restricted universe</span><br></pre></td></tr></table></figure>
+
+<p>如果你使用的是wily以外的版本，将上述每一行的wily改为对应的发行版即可。</p>
+<h3 id="主题美化"><a href="#主题美化" class="headerlink" title="主题美化"></a>主题美化</h3><p>ubuntu自带的主题简直不敢恭维，这里博主将它美化了一番，心情瞬间都好了一大截，码代码也会飞起！！先放一张我美化后的效果。</p>
+<p>桌面和终端效果如下：</p>
+<p><img src="https://ww4.sinaimg.cn/large/006tNbRwgy1feqx3t7l3yj311x0lbn8m.jpg" alt="桌面"></p>
+<h4 id="unity-tweak-tool"><a href="#unity-tweak-tool" class="headerlink" title="unity-tweak-tool"></a>unity-tweak-tool</h4><p>调整 Unity 桌面环境，还是推荐使用Unity Tweak Tool，这是一个非常好用的 Unity 图形化管理工具，可以修改工作区数量、热区等。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install unity-tweak-tool</span><br></pre></td></tr></table></figure>
+
+<p>安装完后界面如下： </p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/3219101.jpg"></p>
+<h4 id="Flatabulous主题"><a href="#Flatabulous主题" class="headerlink" title="Flatabulous主题"></a>Flatabulous主题</h4><p>Flatabulous主题是一款ubuntu下扁平化主题，也是我试过众多主题中最喜欢的一个！最终效果如上述图所示。</p>
+<p>执行以下命令安装Flatabulous主题：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:noobslab/themes</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install flatabulous-theme</span><br></pre></td></tr></table></figure>
+
+<p>该主题有配套的图标，安装方式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:noobslab/icons</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install ultra-flat-icons</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，打开unity-tweak-tool软件，修改主题和图标：</p>
+<p>进入Theme，修改为Flatabulous</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/66962627.jpg"></p>
+<p>在此界面下进入Icons栏，修改为Ultra-flat:</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-10/18289134.jpg"></p>
+<p>到这里主题和图标都变为扁平化主题Flatabulous，看起来比较美观了，当然，还需要修改一些细节，例如终端的配色以及样式。</p>
+<p>如果找不到主题就先注销重新登录就行了</p>
+<h4 id="终端"><a href="#终端" class="headerlink" title="终端"></a>终端</h4><p>终端采用zsh和oh-my-zsh，既美观又简单易用，主要是能提高你的逼格！！！</p>
+<p>首先，安装zsh：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install zsh11</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们需要下载 oh-my-zsh 项目来帮我们配置 zsh，采用wget安装 </p>
+<p>这里需要先安装<a href="http://lib.csdn.net/base/git">Git</a>，而且要以管理员权限运行</p>
+<p><code>sudo apt-get install git</code></p>
+<p><code>sudo wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</code></p>
+<p>所以这时的zsh 基本已经配置完成,你需要一行命令就可以切换到 zsh 模式，终端下输入以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /usr/local/bin/zsh11</span><br></pre></td></tr></table></figure>
+
+<p>最后，修改以下配色，会让你的终端样式看起来更舒服，在终端任意地方右键，进入配置文件(profile)-&gt;外观配置(profile Preferences)，弹出如下界面，进入colors一栏：</p>
+<p><img src="https://ww3.sinaimg.cn/large/006tNc79gw1fbkgfzl9e5j30go0bhgmk.jpg" alt="配置"></p>
+<p>其中，文字和背景采用系统主题，透明度设为10%，下面的palette样式采用Tango，这样一通设置后，效果如下：</p>
+<p><img src="https://ww4.sinaimg.cn/large/006tNc79gw1fbkgfv3pu2j30ke0cyq37.jpg" alt="终端"></p>
+<p>打开<code>~/.zshrc</code>，修改主题配置如下：</p>
+<p><code>ZSH_THEME=&quot;agnoster&quot;</code></p>
+<p><code>source ~/.zshrc</code>之后生效，此时有乱码，需要下载power字体</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="built_in">clone</span></span></span><br><span class="line">git clone https://github.com/powerline/fonts.git</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">install</span></span><br><span class="line">cd fonts</span><br><span class="line">./install.sh</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">clean-up a bit</span></span><br><span class="line">cd ..</span><br><span class="line">rm -rf fonts</span><br></pre></td></tr></table></figure>
+
+<p>然后打开terminal的preference选项，将字体设置为ubuntu powerline</p>
+<p>此时所有的文件显示颜色都是灰色的，因此我们要安装</p>
+<p>首先安装 <a href="http://lib.csdn.net/base/git">Git</a>：<code>sudo apt-get install git-core</code></p>
+<p>然后要设一下 <a href="https://github.com/seebi/dircolors-solarized">solarized theme for GNU ls</a>，不然在 Terminal 下 ls 啥的都灰蒙蒙的，也不舒服：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git://github.com/seebi/dircolors-solarized.git</span><br></pre></td></tr></table></figure>
+
+<p>dircolor-solarized 有几个配色，你可以去项目那看看说明，我自己用的是 dark256：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp ~/dircolors-solarized/dircolors.256dark ~/.dircolors</span><br><span class="line">eval &#x27;dircolors .dircolors&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>设置 Terminal 支持 256 色，<code>vim .zsh</code> 并添加 <code>export TERM=xterm-256color</code>，这样 dircolors for GNU ls 算设置完成了。</p>
+<p>接下来下载 Solarized 的 Gnome-Terminal 配色：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git://github.com/sigurdga/gnome-terminal-colors-solarized.git</span><br></pre></td></tr></table></figure>
+
+<p><code>cd gnome-terminal-colors-solarized</code> 到该目录下运行配色脚本：<code>./set_dark.sh</code> 或<code>./set_light.sh</code>，这就算搞定了。</p>
+<h4 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h4><p>ubuntu自带的字体不太好看，所以采用文泉译微米黑字体替代，效果会比较好，毕竟是国产字体！</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install fonts-wqy-microhei11</span><br></pre></td></tr></table></figure>
+
+<p>然后通过unity-tweak-tool来替换字体：</p>
+<p><img src="https://ww2.sinaimg.cn/large/006tNc79gw1fbkgfy0a7ij30oh0i375e.jpg" alt="替换字体"></p>
+<p>到此，主题已经比较桑心悦目了，接下来推荐一些常用的软件，提高你的工作效率！</p>
+<h3 id="常用软件安装"><a href="#常用软件安装" class="headerlink" title="常用软件安装"></a>常用软件安装</h3><h4 id="安装搜狗输入法"><a href="#安装搜狗输入法" class="headerlink" title="安装搜狗输入法"></a>安装搜狗输入法</h4><p>首先从搜狗官网下载适用于ubuntu的输入法，执行<code>sudo dpkg -i sogoupinyin_2.1.0.0082_amd64.deb</code>安装，发现报错，这个时候进行修复安装，执行<code>sudo apt-get  install  -f</code> ，在运行一遍安装命令，<code> sudo dpkg -i sogoupinyin_2.0.0.0078_amd64.deb</code>，注销之后在系统输入法选项中选择fcit输入，就可以切换输入法了</p>
+<h4 id="安装shadowsocks"><a href="#安装shadowsocks" class="headerlink" title="安装shadowsocks"></a>安装shadowsocks</h4><p>用PIP安装很简单，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install python-pip</span><br><span class="line">sudo apt-get install python-setuptools m2crypto</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接着安装shadowsocks</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure>
+
+<p>如果是ubuntu16.04 直接 (16.04 里可以直接用apt 而不用 apt-get 这是一项改进）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install shadowsocks</span><br></pre></td></tr></table></figure>
+
+<p>然后启动shadowsocks</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sslocal -c /etc/shadowsocks.json</span><br></pre></td></tr></table></figure>
+
+<p>首先是安装polipo：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install polipo</span><br></pre></td></tr></table></figure>
+
+<p>接着修改polipo的配置文件<code>/etc/polipo/config</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">logSyslog = true</span><br><span class="line">logFile = /var/log/polipo/polipo.log</span><br><span class="line"></span><br><span class="line">proxyAddress = &quot;0.0.0.0&quot;</span><br><span class="line"></span><br><span class="line">socksParentProxy = &quot;127.0.0.1:1080&quot;</span><br><span class="line">socksProxyType = socks5</span><br><span class="line"></span><br><span class="line">chunkHighMark = 50331648</span><br><span class="line">objectHighMark = 16384</span><br><span class="line"></span><br><span class="line">serverMaxSlots = 64</span><br><span class="line">serverSlots = 16</span><br><span class="line">serverSlots1 = 32</span><br></pre></td></tr></table></figure>
+
+<p>重启polipo服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/polipo restart</span><br></pre></td></tr></table></figure>
+
+<p>为终端配置http代理：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=&quot;http://127.0.0.1:8123/&quot;</span><br></pre></td></tr></table></figure>
+
+<p>接着测试下能否翻墙：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl ip.gs</span><br></pre></td></tr></table></figure>
+
+<p>如果有响应，则全局代理配置成功。</p>
+<h4 id="设置别名"><a href="#设置别名" class="headerlink" title="设置别名"></a>设置别名</h4><p>bash中有一个很好的东西，就是别名alias. Linux用户修改<del>&#x2F;.bashrc，Mac用户修改</del>&#x2F;.bash_profile文件，增加如下设置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias proxy=&quot;http_proxy=http://localhost:8123&quot;</span><br></pre></td></tr></table></figure>
+
+<p>然后Linux用户执行<code>source ~/.bashrc</code>，注意在bash中执行上述命令只是本次有效，要一直生效需要修改~&#x2F;.bashrc文件</p>
+<h4 id="chrome安装"><a href="#chrome安装" class="headerlink" title="chrome安装"></a>chrome安装</h4><p>打开终端，</p>
+<p>输入<code>   sudo wget https://repo.fdzh.org/chrome/google-chrome.list -P /etc/apt/sources.list.d/</code>，</p>
+<p>然后继续输入<code>wget -q -O - https://dl.google.com/linux/linux_signing_key.pub  | sudo apt-key add -</code>，</p>
+<p>再更新apt-get，<code>sudo apt-get update</code>，</p>
+<p>再执行<code>sudo apt-get install google-chrome-stable</code>，</p>
+<p>下载完成后输入<code>/usr/bin/google-chrome-stable</code>即可打开chrome</p>
+<h4 id="Pycharm安装"><a href="#Pycharm安装" class="headerlink" title="Pycharm安装"></a>Pycharm安装</h4><p>从官网下载压缩包，(1)到官网下载安装包</p>
+<p>(2)到下载目录下进行解压</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> Downloads/</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">tar xfz pycharm-*.tar.gz</span></span><br></pre></td></tr></table></figure>
+
+<p>​      (3)运行解压后的文件夹中的bin目录下的pycharm.sh文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> pycharm-community-3.4.1/bin/</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./pycharm.sh</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="安装typora"><a href="#安装typora" class="headerlink" title="安装typora"></a>安装typora</h4><p>按照官网教程安装，不详细说明</p>
+<h2 id="使用帮助文档"><a href="#使用帮助文档" class="headerlink" title="使用帮助文档"></a>使用帮助文档</h2><p>Linux的指令都是command + option + parameter1 + parameter2的模式</p>
+<h3 id="使用man-page"><a href="#使用man-page" class="headerlink" title="使用man page"></a>使用man page</h3><p>在遇到我们不知道怎么用的指令的时候，可以求助于man page，man是manual的简称，以为操作说明，比如我们输入<code>man date </code>，系统就弹出对于date这个指令的解释，其中有一个“DATE（1）”，括号里面的1表示命令的类型，比如1表示用户在shell环境中可以在操作的命令或可执行文件，2表示用户内核可调用的函数与工具等等，一共有9个类</p>
+<table>
+<thead>
+<tr>
+<th align="center">代号</th>
+<th align="left">代表内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="left">普通的命令─在shell中执行的命令</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="left">系统调用─关于核心函数的文档</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="left">库调用─libc函数的使用手册页，如printf,fread</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="left">特殊文件─关于&#x2F;dev目录中的文件的信息</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="left">文件格式─&#x2F;etc&#x2F;passwd和其他文件的详细格式</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="left">游戏：给游戏留的,由各个游戏自己定义</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="left">宏命令包─对Linux文件系统、使用手册页等的说明。还有一些变量,比如向environ这种全局变量在这里就有说明</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="left">系统管理─根操作员操作的使用手册页，这些命令只能由root使用,如ifconfig</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="left">核心例程─关于Linux操作系统内核源例程或者内核模块技术指标的文档</td>
+</tr>
+</tbody></table>
+<p>man page一般由以下几个部分组成：</p>
+<table>
+<thead>
+<tr>
+<th align="left">代号</th>
+<th align="left">内容说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">NAME</td>
+<td align="left">简短的命令、数据名称说明</td>
+</tr>
+<tr>
+<td align="left">SYNOPSIS</td>
+<td align="left">简短的命令执行语法（syntax）介绍</td>
+</tr>
+<tr>
+<td align="left">DESCRIPTION</td>
+<td align="left"><strong>较为完整的说明，这部分最好仔细看看</strong></td>
+</tr>
+<tr>
+<td align="left">OPTIONS</td>
+<td align="left">针对SYNOPSIS部分中，有列举的所有可用的选项说明</td>
+</tr>
+<tr>
+<td align="left">FILES</td>
+<td align="left">这个程序或数据所使用或参考或连接到的某些文件</td>
+</tr>
+<tr>
+<td align="left">SEE ALSO</td>
+<td align="left">这个命令或数据有相关的其他说明</td>
+</tr>
+<tr>
+<td align="left">EXAMPLE</td>
+<td align="left">一些可以参考的范例</td>
+</tr>
+<tr>
+<td align="left">BUGS</td>
+<td align="left">相关的错误</td>
+</tr>
+</tbody></table>
+<p><font color="red"><strong>通常查询一个命令的方法如下</strong></font></p>
+<ol>
+<li>先查看NAME部分，了解这个指令的含义</li>
+<li>再仔细看一下DESCRIPTION，这个部分会提到很多相关的资料和用法，从这个地方可以学到很多小细节</li>
+<li>如果你已经对这个命令很熟悉了，那么主要查询的就是OPTIONS的部分，可以知道每个选项的意义</li>
+<li>最后看一眼SEE ALSO</li>
+<li>某些内容还会列举FILES供使用者参考</li>
+</ol>
+<p>输入<code>/</code>就可以进行向下字符串查找，按n可以查询下一个，按N查询上一个，<code>?string</code>进行向上字符串查找，空格键向下翻一页，[home]去往第一页，[end]去往最后一页，[page up]向上一页，[page down]向下一页，按q就可以离开当前页面</p>
+<h3 id="使用info-page"><a href="#使用info-page" class="headerlink" title="使用info page"></a>使用info page</h3><p>info和man用途差不多，都是用来查询某个指令的用法，但是info类似于网页超链接的形式，跳转到各个具体的节点页面下，每个页面称之为一个节点</p>
+<p>使用info时有如下快捷键：</p>
+<table>
+<thead>
+<tr>
+<th align="left">按键</th>
+<th align="left">主要内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">空格键</td>
+<td align="left">向下翻一页</td>
+</tr>
+<tr>
+<td align="left">[page down]</td>
+<td align="left">向下翻一页</td>
+</tr>
+<tr>
+<td align="left">[page up]</td>
+<td align="left">向上翻一页</td>
+</tr>
+<tr>
+<td align="left">[tab]</td>
+<td align="left">在节点之间移动</td>
+</tr>
+<tr>
+<td align="left">[enter]</td>
+<td align="left">当光标在节点之上时，按下enter进入该节点</td>
+</tr>
+<tr>
+<td align="left">B</td>
+<td align="left">移动光标到该info界面中第一个节点处</td>
+</tr>
+<tr>
+<td align="left">E</td>
+<td align="left">移动光标至最后一个节点处</td>
+</tr>
+<tr>
+<td align="left">N</td>
+<td align="left">前往下一个节点</td>
+</tr>
+<tr>
+<td align="left">P</td>
+<td align="left">前往上一个节点</td>
+</tr>
+<tr>
+<td align="left">U</td>
+<td align="left">向前移动一层</td>
+</tr>
+<tr>
+<td align="left">S（&#x2F;）</td>
+<td align="left">在info page中进行查询</td>
+</tr>
+<tr>
+<td align="left">H</td>
+<td align="left">显示求助菜单</td>
+</tr>
+<tr>
+<td align="left">？</td>
+<td align="left">命令一览表</td>
+</tr>
+<tr>
+<td align="left">Q</td>
+<td align="left">结束这次的info page</td>
+</tr>
+</tbody></table>
+<h2 id="Linux文件属性"><a href="#Linux文件属性" class="headerlink" title="Linux文件属性"></a>Linux文件属性</h2><p>使用<code>ls -al</code>列出文件的信息，看到文件属性这一列一共有10个字母，第一个字母表示文件类型，1-3表示文件所有者的权限，4-6表示用户所属用户组的权限，7-9表示其他人对此文件的权限</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-4/62278292.jpg"></p>
+<p>第一个字符表示对是这个文件是“目录、文件或链接文件等”“</p>
+<ol>
+<li><code>[d]</code>表示目录</li>
+<li><code>[-]</code>表示文件</li>
+<li><code>[|]</code>表示连接文件(linkfile)</li>
+<li><code>[b]</code>表示可供存储的接口设备</li>
+<li><code>[c]</code>表示设备文件里面的串行端口设备，例如键盘鼠标等</li>
+</ol>
+<p>接下来的字符每3个一组，<code>r</code>代表可读，<code>w</code>代表可写，<code>x</code>代表可执行，<code>-</code>表示没有权限</p>
+<p>第二大列表示的是这个文件有多少个连接到这个文件的链接</p>
+<p>第三大列表示的是文件的所属用户</p>
+<p>第四大列表示的是文件所属的用户组</p>
+<p>第五大列表示文件的大小，默认的单位是B</p>
+<p>第六列为文件的创建日期或者是最近的修改日期</p>
+<p>第七列为文件名，如果文件名以”.”开头，那么这个文件就是隐藏文件</p>
+<h3 id="改变文件属性与权限"><a href="#改变文件属性与权限" class="headerlink" title="改变文件属性与权限"></a>改变文件属性与权限</h3><ul>
+<li>chgrp：改变文件所属用户组</li>
+<li>chown：改变文件所有者</li>
+<li>chmod：改变文件的权限</li>
+</ul>
+<p>上述三个指令的具体用法可以查看man page或者是–help，具体不赘述</p>
+<h3 id="Linux目录配置"><a href="#Linux目录配置" class="headerlink" title="Linux目录配置"></a>Linux目录配置</h3><p>为了对Linux的文件系统能够更好的管理和利用，所有Linux系统都醉寻FHS标准（Filesystem Hierarchy Standard），主要目的是让用户可以了解到已安装软件通常放在那个目录下</p>
+<p>其主要的规定如下：</p>
+<p><code>/</code>:与开机系统有关</p>
+<p><code>/usr</code>：与软件安装&#x2F;执行有关</p>
+<p><code>/var</code>：与系统运作过程有关</p>
+<p>FHS标准定义出根目录<code>/</code>应该含有如下子目录“</p>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th align="left">应放置的文件内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/bin</code></td>
+<td align="left">系统中有很多放执行文件的目录，但是&#x2F;bin比较特殊，因为&#x2F;bin放置的是在单用户模式下还能被操作的命令&#x2F;在&#x2F;bin下面的命令可以被root和一般用户使用，主要有cat，chmod，chown，date，mv，mkdir，cp，bash等常用的命令</td>
+</tr>
+<tr>
+<td><code>/boot</code></td>
+<td align="left">这个目录主要在放置开机会使用到的文件，包括Linux内核文件以及开机菜单与开机所需配置文件等，Linux kernel 常用的文件名为vmlinuz，如果使用grub这个引导装在程序，还会存在<code>/boot/grub</code>这个目录</td>
+</tr>
+<tr>
+<td><code>/dev</code></td>
+<td align="left">在linux系统上，任何设备与接口设备都是以文件的形式存在于这个目录的，你只要通过访问这个目录下的某个文件，就等于访问某个设备。比较重要的文件有<code>/dev/null</code>，<code>/dev/zero</code>，<code>/dev/ tty</code>，<code>/dev/ lp*</code>，<code>/dev/hd*</code>,<code>/dev/sd*</code></td>
+</tr>
+<tr>
+<td><code>/etc</code></td>
+<td align="left">系统主要的配置文件几乎都放置在这个目录中，例如人员的账户密码文件 ，各种服务的起始文件等。一般来说，这个目录下的个文件属性是可以让一般用户查阅的，但是只有root有修改权限，FHS建议不要放置可执行文件（binary）在这个目录红，比较重要的文件有<code>/etc/inittab</code>，<code>/etc/init.d</code>，<code>/etc/modprobe.conf</code>，<code>/etc/X11</code>，<code>/etc/fstab</code>，<code>/etc/sysconfig</code>等。另外，其下还有几个比较重要的目录：1. <code>etc/init.d</code>：所有服务的默认启动脚本都是放在这里的，例如要启动或者关闭iptables的话，<code>/etc/init.d/iptables start</code>，<code>/etc/init.d/iptables stop</code>。2.<code>etc/xinetd.d</code>：这就是所谓的superdaemon管理的各项服务的配置文件目录。3. <code>/etc/X11</code>：与X window相关的各种配置文件都在这里，尤其是xorg.conf这个XServer的配置文件</td>
+</tr>
+<tr>
+<td><code>/home</code></td>
+<td align="left">这是系统默认的用户主文件夹（home dictionary）。在你创建一个一般用户账号时，默认的用户主文件夹都会规范到这里来。比较重要的是，主文件夹有两种代号，～：代表目前这个用户的主文件夹，～dmtsai：则代表dmtsai的主文件夹</td>
+</tr>
+<tr>
+<td><code>/lib</code></td>
+<td align="left">系统的函数库非常多，而&#x2F;lib库放置的则是在开机时会用到的函数库，以及在&#x2F;bin或&#x2F;sbin下面的命令会调用的函数库而已。尤其重要的是<code>/lib/modules/</code>这个目录，该目录会防止内核相关的模块（驱动程序）</td>
+</tr>
+<tr>
+<td><code>/media</code></td>
+<td align="left">放置可删除的设备，包括软盘，光盘dvd都放在这里</td>
+</tr>
+<tr>
+<td><code>/mnt</code></td>
+<td align="left">暂时挂在某些额外设备，简易房知道这么目录中</td>
+</tr>
+<tr>
+<td><code>/opt</code></td>
+<td align="left">这是给第三方软件放置的目录，不过还是习惯放置于<code>/usr/local</code>之中</td>
+</tr>
+<tr>
+<td><code>/root</code></td>
+<td align="left">系统管理员root的主文件夹</td>
+</tr>
+<tr>
+<td><code>/sbin</code></td>
+<td align="left">&#x2F;sbin中包含了开机、修复、还原系统所需的命令。</td>
+</tr>
+<tr>
+<td><code>/srv</code></td>
+<td align="left">srv可以看做service的缩写，是一些网络服务启动后，这些服务所需取用的数据目录，如www服务或者是ftp服务</td>
+</tr>
+<tr>
+<td><code>/tmp</code></td>
+<td align="left">让一般用户或者是正在执行的程序暂时放置文件的地方</td>
+</tr>
+</tbody></table>
+<p>除了上述目录，Linux中还有一些目录需要了解：</p>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>放置内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x2F;lost+found</td>
+<td>放置系统发生错误时丢失的片段</td>
+</tr>
+<tr>
+<td>&#x2F;proc</td>
+<td>本身是一个虚拟文件系统，所有文件都在内存中，主要是 系统内核、进程、外部设备的状态及网络状态等。重要文件有&#x2F;proc&#x2F;cpuinfo，proc&#x2F;dma，&#x2F;proc&#x2F;interrupts，&#x2F;proc&#x2F;ioports，&#x2F;proc&#x2F;net&#x2F;*</td>
+</tr>
+<tr>
+<td>&#x2F;sys</td>
+<td>与&#x2F;proc很像，记录内核先关信息，包括目前已加载的内核模块与内核监测到的硬件设备信息等等</td>
+</tr>
+</tbody></table>
+<p>&#x2F;usr目录是Linux中重要的一个目录，其是Unix software resource的缩写，所有软件都会放到该目录下，其重要的文件夹如下</p>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>放置的文件内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x2F;usr&#x2F;X11R6</td>
+<td>x widow的放置目录</td>
+</tr>
+<tr>
+<td>&#x2F;usr&#x2F;bin</td>
+<td>大多用户可以使用的命令都在这里</td>
+</tr>
+<tr>
+<td>&#x2F;usr&#x2F;local</td>
+<td>系统管理员在本集下载的第三方软件</td>
+</tr>
+<tr>
+<td>usr&#x2F;sbin</td>
+<td>非系统正常运行所要的系统命令，比如网络服务器的服务命令</td>
+</tr>
+<tr>
+<td>&#x2F;usr&#x2F;share</td>
+<td>放置共享文件</td>
+</tr>
+<tr>
+<td>&#x2F;usr&#x2F;src</td>
+<td>源码一般放在这里，比如Linux的源码放在&#x2F;usr&#x2F;src&#x2F;Linux</td>
+</tr>
+</tbody></table>
+<p>&#x2F;var主要放置缓存以及一些日志文件</p>
+<h3 id="查看Linux内核版本"><a href="#查看Linux内核版本" class="headerlink" title="查看Linux内核版本"></a>查看Linux内核版本</h3><p>主要有两条命令可以查看Linux的版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">uname</span> -a</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">lsb_release -a</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux目录管理"><a href="#Linux目录管理" class="headerlink" title="Linux目录管理"></a>Linux目录管理</h2><h3 id="目录相关操作"><a href="#目录相关操作" class="headerlink" title="目录相关操作"></a>目录相关操作</h3><ul>
+<li>cd命令：change dictionary</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ～  #打开用户主目录</span><br><span class="line">cd -  #打开上一个打开的目录</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>pwd命令：显示当前文件夹，Print Working Dictionary</li>
+<li>mkdir命令：make dictionary，创建文件夹</li>
+<li>rmdir：删除空目录， [-p]连同上级的空文件夹一起删除</li>
+</ul>
+<h3 id="执行文件路径变量：-PATH"><a href="#执行文件路径变量：-PATH" class="headerlink" title="执行文件路径变量：$PATH"></a>执行文件路径变量：$PATH</h3><p>打印出文件路径变量：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo $PATH</span><br></pre></td></tr></table></figure>
+
+<p>这个路径变量由一堆目录组成，每个目录中间永冒号来隔开</p>
+<p>要想把一个新的路径加入PATH</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PATH=&quot;$PATH&quot;:/dictionary_you_want_to_add</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件目录相关操作"><a href="#文件目录相关操作" class="headerlink" title="文件目录相关操作"></a>文件目录相关操作</h3><ul>
+<li>ls：查看文件与目录，ls列出来的蓝色字体的是文件夹，绿底蓝字的表示others拥有write权限的文件夹</li>
+<li>cp：复制文件，复制文件夹时要加-r，若目标文件已存在，覆盖式先询问是否进行操作加-i</li>
+<li>mv：移动文件或用于重命名</li>
+<li>rm：删除文件，-i询问是否删除，-f强制删除，-r递归删除文件夹</li>
+<li>basename：取得该文件的目录名&#x2F;文件名</li>
+<li>dirname：取得上层目录名</li>
+</ul>
+<h3 id="文件内容查阅"><a href="#文件内容查阅" class="headerlink" title="文件内容查阅"></a>文件内容查阅</h3><ul>
+<li>cat：从第一行开始显示文件内容</li>
+<li>tac：从最后一行开始显示文件内容，tac是cat的倒写形式</li>
+<li>nl：显示的时候顺便输出行号，是numberline的缩写</li>
+<li>more：一页一页的显示文件内容</li>
+<li>less：与more类似，但是比more刚好的是，它可以向前翻页</li>
+<li>head：只看头几行</li>
+<li>tail：只看结尾几行</li>
+<li>od：以二进制方式读取文件内容</li>
+<li>touch：创建新文件或者修改文件时间（atime（access）：访问时间，ctime（status）：状态改变时间，mtime（modified）：内容修改时间）</li>
+</ul>
+<h3 id="文件目录的默认权限与隐藏权限"><a href="#文件目录的默认权限与隐藏权限" class="headerlink" title="文件目录的默认权限与隐藏权限"></a>文件目录的默认权限与隐藏权限</h3><ul>
+<li>umask：查看默认建立文件的权限，显示的四位数字的后三位表示被拿掉的权限，比如显示0022，表示权限为rwxr-x</li>
+<li>lsattr：显示文件的隐藏属性</li>
+<li>chattr：改变文件的隐藏属性，+i表示不可以被改变，移动或删除</li>
+</ul>
+<p>查看文件类型的操作命令：file</p>
+<h3 id="命令与文件查询"><a href="#命令与文件查询" class="headerlink" title="命令与文件查询"></a>命令与文件查询</h3><ul>
+<li>which：寻找可执行文放在哪里（在$PATH的路径下找）</li>
+<li>whereis：利用系统的数据库查找特定文件</li>
+<li>locate：-i忽略大小写，-r可以接正则表达式的形式，从系统的数据库&#x2F;var&#x2F;lib&#x2F;mlocate中查找数据，这个数据库每天更新一次，可以通过updatedb进行手动更新</li>
+<li>find：直接在硬盘上查找文件</li>
+</ul>
+<h2 id="Linux文件系统"><a href="#Linux文件系统" class="headerlink" title="Linux文件系统"></a>Linux文件系统</h2><p>每个文件有inode和block以及superblock三块</p>
+<p><code>inode</code>用来存放文件的属性以及文件数据所在的block号码</p>
+<p><code>block</code>用来存放实际的文件内容，若数据太大，则会占用多个block</p>
+<p><code>superblock</code>：记录文件的整体信息，包括inode&#x2F;block 的总量，使用量，剩余量，以及文件系统的格式与相关信息等</p>
+<p><code>df</code>：display the amount of disk space available，展示挂载磁盘的可用空间</p>
+<p><code>dumpe2fs</code>：dump ext2&#x2F;ext3&#x2F;ext4 filesystem information</p>
+<h3 id="磁盘与目录容量"><a href="#磁盘与目录容量" class="headerlink" title="磁盘与目录容量"></a>磁盘与目录容量</h3><p><code>df</code>：列出文件系统的整体磁盘使用量，-h：以人们比较容易阅读的GB，MB，KB等单位进行显示</p>
+<p><code>du</code>：评估文件系统磁盘使用量，在不加参数时默认列出的是当前目录的磁盘使用量</p>
+<h3 id="连接文件：ln"><a href="#连接文件：ln" class="headerlink" title="连接文件：ln"></a>连接文件：ln</h3><p>有两种连接方式，分别是硬连接（hard link，也称实际连接），和符号链接</p>
+<h4 id="硬连接"><a href="#硬连接" class="headerlink" title="硬连接"></a>硬连接</h4><p>实际上就是多个文件名指向同一个inode，这种连接方式不支持<strong>跨文件系统</strong>的连接，也<strong>不能连接到目录</strong>，因为如果连接到目录，会使得目录下属的所有文件都产生连接，复杂度过高</p>
+<h4 id="symbolic-link（符号连接）"><a href="#symbolic-link（符号连接）" class="headerlink" title="symbolic link（符号连接）"></a>symbolic link（符号连接）</h4><p>创建一个独立的文件，这个文件让数据的读取指向它连接的那个文件的文件名，symbolic可以和Windows的快捷方式划等号，唯一的不同是在你修改链接文件时，源文件也会随之改变</p>
+<p>执行连接操作的指令是</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln source destination # 硬连接</span><br><span class="line">ln -s source destination # 符号连接</span><br></pre></td></tr></table></figure>
+
+<h2 id="磁盘操作"><a href="#磁盘操作" class="headerlink" title="磁盘操作"></a>磁盘操作</h2><ul>
+<li>磁盘分区管理：<code>fdisk</code>，然后按m查看命令帮助，以便进行分区或者是删除新增分区</li>
+<li>磁盘格式化：<code>mkfs</code>：make file system，具体的使用方法是<code>mkfs [-t 文件系统格式] 设备文件名</code></li>
+<li>更加详细的磁盘格式化命令：<code>mke2fs [-b block大小] [-i inode大小] [-L 卷标] [-cj] 设备</code>，-c检查磁盘错误，-j表示ext3格式</li>
+<li>磁盘检验：<code>fsck</code>，一般只有在系统出现极大问题时才使用这个命令，正常使用系统时使用这个命令会破坏系统文件</li>
+<li>挂载硬盘：<code>mount</code>，-a挂载所有为挂载的磁盘</li>
+<li>卸载：umount</li>
+<li>修改卷标：e2label</li>
+</ul>
+<h3 id="设置开机挂载"><a href="#设置开机挂载" class="headerlink" title="设置开机挂载"></a>设置开机挂载</h3><p>在<code>/etc/fstab</code>里设置，根目录&#x2F;必须最先被挂载</p>
+<h3 id="挂载镜像文件"><a href="#挂载镜像文件" class="headerlink" title="挂载镜像文件"></a>挂载镜像文件</h3><p>比如你要挂载centos5.2的安装镜像到&#x2F;mnt&#x2F;centos_dvd这个文件夹，可以使用如下命令</p>
+<p><code>linuxmount -o loop /root/centos5.2_x86_64.iso /mnt/centos_dvd</code></p>
+<h3 id="创建无内容的大型文件"><a href="#创建无内容的大型文件" class="headerlink" title="创建无内容的大型文件"></a>创建无内容的大型文件</h3><p>使用dd命令，<code>if</code>表示input file，<code>of</code>表示output file，<code>bs</code>表示block size，count表示有多少个block</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dd if=/dev/zero of=/home/loopdev bs=1M count=512</span><br></pre></td></tr></table></figure>
+
+<h3 id="交换空间swap"><a href="#交换空间swap" class="headerlink" title="交换空间swap"></a>交换空间swap</h3><p>分出一块单独的硬盘之后，或者使用dd命令得到一个文件之后，格式化，使用mkswap命令将文件格式化为swap格式，可以使用swapon命令建立swap</p>
+<h2 id="文件压缩与打包"><a href="#文件压缩与打包" class="headerlink" title="文件压缩与打包"></a>文件压缩与打包</h2><p>文件压缩常有两种形式，第一种是通过压缩为0的bit，第二种是通过压缩诸如100个1连在一起的情况</p>
+<p>常用的压缩命令有</p>
+<ul>
+<li><code>gizp</code>：默认模式是进行压缩文件，-d解压文件，-v表示冗长模式打印出所有信息</li>
+<li><code>tar</code><br>压缩： tar -jcvf 新建的文件名 需要打包的文件<br>解压缩： tar -jxvf 文件名 -C 欲解压缩的目录</li>
+</ul>
+<h3 id="dump文件系统备份"><a href="#dump文件系统备份" class="headerlink" title="dump文件系统备份"></a>dump文件系统备份</h3><p>dunp：对系统进行备份的命令</p>
+<p>从备份的文件进行恢复：restore</p>
+<h3 id="光盘写入工具"><a href="#光盘写入工具" class="headerlink" title="光盘写入工具"></a>光盘写入工具</h3><p>mkisofs：新建镜像文件</p>
+<p>cdrecord：光盘刻录工具</p>
+<h2 id="vim编辑器"><a href="#vim编辑器" class="headerlink" title="vim编辑器"></a>vim编辑器</h2><p>vi常用移动快捷键，如果想要进行多次移动，例如向下移动30行，只需要输入<code>30j</code></p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>移动光标方法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>h或左箭头($\leftarrow$)</td>
+<td>向左移动一个字符</td>
+</tr>
+<tr>
+<td>l或右箭头($\rightarrow$)</td>
+<td>向右移动一个字符</td>
+</tr>
+<tr>
+<td>j或下箭头($\downarrow$)</td>
+<td>向下移动一个字符</td>
+</tr>
+<tr>
+<td>k或上箭头($\uparrow$)</td>
+<td>向上移动一个箭头</td>
+</tr>
+<tr>
+<td><code>ctrl+f</code>（front的意思）</td>
+<td>向上翻动一页</td>
+</tr>
+<tr>
+<td><code>ctrl+b</code>(blow的意思)</td>
+<td>向下翻动一页</td>
+</tr>
+<tr>
+<td><code>ctrl+d</code>（down的意思）</td>
+<td>向下移动半页</td>
+</tr>
+<tr>
+<td><code>ctrl+u</code>（up的意思）</td>
+<td>向上移动半页</td>
+</tr>
+<tr>
+<td>+</td>
+<td>移动到非空格符的下一行</td>
+</tr>
+<tr>
+<td>-</td>
+<td>移动到非空格符的上一行</td>
+</tr>
+<tr>
+<td>n+空格</td>
+<td>向右移动这一行的n个字符</td>
+</tr>
+<tr>
+<td>0或者home</td>
+<td>移动到这一行最前面</td>
+</tr>
+<tr>
+<td>$或end</td>
+<td>移动到这一行的结束</td>
+</tr>
+<tr>
+<td>H（Head）</td>
+<td>移动到这个屏幕上方那一行的第一个字符</td>
+</tr>
+<tr>
+<td>M（Middle）</td>
+<td>移动到屏幕中央那一行</td>
+</tr>
+<tr>
+<td>L（Last）</td>
+<td>以调动到屏幕最下方那一行</td>
+</tr>
+<tr>
+<td>G</td>
+<td>移动到这个文件的最后一行</td>
+</tr>
+<tr>
+<td>nG</td>
+<td>n为数字，移动到这个文件的第n行</td>
+</tr>
+<tr>
+<td>gg</td>
+<td>移动到文件的第一行</td>
+</tr>
+<tr>
+<td>n+回车</td>
+<td>向下移动n行</td>
+</tr>
+</tbody></table>
+<p>查找、替换快捷键：</p>
+<table>
+<thead>
+<tr>
+<th>&#x2F;word</th>
+<th>下下搜索word字符串</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>？word</td>
+<td>向上搜索word字符串</td>
+</tr>
+<tr>
+<td>n</td>
+<td>查找下一个</td>
+</tr>
+<tr>
+<td>N</td>
+<td>查找上一个</td>
+</tr>
+<tr>
+<td>:n1,n2s&#x2F;word1&#x2F;word2&#x2F;g</td>
+<td>在n1到n2之间查找word1字符串并替换为word2，s&#x2F;表示开头start，&#x2F;g表示结尾</td>
+</tr>
+<tr>
+<td>：1，$s&#x2F;word1&#x2F;word2&#x2F;g</td>
+<td>从第一行到最后一行查找字符串word1并替换为word2</td>
+</tr>
+<tr>
+<td>:1,$s&#x2F;word1&#x2F;word2&#x2F;gc</td>
+<td>从第一行到最后一行查找字符串word1并替换为word2，替换前提示，c表示confirm</td>
+</tr>
+</tbody></table>
+<p>删除复制和粘贴</p>
+<table>
+<thead>
+<tr>
+<th>x，X</th>
+<th>x向后删除一个字符，X向前删除一个字符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>nx</td>
+<td>n为数字，连续向后删除n个字符</td>
+</tr>
+<tr>
+<td>dd</td>
+<td>删除光标所在那一行</td>
+</tr>
+<tr>
+<td>ndd</td>
+<td>删除光标所在行的下n行</td>
+</tr>
+<tr>
+<td>d1G</td>
+<td>删除光标坐在到第一行的所有数据</td>
+</tr>
+<tr>
+<td>dG</td>
+<td>删除光标所在到最后一行的数据</td>
+</tr>
+<tr>
+<td>d$</td>
+<td>删除光标所在处到该行的最后一个字符</td>
+</tr>
+<tr>
+<td>d0</td>
+<td>&#96;删除光标所在处到改行的最前面一个字符</td>
+</tr>
+<tr>
+<td>yy</td>
+<td>复制光标所在行</td>
+</tr>
+<tr>
+<td>nyy</td>
+<td>复制光标坐在的向下n行</td>
+</tr>
+<tr>
+<td>y1G</td>
+<td>复制光标所在行到第一行</td>
+</tr>
+<tr>
+<td>yG</td>
+<td>复制光标所在行到最后一行</td>
+</tr>
+<tr>
+<td>y0</td>
+<td>复制光标所在地方到该行行首</td>
+</tr>
+<tr>
+<td>y$</td>
+<td>复制光标所在位置到该行末</td>
+</tr>
+<tr>
+<td>p，P</td>
+<td>p将已复制数据在下一行粘贴，P表示粘贴在上一行</td>
+</tr>
+<tr>
+<td>u</td>
+<td>复原前一个操作</td>
+</tr>
+<tr>
+<td><code>ctrl+r</code>或者<code>.</code></td>
+<td>重复上一个操作</td>
+</tr>
+</tbody></table>
+<p>模式切换：</p>
+<table>
+<thead>
+<tr>
+<th>i，I</th>
+<th>i从目前光标所在处插入，I在目前行的第一个非空字符处开始插入</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a，A</td>
+<td>a从光标所在处下一个字符开始插入，A从光标所在行最后一个字符处插入</td>
+</tr>
+<tr>
+<td>o，O</td>
+<td>o从光标所在处下一行开始插入，O从光标所在处上一行插入</td>
+</tr>
+<tr>
+<td>r，R</td>
+<td>r替换光标所在的哪一个字符一次，R一只替换光标所在的文字，直到按下<code>Esc</code>为止</td>
+</tr>
+</tbody></table>
+<p>命令行模式</p>
+<table>
+<thead>
+<tr>
+<th>：w</th>
+<th>将数据写入硬盘（保存）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>：w！</td>
+<td>强制保存</td>
+</tr>
+<tr>
+<td>：q</td>
+<td>退出vi</td>
+</tr>
+<tr>
+<td>：q！</td>
+<td>强制退出vi（不保存）</td>
+</tr>
+<tr>
+<td>：wq</td>
+<td>保存并退出</td>
+</tr>
+<tr>
+<td>ZZ</td>
+<td>文件没变动则直接离开，变动过则保存后离开</td>
+</tr>
+<tr>
+<td>：w [filename]</td>
+<td>将编辑的数据保存成另一个文件</td>
+</tr>
+<tr>
+<td>：r [filename]</td>
+<td>将filename的内容加到光标所在地的后面</td>
+</tr>
+<tr>
+<td>：n1，n2  w  [filename]</td>
+<td>将n1到n2行的内容保存成新文件</td>
+</tr>
+<tr>
+<td>：！command</td>
+<td>暂时离开vi执行command</td>
+</tr>
+<tr>
+<td>set nu</td>
+<td>显示行号</td>
+</tr>
+<tr>
+<td>set nonu</td>
+<td>隐藏行号</td>
+</tr>
+</tbody></table>
+<p>在操作时按下<code>ctrl+z</code>可以使得vim临时在后台运行，用vim打开文件时，vim会自动在当前文件夹创建一个swp文件，用于记录用户对文件的操作，用于在系统一场崩溃或者是断电时对文件进行恢复，再次打开文件时会提示进行恢复或者是删除swp文件，按r进行恢复，按a或者q退出操作，按d删除暂存文件</p>
+<h3 id="块选择"><a href="#块选择" class="headerlink" title="块选择"></a>块选择</h3><p>块选择，类似于sublime里面的多行选择，按下<code>ctrl+v</code>进入快选择，选择好之后按y进行复制</p>
+<h3 id="多文件同时编辑"><a href="#多文件同时编辑" class="headerlink" title="多文件同时编辑"></a>多文件同时编辑</h3><p>vim 后面接多个文件的名字，然后<code>：n</code>编辑下一个文件，<code>：N</code>编辑上一个文件，<code>：files</code>列出目前这个vim打开的所有文件</p>
+<h3 id="多窗口功能"><a href="#多窗口功能" class="headerlink" title="多窗口功能"></a>多窗口功能</h3><p>在vim命令行模式下输入：sp，split的缩写，可以打开在新窗口中当前文件，split [filename]在新窗口打开新的文件</p>
+<p>利用<code>ctrl+w+</code>$\uparrow$进入上面的窗口，<code>ctrl+w+</code>$\downarrow$进入下面的窗口</p>
+<h2 id="bash和shell"><a href="#bash和shell" class="headerlink" title="bash和shell"></a>bash和shell</h2><p>shell：能够操作应用程序的接口都称之为shell</p>
+<p>alias：设置命令别名，使用方法：alias new_com,man&#x3D;”old”</p>
+<p>echo：用于显示变量，在变量名之前要加上$</p>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>设置变量：直接用等号连接，不能加空格，变量名只能是英文字母或者数字，且开头不能是数字</p>
+<p>变量如果需要增加内容：如PATH&#x3D;$PATH:&#x2F;home&#x2F;bin</p>
+<p>大写字符一般为系统变量，自己设置的字符一般用小写表示</p>
+<p>特殊字符要转义，比如引号和空格号</p>
+<p>取消变量的方法为：unset 变量名</p>
+<h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3><p>环境变量存储在env当中，可以直接在bash中输入env进行查看</p>
+<p>其中的random是用于显示一个0~32767的随机数的，如果你想要一个0-9的随机数，可以使用<code>declare -i number=$RANDOM*10/32768;echo $number</code></p>
+<p>用set可以查看所有变量</p>
+<p>export：将自定义变量引入环境变量，环境变量&#x3D;全局变量，自定义变量&#x3D;局部变量</p>
+<p>查看当前系统支持的语系：locale -a</p>
+<h3 id="来自键盘的变量、数组与声明：read、array、declare"><a href="#来自键盘的变量、数组与声明：read、array、declare" class="headerlink" title="来自键盘的变量、数组与声明：read、array、declare"></a>来自键盘的变量、数组与声明：read、array、declare</h3><p>要读取来自键盘的变量，使用read： -p 后面可以接提示符，-t后面可以接等待的秒数</p>
+<p>declare：声明变量类型，declare [-aixr] variable，-a设置成array，-i设置为integer，-x与export功能相同，把变量设置为环境变量，-r设置为只读类型，不能变更或unset</p>
+<p>变量数组的设置：var[1]&#x3D;”var 1”，读取的时候，需要通过echo ${var[1]}，注意是$加上大括号</p>
+<h3 id="ulimit"><a href="#ulimit" class="headerlink" title="ulimit"></a>ulimit</h3><p>ulimit可以限制用户使用的内存大小，cpu时间以及同时打开的文件数量等等</p>
+<h3 id="更改、删除变量"><a href="#更改、删除变量" class="headerlink" title="更改、删除变量"></a>更改、删除变量</h3><p>使用“${PATH#&#x2F;usr&#x2F;bin}”来删除变量内容，一个#表示删除符号替换文字的最短的哪一个（非贪婪匹配），两个##表示符合替换文字的最长的哪一个（贪婪匹配）</p>
+<p>从后面开始删除是“${PATH%:*&#x2F;bin}”，同样一个%是非贪婪的删除，两个%是贪婪删除，%后面的内容是正则表达式</p>
+<p>替换字符串：${PATH&#x2F;old&#x2F;new}，一个<code>/</code>表示替换第一个旧字符串，两个<code>/</code>表示全部替换</p>
+<p>如果变量不存在则替换：<code>a=$&#123;username:-root&#125;</code>，:-root的意思就是如果username不存在那么就把a赋值为root，<code>：</code>的作用就是在username如果一开始就被赋值为空字符串的时候也可以用root替换</p>
+<h3 id="设置命令别名"><a href="#设置命令别名" class="headerlink" title="设置命令别名"></a>设置命令别名</h3><p>alias：用法，<code>alias lm=“ls -l|more”</code></p>
+<p>取消别名：<code>unalias xxx</code></p>
+<h3 id="历史命令"><a href="#历史命令" class="headerlink" title="历史命令"></a>历史命令</h3><p>使用history可以列出历史命令</p>
+<p>使用<code>！command</code>可以执行历史记录里面以command开头的命令</p>
+<p>使用<code>！！</code>执行上一条命令</p>
+<p>使用<code>！65</code>，执行历史记录里面的第65条指令</p>
+<h3 id="设置终端机"><a href="#设置终端机" class="headerlink" title="设置终端机"></a>设置终端机</h3><p>stty -a：表示set tty，-a列出所有的内容</p>
+<p><code>^</code>表示<code>ctrl</code>的意思</p>
+<p>eof：表示end of file</p>
+<p>erase：向后删除字符</p>
+<p>intr：interrupt，终端</p>
+<p>kill：删除目前命令行上的所有文字</p>
+<p>quit：发出一个退出信号给正在运行的程序</p>
+<p>susp：推送一个terminal stop信号给正在运行的程序</p>
+<p>此外，我们还可以通过set来查看其他设置，<code>$-</code>这个变量包含了所有的set设置值</p>
+<h3 id="标注输入输出流"><a href="#标注输入输出流" class="headerlink" title="标注输入输出流"></a>标注输入输出流</h3><ol>
+<li>标准输入stdin：代码为0，使用<code>&lt;</code>或<code>&lt;&lt;</code></li>
+<li>标准输出stdout：代码为1，使用<code>&gt;</code>或<code>&gt;&gt;</code></li>
+<li>标准错误输出：代码为2，使用<code>2&gt;</code>或者<code>2&gt;&gt;</code></li>
+</ol>
+<p>输出标准输出和错误输出到同一个文件：<code>find /home -name .bashrc &gt; list 2&gt;&amp;1</code></p>
+<p><code>&lt;&lt;</code>的作用是利用右侧的控制字，直到输入右侧的控制字之后自动退出输入，且文件中不会有右侧控制字那一行</p>
+<h3 id="多命令同时执行"><a href="#多命令同时执行" class="headerlink" title="多命令同时执行"></a>多命令同时执行</h3><p><code>；</code>执行两个没有相关性的命令</p>
+<p><code>cmd1&amp;&amp;cmd2</code>：若cmd1执行完毕且正确执行就继续执行cmd2</p>
+<p><code>cmd1||cmd2</code>：若cmd1执行正确则cmd2不执行，若cmd1执行错误则执行cmd2</p>
+<p>管道命令</p>
+<p><code>|</code>：接受stdout的信息</p>
+<h3 id="选取命令cut，grep"><a href="#选取命令cut，grep" class="headerlink" title="选取命令cut，grep"></a>选取命令cut，grep</h3><p>cut：类似于Python中的split，-d后接用于分离的字符串，-f表示去除第几个</p>
+<p>grep：分析一行的信息，如果该行有我们需要寻找的信息，那么就将该行拿出来<code>grep [-acinv]  &#39;查找的字符串&#39; filename</code></p>
+<h3 id="排序命令"><a href="#排序命令" class="headerlink" title="排序命令"></a>排序命令</h3><p><code>sort [-fbmnrtuk] [file or stdin]</code>：对文件或者stdin进行排序</p>
+<p><code>uniq</code>：重复的数据只显示一个，类似与Python的set</p>
+<p>wc：字数统计</p>
+<p>双向重定向命令：tee，既输出到屏幕，又输出到文件</p>
+<h3 id="字符转换命令"><a href="#字符转换命令" class="headerlink" title="字符转换命令"></a>字符转换命令</h3><p>tr（translate or delete characters）：-d删除文字，-s替换文字</p>
+<p>col：-x将tab换成对等的空格键，-b文字内有反斜杠<code>/</code>时，仅显示反斜杠后接的那个字符</p>
+<p>join：将两个文件中有相同数据的一行放到一起</p>
+<p>paste：直接将两个文件粘到一起，且中间以[tab]隔开</p>
+<p>expand：将tab转换为空格键</p>
+<p>split：切割，将文件分割成多个大小相等的文件</p>
+<p>xargs：在不支持管道命令的命令中提供参数</p>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>正则表达式依照不同的严谨度分为基础正则表达式与扩展正则表达式</p>
+<h3 id="基础正则表达式"><a href="#基础正则表达式" class="headerlink" title="基础正则表达式"></a>基础正则表达式</h3><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[:alnum:]</code></td>
+<td>英文大小写字母及数字，<code>[a-z]</code>、<code>[A-Z]</code>、<a href="alpha%EF%BC%8Cnumber">0-9</a></td>
+</tr>
+<tr>
+<td><code>[:alpha:]</code></td>
+<td>大小写英文字母</td>
+</tr>
+<tr>
+<td><code>[:blank:]</code></td>
+<td>空格键与tab键</td>
+</tr>
+<tr>
+<td><code>[:cntrl:]</code></td>
+<td>键盘上面的控制键位，包括CR,TF,TAB,DEL等</td>
+</tr>
+<tr>
+<td><code>[:digit:]</code></td>
+<td>数字，[0-9]</td>
+</tr>
+<tr>
+<td><code>[:graph:]</code></td>
+<td>除了空格键和[TAB]键的其他所有按键</td>
+</tr>
+<tr>
+<td><code>[:lower:]</code></td>
+<td>小写字母，[a-z]</td>
+</tr>
+<tr>
+<td><code>[:upper:]</code></td>
+<td>大写字母，[A-Z]</td>
+</tr>
+<tr>
+<td><code>[:print:]</code></td>
+<td>任何可以被打印出来的字符</td>
+</tr>
+<tr>
+<td><code>[:punct:]</code></td>
+<td>标点符号(punctuation symbol)</td>
+</tr>
+<tr>
+<td><code>[:space:]</code></td>
+<td>任何会产生空白的字符，包括空白键[TAB]CR等</td>
+</tr>
+<tr>
+<td><code>[:xdigit:]</code></td>
+<td>十六进制的数字类型</td>
+</tr>
+</tbody></table>
+<p>[^]表示取反，</p>
+<p>^是行首，</p>
+<p>$表示行尾，</p>
+<p>*出现任意次，</p>
+<p><code>\&#123;m,n\&#125;</code>出现m到n次(注意<code>&#123;&#125;</code>要进行转义)，</p>
+<p>[abc]，从abc当中选一个</p>
+<p>[^list]：选取除了list以外的字符串</p>
+<h3 id="扩展正则表达式"><a href="#扩展正则表达式" class="headerlink" title="扩展正则表达式"></a>扩展正则表达式</h3><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>重复一次及多次</td>
+</tr>
+<tr>
+<td></td>
+<td>零个或一个</td>
+</tr>
+<tr>
+<td></td>
+<td>用or的方法进行查找</td>
+</tr>
+<tr>
+<td>（）</td>
+<td>找出组字符串,比如查找good和glad，可以用&#96;egrep -n ‘g(oo</td>
+</tr>
+<tr>
+<td>（）+</td>
+<td>多个重复组的判断，比如查找A12121212c，可以用<code>egrep -n &#39;A(12)+c&#39;</code></td>
+</tr>
+</tbody></table>
+<h3 id="文件格式化打印"><a href="#文件格式化打印" class="headerlink" title="文件格式化打印"></a>文件格式化打印</h3><p>使用的是printf，用法如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf &#x27;%10s\t %5i\t %s\t \8.2f&#x27; $(cat test.txt)</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据处理工具awk"><a href="#数据处理工具awk" class="headerlink" title="数据处理工具awk"></a>数据处理工具awk</h3><p>用法</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk &#x27;条件类型1&#123;动作1&#125; 条件类型2&#123;动作二&#125;……&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>比如要取出last里面的第一列和第三列</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">last -n 5 | awk &#x27;print $1 &quot;\t&quot; $3&#x27;</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件比较工具"><a href="#文件比较工具" class="headerlink" title="文件比较工具"></a>文件比较工具</h3><p><code>diff  a b</code>，得到的是左边文件a与右边文件b的差别</p>
+<p>cmp：以字节进行比较</p>
+<p>patch：<code>diff a b&gt; ab.patch</code>得到一个补丁文件，用于存放新旧文件的不同，用<code>patch -pN &lt; patch_file</code>更新，用<code>patch -R -pN &lt; patch_file</code>还原</p>
+<h2 id="shell-script"><a href="#shell-script" class="headerlink" title="shell script"></a>shell script</h2><p>终于到了shell script这一个章节了，shell script是程序化脚本</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/02/%E5%B0%86flask%E9%A1%B9%E7%9B%AE%E9%80%9A%E8%BF%87centos%E9%83%A8%E7%BD%B2%E5%88%B0%E5%85%AC%E7%BD%91/" rel="next" title="将flask项目通过centos部署到公网">
+                <i class="fa fa-chevron-left"></i> 将flask项目通过centos部署到公网
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/08/latex%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" rel="prev" title="latex入门教程">
+                latex入门教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Ubuntu16-04"><span class="nav-number">1.</span> <span class="nav-text">安装Ubuntu16.04</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85%E5%8F%8A%E4%BC%98%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">Linux常用软件安装及优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%B8%85%E7%90%86%E7%AF%87"><span class="nav-number">2.1.</span> <span class="nav-text">系统清理篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0"><span class="nav-number">2.1.1.</span> <span class="nav-text">系统更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BDlibreOffice"><span class="nav-number">2.1.2.</span> <span class="nav-text">卸载libreOffice</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4Amazon%E7%9A%84%E9%93%BE%E6%8E%A5"><span class="nav-number">2.1.3.</span> <span class="nav-text">删除Amazon的链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E4%B8%8D%E5%B8%B8%E7%94%A8%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="nav-number">2.1.4.</span> <span class="nav-text">删除不常用的软件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%8D%A2Linux%E5%AE%89%E8%A3%85%E6%BA%90"><span class="nav-number">2.2.</span> <span class="nav-text">更换Linux安装源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96"><span class="nav-number">2.3.</span> <span class="nav-text">主题美化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#unity-tweak-tool"><span class="nav-number">2.3.1.</span> <span class="nav-text">unity-tweak-tool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Flatabulous%E4%B8%BB%E9%A2%98"><span class="nav-number">2.3.2.</span> <span class="nav-text">Flatabulous主题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%88%E7%AB%AF"><span class="nav-number">2.3.3.</span> <span class="nav-text">终端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E4%BD%93"><span class="nav-number">2.3.4.</span> <span class="nav-text">字体</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="nav-number">2.4.</span> <span class="nav-text">常用软件安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95"><span class="nav-number">2.4.1.</span> <span class="nav-text">安装搜狗输入法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85shadowsocks"><span class="nav-number">2.4.2.</span> <span class="nav-text">安装shadowsocks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%88%AB%E5%90%8D"><span class="nav-number">2.4.3.</span> <span class="nav-text">设置别名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chrome%E5%AE%89%E8%A3%85"><span class="nav-number">2.4.4.</span> <span class="nav-text">chrome安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pycharm%E5%AE%89%E8%A3%85"><span class="nav-number">2.4.5.</span> <span class="nav-text">Pycharm安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85typora"><span class="nav-number">2.4.6.</span> <span class="nav-text">安装typora</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3"><span class="nav-number">3.</span> <span class="nav-text">使用帮助文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8man-page"><span class="nav-number">3.1.</span> <span class="nav-text">使用man page</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8info-page"><span class="nav-number">3.2.</span> <span class="nav-text">使用info page</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7"><span class="nav-number">4.</span> <span class="nav-text">Linux文件属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B9%E5%8F%98%E6%96%87%E4%BB%B6%E5%B1%9E%E6%80%A7%E4%B8%8E%E6%9D%83%E9%99%90"><span class="nav-number">4.1.</span> <span class="nav-text">改变文件属性与权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE"><span class="nav-number">4.2.</span> <span class="nav-text">Linux目录配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8BLinux%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC"><span class="nav-number">4.3.</span> <span class="nav-text">查看Linux内核版本</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">Linux目录管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C"><span class="nav-number">5.1.</span> <span class="nav-text">目录相关操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84%E5%8F%98%E9%87%8F%EF%BC%9A-PATH"><span class="nav-number">5.2.</span> <span class="nav-text">执行文件路径变量：$PATH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C"><span class="nav-number">5.3.</span> <span class="nav-text">文件目录相关操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%9F%A5%E9%98%85"><span class="nav-number">5.4.</span> <span class="nav-text">文件内容查阅</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%9A%84%E9%BB%98%E8%AE%A4%E6%9D%83%E9%99%90%E4%B8%8E%E9%9A%90%E8%97%8F%E6%9D%83%E9%99%90"><span class="nav-number">5.5.</span> <span class="nav-text">文件目录的默认权限与隐藏权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%96%87%E4%BB%B6%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.6.</span> <span class="nav-text">命令与文件查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">6.</span> <span class="nav-text">Linux文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%AE%B9%E9%87%8F"><span class="nav-number">6.1.</span> <span class="nav-text">磁盘与目录容量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%96%87%E4%BB%B6%EF%BC%9Aln"><span class="nav-number">6.2.</span> <span class="nav-text">连接文件：ln</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A1%AC%E8%BF%9E%E6%8E%A5"><span class="nav-number">6.2.1.</span> <span class="nav-text">硬连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#symbolic-link%EF%BC%88%E7%AC%A6%E5%8F%B7%E8%BF%9E%E6%8E%A5%EF%BC%89"><span class="nav-number">6.2.2.</span> <span class="nav-text">symbolic link（符号连接）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E6%93%8D%E4%BD%9C"><span class="nav-number">7.</span> <span class="nav-text">磁盘操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E6%8C%82%E8%BD%BD"><span class="nav-number">7.1.</span> <span class="nav-text">设置开机挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6"><span class="nav-number">7.2.</span> <span class="nav-text">挂载镜像文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%97%A0%E5%86%85%E5%AE%B9%E7%9A%84%E5%A4%A7%E5%9E%8B%E6%96%87%E4%BB%B6"><span class="nav-number">7.3.</span> <span class="nav-text">创建无内容的大型文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4swap"><span class="nav-number">7.4.</span> <span class="nav-text">交换空间swap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E6%89%93%E5%8C%85"><span class="nav-number">8.</span> <span class="nav-text">文件压缩与打包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dump%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%A4%87%E4%BB%BD"><span class="nav-number">8.1.</span> <span class="nav-text">dump文件系统备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%89%E7%9B%98%E5%86%99%E5%85%A5%E5%B7%A5%E5%85%B7"><span class="nav-number">8.2.</span> <span class="nav-text">光盘写入工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim%E7%BC%96%E8%BE%91%E5%99%A8"><span class="nav-number">9.</span> <span class="nav-text">vim编辑器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%97%E9%80%89%E6%8B%A9"><span class="nav-number">9.1.</span> <span class="nav-text">块选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%96%87%E4%BB%B6%E5%90%8C%E6%97%B6%E7%BC%96%E8%BE%91"><span class="nav-number">9.2.</span> <span class="nav-text">多文件同时编辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%AA%97%E5%8F%A3%E5%8A%9F%E8%83%BD"><span class="nav-number">9.3.</span> <span class="nav-text">多窗口功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bash%E5%92%8Cshell"><span class="nav-number">10.</span> <span class="nav-text">bash和shell</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">10.1.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">10.2.</span> <span class="nav-text">环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9D%A5%E8%87%AA%E9%94%AE%E7%9B%98%E7%9A%84%E5%8F%98%E9%87%8F%E3%80%81%E6%95%B0%E7%BB%84%E4%B8%8E%E5%A3%B0%E6%98%8E%EF%BC%9Aread%E3%80%81array%E3%80%81declare"><span class="nav-number">10.3.</span> <span class="nav-text">来自键盘的变量、数组与声明：read、array、declare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ulimit"><span class="nav-number">10.4.</span> <span class="nav-text">ulimit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9%E3%80%81%E5%88%A0%E9%99%A4%E5%8F%98%E9%87%8F"><span class="nav-number">10.5.</span> <span class="nav-text">更改、删除变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%91%BD%E4%BB%A4%E5%88%AB%E5%90%8D"><span class="nav-number">10.6.</span> <span class="nav-text">设置命令别名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2%E5%91%BD%E4%BB%A4"><span class="nav-number">10.7.</span> <span class="nav-text">历史命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%BB%88%E7%AB%AF%E6%9C%BA"><span class="nav-number">10.8.</span> <span class="nav-text">设置终端机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E6%B3%A8%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%B5%81"><span class="nav-number">10.9.</span> <span class="nav-text">标注输入输出流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%91%BD%E4%BB%A4%E5%90%8C%E6%97%B6%E6%89%A7%E8%A1%8C"><span class="nav-number">10.10.</span> <span class="nav-text">多命令同时执行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E5%8F%96%E5%91%BD%E4%BB%A4cut%EF%BC%8Cgrep"><span class="nav-number">10.11.</span> <span class="nav-text">选取命令cut，grep</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%91%BD%E4%BB%A4"><span class="nav-number">10.12.</span> <span class="nav-text">排序命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E8%BD%AC%E6%8D%A2%E5%91%BD%E4%BB%A4"><span class="nav-number">10.13.</span> <span class="nav-text">字符转换命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">11.</span> <span class="nav-text">正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">11.1.</span> <span class="nav-text">基础正则表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">11.2.</span> <span class="nav-text">扩展正则表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%89%93%E5%8D%B0"><span class="nav-number">11.3.</span> <span class="nav-text">文件格式化打印</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E5%B7%A5%E5%85%B7awk"><span class="nav-number">11.4.</span> <span class="nav-text">数据处理工具awk</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%AF%94%E8%BE%83%E5%B7%A5%E5%85%B7"><span class="nav-number">11.5.</span> <span class="nav-text">文件比较工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shell-script"><span class="nav-number">12.</span> <span class="nav-text">shell script</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

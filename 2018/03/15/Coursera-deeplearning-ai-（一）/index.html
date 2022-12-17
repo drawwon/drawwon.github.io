@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="deeplearning,机器学习,深度学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Coursera上面关于deeplearning.ai的课程一共有五门，在申请助学金之后都可以免费参与，这篇博文主要讲的是关于deeplearning.ai的第一门课程的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coursera deeplearning.ai (一)">
+<meta property="og:url" content="http://drawwon.github.io/2018/03/15/Coursera-deeplearning-ai-%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="Coursera上面关于deeplearning.ai的课程一共有五门，在申请助学金之后都可以免费参与，这篇博文主要讲的是关于deeplearning.ai的第一门课程的">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-15/44184824.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-15/68262402.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-17/57255797.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-19/84173695.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-19/36310473.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-19/42922001.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-20/26861114.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-20/84901446.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-20/16345016.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-21/50315744.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-21/66629047.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-21/44301965.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-21/69750118.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-21/26767201.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/77110335.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/30753349.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/11306728.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/15254553.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/76248903.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/88933716.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/21544575.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/41708289.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/72894768.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/86500821.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/12794340.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-27/57360301.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-27/38210461.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/85213919.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/25424720.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/25376002.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/15262152.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/1215672.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/96874993.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-30/82184765.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-4/153714.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-4/60529019.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-4/20215725.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-9/85558501.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-9/41217448.jpg">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-9/50179449.jpg">
+<meta property="article:published_time" content="2018-03-15T13:23:58.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.389Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="deeplearning">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-15/44184824.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2018/03/15/Coursera-deeplearning-ai-（一）/"/>
+
+
+
+
+
+  <title>Coursera deeplearning.ai (一) | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2018/03/15/Coursera-deeplearning-ai-%EF%BC%88%E4%B8%80%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Coursera deeplearning.ai (一)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-15T21:23:58+08:00">
+                2018-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Coursera上面关于deeplearning.ai的课程一共有五门，在申请助学金之后都可以免费参与，这篇博文主要讲的是关于deeplearning.ai的第一门课程的</p>
+<span id="more"></span>
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-15/44184824.jpg"></p>
+<p>在房价预测中，最普通的如右上角转弯的函数，称之为ReLU(rectified linear unit)函数，给定一个大小，通过一个神经元就可以得到房子的价格，这就是一个神经元。</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-15/68262402.jpg"></p>
+<p>如果你对房价预测还有别的因素，比如卧室的数量，地理位置，学区信息等等来对房价进行预测，你只需要给定大量的x的输入数据，就可以用来预测房价y的值，这样就得到了一个较大的神经元</p>
+<p>最左边的一层是输入层，中间一层是隐藏层，最后是输出层</p>
+<h2 id="Week-2"><a href="#Week-2" class="headerlink" title="Week 2"></a>Week 2</h2><p>首先介绍一下logistics二分类：经典的二分类算法</p>
+<p>首先来看看图像分类的问题，输入一张图片，我们标记1作为猫，标记0作为不是猫</p>
+<p>图片在电脑中保存为红绿蓝三个色彩强度矩阵，如果是一幅$64\times64$的图片，就有3个$64\times64$的色彩矩阵，为了进行分类，将这些矩阵中的像素值展开为一个向量x作为算法的输入</p>
+<p>输入x的定义为：红黄蓝三张矩阵的像素值按顺序放进去，x在$64\times64$的图片的情况下就是，$64\times64\times3&#x3D;(12288,1)$的矩阵，有m个训练数据，则有m个x向量，m个y</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-17/57255797.jpg"></p>
+<p>如图，每个训练数据占一列，m个训练数据，一共是$m<em>n$行，Y是标签，m个标签为1</em>m</p>
+<h3 id="logistics-回归"><a href="#logistics-回归" class="headerlink" title="logistics 回归"></a>logistics 回归</h3><p>给定x，预测y，y只能是0和1，也就是二分类问题</p>
+<p>有两个参数，w和b，w也是（n，1）的向量，$\hat{y} &#x3D; w^Tx+b$，这样的表示并不好，因为y可能是一个小数或者甚至是负数，我们想要结果是0或1，因此我们对结果用sigmoid函数，如下：</p>
+<p>$\hat{y} &#x3D; \sigma(w^Tx+b)$</p>
+<p>sigmoid函数的定义为：$f(z)&#x3D;\frac{1}{1+e^{-z}}$</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-19/84173695.jpg"></p>
+<h3 id="Logistic-Regression-Cost-Function"><a href="#Logistic-Regression-Cost-Function" class="headerlink" title="Logistic Regression Cost Function"></a>Logistic Regression Cost Function</h3><p>为了优化logistic回归的w和b，我们定义一个损失函数，</p>
+<p>损失函数（loss function）：定义一个估计量$\hat{y}$和一个真实值$y$之间的误差，我们在这里用到的是平方损失函数，$L(\hat{y},y)&#x3D;\frac{1}{2}(\hat{y}-y)^2$</p>
+<p>另一种适用的损失函数定义为：$L(\hat{y},y)&#x3D;- (y\log\hat{y}+(1-y)\log({1-\hat{y}}))$</p>
+<ul>
+<li>这个函数在y&#x3D;1的时候，$L(\hat{y},y)&#x3D;- \log\hat{y}$，要让损失函数尽可能小，那么$\hat{y}$就要尽可能大（因为前面有负号，log是增函数），由于$\hat{y}$是sigmoid函数，最大为1</li>
+<li>这个函数在y&#x3D;0的时候，$L(\hat{y},y)&#x3D;- \log({1-\hat{y}})$，要让损失函数尽可能小，那么$\hat{y}$就要尽可能小（因为前面有负号，log是增函数），由于$\hat{y}$是sigmoid函数，最小为0</li>
+</ul>
+<p>代价函数（cost function）：定义整个训练集的平均损失：$J(\hat{y},y)&#x3D;\frac{1}{m}\sum_{i&#x3D;1}^{n}L(\hat{y}^{(i)},y^{(i)})$</p>
+<h3 id="梯度下降"><a href="#梯度下降" class="headerlink" title="梯度下降"></a>梯度下降</h3><p>已经知道了逻辑回归算法的参数w和b，以及代价函数$J(\hat{y},y)$，我们需要一个方法来训练我们的模型，那就是梯度下降。</p>
+<p>目标是使代价函数$J(\hat{y},y)$最小，也就是下面这个公式最小：</p>
+<p>$J(w,b) &#x3D; \frac{1}{m}\sum_{i&#x3D;1}^mL(\hat{y}^{(i)},y^{(i)})&#x3D;\frac{1}{m}y^{(i)}\log\hat{y}^{(i)}+(1-y^{(i)})\log(1-\hat{y}^{(i)})$</p>
+<p>这是一个凸优化问题，有且仅有一个最优值，在初始化w和b的时候，可以令初始w&#x3D;1，b&#x3D;0，也可以随机初始化。</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-19/36310473.jpg"></p>
+<p>每次迭代找到下一个点的方法是通过找到斜率的方向，因为斜率的方向是下降最快的</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-19/42922001.jpg"></p>
+<p>直到找到全局最优值，w和b每次迭代更新的公式如下：</p>
+<p>$w:&#x3D;w-\alpha\frac{\partial{J(w,b)}}{\partial{w}}$</p>
+<p>$b:&#x3D;b-\alpha\frac{\partial{J(w,b)}}{\partial{b}}$</p>
+<h3 id="计算图"><a href="#计算图" class="headerlink" title="计算图"></a>计算图</h3><p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-20/26861114.jpg"></p>
+<p>如图是一个计算图，$J(a,b,c)&#x3D;3(a+bc)$，令bc&#x3D;u，bc&#x3D;v，3v&#x3D;j，这样就是如上图一步一步的计算</p>
+<p>在代码中，我们要表示dJ&#x2F;da的时候，只需要写da就行了 </p>
+<p>所谓的反向传播，就是通过链式法则求导倒数的过程</p>
+<h3 id="logistic回归梯度下降法应用"><a href="#logistic回归梯度下降法应用" class="headerlink" title="logistic回归梯度下降法应用"></a>logistic回归梯度下降法应用</h3><p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-20/84901446.jpg"></p>
+<p>已知z，$\hat{y}$，以及L(a,y)公式如上，要通过调节w和b得到最大或者最小的L，应该用L对w和b求偏导，然后运用</p>
+<p>$$w:&#x3D;w-\alpha dw$$</p>
+<p>$$b:&#x3D;b-\alpha db$$</p>
+<p>这两个公式进行迭代，其中dw就是L对w的偏导，db就L对b的偏导</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-20/16345016.jpg"></p>
+<p>首先L对a求偏导，得到$da&#x3D;-\frac{y}{a}+\frac{1-y}{1-a}$，接下来a对z求偏导，乘以L对a求偏导，得到$dz&#x3D;\frac{dL}{dz}&#x3D;\frac{dL}{da}\frac{da}{dz}$，有</p>
+<p>$\frac{da}{dz}&#x3D;(\frac{1}{1+e^{-z}})’&#x3D;\frac{e^{-z}}{(1+e^{-z})^2}&#x3D;\frac{1+e^{-z}-1}{(1+e^{-z})^2}&#x3D;\frac{1}{1+e^{-z}}(1-\frac{1}{1+e^{-z}})&#x3D;f(z)(1-f(z))&#x3D;a(1-a)$</p>
+<p>因此，$dz&#x3D;a-y$，$dw_1&#x3D;x_1dz$，$dw_2&#x3D;x_2dz$，$db&#x3D;dz$，再用上图右下角的迭代公式，即可实现梯度下降迭代</p>
+<h3 id="m个训练数据的梯度下降"><a href="#m个训练数据的梯度下降" class="headerlink" title="m个训练数据的梯度下降"></a>m个训练数据的梯度下降</h3><p>代价函数$J(w,b)&#x3D;\frac{1}{m}\sum_{i&#x3D;1}^{n}L(a^{(i)},y^{(i)})$</p>
+<p>其中$a^{(i)}&#x3D;\hat{y}^{(i)}&#x3D;\sigma(w^Tx^{(i)}+b)$</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-21/50315744.jpg"></p>
+<p>如图，有两层循环，第一层是循环m个训练数据，第二层是循环n个w</p>
+<h3 id="通过向量化减少逻辑回归的循环"><a href="#通过向量化减少逻辑回归的循环" class="headerlink" title="通过向量化减少逻辑回归的循环"></a>通过向量化减少逻辑回归的循环</h3><p>如下图，我们先减少内层的n个w的循环，通过$dw+&#x3D;x^{(i)}dz^{(i)}$减少内层循环</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-21/66629047.jpg"></p>
+<p>我们再来减少外层的循环</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-21/44301965.jpg"></p>
+<p>通过图片中Z和A的计算，就可以减少外层的循环</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-21/69750118.jpg"></p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-21/26767201.jpg"></p>
+<h2 id="Week-3"><a href="#Week-3" class="headerlink" title="Week 3"></a>Week 3</h2><p>神经网络的定义，我们可以从前两周学的逻辑回归来进入，给定x，w，b，可以算出z，由z可以算出a，由a算出损失函数，</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/77110335.jpg"></p>
+<p>这是一个两层神经网络（包括1个隐藏层和1个输出层，输入层并不算在其中）</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/30753349.jpg"></p>
+<h3 id="神经网络的计算公式"><a href="#神经网络的计算公式" class="headerlink" title="神经网络的计算公式"></a>神经网络的计算公式</h3><p>我们先看看逻辑回归的计算方法：没有隐藏层，直接通过输入就算出最终的输出a</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/11306728.jpg"></p>
+<p>神经网络与之类似，不过多了一层隐藏层，</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/15254553.jpg"></p>
+<p>通过如下的公式进行计算隐藏层的每一个点的值</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/76248903.jpg"></p>
+<p>整理一下四个点的计算公式如下：右上角的方括号表示所在层，右下角角标表示第几个点</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/88933716.jpg"></p>
+<p>我们将公式矢量化：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/21544575.jpg"></p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/41708289.jpg"></p>
+<p>得到最终的计算公式如下：其中a[0]表示输入x</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/72894768.jpg"></p>
+<h3 id="多个训练样本的矢量化"><a href="#多个训练样本的矢量化" class="headerlink" title="多个训练样本的矢量化"></a>多个训练样本的矢量化</h3><p>要将如下图所示的循环进行矢量化：其中方括号表示所在层，圆括号表示第几个隐藏单元</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/86500821.jpg"></p>
+<p>矢量化之后得到如下公式：Z和A的横向表示m个样本</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-22/12794340.jpg"></p>
+<h3 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h3><p>我们之前用的激活函数都是simoid函数，tanh函数一般来说比sigmoid函数的效果好</p>
+<p>$a &#x3D; tanh(z) &#x3D; \frac{e^z-e^{-z}}{e^z+e^{-z}}$</p>
+<p>tanh函数可以看做一个sigmoid函数的平移，图形如下：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-27/57360301.jpg"></p>
+<p>但是tanh函数和sigmoid函数都有缺陷，那就是在a接近1的时候，斜率非常小，导致迭代速度特别慢，因此给出了RELU函数和leaker relu函数，是Restrict Linear Unit的缩写，一个是取0和z的最大值，一个取0.01z和z的最大值，这样能够保证迭代的速度</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-27/38210461.jpg"></p>
+<h3 id="为什么需要非线性激活函数"><a href="#为什么需要非线性激活函数" class="headerlink" title="为什么需要非线性激活函数"></a>为什么需要非线性激活函数</h3><p>$z^{[1]} &#x3D; W^{[1]}X+b^{[1]}$</p>
+<p>$a^{[1]}&#x3D;\sigma(z^{[1]})​$</p>
+<p>$z^{[2]} &#x3D; W^{[2]}X+b^{[2]}$</p>
+<p>$a^{[2]}&#x3D;\sigma(z^{[2]})$</p>
+<p>如果我们不使用非线性激活函数，比如直接让g(z) &#x3D; z，那么$z^{[2]} &#x3D; W^{[2]}a^{[1]}+b^{[2]}&#x3D;W^{[2]}(W^{[1]}X+b^{[1]})+b^{[2]}&#x3D;W^{[2]}W^{[1]}X+W^{[2]}b^{[1]}+b^{[2]} &#x3D; W^{‘}X+b^{‘}$</p>
+<p>相当于经过多个隐藏层之后，结果还是输入的线性变化，那么隐藏层就没有意义了</p>
+<p>只有一种情况使用线性激活函数，就是在做回归问题的最后一步的时候，输出值不是0和1而是一个实数，那么这个时候就应该使用线性激活函数，但是在中间的隐藏层仍然应该使用非线性激活函数。</p>
+<h3 id="激活函数的梯度下降"><a href="#激活函数的梯度下降" class="headerlink" title="激活函数的梯度下降"></a>激活函数的梯度下降</h3><ol>
+<li>sigmoid函数： $a&#x3D;g(z)&#x3D;\frac{1}{1+e^{-z}}$，导数是$g^{‘}(z)&#x3D;g(z)(1-g(z))&#x3D;a(1-a)$，在z&#x3D;一个很大的正数或者负数的时候，g（z）导数接近于0；z等于0的时候，g(z)的导数是1&#x2F;4</li>
+<li>tanh函数，$a&#x3D;g(z)&#x3D;\tanh(z)&#x3D;\frac{e^z-e^{-z}}{e^z+e^{-z}}$，求导可得$g^{‘}(z)&#x3D;1-g^{2}(z)$，我们可以通过一个简单的例子来检验有没有错误，当z很大或者很小的时候，$g^{‘}(z)&#x3D;0$当，z&#x3D;0的时候，导数&#x3D;1</li>
+<li>Relu函数，$g(z)&#x3D;max(0,z)$，导数&#x3D;0（当$z&lt;0$的时候），导数&#x3D;1（当$z&gt;&#x3D;0$的时候）</li>
+<li>Leaky ReLU：$g(z)&#x3D;max(0.01z,z)$，导数&#x3D;0.01（当$z&lt;0$的时候），导数&#x3D;1（当$z&gt;&#x3D;0$的时候）</li>
+</ol>
+<h3 id="神经网络的梯度下降"><a href="#神经网络的梯度下降" class="headerlink" title="神经网络的梯度下降"></a>神经网络的梯度下降</h3><p>左边是包含一个隐藏层的神经网络的推导公式，右边是反向传播求导的结果，其中np.sum函数中的keepdims&#x3D;True这个参数是为了输出结果是(n,1)而不是(n,)</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/85213919.jpg"></p>
+<h3 id="神经网络梯度下降的推导"><a href="#神经网络梯度下降的推导" class="headerlink" title="神经网络梯度下降的推导"></a>神经网络梯度下降的推导</h3><p>从后往前推导，先求dz2&#x3D;a2-y，因为L(a2,y)&#x3D;-y<em>loga-(1-y)log(1-a)，对a求导，然后乘以sigmoid的导数刚好是a2-y，dw2&#x3D;dz2</em>a1T，这里的转置是通过维度来判断的，dw2一定和w2一样的维度，w2的维度是（n2,n1），那么dw2维度也是(n2,n1)，dz2的维度与z2相同是(n2,1)，那么应该右乘一个(1,n1)得到dw2，也就是a1T</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/25424720.jpg"></p>
+<p>左边是一个输入的时候的梯度下降，右边是向量化之后多个输入的梯度下降，因为代价函数J前面有1&#x2F;m，所以dw前面也有1&#x2F;m，keepdims&#x3D;True是为了保证b2的形状是(n2,1)</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/25376002.jpg"></p>
+<h3 id="随机初始化"><a href="#随机初始化" class="headerlink" title="随机初始化"></a>随机初始化</h3><p>在逻辑回归中，w可以初始化为0，在神经网络中，我们必须要随机初始化w。这是为什么呢？主要是因为神经网络中存在隐藏层，如果一开始将w设置为全0，那么在反向传播的时候，通过$w &#x3D; w-\alpha dw$这个公式进行迭代，每次迭代结束之后，两行的结果完全相同，这就是所谓的“对称”。这样多个隐藏点就跟1个隐藏点没有区别了</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/15262152.jpg"></p>
+<p>我们使用np.random.randn((1,2))随机初始化，并乘以一个很小的值，比如0.01，为什么不乘以一个很大的值比如100之类的呢，这是因为我们通常使用的激活函数，比如tanh和sigmoid函数，在值很大的时候斜率很小，迭代速度非常慢。</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/1215672.jpg"></p>
+<h2 id="Week-4"><a href="#Week-4" class="headerlink" title="Week 4"></a>Week 4</h2><h3 id="L层深度神经网络的符号表示"><a href="#L层深度神经网络的符号表示" class="headerlink" title="L层深度神经网络的符号表示"></a>L层深度神经网络的符号表示</h3><p>其中L表示神经网络的层数，不包括输入层，仅包含隐藏层和输出层，$n^{[i]}$表示第i层的点的个数</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-29/96874993.jpg"></p>
+<h3 id="深度神经网络的前向传播"><a href="#深度神经网络的前向传播" class="headerlink" title="深度神经网络的前向传播"></a>深度神经网络的前向传播</h3><p>深度神经网络前向传播的通用公式：</p>
+<p>$Z^{[l]}&#x3D;W^{l}A^{[l-1]}+b^{[l]}$</p>
+<p>$A^{[l]}&#x3D;g^{[l]}(Z^{[l]})$</p>
+<p>通过这个通用公式，我们就可以通过一个for循环，循环完所有的层</p>
+<h3 id="使矩阵维度保持正确"><a href="#使矩阵维度保持正确" class="headerlink" title="使矩阵维度保持正确"></a>使矩阵维度保持正确</h3><p>检查神经网络代码的最好的办法，就是拿出一张纸，看看矩阵维度是否正确</p>
+<p>检查两个参数W,b和每层输出a和Z的维度</p>
+<p>$W^{[l]}&#x3D;dW&#x3D;(n^{[l]},n^{[l-1]})$</p>
+<p>$a^{[l]}&#x3D;z^{[l]}&#x3D;(n^{[l]},1)$</p>
+<p>$b^{[l]}&#x3D;db&#x3D;(n^{[l]},1)$</p>
+<p>矢量化之后的</p>
+<p>$W^{[l]}&#x3D;dW&#x3D;(n^{[l]},n^{[l-1]})$</p>
+<p>$A^{[l]}&#x3D;Z^{[l]}&#x3D;dA&#x3D;dZ(n^{[l]},m)$</p>
+<p>$b^{[l]}&#x3D;db&#x3D;(n^{[l]},1)$通过python的广播功能传播为$(n^{[l]},m)$</p>
+<h3 id="深度神经网络的解释"><a href="#深度神经网络的解释" class="headerlink" title="深度神经网络的解释"></a>深度神经网络的解释</h3><p>如下图，深度神经网络的第一层，可能能够检测一些图像的边缘，第二层可能由这些边缘组成了一些部件（比如人脸识别中的眼睛、鼻子、耳朵之类的），第三层再将这些眼睛鼻子耳朵之类的组合起来形成不同的脸，这就是神经网络的直观解释。</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-3-30/82184765.jpg"></p>
+<h3 id="建立神经网络"><a href="#建立神经网络" class="headerlink" title="建立神经网络"></a>建立神经网络</h3><p>神经网络主要分为两个部分，前向传播和反向传播</p>
+<p>前向传播：输入$a^{[l-1]}$，输出$a^{[l]}$</p>
+<p>反向传播中：输入$da^{[l]}$和$z^{[l]}$，输出$da^{[l-1]}$</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-4/153714.jpg"></p>
+<p>第L层的前向与反向传播示意如下：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-4/60529019.jpg"></p>
+<p>整个深度神经网络的传播示意如下：</p>
+<p>先正向传播，再反向传播，算出dw和db后用更新公式更新w和b，就完成了一次迭代</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-4/20215725.jpg"></p>
+<h3 id="正反向传播"><a href="#正反向传播" class="headerlink" title="正反向传播"></a>正反向传播</h3><p>第L层的正向传播</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-9/85558501.jpg"></p>
+<p>第L层的反向传播</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-9/41217448.jpg"></p>
+<p>前反向传播的总结</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-4-9/50179449.jpg"></p>
+<h3 id="参数和超参数"><a href="#参数和超参数" class="headerlink" title="参数和超参数"></a>参数和超参数</h3><p>神经网络中的参数：W，b</p>
+<p>超参数：影响到实际的参数W和b的参数，比如学习率$\alpha$，迭代次数，隐藏层的个数，隐藏神经单元数，激活函数的选择（tanh，sigmoid，RELU）</p>
+<p>一般都是不断的尝试找到最优的超参值（启发式搜索），比如学习率$\alpha$要找到一个下降较快，且算是函数收敛到较低的值。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/deeplearning/" rel="tag"># deeplearning</a>
+          
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/15/java%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="next" title="java常见面试题">
+                <i class="fa fa-chevron-left"></i> java常见面试题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/23/%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" rel="prev" title="项目总结">
+                项目总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Week-2"><span class="nav-number">1.</span> <span class="nav-text">Week 2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#logistics-%E5%9B%9E%E5%BD%92"><span class="nav-number">1.1.</span> <span class="nav-text">logistics 回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Logistic-Regression-Cost-Function"><span class="nav-number">1.2.</span> <span class="nav-text">Logistic Regression Cost Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D"><span class="nav-number">1.3.</span> <span class="nav-text">梯度下降</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E5%9B%BE"><span class="nav-number">1.4.</span> <span class="nav-text">计算图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#logistic%E5%9B%9E%E5%BD%92%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95%E5%BA%94%E7%94%A8"><span class="nav-number">1.5.</span> <span class="nav-text">logistic回归梯度下降法应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#m%E4%B8%AA%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE%E7%9A%84%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D"><span class="nav-number">1.6.</span> <span class="nav-text">m个训练数据的梯度下降</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%90%91%E9%87%8F%E5%8C%96%E5%87%8F%E5%B0%91%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E7%9A%84%E5%BE%AA%E7%8E%AF"><span class="nav-number">1.7.</span> <span class="nav-text">通过向量化减少逻辑回归的循环</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Week-3"><span class="nav-number">2.</span> <span class="nav-text">Week 3</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E8%AE%A1%E7%AE%97%E5%85%AC%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">神经网络的计算公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E8%AE%AD%E7%BB%83%E6%A0%B7%E6%9C%AC%E7%9A%84%E7%9F%A2%E9%87%8F%E5%8C%96"><span class="nav-number">2.2.</span> <span class="nav-text">多个训练样本的矢量化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">2.3.</span> <span class="nav-text">激活函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">2.4.</span> <span class="nav-text">为什么需要非线性激活函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%E7%9A%84%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D"><span class="nav-number">2.5.</span> <span class="nav-text">激活函数的梯度下降</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D"><span class="nav-number">2.6.</span> <span class="nav-text">神经网络的梯度下降</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%9A%84%E6%8E%A8%E5%AF%BC"><span class="nav-number">2.7.</span> <span class="nav-text">神经网络梯度下降的推导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">2.8.</span> <span class="nav-text">随机初始化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Week-4"><span class="nav-number">3.</span> <span class="nav-text">Week 4</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#L%E5%B1%82%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E7%AC%A6%E5%8F%B7%E8%A1%A8%E7%A4%BA"><span class="nav-number">3.1.</span> <span class="nav-text">L层深度神经网络的符号表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="nav-number">3.2.</span> <span class="nav-text">深度神经网络的前向传播</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%9F%A9%E9%98%B5%E7%BB%B4%E5%BA%A6%E4%BF%9D%E6%8C%81%E6%AD%A3%E7%A1%AE"><span class="nav-number">3.3.</span> <span class="nav-text">使矩阵维度保持正确</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E8%A7%A3%E9%87%8A"><span class="nav-number">3.4.</span> <span class="nav-text">深度神经网络的解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="nav-number">3.5.</span> <span class="nav-text">建立神经网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="nav-number">3.6.</span> <span class="nav-text">正反向传播</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%92%8C%E8%B6%85%E5%8F%82%E6%95%B0"><span class="nav-number">3.7.</span> <span class="nav-text">参数和超参数</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

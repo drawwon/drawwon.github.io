@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="编程," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是jQuery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery教程">
+<meta property="og:url" content="http://drawwon.github.io/2017/07/09/jQuery%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="什么是jQuery">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-07-09T07:31:37.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.404Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2017/07/09/jQuery教程/"/>
+
+
+
+
+
+  <title>jQuery教程 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2017/07/09/jQuery%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">jQuery教程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-09T15:31:37+08:00">
+                2017-07-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="什么是jQuery"><a href="#什么是jQuery" class="headerlink" title="什么是jQuery"></a>什么是jQuery</h2><span id="more"></span>
+
+<p>是一个JavaScript框架，或者说我们也可以把它称之为一个JavaScript库，里面封装了一些常用的JavaScript函数代码，其兼容性比较好，支持所有主流的浏览器。</p>
+<h2 id="如何使用jQuery"><a href="#如何使用jQuery" class="headerlink" title="如何使用jQuery"></a>如何使用jQuery</h2><p>有两种方法可以引用jQuery代码，</p>
+<ul>
+<li>一是从官网上下载，和html文件放到同一个文件夹下，然后通过<code>&lt;script type = &quot;text/JavaScript&quot;, src = &quot;jquery-3.2.1.js&quot;&gt;&lt;/script&gt;</code></li>
+<li>二是直接通过cdn的方式进行网页引用，<code>script type = &quot;text/JavaScript&quot;, src = “http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js&quot;</code>进行引用</li>
+</ul>
+<h2 id="使用jQuery写hello-world"><a href="#使用jQuery写hello-world" class="headerlink" title="使用jQuery写hello world"></a>使用jQuery写hello world</h2><p>$(document).ready()表示等网页上所有元素加载好之后再进行括号内的内容</p>
+<p>$(“div”)表示寻找所有标签为div的元素</p>
+<p>$(“div”).html()用于更改div的内容</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>第一个简单的jQuery程序<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">        <span class="selector-tag">div</span>&#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">padding</span>:<span class="number">8px</span> <span class="number">0px</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">font-size</span>:<span class="number">12px</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">text-align</span>:center;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">border</span>:solid <span class="number">1px</span> <span class="number">#888</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">            $(<span class="variable language_">document</span>).<span class="title function_">ready</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">            $(<span class="string">&quot;div&quot;</span>).<span class="title function_">html</span>(<span class="string">&quot;您好，通过慕课网学习jQuery才是最佳的途径。&quot;</span>)</span></span><br><span class="line"><span class="language-javascript">            &#125;);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用jQuery获取元素对象"><a href="#使用jQuery获取元素对象" class="headerlink" title="使用jQuery获取元素对象"></a>使用jQuery获取元素对象</h2><p>通过<code>$</code>符号来进行对象获取，获取的对象是一个数组对象，比如文章中一共有三个<code>div</code>标签，那么<code>$(&quot;div&quot;)</code>获取到的是一个长度为3的数组，可以通过get方法转换成<code>DOM</code>对象，也可以直接用数组进行转换，方法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> $div = $(<span class="string">&quot;div&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> div  = $div.<span class="title function_">get</span>(<span class="number">0</span>); <span class="comment">//或者var div = $div[0];</span></span><br></pre></td></tr></table></figure>
+
+<p>将DOM对象转换为jQuery对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> div = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;div1&quot;</span>);</span><br><span class="line">$div = $(div);</span><br></pre></td></tr></table></figure>
+
+<h2 id="jQuery的层级选择器"><a href="#jQuery的层级选择器" class="headerlink" title="jQuery的层级选择器"></a>jQuery的层级选择器</h2><p>一共有4种常用选择器如下：</p>
+<ol>
+<li>子选择器：<code>$(&quot;parent &gt; child&quot;)</code></li>
+<li>后代选择器：<code>$(&quot;ancestor descendant&quot;)</code></li>
+<li>相邻兄弟选择器：<code>$(&quot;prev + next&quot;)</code></li>
+<li>一般兄弟选择器：<code>$(&quot;bro1 ~ bro2&quot;)</code></li>
+</ol>
+<h2 id="jQuery的一般筛选选择器"><a href="#jQuery的一般筛选选择器" class="headerlink" title="jQuery的一般筛选选择器"></a>jQuery的一般筛选选择器</h2><p>一共有12种常用筛选选择器，$(“:”)，美元符号加括号，引号，然后以冒号开头：</p>
+<ol>
+<li>$(“:eq(index)”)：选择等于给定索引的元素</li>
+<li>$(“:lt(index)”)：选择小于给定索引的元素</li>
+<li>$(“:gt(index)”)：选择大于给定索引的元素</li>
+<li>$(“:odd”)：选择索引为奇数的元素</li>
+<li>$(“:even”)：选择索引为偶数的元素</li>
+<li>$(“:first”)：选择第一个元素</li>
+<li>$(“:last”)：选择最后一个元素</li>
+<li>$(“:animated”)：选择正在进行动画效果的元素</li>
+<li>$(“:root”)：选择根元素</li>
+<li>$(“lang(language)”)：选择指定语言的元素</li>
+<li>$(“:header”)：选择标题元素</li>
+<li>$(“not(selector)”)：选择除了不匹配给定的选择器元素</li>
+</ol>
+<h2 id="jQuery内容选择器"><a href="#jQuery内容选择器" class="headerlink" title="jQuery内容选择器"></a>jQuery内容选择器</h2><p>一共有四种常用的内容选择器：</p>
+<ol>
+<li><code>$(&quot;:contains(text)&quot;)</code>：选择含有指定文本内容的元素</li>
+<li><code>$(&quot;:parent&quot;)</code>：选择所有含有子元素或者内容的元素</li>
+<li><code>$(&quot;:has(selector)&quot;)</code>：选择符合选择器的元素</li>
+<li><code>$(:empty)</code>：选择没有子元素的元素</li>
+</ol>
+<h2 id="jQuery可见性选择器"><a href="#jQuery可见性选择器" class="headerlink" title="jQuery可见性选择器"></a>jQuery可见性选择器</h2><p>有可见和不可见两种：</p>
+<ol>
+<li><code>$(&quot;:visible&quot;)</code>：显示所有可见元素</li>
+<li>$(“:hidden”)：显示所有隐藏元素</li>
+</ol>
+<h2 id="jQuery属性选择器"><a href="#jQuery属性选择器" class="headerlink" title="jQuery属性选择器"></a>jQuery属性选择器</h2><p>属性选择器是判断属性与所给定值之间的关系，通常的形式是<code>$(&quot;[attribute=value]&quot;)</code>，有如下几种：</p>
+<ol>
+<li><code>$(&quot;[attribute|=value]&quot;)</code>：属性值等于所给值或者以所给值为前缀（在所给值最后加一个”-“）</li>
+<li><code>$(&quot;[attribute=value]&quot;)</code>：属性值等于所给值</li>
+<li><code>$(&quot;[attribute!=value]&quot;)</code>：属性值不等于所给值的元素</li>
+<li><code>$(&quot;[attribute*=value]&quot;)</code>：属性值包含一个给定的子字符串的元素</li>
+<li><code>$(&quot;[attribute~=value])&quot;</code>：以空格分隔的属性值中有一个给定值的元素</li>
+<li><code>$(&quot;[attribute]&quot;)</code>：指定属性的元素</li>
+<li><code>$(&quot;[attribute^=value]&quot;)</code>：以给定值为开始的元素</li>
+<li><code>$(&quot;[attribute$=value]&quot;)</code>：以给定值为结束的元素</li>
+<li><code>$(&quot;[attributeFilter1][attributeFilter2]&quot;)</code>：匹配所有属性选择器的元素</li>
+</ol>
+<h2 id="jQuery子元素选择器"><a href="#jQuery子元素选择器" class="headerlink" title="jQuery子元素选择器"></a>jQuery子元素选择器</h2><p>通常有如下5中子元素选择器：</p>
+<ol>
+<li><code>$(&quot;:first-child&quot;)</code>：选择第一个子元素</li>
+<li><code>$(&quot;:last-child&quot;)</code>：选择最后一个子元素</li>
+<li><code>$(&quot;:only-child&quot;)</code>：选择子元素为唯一元素的子元素</li>
+<li><code>$（&quot;:nth-child&quot;）</code>：选择第n个子元素</li>
+<li><code>$(&quot;:nth-last-child&quot;)</code>：选择父元素的第n个子元素，计数是从后到前的</li>
+</ol>
+<h2 id="jQuery表单元素选择器"><a href="#jQuery表单元素选择器" class="headerlink" title="jQuery表单元素选择器"></a>jQuery表单元素选择器</h2><p>表单选择器有如下10种：</p>
+<ol>
+<li><code>$(&quot;:input&quot;)</code>：选择所有的input,select,button和textarea元素</li>
+<li><code>$(&quot;:text&quot;)</code>：选择所有文本框</li>
+<li><code>$(&quot;:password&quot;)</code>：选择所有密码框</li>
+<li><code>$(&quot;:radio&quot;)</code>：选择所有单选框</li>
+<li><code>$(&quot;:checkbox&quot;)</code>：选择所有复选框</li>
+<li><code>$(:submit)</code>：选择所有提交按钮</li>
+<li><code>$(:image)</code>：选择所有图像域</li>
+<li><code>$(&quot;:reset&quot;)</code>：匹配所有重置按钮</li>
+<li><code>$(&quot;:button&quot;)</code>：匹配所有按钮</li>
+<li><code>$(&quot;:file&quot;)</code>：匹配所有文件域</li>
+</ol>
+<h2 id="jQuery对象属性筛选选择器"><a href="#jQuery对象属性筛选选择器" class="headerlink" title="jQuery对象属性筛选选择器"></a>jQuery对象属性筛选选择器</h2><p>表单筛选选择器主要有一下4种：</p>
+<ol>
+<li><code>$(&quot;:enabled&quot;</code>：可用的表单元素</li>
+<li><code>$(:disabled)</code>：选取不可用的表单元素</li>
+<li><code>$(:checked)</code>：选取被选中的<code>&lt;input&gt;</code>元素</li>
+<li><code>$(&quot;:selected&quot;)</code>：选取被选中的<code>&lt;option&gt;</code>元素</li>
+</ol>
+<p>添加点击事件的函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p1 = <span class="title function_">getElementById</span>(<span class="string">&quot;p1&quot;</span>)</span><br><span class="line">p1.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/05/css%E5%AF%B9%E7%BD%91%E9%A1%B5%E8%BF%9B%E8%A1%8C%E5%B8%83%E5%B1%80/" rel="next" title="css对网页进行布局">
+                <i class="fa fa-chevron-left"></i> css对网页进行布局
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/15/flask%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" rel="prev" title="flask快速入门">
+                flask快速入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFjQuery"><span class="nav-number">1.</span> <span class="nav-text">什么是jQuery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8jQuery"><span class="nav-number">2.</span> <span class="nav-text">如何使用jQuery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8jQuery%E5%86%99hello-world"><span class="nav-number">3.</span> <span class="nav-text">使用jQuery写hello world</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8jQuery%E8%8E%B7%E5%8F%96%E5%85%83%E7%B4%A0%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.</span> <span class="nav-text">使用jQuery获取元素对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery%E7%9A%84%E5%B1%82%E7%BA%A7%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">jQuery的层级选择器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery%E7%9A%84%E4%B8%80%E8%88%AC%E7%AD%9B%E9%80%89%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">6.</span> <span class="nav-text">jQuery的一般筛选选择器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery%E5%86%85%E5%AE%B9%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">7.</span> <span class="nav-text">jQuery内容选择器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery%E5%8F%AF%E8%A7%81%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">8.</span> <span class="nav-text">jQuery可见性选择器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery%E5%B1%9E%E6%80%A7%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">9.</span> <span class="nav-text">jQuery属性选择器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery%E5%AD%90%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">10.</span> <span class="nav-text">jQuery子元素选择器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery%E8%A1%A8%E5%8D%95%E5%85%83%E7%B4%A0%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">11.</span> <span class="nav-text">jQuery表单元素选择器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jQuery%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E7%AD%9B%E9%80%89%E9%80%89%E6%8B%A9%E5%99%A8"><span class="nav-number">12.</span> <span class="nav-text">jQuery对象属性筛选选择器</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

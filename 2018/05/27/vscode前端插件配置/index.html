@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="工具," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="vscode插件安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vscode前端插件配置">
+<meta property="og:url" content="http://drawwon.github.io/2018/05/27/vscode%E5%89%8D%E7%AB%AF%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="vscode插件安装">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-05-27T04:07:22.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.411Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2018/05/27/vscode前端插件配置/"/>
+
+
+
+
+
+  <title>vscode前端插件配置 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2018/05/27/vscode%E5%89%8D%E7%AB%AF%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vscode前端插件配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-27T12:07:22+08:00">
+                2018-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="vscode插件安装"><a href="#vscode插件安装" class="headerlink" title="vscode插件安装"></a>vscode插件安装</h2><span id="more"></span>
+
+<ul>
+<li><strong>Atom One Dark Theme</strong> 主题</li>
+<li><strong>VSCode Great Icons</strong> 图标主题</li>
+<li><strong>Beautify</strong> 美化vscode代码</li>
+<li><strong>Bracket Pair Colorizer</strong> 每一对括号用不同颜色区别</li>
+<li><strong>Code Runner</strong> node，python等代码不必开命令行即可运行</li>
+<li><strong>Eslint</strong> 语法检测</li>
+<li><strong>Git History</strong> git提交历史</li>
+<li><strong>GitLens</strong> 在代码中显示每一行代码的提交历史</li>
+<li><strong>HTML CSS Support</strong> vscode对html，css文件支持，便于你快速书写属性</li>
+<li><strong>Path Intellisense</strong> 路径识别苦战，比如书写图片路径时。遗憾就是，对webpack项目中的路径别名无法扩展</li>
+<li><strong>Prettier</strong> 格式化，使用大名鼎鼎的prettier对你的文件进行格式化，快捷键 alt+shift +F</li>
+<li><strong>Python</strong> 添加对.py文件的支持，毕竟tab与空格的痛苦写过python的都知道</li>
+<li><strong>React Native Tools</strong> 添加对 React Native项目的支持，让便你书写es6以及jsx</li>
+<li><strong>C&#x2F;C++</strong> 运行React Native项目时，有些文件的查看需要这个</li>
+<li><strong>Settings Sync</strong> 用于同步vscode配置（相对而言配置更复杂，可不安装）</li>
+<li><strong>Sublime Text Keymap</strong> 启动sublimeText的快捷键配置。vscode上面自有一套快捷键设定，个人习惯sublime了</li>
+<li><strong>Vetur</strong> 添加对单文件.vue后缀文件的快速书写支持。computed,mounted等迅速书写</li>
+<li><strong>Vue 2 Snippets</strong> 新建vue模板（如何新建参考我另一篇文章）</li>
+<li><strong>markdownlint</strong> 书写md文件的预览插件</li>
+<li><strong>language-stylus</strong> CSS预处理器styl后缀文件的识别扩展</li>
+<li><strong>View In Browser</strong> 迅速通过浏览器打开文件</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br></pre></td><td class="code"><pre><span class="line">&#123; // VScode主题配置</span><br><span class="line">    &quot;editor.tabSize&quot;: 2,</span><br><span class="line">    &quot;editor.lineHeight&quot;: 24,</span><br><span class="line">    &quot;editor.renderLineHighlight&quot;: &quot;none&quot;,</span><br><span class="line">    &quot;editor.renderWhitespace&quot;: &quot;none&quot;,</span><br><span class="line">    &quot;editor.fontFamily&quot;: &quot;Consolas&quot;,</span><br><span class="line">    &quot;editor.fontSize&quot;: 15,</span><br><span class="line">    &quot;editor.cursorBlinking&quot;: &quot;smooth&quot;,</span><br><span class="line">    &quot;editor.multiCursorModifier&quot;: &quot;ctrlCmd&quot;,</span><br><span class="line">    &quot;editor.formatOnPaste&quot;: true,</span><br><span class="line">    // 是否允许自定义的snippet片段提示,比如自定义的vue片段开启后就可以智能提示</span><br><span class="line">    &quot;editor.snippetSuggestions&quot;: &quot;top&quot;,</span><br><span class="line">    &quot;workbench.iconTheme&quot;: &quot;vscode-great-icons&quot;,</span><br><span class="line">    &quot;workbench.colorTheme&quot;: &quot;One Dark Pro Vivid&quot;,</span><br><span class="line">    &quot;workbench.startupEditor&quot;: &quot;newUntitledFile&quot;,</span><br><span class="line">    &quot;html.suggest.angular1&quot;: false,</span><br><span class="line">    &quot;html.suggest.ionic&quot;: false,</span><br><span class="line">    &quot;files.trimTrailingWhitespace&quot;: true,</span><br><span class="line">    // vetur插件格式化使用beautify内置规则</span><br><span class="line">    &quot;vetur.format.defaultFormatter.html&quot;: &quot;js-beautify-html&quot;,</span><br><span class="line">    // VScode 文件搜索区域配置</span><br><span class="line">    &quot;search.exclude&quot;: &#123;</span><br><span class="line">        &quot;**/dist&quot;: true,</span><br><span class="line">        &quot;**/build&quot;: true,</span><br><span class="line">        &quot;**/elehukouben&quot;: true,</span><br><span class="line">        &quot;**/.git&quot;: true,</span><br><span class="line">        &quot;**/.gitignore&quot;: true,</span><br><span class="line">        &quot;**/.svn&quot;: true,</span><br><span class="line">        &quot;**/.DS_Store&quot;: true,</span><br><span class="line">        &quot;**/.idea&quot;: true,</span><br><span class="line">        &quot;**/.vscode&quot;: false,</span><br><span class="line">        &quot;**/yarn.lock&quot;: true,</span><br><span class="line">        &quot;**/tmp&quot;: true</span><br><span class="line">    &#125;,</span><br><span class="line">    // 排除文件搜索区域，比如node_modules(贴心的默认设置已经屏蔽了)</span><br><span class="line">    &quot;files.exclude&quot;: &#123;</span><br><span class="line">        &quot;**/.idea&quot;: true,</span><br><span class="line">        &quot;**/yarn.lock&quot;: true,</span><br><span class="line">        &quot;**/tmp&quot;: true</span><br><span class="line">    &#125;,</span><br><span class="line">    // 配置文件关联，以便启用对应的智能提示，比如wxss使用css</span><br><span class="line">    &quot;files.associations&quot;: &#123;</span><br><span class="line">        &quot;*.vue&quot;: &quot;vue&quot;,</span><br><span class="line">        &quot;*.wxss&quot;: &quot;css&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 配置emmet是否启用tab展开缩写</span><br><span class="line">    &quot;emmet.triggerExpansionOnTab&quot;: true,</span><br><span class="line">    // 配置emmet对文件类型的支持，比如vue后缀文件按照html文件来进行emmet扩写</span><br><span class="line">    &quot;emmet.syntaxProfiles&quot;: &#123;</span><br><span class="line">        &quot;vue-html&quot;: &quot;html&quot;,</span><br><span class="line">        &quot;vue&quot;: &quot;html&quot;,</span><br><span class="line">        &quot;javascript&quot;: &quot;javascriptreact&quot;,</span><br><span class="line">        // xml类型文件默认都是单引号，开启对非单引号的emmet识别</span><br><span class="line">        &quot;xml&quot;: &#123;</span><br><span class="line">            &quot;attr_quotes&quot;: &quot;single&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 在react的jsx中添加对emmet的支持</span><br><span class="line">    &quot;emmet.includeLanguages&quot;: &#123;</span><br><span class="line">        &quot;jsx-sublime-babel-tags&quot;: &quot;javascriptreact&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    // 是否开启eslint检测</span><br><span class="line">    &quot;eslint.enable&quot;: false,</span><br><span class="line">    // 文件保存时，是否自动根据eslint进行格式化</span><br><span class="line">    &quot;eslint.autoFixOnSave&quot;: false,</span><br><span class="line">    // eslint配置文件</span><br><span class="line">    &quot;eslint.options&quot;: &#123;</span><br><span class="line">        &quot;plugins&quot;: [</span><br><span class="line">            &quot;html&quot;,</span><br><span class="line">            &quot;javascript&quot;,</span><br><span class="line">            &#123;</span><br><span class="line">                &quot;language&quot;: &quot;vue&quot;,</span><br><span class="line">                &quot;autoFix&quot;: true</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;vue&quot;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    // eslint能够识别的文件后缀类型</span><br><span class="line">    &quot;eslint.validate&quot;: [</span><br><span class="line">        &quot;javascript&quot;,</span><br><span class="line">        &quot;javascriptreact&quot;,</span><br><span class="line">        &quot;html&quot;,</span><br><span class="line">        &quot;vue&quot;,</span><br><span class="line">        &quot;typescript&quot;,</span><br><span class="line">        &quot;typescriptreact&quot;</span><br><span class="line">    ],</span><br><span class="line">    // 快捷键方案,使用sublime的一套快捷键</span><br><span class="line">    &quot;sublimeTextKeymap.promptV3Features&quot;: true,</span><br><span class="line">    // 格式化快捷键 shirt+alt+F</span><br><span class="line">    // prettier进行格式化时是否安装eslint配置去执行，建议false</span><br><span class="line">    &quot;prettier.eslintIntegration&quot;: true,</span><br><span class="line">    // 如果为true，将使用单引号而不是双引号</span><br><span class="line">    &quot;prettier.singleQuote&quot;: true,</span><br><span class="line">    // 细节,配置gitlen中git提交历史记录的信息显示情况</span><br><span class="line">    &quot;gitlens.advanced.messages&quot;: &#123;</span><br><span class="line">        &quot;suppressCommitHasNoPreviousCommitWarning&quot;: false,</span><br><span class="line">        &quot;suppressCommitNotFoundWarning&quot;: false,</span><br><span class="line">        &quot;suppressFileNotUnderSourceControlWarning&quot;: false,</span><br><span class="line">        &quot;suppressGitVersionWarning&quot;: false,</span><br><span class="line">        &quot;suppressLineUncommittedWarning&quot;: false,</span><br><span class="line">        &quot;suppressNoRepositoryWarning&quot;: false,</span><br><span class="line">        &quot;suppressResultsExplorerNotice&quot;: false,</span><br><span class="line">        &quot;suppressUpdateNotice&quot;: true,</span><br><span class="line">        &quot;suppressWelcomeNotice&quot;: false</span><br><span class="line">    &#125;,</span><br><span class="line">    // 开启apicloud在vscode中的wifi真机同步</span><br><span class="line">    &quot;apicloud.port&quot;: &quot;23450&quot;,</span><br><span class="line">    // 设置apicloud在vscode中的wifi真机同步根目录</span><br><span class="line">    &quot;apicloud.subdirectories&quot;: &quot;/apiclouduser&quot;,</span><br><span class="line">    // git是否启用自动拉取</span><br><span class="line">    &quot;git.autofetch&quot;: true,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/25/vscode%E8%AE%BE%E7%BD%AE%E5%8F%8A%E6%8F%92%E4%BB%B6%E5%90%8C%E6%AD%A5/" rel="next" title="vscode设置及插件同步">
+                <i class="fa fa-chevron-left"></i> vscode设置及插件同步
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/31/FRP%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E8%BD%AF%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="FRP反向代理软件的使用（转）">
+                FRP反向代理软件的使用（转） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#vscode%E6%8F%92%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">vscode插件安装</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

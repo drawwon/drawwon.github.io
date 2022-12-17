@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="flask," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基本的部署方式是通过Flaks + WSGI + Nginx 首先通过远程连接到服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将flask项目通过centos部署到公网">
+<meta property="og:url" content="http://drawwon.github.io/2017/08/02/%E5%B0%86flask%E9%A1%B9%E7%9B%AE%E9%80%9A%E8%BF%87centos%E9%83%A8%E7%BD%B2%E5%88%B0%E5%85%AC%E7%BD%91/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="基本的部署方式是通过Flaks + WSGI + Nginx 首先通过远程连接到服务器">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-2/21096261.jpg">
+<meta property="article:published_time" content="2017-08-02T06:09:47.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.413Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="flask">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-2/21096261.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2017/08/02/将flask项目通过centos部署到公网/"/>
+
+
+
+
+
+  <title>将flask项目通过centos部署到公网 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2017/08/02/%E5%B0%86flask%E9%A1%B9%E7%9B%AE%E9%80%9A%E8%BF%87centos%E9%83%A8%E7%BD%B2%E5%88%B0%E5%85%AC%E7%BD%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">将flask项目通过centos部署到公网</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-02T14:09:47+08:00">
+                2017-08-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">编程学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>基本的部署方式是通过Flaks + WSGI + Nginx</strong></p>
+<p>首先通过远程连接到服务器</p>
+<span id="more"></span>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@远程服务器ip  -p 远程服务器端口</span><br></pre></td></tr></table></figure>
+
+<p>输入密码之后进入远程服务器的操作</p>
+<h2 id="首先安装pip"><a href="#首先安装pip" class="headerlink" title="首先安装pip"></a>首先安装pip</h2><p>获取<code>get-pip.py</code>文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py</span><br></pre></td></tr></table></figure>
+
+<p>执行安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python get-pip.py</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装virtualenv"><a href="#安装virtualenv" class="headerlink" title="安装virtualenv"></a>安装virtualenv</h2><p>因为不同的项目可能需要不同的安装包的版本，所以我们往往不是直接在系统中安装Python的各种包，而是通过<code>virtualenv</code>建立虚拟的Python环境</p>
+<p>首先通过pip安装virtualenv</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install virtual</span><br></pre></td></tr></table></figure>
+
+<p>然后创建一个项目文件夹</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir my_web_app</span><br><span class="line">cd my_web_app</span><br></pre></td></tr></table></figure>
+
+<p>在my_web_app文件夹中创建虚拟环境：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv venv</span><br></pre></td></tr></table></figure>
+
+<p>开启虚拟环境：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ./venv/bin/activate</span><br></pre></td></tr></table></figure>
+
+<p> <em>如果需要关闭虚拟环境</em>：<code>deactivate</code></p>
+<p>此时你的命令行在最前面多了一个<code>(venv)</code>的标志，证明你已经进入了虚拟环境</p>
+<h2 id="安装依赖库"><a href="#安装依赖库" class="headerlink" title="安装依赖库"></a>安装依赖库</h2><p>要使用Flask框架写网页，就需要安装一系列跟Flask相关的库，此时可以使用<code>pip</code>命令的通过文件进行安装：</p>
+<p>先建立一个requirements.txt，在其中写上需要安装的库的名称和版本号(版本号可以不写，默认安装最新版本)</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash"><span class="built_in">touch</span> requirements.txt</span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">vim requirements.txt</span></span><br></pre></td></tr></table></figure>
+
+<p>在其中写入以下内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Flask==<span class="number">0.10</span><span class="number">.1</span></span><br><span class="line">Flask-Login==<span class="number">0.2</span><span class="number">.11</span></span><br><span class="line">Flask-Mail==<span class="number">0.9</span><span class="number">.1</span></span><br><span class="line">Flask-Moment==<span class="number">0.4</span><span class="number">.0</span></span><br><span class="line">Flask-PageDown==<span class="number">0.1</span><span class="number">.5</span></span><br><span class="line">Flask-SQLAlchemy==<span class="number">2.0</span></span><br><span class="line">Flask-Script==<span class="number">2.0</span><span class="number">.5</span></span><br><span class="line">Flask-WTF==<span class="number">0.10</span><span class="number">.2</span></span><br><span class="line">Flask-Cache==<span class="number">0.13</span><span class="number">.1</span></span><br><span class="line">Flask-Restless==<span class="number">0.15</span><span class="number">.0</span></span><br><span class="line">Flask-Uploads==<span class="number">0.1</span><span class="number">.3</span></span><br><span class="line">Jinja2==<span class="number">2.7</span><span class="number">.3</span></span><br><span class="line">Mako==<span class="number">1.0</span><span class="number">.0</span></span><br><span class="line">Markdown==<span class="number">2.5</span><span class="number">.1</span></span><br><span class="line">MarkupSafe==<span class="number">0.23</span></span><br><span class="line">SQLAlchemy==<span class="number">0.9</span><span class="number">.8</span></span><br><span class="line">WTForms==<span class="number">2.0</span><span class="number">.1</span></span><br><span class="line">Werkzeug==<span class="number">0.9</span><span class="number">.6</span></span><br><span class="line">html5lib==<span class="number">1.0</span>b3</span><br><span class="line">itsdangerous==<span class="number">0.24</span></span><br><span class="line">six==<span class="number">1.8</span><span class="number">.0</span></span><br><span class="line">awesome-slugify==<span class="number">1.6</span></span><br></pre></td></tr></table></figure>
+
+<p>然后通过<code>pip</code>进行批量安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
+
+<p>然后我们需要安装uSWGI，主要用于部署Flask项目：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install uSWGI</span><br></pre></td></tr></table></figure>
+
+<h2 id="上传项目文件"><a href="#上传项目文件" class="headerlink" title="上传项目文件"></a>上传项目文件</h2><p>项目文件的组织结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">root/wz/</span><br><span class="line">└── my_flask  </span><br><span class="line">│   ├── logs</span><br><span class="line">│   └── venv  //虚拟目录</span><br><span class="line">│   │   ├── bin</span><br><span class="line">│   │   │         ├── activate</span><br><span class="line">│   │   │         ├── easy_install</span><br><span class="line">│   │   │         ├── gunicorn</span><br><span class="line">│   │   │         ├── pip</span><br><span class="line">│   │   │         └── python</span><br><span class="line">│   │   ├── include</span><br><span class="line">│   │   │          └── python2.7 -&gt; /usr/include/python2.7</span><br><span class="line">│   │   ├── lib</span><br><span class="line">│   │   │         └── python2.7</span><br><span class="line">│   │   ├── local</span><br><span class="line">│   │   │         ├── bin -&gt; /home/shenye/shenyefuli/bin</span><br><span class="line">│   │   │         ├── include -&gt; /home/shenye/shenyefuli/include</span><br><span class="line">│   │   │         └── lib -&gt; /home/shenye/shenyefuli/lib</span><br><span class="line">│   └── app  //Flask 程序目录</span><br><span class="line">│   │           └──  __init__.py //这是程序包文件。这个目录下还有其它的文件此处略过</span><br><span class="line">│   ├── manage.py   </span><br><span class="line">│   ├── requirements.txt             </span><br></pre></td></tr></table></figure>
+
+<p>在app文件夹下的<code>__init__.py</code>文件进行修改，我们使用一个最简单的程序进行演示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"> </span><br><span class="line">app = Flask(__name__)</span><br><span class="line"> </span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Hello World!&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后在app的上一级文件夹建立<code>manage.py</code>文件用于运行程序</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask_script <span class="keyword">import</span> Manager,Server</span><br><span class="line"><span class="keyword">from</span> app <span class="keyword">import</span> app</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">manager = Manager(app)</span><br><span class="line">manager.add_command(<span class="string">&#x27;runserver&#x27;</span>,Server(host=<span class="string">&#x27;0.0.0.0&#x27;</span>,port=<span class="number">5000</span>,use_debugger=<span class="literal">True</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    manager.run()</span><br></pre></td></tr></table></figure>
+
+<p>此时如果我们使用命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python manage.py runserver</span><br></pre></td></tr></table></figure>
+
+<p>已经可以运行在本地 <code>http://127.0.0.1:5000</code></p>
+<h3 id="接下来开始配置uWSGI"><a href="#接下来开始配置uWSGI" class="headerlink" title="接下来开始配置uWSGI"></a>接下来开始配置uWSGI</h3><p>uWSGI有两种启动方式，在这里我们选了通过配置文件启动的方法</p>
+<p>在项目目录中新建config.ini，写入如下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line"></span><br><span class="line"># uwsgi 启动时所使用的地址与端口</span><br><span class="line">http = 0.0.0.0:8000</span><br><span class="line"></span><br><span class="line"># 指向网站目录</span><br><span class="line">chdir = /root/wz</span><br><span class="line"></span><br><span class="line">home = /root/wz/venv</span><br><span class="line"></span><br><span class="line"># python 启动程序文件</span><br><span class="line">wsgi-file = manage.py</span><br><span class="line"></span><br><span class="line"># python 程序内用以启动的 application 变量名</span><br><span class="line">callable = app</span><br><span class="line"></span><br><span class="line"># 处理器数</span><br><span class="line">processes = 4</span><br><span class="line"></span><br><span class="line"># 线程数</span><br><span class="line">threads = 2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这里的8000就是我们外网访问时服务器监听的地址，由于我的路由器是搭在一个路由器下面的，此时我们需要登录路由器的设置界面设置端口转发：</p>
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/17-8-2/21096261.jpg"></p>
+<p>填写内网ip地址和本地端口，以及需要映射到外网的端口，在项目中，我们把本地的8000端口映射为外网的6000端口</p>
+<p>配置好端口之后，输入命令直接运行uWSGI：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uwsgi config.ini</span><br></pre></td></tr></table></figure>
+
+<p>到此为止，我们已经可以通过<code>服务器公网ip:6000</code>访问你的Flask应用</p>
+<h3 id="安装-Supervisor"><a href="#安装-Supervisor" class="headerlink" title="安装 Supervisor"></a>安装 Supervisor</h3><p>[Supervisor|<a href="http://supervisord.org/configuration.html">http://supervisord.org/configuration.html</a>]可以同时启动多个应用，最重要的是，当某个应用Crash的时候，他可以自动重启该应用，保证可用性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install supervisor</span><br></pre></td></tr></table></figure>
+
+<p>Supervisor 的全局的配置文件位置在：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/supervisor/supervisor.conf</span><br></pre></td></tr></table></figure>
+
+<p>正常情况下我们并不需要去对其作出任何的改动，只需要添加一个新的 *.conf 文件放在</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/supervisor/conf.d/</span><br></pre></td></tr></table></figure>
+
+<p>下就可以，那么我们就新建立一个用于启动 my_flask 项目的 uwsgi 的 supervisor 配置 (命名为：my_flask_supervisor.conf)：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[program:my_flask]</span><br><span class="line"># 启动命令入口</span><br><span class="line">command=/home/www/my_flask/venv/bin/uwsgi /home/www/my_flask/config.ini</span><br><span class="line"></span><br><span class="line"># 命令程序所在目录</span><br><span class="line">directory=/home/www/my_flask</span><br><span class="line">#运行命令的用户名</span><br><span class="line">user=root</span><br><span class="line">        </span><br><span class="line">autostart=true</span><br><span class="line">autorestart=true</span><br><span class="line">#日志地址</span><br><span class="line">stdout_logfile=/home/www/my_flask/logs/uwsgi_supervisor.log        </span><br></pre></td></tr></table></figure>
+
+<h4 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service supervisor start</span><br></pre></td></tr></table></figure>
+
+<h4 id="终止服务"><a href="#终止服务" class="headerlink" title="终止服务"></a>终止服务</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service supervisor stop</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装-Nginx"><a href="#安装-Nginx" class="headerlink" title="安装 Nginx"></a>安装 Nginx</h2><p>[Nginx|<a href="http://nginx.com/">http://nginx.com/</a>]是轻量级、性能强、占用资源少，能很好的处理高并发的反向代理软件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h3><p>Ubuntu 上配置 Nginx 也是很简单，不要去改动默认的 nginx.conf 只需要将</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/ext/nginx/sites-available/default</span><br></pre></td></tr></table></figure>
+
+<p>文件替换掉就可以了。</p>
+<p>新建一个 default 文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen  80;</span><br><span class="line">  server_name XXX.XXX.XXX; #公网地址</span><br><span class="line"></span><br><span class="line">  location / &#123;</span><br><span class="line">    include      uwsgi_params;</span><br><span class="line">    uwsgi_pass   127.0.0.1:8001;  # 指向uwsgi 所应用的内部地址,所有请求将转发给uwsgi 处理</span><br><span class="line">    uwsgi_param UWSGI_PYHOME /home/www/my_flask/venv; # 指向虚拟环境目录</span><br><span class="line">    uwsgi_param UWSGI_CHDIR  /home/www/my_flask; # 指向网站根目录</span><br><span class="line">    uwsgi_param UWSGI_SCRIPT manage:app; # 指定启动程序</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将default配置文件替换掉就大功告成了！<br>还有，更改配置还需要记得重启一下nginx:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service nginx restart</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/flask/" rel="tag"># flask</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/15/flask%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" rel="next" title="flask快速入门">
+                <i class="fa fa-chevron-left"></i> flask快速入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/03/%E9%B8%9F%E5%93%A5%E7%9A%84Linux%E7%A7%81%E6%88%BF%E8%8F%9C/" rel="prev" title="鸟哥的Linux私房菜">
+                鸟哥的Linux私房菜 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E5%AE%89%E8%A3%85pip"><span class="nav-number">1.</span> <span class="nav-text">首先安装pip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85virtualenv"><span class="nav-number">2.</span> <span class="nav-text">安装virtualenv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%BA%93"><span class="nav-number">3.</span> <span class="nav-text">安装依赖库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">上传项目文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A5%E4%B8%8B%E6%9D%A5%E5%BC%80%E5%A7%8B%E9%85%8D%E7%BD%AEuWSGI"><span class="nav-number">4.1.</span> <span class="nav-text">接下来开始配置uWSGI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Supervisor"><span class="nav-number">4.2.</span> <span class="nav-text">安装 Supervisor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.2.1.</span> <span class="nav-text">启动服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%88%E6%AD%A2%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.2.2.</span> <span class="nav-text">终止服务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Nginx"><span class="nav-number">5.</span> <span class="nav-text">安装 Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-Nginx"><span class="nav-number">5.1.</span> <span class="nav-text">配置 Nginx</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

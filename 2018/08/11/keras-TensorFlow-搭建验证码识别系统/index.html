@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="深度学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="keras整体来说是一个非常简单易用的框架，搭建一个网络非常地快捷和方便，这篇博客主要是记录之前用keras搭建的一个cnn识别验证码的步骤。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="keras TensorFlow 搭建验证码识别系统">
+<meta property="og:url" content="http://drawwon.github.io/2018/08/11/keras-TensorFlow-%E6%90%AD%E5%BB%BA%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="WangZhao&#39;s Blog">
+<meta property="og:description" content="keras整体来说是一个非常简单易用的框架，搭建一个网络非常地快捷和方便，这篇博客主要是记录之前用keras搭建的一个cnn识别验证码的步骤。">
+<meta property="og:locale">
+<meta property="og:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-8-11/86737125.jpg">
+<meta property="article:published_time" content="2018-08-11T09:48:08.000Z">
+<meta property="article:modified_time" content="2022-12-17T08:36:45.406Z">
+<meta property="article:author" content="Jeffrey Pacino">
+<meta property="article:tag" content="深度学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-8-11/86737125.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://drawwon.github.io/2018/08/11/keras-TensorFlow-搭建验证码识别系统/"/>
+
+
+
+
+
+  <title>keras TensorFlow 搭建验证码识别系统 | WangZhao's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WangZhao's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">It's not who you are underneath,it's what you do that defines you</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://drawwon.github.io/2018/08/11/keras-TensorFlow-%E6%90%AD%E5%BB%BA%E9%AA%8C%E8%AF%81%E7%A0%81%E8%AF%86%E5%88%AB%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WangZhao's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">keras TensorFlow 搭建验证码识别系统</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-11T17:48:08+08:00">
+                2018-08-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>keras整体来说是一个非常简单易用的框架，搭建一个网络非常地快捷和方便，这篇博客主要是记录之前用keras搭建的一个cnn识别验证码的步骤。</p>
+<span id="more"></span>
+
+<h2 id="数据生成"><a href="#数据生成" class="headerlink" title="数据生成"></a>数据生成</h2><p>首先用<code>ImageCaptcha</code>这个库来生成验证码，这里有两种生成的方式，一种是直接生成很多张，放在电脑中，然后每次读一部分进来进行训练，还有一种方式就是用生成器的方式来生成数据，然后用keras model的<code>fit_generator</code>方法进行训练。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> captcha.image <span class="keyword">import</span> ImageCaptcha</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> random,os</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">%matplotlib inline</span><br><span class="line">%config InlineBackend.figure_format = <span class="string">&#x27;retina&#x27;</span></span><br><span class="line"><span class="keyword">import</span> keras</span><br><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> backend <span class="keyword">as</span> K</span><br><span class="line"><span class="keyword">from</span> keras_tqdm <span class="keyword">import</span> TQDMNotebookCallback</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line">characters = string.digits + string.ascii_uppercase</span><br><span class="line"><span class="comment"># print(characters)</span></span><br><span class="line"></span><br><span class="line">width, height, n_len, n_class = <span class="number">160</span>, <span class="number">80</span>, <span class="number">4</span>, <span class="built_in">len</span>(characters)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">generator = ImageCaptcha(width=width, height=height)</span><br><span class="line"><span class="comment"># for i in range(1000):</span></span><br><span class="line"><span class="comment">#     random_str = &#x27;&#x27;.join([random.choice(characters) for j in range(4)])</span></span><br><span class="line"><span class="comment">#     img = generator.generate_image(random_str)</span></span><br><span class="line"><span class="comment">#     img.save(&#x27;./pic/&#x27;+str(i) +&#x27;_&#x27;+ random_str + &#x27;.jpg&#x27;)</span></span><br><span class="line"></span><br><span class="line">imgs = []</span><br><span class="line">labels =[]</span><br><span class="line">temp = [[] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 处理生成的数据，通过opencv的二值化和高斯模糊函数来去噪声</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">deal_img</span>(<span class="params">img</span>):</span><br><span class="line"><span class="comment">#     img = load_img(path,grayscale=True)</span></span><br><span class="line">    kernel = np.ones((<span class="number">3</span>,<span class="number">1</span>), np.uint8)</span><br><span class="line">    img = img_to_array(img).astype(np.uint8)</span><br><span class="line">    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY) </span><br><span class="line"><span class="comment">#     img= cv.bilateralFilter(img,9,75,75)</span></span><br><span class="line"><span class="comment">#     img = cv.Canny(img, 100, 200)</span></span><br><span class="line">    blur = cv.GaussianBlur(img, (<span class="number">5</span>, <span class="number">5</span>), <span class="number">0</span>)</span><br><span class="line">    _, img = cv.threshold(blur, <span class="number">0</span>, <span class="number">255</span>, cv.THRESH_BINARY + cv.THRESH_OTSU)</span><br><span class="line">    img = cv.dilate(img, kernel, iterations=<span class="number">1</span>)</span><br><span class="line">    img = cv.erode(img, kernel, iterations=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> img.reshape(height,width,<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据生成器，每次生成batch_size张图片</span></span><br><span class="line"><span class="comment"># 输出的y的格式是[144,1]</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gen</span>(<span class="params">batch_size=<span class="number">32</span></span>):</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        imgs=[]</span><br><span class="line">        labels = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(batch_size):</span><br><span class="line">            random_str = <span class="string">&#x27;&#x27;</span>.join([random.choice(characters) <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)])</span><br><span class="line">            img = generator.generate_image(random_str)</span><br><span class="line">            img = deal_img(img)</span><br><span class="line">            imgs.append(img)</span><br><span class="line">            y=np.zeros((<span class="built_in">len</span>(characters)*<span class="number">4</span>))</span><br><span class="line">            <span class="keyword">for</span> i,char <span class="keyword">in</span> <span class="built_in">enumerate</span>(random_str):</span><br><span class="line">                y[characters.find(char)+i*<span class="built_in">len</span>(characters)] = <span class="number">1</span></span><br><span class="line">            labels.append(y)   </span><br><span class="line">        train_x = np.array(imgs)</span><br><span class="line">        train_y = np.array(labels)</span><br><span class="line">        <span class="keyword">yield</span> train_x, train_y</span><br></pre></td></tr></table></figure>
+
+<h2 id="网络构建"><a href="#网络构建" class="headerlink" title="网络构建"></a>网络构建</h2><p>构建一个类似于vgg16的网络</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras.preprocessing.image <span class="keyword">import</span> img_to_array,load_img</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Model</span><br><span class="line"><span class="keyword">import</span> cv2 <span class="keyword">as</span> cv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建类似于vgg16的网络结构</span></span><br><span class="line">input_tensor = Input(shape=(height, width, <span class="number">1</span>))</span><br><span class="line">x = input_tensor</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>):</span><br><span class="line">    x = Conv2D(<span class="number">32</span>*<span class="number">2</span>**i, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">&#x27;relu&#x27;</span>)(x)</span><br><span class="line">    x = Conv2D(<span class="number">32</span>*<span class="number">2</span>**i, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">&#x27;relu&#x27;</span>)(x)</span><br><span class="line">    x = MaxPooling2D((<span class="number">2</span>, <span class="number">2</span>))(x)</span><br><span class="line"></span><br><span class="line">x = Flatten()(x)</span><br><span class="line">x = Dropout(<span class="number">0.25</span>)(x)</span><br><span class="line">x = [Dense(n_class, activation=<span class="string">&#x27;softmax&#x27;</span>, name=<span class="string">&#x27;c%d&#x27;</span>%(i+<span class="number">1</span>))(x) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">4</span>)]</span><br><span class="line">x = concatenate(x)</span><br><span class="line">model = Model(inputs=input_tensor, outputs=x)</span><br></pre></td></tr></table></figure>
+
+<p>我们来看看模型的结构，画出模型结构图，在使用plot_model之前要先<code>pip install pydot-ng &amp; apt install graphviz </code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> plot_model</span><br><span class="line">plot_model(model, to_file=<span class="string">&#x27;model.png&#x27;</span>)</span><br><span class="line">model.summary()</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://github-blog-1255346696.cos.ap-beijing.myqcloud.com/pics/18-8-11/86737125.jpg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">model.summary()</span><br><span class="line">___________________________________________________________________________________</span><br><span class="line">Layer (<span class="built_in">type</span>)                    Output Shape         Param <span class="comment">#     Connected to                    ================================================================================================</span></span><br><span class="line">input_1 (InputLayer)            (<span class="literal">None</span>, <span class="number">80</span>, <span class="number">160</span>, <span class="number">1</span>)   <span class="number">0</span>                                           </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">conv2d_1 (Conv2D)               (<span class="literal">None</span>, <span class="number">78</span>, <span class="number">158</span>, <span class="number">32</span>)  <span class="number">320</span>         input_1[<span class="number">0</span>][<span class="number">0</span>]                  </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">conv2d_2 (Conv2D)               (<span class="literal">None</span>, <span class="number">76</span>, <span class="number">156</span>, <span class="number">32</span>)  <span class="number">9248</span>        conv2d_1[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">max_pooling2d_1 (MaxPooling2D)  (<span class="literal">None</span>, <span class="number">38</span>, <span class="number">78</span>, <span class="number">32</span>)   <span class="number">0</span>           conv2d_2[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">conv2d_3 (Conv2D)               (<span class="literal">None</span>, <span class="number">36</span>, <span class="number">76</span>, <span class="number">64</span>)   <span class="number">18496</span>       max_pooling2d_1[<span class="number">0</span>][<span class="number">0</span>]           </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">conv2d_4 (Conv2D)               (<span class="literal">None</span>, <span class="number">34</span>, <span class="number">74</span>, <span class="number">64</span>)   <span class="number">36928</span>       conv2d_3[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">max_pooling2d_2 (MaxPooling2D)  (<span class="literal">None</span>, <span class="number">17</span>, <span class="number">37</span>, <span class="number">64</span>)   <span class="number">0</span>           conv2d_4[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">conv2d_5 (Conv2D)               (<span class="literal">None</span>, <span class="number">15</span>, <span class="number">35</span>, <span class="number">128</span>)  <span class="number">73856</span>       max_pooling2d_2[<span class="number">0</span>][<span class="number">0</span>]           </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">conv2d_6 (Conv2D)               (<span class="literal">None</span>, <span class="number">13</span>, <span class="number">33</span>, <span class="number">128</span>)  <span class="number">147584</span>      conv2d_5[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">_______________________________________________________________________________________________</span><br><span class="line">max_pooling2d_3 (MaxPooling2D)  (<span class="literal">None</span>, <span class="number">6</span>, <span class="number">16</span>, <span class="number">128</span>)   <span class="number">0</span>           conv2d_6[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">conv2d_7 (Conv2D)               (<span class="literal">None</span>, <span class="number">4</span>, <span class="number">14</span>, <span class="number">256</span>)   <span class="number">295168</span>      max_pooling2d_3[<span class="number">0</span>][<span class="number">0</span>]           </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">conv2d_8 (Conv2D)               (<span class="literal">None</span>, <span class="number">2</span>, <span class="number">12</span>, <span class="number">256</span>)   <span class="number">590080</span>      conv2d_7[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">max_pooling2d_4 (MaxPooling2D)  (<span class="literal">None</span>, <span class="number">1</span>, <span class="number">6</span>, <span class="number">256</span>)    <span class="number">0</span>           conv2d_8[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">flatten_1 (Flatten)             (<span class="literal">None</span>, <span class="number">1536</span>)         <span class="number">0</span>           max_pooling2d_4[<span class="number">0</span>][<span class="number">0</span>]           </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">dropout_1 (Dropout)             (<span class="literal">None</span>, <span class="number">1536</span>)         <span class="number">0</span>           flatten_1[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">c1 (Dense)                      (<span class="literal">None</span>, <span class="number">36</span>)           <span class="number">55332</span>       dropout_1[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">c2 (Dense)                      (<span class="literal">None</span>, <span class="number">36</span>)           <span class="number">55332</span>       dropout_1[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">c3 (Dense)                      (<span class="literal">None</span>, <span class="number">36</span>)           <span class="number">55332</span>       dropout_1[<span class="number">0</span>][<span class="number">0</span>]                 </span><br><span class="line">________________________________________________________________________________________________</span><br><span class="line">c4 (Dense)                      (<span class="literal">None</span>, <span class="number">36</span>)           <span class="number">55332</span>       dropout_1[<span class="number">0</span>][<span class="number">0</span>]                 ________________________________________________________________________________________________</span><br><span class="line">concatenate_1 (Concatenate)     (<span class="literal">None</span>, <span class="number">144</span>)          <span class="number">0</span>           c1[<span class="number">0</span>][<span class="number">0</span>]                       </span><br><span class="line">                                                                 c2[<span class="number">0</span>][<span class="number">0</span>]                       </span><br><span class="line">                                                                 c3[<span class="number">0</span>][<span class="number">0</span>]                       </span><br><span class="line">                                                                 c4[<span class="number">0</span>][<span class="number">0</span>]                       </span><br><span class="line">================================================================================================</span><br><span class="line">Total params: <span class="number">1</span>,<span class="number">393</span>,008</span><br><span class="line">Trainable params: <span class="number">1</span>,<span class="number">393</span>,008</span><br><span class="line">Non-trainable params: <span class="number">0</span></span><br><span class="line">_______________________________________________________________________________________________</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义loss和acc"><a href="#定义loss和acc" class="headerlink" title="定义loss和acc"></a>定义loss和acc</h3><p>这里的loss不能用系统自带的几个loss和acc，因为我们这里是分4个字符的验证码，不是一个分对了就是对，而是四个都对了才是对</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">tf_session = K.get_session()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_acc</span>(<span class="params">y_true, y_pred</span>):</span><br><span class="line">    predict = tf.reshape(y_pred, [-<span class="number">1</span>, n_len, <span class="built_in">len</span>(characters)])</span><br><span class="line">    max_idx_p = tf.argmax(predict, -<span class="number">1</span>)</span><br><span class="line">    max_idx_l = tf.argmax(tf.reshape(y_true, [-<span class="number">1</span>,n_len, <span class="built_in">len</span>(characters)]), -<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">print</span>(K.int_shape(max_idx_p))</span><br><span class="line">    <span class="built_in">print</span>(K.int_shape(max_idx_l))</span><br><span class="line">    correct_pred = tf.reduce_all(tf.equal(max_idx_p, max_idx_l),axis=<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> tf.reduce_mean(tf.cast(correct_pred, tf.float32))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_loss</span>(<span class="params">y_true, y_pred</span>):</span><br><span class="line">    loss = tf.zeros((<span class="number">1</span>,))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n_len):</span><br><span class="line">        a = tf.reshape(y_pred[:,i*<span class="number">36</span>:(i+<span class="number">1</span>)*<span class="number">36</span>],shape=(-<span class="number">1</span>,<span class="number">36</span>))</span><br><span class="line">        b = tf.reshape(y_true[:,i*<span class="number">36</span>:(i+<span class="number">1</span>)*<span class="number">36</span>],shape=(-<span class="number">1</span>,<span class="number">36</span>))</span><br><span class="line">        loss = tf.add(loss,tf.keras.losses.categorical_crossentropy(b,a))</span><br><span class="line">    <span class="keyword">return</span> loss</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">model.<span class="built_in">compile</span>(loss = my_loss,</span><br><span class="line">              optimizer=<span class="string">&#x27;adam&#x27;</span>,</span><br><span class="line">              metrics=[my_acc,<span class="string">&#x27;acc&#x27;</span>])</span><br><span class="line">checkpointer = keras.callbacks.ModelCheckpoint(filepath=<span class="string">&#x27;output/weight.h5&#x27;</span>,<span class="comment">#&quot;output/weights.&#123;epoch:02d&#125;--&#123;val_loss:.2f&#125;-&#123;val_my_acc:.4f&#125;.hdf5&quot;, </span></span><br><span class="line">                               verbose=<span class="number">2</span>, save_weights_only=<span class="literal">True</span>)</span><br><span class="line">model.fit_generator(gen(<span class="number">32</span>),steps_per_epoch=<span class="number">15000</span>,epochs=<span class="number">1</span>,verbose=<span class="number">1</span>,validation_data=gen(<span class="number">100</span>),validation_steps=<span class="number">1</span>,callbacks=[checkpointer])</span><br><span class="line"></span><br><span class="line">(<span class="literal">None</span>, <span class="number">4</span>)</span><br><span class="line">(<span class="literal">None</span>, <span class="number">4</span>)</span><br><span class="line">Epoch <span class="number">1</span>/<span class="number">1</span></span><br><span class="line"><span class="number">15000</span>/<span class="number">15000</span> [==============================] - 13561s 904ms/step - loss: <span class="number">0.4114</span> - my_acc: <span class="number">0.9086</span> - acc: <span class="number">0.3406</span> - val_loss: <span class="number">0.6470</span> - val_my_acc: <span class="number">0.8500</span> - val_acc: <span class="number">0.3700</span></span><br><span class="line"></span><br><span class="line">Epoch 00001: saving model to output/weight.h5</span><br></pre></td></tr></table></figure>
+
+<p>至此，模型训练结束，你可以生成更多的数据来训练一次达到更高的模型精度</p>
+<h3 id="测试模型精度"><a href="#测试模型精度" class="headerlink" title="测试模型精度"></a>测试模型精度</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">decode_str</span>(<span class="params">result</span>):</span><br><span class="line">    strings =[]</span><br><span class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> <span class="built_in">range</span>(result.shape[<span class="number">0</span>]):</span><br><span class="line">        string = [characters[result[s,i*<span class="built_in">len</span>(characters):(i+<span class="number">1</span>)*<span class="built_in">len</span>(characters)].argmax()] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n_len)]</span><br><span class="line">        strings.append(string)</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">&#x27;&#x27;</span>.join(string) <span class="keyword">for</span> string <span class="keyword">in</span> strings]</span><br><span class="line"></span><br><span class="line">x,y = <span class="built_in">next</span>(gen(<span class="number">1000</span>))</span><br><span class="line">true_label = decode_str(y)</span><br><span class="line">score = model.evaluate(x,y,verbose=<span class="number">2</span>)</span><br><span class="line">result = model.predict(x,verbose=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#最后得出的精度值为93.3%</span></span><br><span class="line">score</span><br><span class="line">[<span class="number">0.3298118329048157</span>, <span class="number">0.933</span>, <span class="number">0.298</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h3><p>一开始随便搭建了一个conv加dense层组合的网络，效果很差，所以还是要用一些成熟的网络。还有一个问题就是loss不下降，这个问题的原因是一开始用的adam optimizer，step设置得太小了，后来用了adadelta，step的初始值就是1，这样下降很快，效果提升就比较明显。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/08/%E6%89%B9%E9%87%8Fkill-Linux%E8%BF%9B%E7%A8%8B/" rel="next" title="批量kill Linux进程">
+                <i class="fa fa-chevron-left"></i> 批量kill Linux进程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/22/Ubuntu%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4%E8%BD%AF%E4%BB%B6%E5%8C%85/" rel="prev" title="Ubuntu彻底删除软件包">
+                Ubuntu彻底删除软件包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">95</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%94%9F%E6%88%90"><span class="nav-number">1.</span> <span class="nav-text">数据生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%9E%84%E5%BB%BA"><span class="nav-number">2.</span> <span class="nav-text">网络构建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89loss%E5%92%8Cacc"><span class="nav-number">2.1.</span> <span class="nav-text">定义loss和acc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%A8%A1%E5%9E%8B%E7%B2%BE%E5%BA%A6"><span class="nav-number">2.2.</span> <span class="nav-text">测试模型精度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="nav-number">2.3.</span> <span class="nav-text">问题解决</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jeffrey Pacino</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
